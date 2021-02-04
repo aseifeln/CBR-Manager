@@ -2,7 +2,7 @@
 // To do: Add constructor and create class using correct prop when backend getClientInfo is implemented
 
 import React, { Component } from 'react';
-import { Container, Button } from 'reactstrap';
+import { Container, Button, Row, Col, Media } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getWorkers} from "../actions/workerActions";
 import PropTypes from 'prop-types';
@@ -17,6 +17,7 @@ class ClientInfo extends Component {
         //this.props.getClientInfo(); Add proper GET request when backend is implemented
     }
 
+    // May not be needed
     newVisit = (id) => {
         console.log("New visit for client with id: " + id);
         // POST request for new visit should go here
@@ -26,25 +27,23 @@ class ClientInfo extends Component {
         const { workers } = this.props.worker;
         return(
             <Container>
-                <div class="page-header">
-                    <Container>
-                        <div class="row">
-                            <div class="col">
-                                <h1>Name</h1>
-                            </div>
-                            <div class="col">
-                                <div class="float-right"><Link to={"/client/" + this.props.match.params.id}>Edit Client Info</Link></div>
-                            </div>
-                        </div>
-                    </Container>
-                </div>
-                <div class="row">
-                    <div class="col">
+                <Container>
+                    <Row>
+                        <Col>
+                            <h1>Name</h1>
+                        </Col>
+                        <Col>
+                            <Link to={"/client/" + this.props.match.params.id} class="float-right">Edit Client Info</Link>
+                        </Col>
+                    </Row>
+                </Container>
+                <Row>
+                    <Col>
                         <div class="text-center">
-                            <img src={tempLogo} class="rounded-circle rounded"></img>
+                            <Media object src={tempLogo} className="rounded-circle rounded"></Media>
                         </div>
-                    </div>
-                    <div class="col">
+                    </Col>
+                    <Col>
                         Personal Info: 
                         <ul class="list-unstyled">
                             <li>- Location: </li>
@@ -52,15 +51,15 @@ class ClientInfo extends Component {
                             <li>- Gender: </li>
                             <li>- Disability: </li>
                         </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col" align="center">
+                    </Col>
+                </Row>
+                <Row>
+                    <Col align="center">
                         <Button variant="primary" size="md" onClick={this.newVisit.bind(this, this.props.match.params.id)}>
                             New Visit +
                         </Button>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             </Container>
         );
     }
