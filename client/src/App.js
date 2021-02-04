@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import AppNavbar from "./components/AppNavbar";
 import WorkerList from "./components/WorkerList";
+import ClientInfo from "./components/ClientInfo";
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -17,8 +18,9 @@ class App extends Component {
                     <AppNavbar />
                     <BrowserRouter>
                         <Switch>
-                            <Route path="/" component={WorkerList}/> {/* Will likely want to put this as dashboard later */}
-                            <Route path="/workers" component={WorkerList}/>
+                            <Route path="/" exact component={WorkerList}/> {/* Will likely want to put this as dashboard later */}
+                            <Route path="/workers" exact component={WorkerList}/>
+                            <Route path="/client/:id" exact component={ClientInfo}/>
                         </Switch>
                     </BrowserRouter>
                 </div>
