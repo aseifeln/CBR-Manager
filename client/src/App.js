@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import AppNavbar from "./components/AppNavbar";
 import WorkerList from "./components/WorkerList";
 
@@ -14,7 +15,12 @@ class App extends Component {
             <Provider store={store}>
                 <div className="App">
                     <AppNavbar />
-                    <WorkerList />
+                    <BrowserRouter>
+                        <Switch>
+                            <Route path="/" component={WorkerList}/> {/* Will likely want to put this as dashboard later */}
+                            <Route path="/workers" component={WorkerList}/>
+                        </Switch>
+                    </BrowserRouter>
                 </div>
             </Provider>
         );
