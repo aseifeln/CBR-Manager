@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup} from "react-transition-group";
-import { connect } from 'react-redux';
-import { getWorkers, deleteWorker, addWorker } from "../actions/workerActions";
 import PropTypes from 'prop-types';
 
 class WorkerList extends Component {
@@ -21,7 +19,7 @@ class WorkerList extends Component {
     }
 
     render() {
-        const { workers } = this.props.worker;
+        const { workers } = this.props;
         return(
             <Container>
                 <Button color="dark" onClick={this.onClickAddWorker}>Add Item</Button>
@@ -51,12 +49,8 @@ class WorkerList extends Component {
 
 WorkerList.propTypes = {
     getWorkers: PropTypes.func.isRequired,
-    worker: PropTypes.object.isRequired,
+    workers: PropTypes.object.isRequired,
     addWorker: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-   worker: state.worker
-});
-
-export default connect(mapStateToProps, { getWorkers, deleteWorker, addWorker })(WorkerList);
+export default WorkerList;
