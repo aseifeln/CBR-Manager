@@ -13,7 +13,12 @@ class ClientInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            showEducationInfo: false,
+            showSocialInfo: false,
+            showFoodNutritionInfo: false,
+            showShelterCareInfo: false,
+            showLivelihoodInfo: false,
+            showEmpowermentInfo: false,
         }
     }
 
@@ -23,11 +28,12 @@ class ClientInfo extends Component {
         //this.props.getClientInfo(); Add proper GET request when backend is implemented
     }
 
-    toggleAccordion() {
-        if (this.state.open)
-            this.setState({open: false});
+    // Tried to mimic accordion class from bootstrap, which is the reason for this name
+    toggleAccordion(showInfo) {
+        if (this.state[showInfo])
+            this.setState({[showInfo]: false});
         else
-            this.setState({open: true});
+            this.setState({[showInfo]: true});
     }
 
     // May not be needed
@@ -77,54 +83,54 @@ class ClientInfo extends Component {
                 </Container>
                 <Container>
                     <Card>
-                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showEducationInfo")}>
                             Education
-                            <Collapse isOpen={this.state.open}>
+                            <Collapse isOpen={this.state.showEducationInfo}>
                                 Risk Level: High<br/>
                                 Goal: 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
-                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showSocialInfo")}>
                             Social
-                            <Collapse isOpen={this.state.open}>
+                            <Collapse isOpen={this.state.showSocialInfo}>
                                 Risk Level: High<br/>
                                 Goal: 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
-                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showFoodNutritionInfo")}>
                             Food/Nutrition
-                            <Collapse isOpen={this.state.open}>
+                            <Collapse isOpen={this.state.showFoodNutritionInfo}>
                                 Risk Level: High<br/>
                                 Goal: 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
-                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showShelterCareInfo")}>
                             Shelter/Care
-                            <Collapse isOpen={this.state.open}>
+                            <Collapse isOpen={this.state.showShelterCareInfo}>
                                 Risk Level: High<br/>
                                 Goal: 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
-                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showLivelihoodInfo")}>
                             Livelihood
-                            <Collapse isOpen={this.state.open}>
+                            <Collapse isOpen={this.state.showLivelihoodInfo}>
                                 Risk Level: High<br/>
                                 Goal: 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
-                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showEmpowermentInfo")}>
                             Empowerment
-                            <Collapse isOpen={this.state.open}>
+                            <Collapse isOpen={this.state.showEmpowermentInfo}>
                                 Risk Level: High<br/>
                                 Goal: 
                             </Collapse>
