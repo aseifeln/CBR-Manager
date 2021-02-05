@@ -1,4 +1,4 @@
-CREATE DATABASE cbr_manager_database
+CREATE DATABASE cbr_manager_database;
 
 CREATE TABLE cbr_workers (
     worker_id SERIAL PRIMARY KEY,
