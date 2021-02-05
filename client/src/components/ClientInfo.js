@@ -13,6 +13,7 @@ class ClientInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showHealthInfo: false,
             showEducationInfo: false,
             showSocialInfo: false,
             showFoodNutritionInfo: false,
@@ -83,11 +84,24 @@ class ClientInfo extends Component {
                 </Container>
                 <Container>
                     <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this, "showHealthInfo")}>
+                            Health
+                            <Collapse isOpen={this.state.showHealthInfo}>
+                                Risk Level: High<br/>
+                                Goal: <br/>
+                                Related Visits: <br/>
+                                Click on a date to view more info or edit: <br/>
+                                More Details: <br/>
+                                Referal Details: <br/>
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                    <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showEducationInfo")}>
                             Education
                             <Collapse isOpen={this.state.showEducationInfo}>
                                 Risk Level: High<br/>
-                                Goal: 
+                                Goal:
                             </Collapse>
                         </CardHeader>
                     </Card>
