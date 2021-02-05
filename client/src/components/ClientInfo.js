@@ -1,8 +1,8 @@
 // The getWorkers request is temporary to ensure GET request is sent properly
 // To do: Add constructor and create class using correct prop when backend getClientInfo is implemented
 
-import React, { Component } from 'react';
-import { Container, Button, Row, Col, Media } from 'reactstrap';
+import React, { Component, useState } from 'react';
+import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getWorkers} from "../actions/workerActions";
 import PropTypes from 'prop-types';
@@ -10,11 +10,24 @@ import { Link } from 'react-router-dom';
 import tempLogo from './logo.jpeg'; // Temporary, will not push to repo
 
 class ClientInfo extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false
+        }
+    }
 
     componentDidMount() {
         console.log(this.props.match.params.id); // This is the id to send to backend
         this.props.getWorkers();
         //this.props.getClientInfo(); Add proper GET request when backend is implemented
+    }
+
+    toggleAccordion() {
+        if (this.state.open)
+            this.setState({open: false});
+        else
+            this.setState({open: true});
     }
 
     // May not be needed
@@ -37,6 +50,7 @@ class ClientInfo extends Component {
                         </Col>
                     </Row>
                 </Container>
+                <Container>
                 <Row>
                     <Col>
                         <div class="text-center">
@@ -60,6 +74,63 @@ class ClientInfo extends Component {
                         </Button>
                     </Col>
                 </Row>
+                </Container>
+                <Container>
+                    <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                            Education
+                            <Collapse isOpen={this.state.open}>
+                                Risk Level: High<br/>
+                                Goal: 
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                    <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                            Social
+                            <Collapse isOpen={this.state.open}>
+                                Risk Level: High<br/>
+                                Goal: 
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                    <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                            Food/Nutrition
+                            <Collapse isOpen={this.state.open}>
+                                Risk Level: High<br/>
+                                Goal: 
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                    <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                            Shelter/Care
+                            <Collapse isOpen={this.state.open}>
+                                Risk Level: High<br/>
+                                Goal: 
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                    <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                            Livelihood
+                            <Collapse isOpen={this.state.open}>
+                                Risk Level: High<br/>
+                                Goal: 
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                    <Card>
+                        <CardHeader onClick={this.toggleAccordion.bind(this)}>
+                            Empowerment
+                            <Collapse isOpen={this.state.open}>
+                                Risk Level: High<br/>
+                                Goal: 
+                            </Collapse>
+                        </CardHeader>
+                    </Card>
+                </Container>
             </Container>
         );
     }
