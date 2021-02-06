@@ -1,10 +1,5 @@
-// The getWorkers request is temporary to ensure GET request is sent properly
-// To do: Add constructor and create class using correct prop when backend getClientInfo is implemented
-
-import React, { Component, useState } from 'react';
-import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
-import { connect } from 'react-redux';
-import { getWorkers} from "../actions/workerActions";
+import React, { Component } from 'react';
+import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import tempLogo from './logo.jpeg'; // Temporary, will not push to repo
@@ -12,6 +7,7 @@ import tempLogo from './logo.jpeg'; // Temporary, will not push to repo
 class ClientInfo extends Component {
     constructor(props) {
         super(props);
+        var client = {};
         this.state = {
             showHealthInfo: false,
             showEducationInfo: false,
@@ -25,7 +21,7 @@ class ClientInfo extends Component {
 
     componentDidMount() {
         console.log(this.props.match.params.id); // This is the id to send to backend
-        this.props.getWorkers();
+        // this.props.getClient(); To be implemented later
         //this.props.getClientInfo(); Add proper GET request when backend is implemented
     }
 
@@ -44,13 +40,13 @@ class ClientInfo extends Component {
     }
 
     render() {
-        const { workers } = this.props.worker;
+        // const { client } = this.props.client; To be implemented later
         return(
             <Container>
                 <Container>
                     <Row>
                         <Col>
-                            <h1>Name</h1>
+                            <h1>Name: Client{this.props.match.params.id}</h1>
                         </Col>
                         <Col>
                             <Link to={"/client/" + this.props.match.params.id} class="float-right">Edit Client Info</Link>
@@ -157,12 +153,8 @@ class ClientInfo extends Component {
 }
 
 ClientInfo.propTypes = {
-    getWorkers: PropTypes.func.isRequired,
-    worker: PropTypes.object.isRequired,
+    getClientInfo: PropTypes.func.isRequired,
+    client: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state) => ({
-   worker: state.worker
-});
-
-export default connect(mapStateToProps, { getWorkers})(ClientInfo);
+export default ClientInfo;
