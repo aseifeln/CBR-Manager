@@ -1,24 +1,24 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import Dashboard from "./pages/Dashboard"
-import NewClientPage from "./pages/NewClientPage"
-import NotFoundPage from "./pages/404"
+import Dashboard from './pages/Dashboard';
+import NewClientPage from './pages/NewClientPage';
+import NotFoundPage from './pages/404';
 
 /**
 * Reference:
 * https://medium.com/better-programming/react-router-architecture-thats-simple-scalable-and-protected-da896827f946
 */
 const ROUTES = [
-  { path: "/", key: "ROOT", exact: true, component: Dashboard },
+  { path: '/', key: 'ROOT', exact: true, component: Dashboard },
   {
-    path: "/client",
-    key: "CLIENT",
+    path: '/client',
+    key: 'CLIENT',
     component: RenderRoutes,
     routes: [
       {
-        path: "/client/new",
-        key: "NEW_CLIENT",
+        path: '/client/new',
+        key: 'NEW_CLIENT',
         exact: true,
         component: NewClientPage
       }
