@@ -8,6 +8,7 @@ const app = express();
 const PORT = 5000;
 
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended:false}));
 
 app.get("/", (req, res) => {
     res.send("Hello");
@@ -19,6 +20,19 @@ app.get('/users/register', (req, res) => {
 
 app.get('/users/login', (req, res) => {
     res.render("login");
+});
+
+app.post('/users/register', (req, res) => {
+    let {name, location, worker_id, password, password2} = req.body;
+
+    console.log({
+        name, 
+        location, 
+        worker_id,
+        password,
+        password2
+    });
+    
 });
 
 
