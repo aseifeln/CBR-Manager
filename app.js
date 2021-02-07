@@ -7,9 +7,20 @@ const workers = require('./routes/workers');
 const app = express();
 const PORT = 5000;
 
+app.set('view engine', 'ejs');
+
 app.get("/", (req, res) => {
     res.send("Hello");
 });
+
+app.get('/users/register', (req, res) => {
+    res.render("register");
+});
+
+app.get('/users/login', (req, res) => {
+    res.render("login");
+});
+
 
 // Bodyparser Middleware
 app.use(bodyParser.json());
