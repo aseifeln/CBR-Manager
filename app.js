@@ -33,6 +33,20 @@ app.post('/users/register', (req, res) => {
         password2
     });
     
+    let errors = [];
+    if (!name || !location || !worker_id || !password || !password2){
+        errors.push({message: "All fields are required"});
+    }
+    if (password.length < 6){
+        errors.push({message: "Password must be at least 6 characters"});
+    }
+    if(password != password2){
+        errors.push({message:"Password and Confirm Password do not match"});
+    }
+    if(errors.length > 0){
+        res.render('register', {errors});
+    }
+
 });
 
 

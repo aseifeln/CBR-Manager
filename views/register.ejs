@@ -10,6 +10,13 @@
 <body>
     <h1>Register</h1>
 
+    <ul>
+        <% if(typeof errors != 'undefined'){ %>
+            <% errors.forEach(error=>{%>
+                <li><%=error.message%></li> 
+        <% }) %> <% } %>
+    </ul>
+
     <form ation="/users/register" method="POST">
         <div> 
             <input type="text" id="name" name="name" placeholder="Name" required/>
