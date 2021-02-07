@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader } from 'reactstrap';
+import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import tempLogo from './logo.jpeg'; // Temporary, will not push to repo
@@ -41,6 +41,7 @@ class ClientInfo extends Component {
 
     render() {
         // const { client } = this.props.client; To be implemented later
+        var areaFontSize = {fontSize: "20px"}
         return(
             <Container>
                 <Container>
@@ -57,7 +58,7 @@ class ClientInfo extends Component {
                 <Row>
                     <Col>
                         <div class="text-center">
-                            <Media object src={tempLogo} className="rounded-circle rounded"></Media>
+                            <Media object alt="Profile Image" className="rounded-circle rounded"></Media>
                         </div>
                     </Col>
                     <Col>
@@ -78,71 +79,91 @@ class ClientInfo extends Component {
                     </Col>
                 </Row>
                 </Container>
+                <br/>
                 <Container>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showHealthInfo")}>
-                            Health
+                            <h2 className="font-weight-bold" style={areaFontSize}>Health</h2>
                             <Collapse isOpen={this.state.showHealthInfo}>
-                                Risk Level: High<br/>
-                                Goal: <br/>
-                                Related Visits: <br/>
-                                Click on a date to view more info or edit: <br/>
-                                More Details: <br/>
-                                Referal Details: <br/>
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal: <br/>
+                                    Related Visits: <br/>
+                                    Click on a date to view more info or edit: <br/>
+                                    <ul>
+                                        <li><Link to={"/"}>Visit 1</Link></li>
+                                        <li><Link to={"/"}>Visit 2</Link></li>
+                                        <li><Link to={"/"}>Visit 3</Link></li>
+                                    </ul>
+                                    More Details: <br/>
+                                    Referal Details: <br/>
+                                </CardBody>
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showEducationInfo")}>
-                            Education
+                            <h2 className="font-weight-bold" style={areaFontSize}>Education</h2>
                             <Collapse isOpen={this.state.showEducationInfo}>
-                                Risk Level: High<br/>
-                                Goal:
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal:
+                                </CardBody>
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showSocialInfo")}>
-                            Social
+                            <h2 className="font-weight-bold" style={areaFontSize}>Social</h2>
                             <Collapse isOpen={this.state.showSocialInfo}>
-                                Risk Level: High<br/>
-                                Goal: 
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal:
+                                </CardBody> 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showFoodNutritionInfo")}>
-                            Food/Nutrition
+                            <h2 className="font-weight-bold" style={areaFontSize}>Food/Nutrition</h2>
                             <Collapse isOpen={this.state.showFoodNutritionInfo}>
-                                Risk Level: High<br/>
-                                Goal: 
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal:
+                                </CardBody> 
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showShelterCareInfo")}>
-                            Shelter/Care
+                            <h2 className="font-weight-bold" style={areaFontSize}>Shelter/Care</h2>
                             <Collapse isOpen={this.state.showShelterCareInfo}>
-                                Risk Level: High<br/>
-                                Goal: 
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal: 
+                                </CardBody>
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showLivelihoodInfo")}>
-                            Livelihood
+                            <h2 className="font-weight-bold" style={areaFontSize}>Livelihood</h2>
                             <Collapse isOpen={this.state.showLivelihoodInfo}>
-                                Risk Level: High<br/>
-                                Goal: 
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal: 
+                                </CardBody>
                             </Collapse>
                         </CardHeader>
                     </Card>
                     <Card>
                         <CardHeader onClick={this.toggleAccordion.bind(this, "showEmpowermentInfo")}>
-                            Empowerment
+                            <h2 className="font-weight-bold" style={areaFontSize}>Empowerment</h2>
                             <Collapse isOpen={this.state.showEmpowermentInfo}>
-                                Risk Level: High<br/>
-                                Goal: 
+                                <CardBody>
+                                    Risk Level: High<br/>
+                                    Goal: 
+                                </CardBody>
                             </Collapse>
                         </CardHeader>
                     </Card>
