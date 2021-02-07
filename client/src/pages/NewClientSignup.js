@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function NewClient() {
+function NewClientSignup() {
   return (
     <div id="new-client">
       <p>New Client Page</p>
@@ -10,4 +10,4 @@ function NewClient() {
   )
 }
 
-export default NewClient;
+export default NewClientSignup;

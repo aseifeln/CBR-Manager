@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard';
-import NewClientPage from './pages/NewClientPage';
+import NewClientSignup from './pages/NewClientSignup';
 import NotFoundPage from './pages/404';
 
 /**
@@ -20,7 +20,7 @@ const ROUTES = [
         path: '/client/new',
         key: 'NEW_CLIENT',
         exact: true,
-        component: NewClientPage
+        component: NewClientSignup
       }
     ]
   }
