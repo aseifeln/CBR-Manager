@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import tempLogo from './logo.jpeg'; // Temporary, will not push to repo
 
 class ClientInfo extends Component {
     constructor(props) {
@@ -21,7 +20,7 @@ class ClientInfo extends Component {
 
     componentDidMount() {
         console.log(this.props.match.params.id); // This is the id to send to backend
-        // this.props.getClient(); To be implemented later
+        // this.props.getClientInfo(); To be implemented later
         //this.props.getClientInfo(); Add proper GET request when backend is implemented
     }
 
