@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 class ClientInfo extends Component {
     constructor(props) {
         super(props);
-        var client = {};
         this.state = {
             showHealthInfo: true,
             showEducationInfo: false,
@@ -56,7 +55,7 @@ class ClientInfo extends Component {
                 <Container>
                 <Row>
                     <Col>
-                        <div class="text-center">
+                        <div className="text-center">
                             <Media object alt="Profile Image" className="rounded-circle rounded"></Media>
                         </div>
                     </Col>
