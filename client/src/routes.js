@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard';
 import NewClientPage from './pages/NewClientPage';
+import ClientListPage from './pages/ClientListPage';
 import NotFoundPage from './pages/404';
 
 /**
@@ -23,7 +24,8 @@ const ROUTES = [
         component: NewClientPage
       }
     ]
-  }
+  },
+  { path: '/client-list', key: 'CLIENT_LIST', exact: true, component: ClientListPage}
 ];
 
 export default ROUTES;
