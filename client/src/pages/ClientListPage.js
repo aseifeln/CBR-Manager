@@ -1,10 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Form, FormGroup, Label, Input, Container, Row, Col, Pagination, PaginationItem, PaginationLink, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { Form,
+        FormGroup,
+        Label,
+        Input,
+        Container,
+        Pagination,
+        PaginationItem,
+        PaginationLink,
+        ListGroup,
+        ListGroupItem,
+        Button } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
 
 function ClientListPage() {
+    const junkData = [{
+        "name": "Test3",
+        "id": 1,
+        "location": 373,
+        "priority": 1
+    },
+        {
+            "name": "Tes1",
+            "id": 2,
+            "location": 371,
+            "priority": 1
+        },
+        {
+            "name": "Test2",
+            "id": 3,
+            "location": 374,
+            "priority": 1
+        }
+    ]
+   const [ clients, getClients ] = useState(junkData);
+   const [ searchFilter, setSearchFilter ] = useState('');
+   const [ searchField, setSearchField ] = useState('');
+   const [ radioFilter, setRadioFilter ] = useState('');
+
+
+    useEffect(() => {
+        // TODO get all clients from the database everytime the component is updated.
+    });
+
+    function filterList() {
+        // TODO implement
+    }
+
     return (
         <>
         <AppNavbar />
@@ -13,13 +55,15 @@ function ClientListPage() {
                 <h1>Client List</h1>
                 <Button href="/client/new">Create New Client</Button>
             </div>
-            <Form>
+            <Form onSubmit={filterList()}>
                 <FormGroup>
-                    <Input type="text" id="clientSearchField" placeholder="Search for Client" />
+                    <Input type="text" id="searchField" placeholder="Search for Client" />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="clientSearchFilter">Search by</Label>
-                    <Input type="select" id="clientSearchFilter">
+                    <Label for="searchFilter">Search by</Label>
+                    <Input type="select" id="searchFilter"
+                           value={searchFilter} onChange={() =>
+                           setSearchFilter('test')}>
                         <option>Name</option>
                         <option>Age</option>
                         <option>Gender</option>
@@ -28,7 +72,7 @@ function ClientListPage() {
                         <option>Type of Disability</option>
                     </Input>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup tag="radioFilter">
                     <legend>Sort</legend>
                     <FormGroup check>
                         <Label check>
@@ -46,10 +90,13 @@ function ClientListPage() {
 
             </Form>
             <ListGroup>
-                <ListGroupItem>
-                    List each individual Client here
-                </ListGroupItem>
+                {clients.map(({id, name, location}) => (
+                        <ListGroupItem>
+                            {name}, {id}, {location}
+                        </ListGroupItem>
+                ))}
             </ListGroup>
+            {/*TODO set this up for overflowing clients*/}
             <Pagination aria-label="Client List Pages">
                 <PaginationItem>
                     <PaginationLink previous href="#" />
