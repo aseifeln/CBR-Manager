@@ -8,7 +8,7 @@ class ClientInfo extends Component {
         super(props);
         var client = {};
         this.state = {
-            showHealthInfo: false,
+            showHealthInfo: true,
             showEducationInfo: false,
             showSocialInfo: false,
             showFoodNutritionInfo: false,
@@ -89,7 +89,7 @@ class ClientInfo extends Component {
                                 Risk Level: High<br/>
                                 Goal: <br/>
                                 Related Visits: <br/>
-                                Click on a date to view more info or edit: <br/>
+                                &nbsp; Click on a date to view more info or edit: <br/>
                                 <ul>
                                     <li><Link to={"/"}>Visit 1</Link></li>
                                     <li><Link to={"/"}>Visit 2</Link></li>
