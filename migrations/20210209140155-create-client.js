@@ -113,9 +113,9 @@ module.exports = {
         allowNull: false
     },
     WorkerId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
-            model: Worker,
+            model: 'Worker',
             key: 'WorkerId'
         }
     }
