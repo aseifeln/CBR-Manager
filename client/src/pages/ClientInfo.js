@@ -1,19 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 function ClientInfo(props) {
+
+    const [showHealthInfo, setShowHealthInfo] = useState(true)
+    const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false)
+    const [showEducationInfo, setShowEducationInfo] = useState(false)
+    const [showFoodNutritionInfo, setShowFoodNutritionInfo] = useState(false)
+    const [showLivelihoodInfo, setShowLivelihoodInfo] = useState(false)
+    const [showShelterCareInfo, setShowShelterCareInfo] = useState(false)
+    const [showSocialInfo, setShowSocialInfo] = useState(false)
     
     var areaFontSize = {fontSize: "20px"}
     return(
-        <Container>
+        <div>
             <Container>
                 <Row>
                     <Col>
-                        <h1>Name: Client{this.props.match.params.id}</h1>
+                        <h1>Name: Client{props.match.params.id}</h1>
                     </Col>
                     <Col>
-                        <Link to={"/client/" + this.props.match.params.id} class="float-right">Edit Client Info</Link>
+                        <Link to={"/client/" + props.match.params.id} class="float-right">Edit Client Info</Link>
                     </Col>
                 </Row>
             </Container>
@@ -36,7 +44,7 @@ function ClientInfo(props) {
             </Row>
             <Row>
                 <Col align="center">
-                    <Button variant="primary" size="md" onClick={this.newVisit.bind(this, this.props.match.params.id)}>
+                    <Button variant="primary" size="md">
                         New Visit +
                     </Button>
                 </Col>
@@ -45,10 +53,10 @@ function ClientInfo(props) {
             <br/>
             <Container>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showHealthInfo")}>
+                    <CardHeader onClick={() => setShowHealthInfo((showHealthInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Health</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showHealthInfo}>
+                    <Collapse isOpen={showHealthInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal: <br/>
@@ -65,10 +73,10 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showEducationInfo")}>
+                    <CardHeader onClick={() => setShowEducationInfo((showEducationInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Education</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showEducationInfo}>
+                    <Collapse isOpen={showEducationInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal:
@@ -76,10 +84,10 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showSocialInfo")}>
+                    <CardHeader onClick={() => setShowSocialInfo((showSocialInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Social</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showSocialInfo}>
+                    <Collapse isOpen={showSocialInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal:
@@ -87,10 +95,10 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showFoodNutritionInfo")}>
+                    <CardHeader onClick={() => setShowFoodNutritionInfo((showFoodNutritionInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Food/Nutrition</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showFoodNutritionInfo}>
+                    <Collapse isOpen={showFoodNutritionInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal:
@@ -98,10 +106,10 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showShelterCareInfo")}>
+                    <CardHeader onClick={() => setShowShelterCareInfo((showShelterCareInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Shelter/Care</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showShelterCareInfo}>
+                    <Collapse isOpen={showShelterCareInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal: 
@@ -109,10 +117,10 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showLivelihoodInfo")}>
+                    <CardHeader onClick={() => setShowLivelihoodInfo((showLivelihoodInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Livelihood</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showLivelihoodInfo}>
+                    <Collapse isOpen={showLivelihoodInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal: 
@@ -120,10 +128,10 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={this.toggleAccordion.bind(this, "showEmpowermentInfo")}>
+                    <CardHeader onClick={() => setShowEmpowermentInfo((showEmpowermentInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Empowerment</h2>
                     </CardHeader>
-                    <Collapse isOpen={this.state.showEmpowermentInfo}>
+                    <Collapse isOpen={showEmpowermentInfo}>
                         <CardBody>
                             Risk Level: High<br/>
                             Goal: 
@@ -131,8 +139,8 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
             </Container>
-        </Container>
-    );
+        </div>
+    )
 }
 
 export default ClientInfo;
