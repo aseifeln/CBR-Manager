@@ -3,7 +3,7 @@
     "username": "ahmedseifelnasr",
     "password": null,
     "database": "CBR_Manager",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
