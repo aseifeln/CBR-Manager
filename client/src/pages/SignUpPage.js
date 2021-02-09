@@ -14,7 +14,9 @@ function Login(props) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    function handleSubmit() {
+    function handleSubmit(event) {
+        event.preventDefault();
+
         if (authPasses()) {
             props.history.push("/");
             return;

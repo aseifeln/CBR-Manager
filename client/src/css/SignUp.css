@@ -1,6 +1,6 @@
 /*
 HHA colors:
-Blue: #22a9ba, lighter: #8ad1de, lightest: #cbf4f4
+Blue: #22a9ba, lighter: #8ad1de, lighterer: #e5fafa, lightest: #cbf4f4
 Green: #46ad2f, lighter: #8fcc83, lightest: #c7eabe
 Purple: #9646b7, lighter: #c596da, darker: #713d88
 */
@@ -10,6 +10,8 @@ Purple: #9646b7, lighter: #c596da, darker: #713d88
 }
 
 .SignUp Form {
+    border-style: solid;
+    border-color: #566B6B;
     background-color: #e5fafa;
     padding: 40px 20px 40px 20px;
     margin: 0 auto;
