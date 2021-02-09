@@ -3,7 +3,10 @@ import { Route, Switch } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard';
 import NewClientSignup from './pages/NewClientSignup';
+import ClientListPage from './pages/ClientListPage';
+import ClientInfoPage from './pages/ClientInfo';
 import NotFoundPage from './pages/404';
+import LoginPage from './pages/LoginPage'
 
 /**
 * Reference:
@@ -21,9 +24,16 @@ const ROUTES = [
         key: 'NEW_CLIENT',
         exact: true,
         component: NewClientSignup
+      }, {
+        path: '/client/:id',
+        key: 'CLIENT_INFO',
+        exact: true,
+        component: ClientInfoPage
       }
     ]
-  }
+  },
+  { path: '/client-list', key: 'CLIENT_LIST', exact: true, component: ClientListPage},
+  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage }
 ];
 
 export default ROUTES;
