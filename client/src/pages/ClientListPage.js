@@ -33,7 +33,7 @@ function ClientListPage() {
             "priority": 1
         }
     ]
-   const [ clients, getClients ] = useState(junkData);
+   const [ clients, setClients ] = useState(junkData);
    const [ searchFilter, setSearchFilter ] = useState('name');
    const [ searchField, setSearchField ] = useState('');
    const [ radioFilter, setRadioFilter ] = useState('');
