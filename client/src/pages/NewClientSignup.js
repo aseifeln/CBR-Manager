@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Button, Form, FormGroup, Label, Input, FormText, Col, Row, Badge } from 'reactstrap';
+import { Container, Button, ButtonGroup, Form, FormGroup, Label, Input, FormText, Col, Row, Badge } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
 
-function MultiStepForm({ children }) {
+function MultiStepForm({ children, title }) {
   let [step, setStep] = useState(0)
 
   // methods to move back & forth between sub-forms
@@ -21,7 +21,23 @@ function MultiStepForm({ children }) {
       <Container>
         <div style={formContainerSize}>
           <Badge color="primary" pill>Step {step+1} of {children.length}</Badge>
-          <div>{children[step]}</div>
+          {(title) && <h2>{title}</h2>}
+          <hr/>
+          <ButtonGroup style={{'width':'100%'}}>
+            {children.map((Child, i) => (
+              <Button onClick={() => setStep(i)} outline={(step !== i)}>
+                {`${i+1}. ${Child.props['title'] || 'Form'}`}
+              </Button>
+            ))}
+          </ButtonGroup>
+
+          <div class='mt-4'>
+            {children.map((Child, i) => (
+              <div class={(step !== i) && 'd-none'}>
+                {Child}
+              </div>
+            ))}
+          </div>
 
           {/* dummy element just to add extra space */}
           <div class='invisible py-4'>
@@ -55,11 +71,9 @@ function NewClientSignup() {
   return (
     <>
       <AppNavbar/>
-      <MultiStepForm>
+      <MultiStepForm title='New Client: John Doe'>
         {/* SECTION 1. General Details */}
-        <Form>
-          <h2>General</h2>
-          <hr/>
+        <Form title='General'>
           <Row form>
             <Col sm={12}>
               <FormGroup>
@@ -103,6 +117,16 @@ function NewClientSignup() {
           <Row form>
             <Col md={12}>
               <FormGroup>
+                <Button outline>Upload Client Picture</Button>
+              </FormGroup>
+            </Col>
+          </Row>
+
+          <hr/>
+
+          <Row form>
+            <Col md={12}>
+              <FormGroup>
                 <Label for="exampleEmail">Date</Label>
                 <Input type="date" name="age" />
               </FormGroup>
@@ -140,17 +164,13 @@ function NewClientSignup() {
         </Form>
 
         {/* SECTION 2. Health Details */}
-        <Form>
-          <h2>Health Details</h2>
-          <hr/>
+        <Form title='Health Details'>
           <h4>Health Check</h4>
-          <p>Rate the following areas under <a href='#'>HHA's wellbeing guidelines</a>.</p>
+          <FormText>Rate the following areas under <a href='#'>HHA's wellbeing guidelines</a>.</FormText>
         </Form>
 
         {/* SECTION 3. Miscellaneous */}
-        <Form>
-          <h2>Miscellaneous</h2>
-          <hr/>
+        <Form title='Misc.'>
           <Row form>
             <Col md={12}>
               <h5>Available for Interview?</h5>
@@ -161,8 +181,8 @@ function NewClientSignup() {
               </FormGroup>
             </Col>
 
-            <Col class='mt-3' xs={12}>
-              <h5>Caregiver Availability</h5>
+            <Col xs={12}>
+              <h5 class='mt-2'>Caregiver Availability</h5>
               <FormGroup check inline>
                 <Label>
                   <Input type="checkbox" /> Caregiver is present?
