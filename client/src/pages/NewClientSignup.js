@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Button, ButtonGroup, Form, FormGroup, Label, Input, FormText, Col, Row, Badge } from 'reactstrap';
+import { Container, Button, ButtonGroup, Form, FormGroup, Label, Input, FormText, Col, Row, Badge, Card, CardBody } from 'reactstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import Rating from 'react-rating';
 
 import AppNavbar from '../components/AppNavbar';
 
@@ -72,12 +74,20 @@ function NewClientSignup() {
     <>
       <AppNavbar/>
       <MultiStepForm title='New Client: John Doe'>
+
         {/* SECTION 1. General Details */}
         <Form title='General'>
           <Row form>
-            <Col sm={12}>
+            <Col xs={6}>
               <FormGroup>
-                <Label for="exampleEmail">First &amp; Last Name</Label>
+                <Label for="exampleEmail">First Name</Label>
+                <Input type="text" name="first-name" />
+              </FormGroup>
+            </Col>
+
+            <Col xs={6}>
+              <FormGroup>
+                <Label for="exampleEmail">Last Name</Label>
                 <Input type="text" name="first-name" />
               </FormGroup>
             </Col>
@@ -165,8 +175,38 @@ function NewClientSignup() {
 
         {/* SECTION 2. Health Details */}
         <Form title='Health Details'>
-          <h4>Health Check</h4>
-          <FormText>Rate the following areas under <a href='#'>HHA's wellbeing guidelines</a>.</FormText>
+          <h4>Disabilities</h4>
+          <FormText>Physical/mental disabilities the client has.</FormText>
+          <div class='mt-2'>
+            <Typeahead
+              labelKey="disabilities"
+              placeholder="Add a disability type&#8230; (e.g. Arthritis)"
+              multiple
+              options={['test', 'chicken', 'bum knee']}
+            />
+          </div>
+
+          <h4 class='mt-4'>Health Check</h4>
+          <FormText>Rate the following areas under <a href='#'>HHA's wellbeing guidelines</a>.</FormText> 
+
+          <div class='mt-3'>
+            <Card>
+              <CardBody>
+                <h6>General Wellbeing</h6>
+                <Rating />
+
+                <FormGroup>
+                  <Label for="exampleText">Client requirements</Label>
+                  <Input type="textarea" name="text" id="exampleText" />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label for="exampleText">Goals</Label>
+                  <Input type="textarea" name="text" id="exampleText" />
+                </FormGroup>
+              </CardBody>
+            </Card>
+          </div>
         </Form>
 
         {/* SECTION 3. Miscellaneous */}
