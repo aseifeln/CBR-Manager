@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Dashboard from "./pages/Dashboard"
-import NewClientPage from "./pages/NewClientPage"
-import NotFoundPage from "./pages/404"
-import LoginPage from "./pages/LoginPage"
+import Dashboard from './pages/Dashboard';
+import NewClientPage from './pages/NewClientPage';
+import ClientListPage from './pages/ClientListPage';
 import ClientInfoPage from './pages/ClientInfo';
+import NotFoundPage from './pages/404';
+import LoginPage from './pages/LoginPage'
 
 /**
 * Reference:
@@ -31,7 +32,8 @@ const ROUTES = [
       }
     ]
   },
-  { path: "/login", key: "LOGIN", exact: true, component: LoginPage }
+  { path: '/client-list', key: 'CLIENT_LIST', exact: true, component: ClientListPage},
+  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage }
 ];
 
 export default ROUTES;
