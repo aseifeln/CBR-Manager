@@ -13,7 +13,7 @@ function ClientInfo(props) {
     const [showShelterCareInfo, setShowShelterCareInfo] = useState(false)
     const [showSocialInfo, setShowSocialInfo] = useState(false)
     
-    var areaFontSize = {fontSize: "20px"}
+    const areaFontSize = {fontSize: "20px"}
     
     return(
         <div>
