@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard"
 import NewClientPage from "./pages/NewClientPage"
 import NotFoundPage from "./pages/404"
 import LoginPage from "./pages/LoginPage"
+import ClientInfoPage from './pages/ClientInfo';
 
 /**
 * Reference:
