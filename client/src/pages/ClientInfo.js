@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import AppNavbar from '../components/AppNavbar';
 
 function ClientInfo(props) {
 
@@ -13,8 +14,10 @@ function ClientInfo(props) {
     const [showSocialInfo, setShowSocialInfo] = useState(false)
     
     var areaFontSize = {fontSize: "20px"}
+    
     return(
         <div>
+            <AppNavbar/>
             <Container>
                 <Row>
                     <Col>
