@@ -1,0 +1,30 @@
+/*
+HHA colors:
+Blue: #22a9ba, lighter: #8ad1de, lightest: #cbf4f4
+Green: #46ad2f, lighter: #8fcc83, lightest: #c7eabe
+Purple: #9646b7, lighter: #c596da, darker: #713d88
+*/
+
+.SignUp H2 {
+    text-align: center
+}
+
+.SignUp Form {
+    background-color: #e5fafa;
+    padding: 40px 20px 40px 20px;
+    margin: 0 auto;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.SignUp button {
+    margin-top: 40px;
+    margin-bottom: 15px;
+    background-color: #22a9ba;
+    width: 100%;
+}
+
+.SignUp FormGroup {
+    display : block;
+    width: 100%;
+}
