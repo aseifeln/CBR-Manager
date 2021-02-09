@@ -31,14 +31,14 @@ function Login(props) {
                     type="text"
                     required
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(event) => setUsername(event.target.value)}
                 />
                 <label>Password: </label>
                     <input
                     type="password"
                     required
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(event) => setPassword(event.target.value)}
                 />
                 <Button block size="lg" color="primary" type="submit" onClick={btnClicked}>Login</Button>
             </div>

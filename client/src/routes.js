@@ -1,10 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Dashboard from './pages/Dashboard';
-import NewClientPage from './pages/NewClientPage';
-import ClientInfoPage from './pages/ClientInfo';
-import NotFoundPage from './pages/404';
+import Dashboard from "./pages/Dashboard"
+import NewClientPage from "./pages/NewClientPage"
+import NotFoundPage from "./pages/404"
 import LoginPage from "./pages/LoginPage"
 
 /**
