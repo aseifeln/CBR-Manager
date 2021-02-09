@@ -21,7 +21,7 @@ function ClientListPage() {
         "priority": 1
     },
         {
-            "name": "Tes1",
+            "name": "Test1",
             "id": 2,
             "location": 371,
             "priority": 1
@@ -34,7 +34,7 @@ function ClientListPage() {
         }
     ]
    const [ clients, getClients ] = useState(junkData);
-   const [ searchFilter, setSearchFilter ] = useState('');
+   const [ searchFilter, setSearchFilter ] = useState('name');
    const [ searchField, setSearchField ] = useState('');
    const [ radioFilter, setRadioFilter ] = useState('');
 
@@ -43,8 +43,10 @@ function ClientListPage() {
         // TODO get all clients from the database everytime the component is updated.
     });
 
-    function filterList() {
-        // TODO implement
+    function filterList(event) {
+        console.log(searchFilter, searchField, radioFilter);
+        event.preventDefault();
+        // TODO implement sorting
     }
 
     return (
@@ -55,34 +57,41 @@ function ClientListPage() {
                 <h1>Client List</h1>
                 <Button href="/client/new">Create New Client</Button>
             </div>
-            <Form onSubmit={filterList()}>
+            <Form onSubmit={filterList}>
                 <FormGroup>
-                    <Input type="text" id="searchField" placeholder="Search for Client" />
+                    <Input type="text" id="searchField"
+                           value={searchField}
+                           onChange={(event) => setSearchField(
+                               event.target.value)}
+                           placeholder="Search for Client" />
                 </FormGroup>
                 <FormGroup>
                     <Label for="searchFilter">Search by</Label>
                     <Input type="select" id="searchFilter"
-                           value={searchFilter} onChange={() =>
-                           setSearchFilter('test')}>
-                        <option>Name</option>
-                        <option>Age</option>
-                        <option>Gender</option>
-                        <option>Zone</option>
-                        <option>Village Number</option>
-                        <option>Type of Disability</option>
+                           value={searchFilter}
+                           onChange={(event) =>
+                                setSearchFilter(event.target.value)}>
+                        <option value="name">Name</option>
+                        <option value="age">Age</option>
+                        <option value="gender">Gender</option>
+                        <option value="zone">Zone</option>
+                        <option value="village_number">Village Number</option>
+                        <option value="type_of_disability">Type of Disability</option>
                     </Input>
                 </FormGroup>
-                <FormGroup tag="radioFilter">
+                <FormGroup tag="radioFilter"
+                           value={radioFilter}
+                           onChange={(event) => setRadioFilter(event.target.value)} >
                     <legend>Sort</legend>
                     <FormGroup check>
                         <Label check>
-                            <Input type="radio" name="radio1" />
+                            <Input type="radio" name="radio1" value="by_priority"/>
                             By Priority
                         </Label>
                     </FormGroup>
                     <FormGroup check>
                         <Label check>
-                            <Input type="radio" name="radio1" />
+                            <Input type="radio" name="radio1" value="recently_added"/>
                             Recently Added
                         </Label>
                     </FormGroup>
@@ -102,27 +111,27 @@ function ClientListPage() {
                     <PaginationLink previous href="#" />
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink href="#">
+                    <PaginationLink href="#1">
                         1
                     </PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink href="#">
+                    <PaginationLink href="#2">
                         2
                     </PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink href="#">
+                    <PaginationLink href="#3">
                         3
                     </PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink href="#">
+                    <PaginationLink href="#4">
                         4
                     </PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink href="#">
+                    <PaginationLink href="#5">
                         5
                     </PaginationLink>
                 </PaginationItem>
