@@ -1,8 +1,15 @@
-const Sequelize = require('sequelize');
-const db = require('../config/database');
+'use strict';
 
-const Client = db.define('Client', {
-    ClientId: {
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
+    await queryInterface.createTable('Client',{
+      ClientId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -112,10 +119,19 @@ const Client = db.define('Client', {
             key: 'WorkerId'
         }
     }
-
-}, {
+    },{
     tableName: 'Client',
     timestamps: false
-});
+    });
+  },
 
-module.exports = Client;
+  down: async (queryInterface, Sequelize) => {
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
+    await queryInterface.dropTable('Client');
+  }
+};
