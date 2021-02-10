@@ -148,11 +148,15 @@ function NewClientSignup() {
               <FormGroup>
                 <Label for="location">Location</Label>
                 <Input type="select" name="select">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option>BidiBidi Zone 1</option>
+                  <option>BidiBidi Zone 2</option>
+                  <option>BidiBidi Zone 3</option>
+                  <option>BidiBidi Zone 4</option>
+                  <option>BidiBidi Zone 5</option>
+                  <option>Palorinya Basecamp</option>
+                  <option>Palorinya Zone 1</option>
+                  <option>Palorinya Zone 2</option>
+                  <option>Palorinya Zone 3</option>
                 </Input>
               </FormGroup>
             </Col>
@@ -180,10 +184,20 @@ function NewClientSignup() {
           <div class='mt-2'>
             <Typeahead
               labelKey="disabilities"
-              placeholder="Add a disability type&#8230; (e.g. Arthritis)"
+              placeholder="Add a disability type&#8230; (e.g. Spina Bifida)"
               multiple
-              options={['test', 'chicken', 'bum knee']}
+              options={[
+                "Amputee", "Polio", "Spinal Cord Injury", 
+                "Cerebral Palsy", "Spina Bifida", "Hydrocephalus", 
+                "Visual Impairment", "Hearing Impairment"
+              ]}
             />
+
+            <FormGroup check inline>
+              <Label>
+                <Input type="checkbox" /> Don't know/Other
+              </Label>
+            </FormGroup>
           </div>
 
           <h4 class='mt-4'>Health Check</h4>
@@ -216,7 +230,7 @@ function NewClientSignup() {
               <h5>Available for Interview?</h5>
               <FormGroup check inline>
                 <Label>
-                  <Input type="checkbox" /> The Client consents to future interviews
+                  <Input type="checkbox" /> The client consents to future interviews.
                 </Label>
               </FormGroup>
             </Col>
@@ -237,7 +251,7 @@ function NewClientSignup() {
                 </FormGroup>
                 <FormGroup>
                   <Button outline>Upload Client &amp; Caregiver Picture</Button>
-                  <FormText>The photo should include both the client and caregiver within the same frame</FormText>
+                  <FormText>The photo should include both the client and caregiver within the same frame.</FormText>
                 </FormGroup>
               </Col>
             </Col>
