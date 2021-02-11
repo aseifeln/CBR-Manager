@@ -5,7 +5,7 @@ import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap';
 import AppNavbar from "../components/AppNavbar";
 import "../css/SignUp.css";
 
-function Login(props) {
+function SignUp(props) {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -89,4 +89,4 @@ function Login(props) {
 
 }
 
-export default Login;
+export default SignUp;
