@@ -7,6 +7,7 @@ import ClientListPage from './pages/ClientListPage';
 import ClientInfoPage from './pages/ClientInfo';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
+import NewVisitPage from './pages/NewVisit'
 
 /**
 * Reference:
@@ -33,7 +34,20 @@ const ROUTES = [
     ]
   },
   { path: '/client-list', key: 'CLIENT_LIST', exact: true, component: ClientListPage},
-  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage }
+  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
+  {
+    path: '/visit',
+    key: 'VISIT',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/visit/new',
+        key: 'NEW_VISIT',
+        exact: true,
+        component: NewVisitPage
+      }
+    ]
+  }
 ];
 
 export default ROUTES;
