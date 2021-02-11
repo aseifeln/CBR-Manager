@@ -106,7 +106,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     WorkerId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
             model: Worker,
             key: 'WorkerId'
