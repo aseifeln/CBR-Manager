@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const workers = require('./routes/workers');
-const users = require('./users/users');
+const users = require('./routes/users');
 
 const app = express();
 const PORT = 5000;
