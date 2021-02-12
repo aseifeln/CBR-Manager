@@ -58,9 +58,9 @@ function SignUp(props) {
                 <FormGroup>
                     <Label for="location">Location: </Label>
                     <Input type="select" id="location"
-                           value={location}
+                           value={location} 
                            onChange={(event) =>
-                                setLocation(event.target.value)}>>
+                                setLocation(event.target.value)}>> //extra bracket here
                       <option>1</option>
                       <option>2</option>
                       <option>3</option>
