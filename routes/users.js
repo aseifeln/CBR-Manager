@@ -22,7 +22,6 @@ app.post("/register", async (req, res) => {
             password: req.body.password,
             password2: req.body.password2
         };
-        console.log("B")
         if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.password2){
             return res.status(400).send('All fields are required');
         }
