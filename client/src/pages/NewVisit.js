@@ -35,65 +35,95 @@ function NewVisit() {
                   </Col>
                 </Row>
 
+                {/* Unsure of how else to do this when following the mock UI*/}
                 <FormGroup>
-                    <Row>
-                      <Col>
-                        <Label>
-                          Tags: *(select all that apply)
-                        </Label>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                          <Input type="checkbox" id="healthCheckBox"/>
-                          Health
-                        </Label>
-                        <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                          <Input type="checkbox" id="educationCheckBox"/>
-                          Education
-                        </Label>
-                        <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                          <Input type="checkbox" id="socialCheckBox"/>
-                          Social
-                        </Label>
-                      </Col>
-                    </Row>
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Label for="date">
-                      Date:*
-                      <Input type="date" id="date"/>
-                    </Label>
-                  </FormGroup>
+                  <Row>
+                    <Col>
+                      <Label>
+                        Tags: *(select all that apply)
+                      </Label>
+                    </Col>
+                  </Row>
                   
-                  <FormGroup>
-                    <Label for="worker">
-                      CBR Worker*
-                    </Label>
-                    <Input placeholder="Autofill CBR worker Name" id="worker"/>
-                  </FormGroup>
+                  <Row>
+                    <Col>
+                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                        <Input type="checkbox" id="healthCheckBox"/>
+                        Health
+                      </Label>
+                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                        <Input type="checkbox" id="educationCheckBox"/>
+                        Education
+                      </Label>
+                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                        <Input type="checkbox" id="socialCheckBox"/>
+                        Social
+                      </Label>
+                    </Col>
+                  </Row>
+                </FormGroup>
 
-                  <FormGroup>
-                    <Label for="location">
-                      Location*
-                    </Label>
-                    <Input  type="select" id="location">
-                      <option>BidiBidi - Zone 1</option>
-                      <option>BidiBidi - Zone 2</option>
-                      <option>BidiBidi - Zone 4</option>
-                      <option>BidiBidi - Zone 5</option>
-                      <option>Palorinya - Basecamp</option>
-                      <option>Palorinya - Zone 1</option>
-                      <option>Palorinya - Zone 2</option>
-                      <option>Palorinya - Zone 3</option>
-                    </Input>
-                    <Label for="villageNum">
-                      Village no*
-                    </Label>
-                    <Input id="villageNum"/>
-                  </FormGroup>
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="date">
+                        Date:*
+                        <Input type="date" id="date"/>
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="worker">
+                        CBR Worker*
+                      </Label>
+                      <Input placeholder="Autofill CBR worker Name" id="worker"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="locationOfVisit">
+                        Location of visit*
+                      </Label>
+                      <Input id="locationOfVisit"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col xs={10}>
+                    <FormGroup>
+                      <Label for="location">
+                        Location*
+                      </Label>
+                      <Input  type="select" id="location">
+                        <option>BidiBidi - Zone 1</option>
+                        <option>BidiBidi - Zone 2</option>
+                        <option>BidiBidi - Zone 4</option>
+                        <option>BidiBidi - Zone 5</option>
+                        <option>Palorinya - Basecamp</option>
+                        <option>Palorinya - Zone 1</option>
+                        <option>Palorinya - Zone 2</option>
+                        <option>Palorinya - Zone 3</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+
+                  <Col xs={2}>
+                    <FormGroup>
+                      <Label for="villageNum">
+                        Village no*
+                      </Label>
+                      <Input id="villageNum"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Form>
 
               <Form title="Health">
