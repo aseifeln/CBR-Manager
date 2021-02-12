@@ -5,6 +5,7 @@ import { MultiStepForm } from "./NewClientSignup"
 import AppNavbar from '../components/AppNavbar';
 
 function NewVisit() {
+
   return (
     <div>
         <AppNavbar/>
@@ -127,7 +128,118 @@ function NewVisit() {
               </Form>
 
               <Form title="Health">
-                Health
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label className="font-weight-bold">
+                        What was provided?
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="wheelChair">
+                        Wheelchair
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="wheelchair"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="prosthetic">
+                        Prosthetic
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="prosthetic"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="wheelchairRepairs">
+                        Wheelchair Repairs
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="wheelchairRepairs"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="referral">
+                        Referral to health centre
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="referrals"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="advice">
+                        Advice
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="advice"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="advocacy">
+                        Advocacy
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="advocacy"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="encouragement">
+                        Encouragement
+                      </Label>
+                      <Input type="textarea" placeholder="Description" id="encouragement"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="healthGoalMet">
+                        Goal met?*
+                      </Label>
+                      <Input type="select" id="healthGoalMet">
+                        <option>Cancelled</option>
+                        <option>Ongoing</option>
+                        <option>Concluded</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="outcome">
+                        Outcome
+                      </Label>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="outcome"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Form>
 
               <Form title="Social">
