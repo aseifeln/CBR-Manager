@@ -1,10 +1,19 @@
-import React from 'react';
-import { Container, Button, FormGroup, Form, Col, Row, Input, Label } from 'reactstrap';
+import React, { useState } from 'react';
+import { Container, Button, FormGroup, Form, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm } from "./NewClientSignup"
 
 import AppNavbar from '../components/AppNavbar';
 
-function NewVisit() {
+function NewVisit(props) {
+
+  const [ healthWheelchair, setHealthWheelchair ] = useState(false);
+  const [ healthProsthetic, setHealthProsthetic ] = useState(false);
+  const [ healthorthotic, setHealthOrthotic ] = useState(false);
+  const [ healthWheelchairRepair, setHealthWheelchairRepair ] = useState(false);
+  const [ healthReferral, setHealthReferral ] = useState(false);
+  const [ healthAdvice, setHealthAdvice ] = useState(false);
+  const [ healthAdvocacy, setHealthAdvocacy ] = useState(false);
+  const [ healthEncouragement, setHealthEncouragement ] = useState(false);
 
   return (
     <div>
@@ -141,10 +150,19 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="wheelChair">
-                        Wheelchair
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="wheelchair"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthWheelchair(!healthWheelchair)}/>
+                            Wheelchair
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthWheelchair}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="wheelchair"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -152,10 +170,19 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="prosthetic">
-                        Prosthetic
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="prosthetic"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthProsthetic(!healthProsthetic)}/>
+                            Prosthetic
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthProsthetic}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="prosthetic"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -163,10 +190,19 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="wheelchairRepairs">
-                        Wheelchair Repairs
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="wheelchairRepairs"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthOrthotic(!healthorthotic)}/>
+                            Orthotic
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthorthotic}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="orthotic"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -174,10 +210,19 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="referral">
-                        Referral to health centre
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="referrals"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthWheelchairRepair(!healthWheelchairRepair)}/>
+                            Wheelchair Repairs
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthWheelchairRepair}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="wheelchairRepairs"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -185,10 +230,19 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="advice">
-                        Advice
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="advice"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthReferral(!healthReferral)}/>
+                            Referral to health centre
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthReferral}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="referral"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -196,10 +250,19 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="advocacy">
-                        Advocacy
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="advocacy"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthAdvice(!healthAdvice)}/>
+                            Advice
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthAdvice}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="advice"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -207,10 +270,39 @@ function NewVisit() {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="encouragement">
-                        Encouragement
-                      </Label>
-                      <Input type="textarea" placeholder="Description" id="encouragement"/>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthAdvocacy(!healthAdvocacy)}/>
+                            Advocacy
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthAdvocacy}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="advocacy"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setHealthEncouragement(!healthEncouragement)}/>
+                            Encouragement
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={healthEncouragement}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="encourage"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
                     </FormGroup>
                   </Col>
                 </Row>
