@@ -34,6 +34,7 @@ function NewVisit() {
                     </FormGroup>
                   </Col>
                 </Row>
+
                 <FormGroup>
                     <Row>
                       <Col>
@@ -58,6 +59,40 @@ function NewVisit() {
                         </Label>
                       </Col>
                     </Row>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label for="date">
+                      Date:*
+                      <Input type="date" id="date"/>
+                    </Label>
+                  </FormGroup>
+                  
+                  <FormGroup>
+                    <Label for="worker">
+                      CBR Worker*
+                    </Label>
+                    <Input placeholder="Autofill CBR worker Name" id="worker"/>
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label for="location">
+                      Location*
+                    </Label>
+                    <Input  type="select" id="location">
+                      <option>BidiBidi - Zone 1</option>
+                      <option>BidiBidi - Zone 2</option>
+                      <option>BidiBidi - Zone 4</option>
+                      <option>BidiBidi - Zone 5</option>
+                      <option>Palorinya - Basecamp</option>
+                      <option>Palorinya - Zone 1</option>
+                      <option>Palorinya - Zone 2</option>
+                      <option>Palorinya - Zone 3</option>
+                    </Input>
+                    <Label for="villageNum">
+                      Village no*
+                    </Label>
+                    <Input id="villageNum"/>
                   </FormGroup>
               </Form>
 
