@@ -14,7 +14,6 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
     //TODO: Change variables after register layout finished
     try{
-        //const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = { 
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -23,23 +22,24 @@ app.post("/register", async (req, res) => {
             password: req.body.password,
             password2: req.body.password2
         };
+        console.log("B")
         if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.password2){
             return res.status(400).send('All fields are required');
         }
-        if (user.password.length < 6){
+        else if (user.password.length < 6){
             return res.status(400).send('Password must be at least 6 characters');
         }
-        if(user.password != user.password2){
+        else if(user.password != user.password2){
             return res.status(400).send('Password and Confirm Password do not match');
         }
         else{
-            let hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword = await bcrypt.hash(user.password, 10);
+            user.password = hashedPassword;
+            user.password2 = hashedPassword;
             //TODO: Check if user already exist in db
             //TODO: Change the password to hashedPassword
             //TODO: Save in db
         }
-
-
         users.push(user);
         res.status(201).send();
     } catch {
