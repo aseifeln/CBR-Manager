@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Button, FormGroup, Form, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm } from "./NewClientSignup"
+import MultiStepForm from "../components/MultiStepForm"
 
 import AppNavbar from '../components/AppNavbar';
 
