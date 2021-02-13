@@ -345,6 +345,16 @@ function NewVisit() {
               </Form>
 
               <Form title="Social">
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label className="font-weight-bold">
+                        What was provided?
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
                 <Row Form>
                   <Col>
                     <FormGroup>
@@ -453,6 +463,16 @@ function NewVisit() {
               </Form>
 
               <Form title="Education">
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label className="font-weight-bold">
+                        What was provided?
+                      </Label>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
                 <Row Form>
                   <Col>
                     <FormGroup>
