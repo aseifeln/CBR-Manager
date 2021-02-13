@@ -6,6 +6,7 @@ import AppNavbar from '../components/AppNavbar';
 function ClientInfo(props) {
 
     const [ client, setClient ] = useState({});
+    const [ visits, setVisits ] = useState([]);
 
     const [showHealthInfo, setShowHealthInfo] = useState(true)
     const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false)
@@ -45,6 +46,19 @@ function ClientInfo(props) {
             "empowermentRisk": "High",
             "empowermentGoal": "..."
         })
+
+        // Need to send request to backend to retrieve all visits associated with this client
+
+        // Mock visit data
+        setVisits(
+            [{
+                "id": 1
+            }, {
+                "id": 2
+            }, {
+                "id": 3
+            }]
+        )
     }, [])
     
     return(
@@ -98,9 +112,9 @@ function ClientInfo(props) {
                             Related Visits: <br/>
                             &nbsp; Click on a date to view more info or edit: <br/>
                             <ul>
-                                <li><Link to={"/"}>Visit 1</Link></li>
-                                <li><Link to={"/"}>Visit 2</Link></li>
-                                <li><Link to={"/"}>Visit 3</Link></li>
+                                {visits.map(({id}) => (
+                                    <li><Link to={"/"}>Visit {id}</Link></li>
+                                ))}
                             </ul>
                             More Details: {client.healthDetails}<br/>
                             Referral Details: {client.healthReferral}<br/>
