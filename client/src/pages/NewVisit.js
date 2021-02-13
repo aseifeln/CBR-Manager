@@ -8,12 +8,17 @@ function NewVisit(props) {
 
   const [ healthWheelchair, setHealthWheelchair ] = useState(false);
   const [ healthProsthetic, setHealthProsthetic ] = useState(false);
-  const [ healthorthotic, setHealthOrthotic ] = useState(false);
+  const [ healthOrthotic, setHealthOrthotic ] = useState(false);
   const [ healthWheelchairRepair, setHealthWheelchairRepair ] = useState(false);
   const [ healthReferral, setHealthReferral ] = useState(false);
   const [ healthAdvice, setHealthAdvice ] = useState(false);
   const [ healthAdvocacy, setHealthAdvocacy ] = useState(false);
   const [ healthEncouragement, setHealthEncouragement ] = useState(false);
+
+  const [ socialReferral, setSocialReferral ] = useState(false);
+  const [ socialAdvice, setSocialAdvice ] = useState(false);
+  const [ socialAdvocacy, setSocialAdvocacy ] = useState(false);
+  const [ socialEncouragement, setSocialEncouragement ] = useState(false);
 
   return (
     <div>
@@ -193,11 +198,11 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthOrthotic(!healthorthotic)}/>
+                            <Input type="checkbox" onChange={() => setHealthOrthotic(!healthOrthotic)}/>
                             Orthotic
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthorthotic}>
+                        <Collapse isOpen={healthOrthotic}>
                           <CardBody>
                           <Input type="textarea" placeholder="Description" id="orthotic"/>
                           </CardBody>
@@ -239,7 +244,7 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthReferral}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="referral"/>
+                          <Input type="textarea" placeholder="Description" id="healthReferral"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -259,7 +264,7 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthAdvice}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="advice"/>
+                          <Input type="textarea" placeholder="Description" id="healthAdvice"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -279,7 +284,7 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthAdvocacy}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="advocacy"/>
+                          <Input type="textarea" placeholder="Description" id="healthAdvocacy"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -299,7 +304,7 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthEncouragement}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="encourage"/>
+                          <Input type="textarea" placeholder="Description" id="healthEncouragement"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -328,14 +333,118 @@ function NewVisit(props) {
                       <Label for="outcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="outcome"/>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="healthOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
               </Form>
 
               <Form title="Social">
-                Social
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setSocialReferral(!socialReferral)}/>
+                            Referral to other org
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={socialReferral}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="socialReferral"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setSocialAdvice(!socialAdvice)}/>
+                            Advice
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={socialAdvice}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="socialAdvice"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setSocialAdvocacy(!socialAdvocacy)}/>
+                            Advocacy
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={socialAdvocacy}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="socialAdvocacy"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setSocialEncouragement(!socialEncouragement)}/>
+                            Encouragement
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={socialEncouragement}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="socialEncouragement"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="socialGoalMet">
+                        Goal met?*
+                      </Label>
+                      <Input type="select" id="socialGoalMet">
+                        <option>Cancelled</option>
+                        <option>Ongoing</option>
+                        <option>Concluded</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="outcome">
+                        Outcome
+                      </Label>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="socialOutcome"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Form>
 
               <Form title="Education">
