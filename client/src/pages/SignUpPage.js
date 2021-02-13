@@ -34,7 +34,7 @@ function SignUpPage(props) {
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CRB Account</b></h2>
                 <FormGroup>
-                    <Label>First name</Label>
+                    <Label for="firstName">First name</Label>
                     <Input type="text"
                         id="firstName"
                         value={firstName}
@@ -42,7 +42,7 @@ function SignUpPage(props) {
                         placeholder="First name" />
                 </FormGroup>
                 <FormGroup>
-                    <Label>Last name</Label>
+                    <Label for="lastName">Last name</Label>
                     <Input type="text"
                         id="lastName"
                         value={lastName}
@@ -50,7 +50,7 @@ function SignUpPage(props) {
                         placeholder="Last name" />
                 </FormGroup>
                 <FormGroup>
-                    <Label>Username</Label>
+                    <Label for="userName">Username</Label>
                     <Input type="text"
                         id="userName"
                         value={username}
@@ -77,7 +77,7 @@ function SignUpPage(props) {
                     <FormText><i>Assigned zone. This can be changed later</i></FormText>
                 </FormGroup>
                 <FormGroup>
-                    <label>Password</label>
+                    <Label  for="password">Password</Label>
                     <Input type="text"
                         id="password"
                         value={password}
