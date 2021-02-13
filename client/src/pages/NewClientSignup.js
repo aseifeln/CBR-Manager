@@ -6,7 +6,7 @@ import Rating from 'react-rating';
 
 import AppNavbar from '../components/AppNavbar';
 
-function MultiStepForm({ children, title }) {
+function MultiStepForm({ children, name }) {
   let [step, setStep] = useState(0)
 
   // methods to move back & forth between sub-forms
@@ -23,12 +23,12 @@ function MultiStepForm({ children, title }) {
       <Container>
         <div style={formContainerSize}>
           <Badge color="primary" pill>Step {step+1} of {children.length}</Badge>
-          {(title) && <h2>{title}</h2>}
+          {(name) && <h2>{name}</h2>}
           <hr/>
           <ButtonGroup style={{'width':'100%'}}>
             {children.map((Child, i) => (
               <Button onClick={() => setStep(i)} outline={(step !== i)}>
-                {`${i+1}. ${Child.props['title'] || 'Form'}`}
+                {`${i+1}. ${Child.props['name'] || 'Form'}`}
               </Button>
             ))}
           </ButtonGroup>
@@ -73,10 +73,10 @@ function NewClientSignup() {
   return (
     <>
       <AppNavbar/>
-      <MultiStepForm title='New Client: John Doe'>
+      <MultiStepForm name='New Client: John Doe'>
 
         {/* SECTION 1. General Details */}
-        <Form title='General'>
+        <Form name='General'>
           <Row form>
             <Col xs={6}>
               <FormGroup>
@@ -178,7 +178,7 @@ function NewClientSignup() {
         </Form>
 
         {/* SECTION 2. Health Details */}
-        <Form title='Health Details'>
+        <Form name='Health Details'>
           <h4>Disabilities</h4>
           <FormText>Physical/mental disabilities the client has.</FormText>
           <div class='mt-2'>
@@ -224,7 +224,7 @@ function NewClientSignup() {
         </Form>
 
         {/* SECTION 3. Miscellaneous */}
-        <Form title='Misc.'>
+        <Form name='Misc.'>
           <Row form>
             <Col md={12}>
               <h5>Available for Interview?</h5>
