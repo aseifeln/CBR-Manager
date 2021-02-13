@@ -6,12 +6,17 @@ import Rating from 'react-rating';
 
 import AppNavbar from '../components/AppNavbar';
 
-function MultiStepForm({ children, title, formContainerSize }) {
+function MultiStepForm({ children, title }) {
   let [step, setStep] = useState(0)
 
   // methods to move back & forth between sub-forms
   const stepNext = () => setStep(Math.min(step+1, children.length-1))
   const stepPrev = () => setStep(Math.max(step-1, 0))
+
+  const formContainerSize = {
+    margin: 'auto',
+    maxWidth: 600
+  }
 
   return (
     <>
@@ -68,7 +73,7 @@ function NewClientSignup() {
   return (
     <>
       <AppNavbar/>
-      <MultiStepForm title='New Client: John Doe' formContainerSize={{ margin: 'auto', maxWidth: 600 }}>
+      <MultiStepForm title='New Client: John Doe'>
 
         {/* SECTION 1. General Details */}
         <Form title='General'>
@@ -257,4 +262,4 @@ function NewClientSignup() {
   )
 }
 
-export { NewClientSignup, MultiStepForm };
+export default NewClientSignup;
