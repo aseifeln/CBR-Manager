@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AppNavbar from '../components/AppNavbar';
 
 function ClientInfo(props) {
+
+    const [ client, setClient ] = useState({});
 
     const [showHealthInfo, setShowHealthInfo] = useState(true)
     const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false)
@@ -14,6 +16,36 @@ function ClientInfo(props) {
     const [showSocialInfo, setShowSocialInfo] = useState(false)
     
     const areaFontSize = {fontSize: "20px"}
+
+    useEffect(() => {
+        // Send request to backend to retrieve client info data
+        console.log(props.match.params.id)
+
+        // Mock data
+        setClient({
+            "name": "John Doe",
+            "location": "BidiBidi Zone 1",
+            "age": 30,
+            "gender": "Male",
+            "disability": "Polio",
+            "healthRisk": "High",
+            "healthGoal": "N/A",
+            "healthDetails": "...",
+            "healthReferral": "...",
+            "educationRisk": "High",
+            "educationGoal": "...",
+            "socialRisk": "High",
+            "socialGoal": "...",
+            "livelihoodRisk": "High",
+            "livelihoodGoal": "...",
+            "foodNutritionRisk": "High",
+            "foodNutritionGoal": "...",
+            "shelterCareRisk": "High",
+            "shelterCareGoal": "...",
+            "empowermentRisk": "High",
+            "empowermentGoal": "..."
+        })
+    }, [])
     
     return(
         <div>
@@ -21,7 +53,7 @@ function ClientInfo(props) {
             <Container>
                 <Row>
                     <Col>
-                        <h1>Name: Client{props.match.params.id}</h1>
+                        <h1>Name: {client.name}</h1>
                     </Col>
                     <Col>
                         <Link to={"/client/" + props.match.params.id} class="float-right">Edit Client Info</Link>
@@ -38,10 +70,10 @@ function ClientInfo(props) {
                 <Col>
                     Personal Info: 
                     <ul class="list-unstyled">
-                        <li>- Location: </li>
-                        <li>- Age: </li>
-                        <li>- Gender: </li>
-                        <li>- Disability: </li>
+                        <li>- Location: {client.location}</li>
+                        <li>- Age: {client.age}</li>
+                        <li>- Gender: {client.gender}</li>
+                        <li>- Disability: {client.disability}</li>
                     </ul>
                 </Col>
             </Row>
@@ -61,8 +93,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showHealthInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal: <br/>
+                            Risk Level: {client.healthRisk}<br/>
+                            Goal: {client.healthGoal}<br/>
                             Related Visits: <br/>
                             &nbsp; Click on a date to view more info or edit: <br/>
                             <ul>
@@ -70,8 +102,8 @@ function ClientInfo(props) {
                                 <li><Link to={"/"}>Visit 2</Link></li>
                                 <li><Link to={"/"}>Visit 3</Link></li>
                             </ul>
-                            More Details: <br/>
-                            Referal Details: <br/>
+                            More Details: {client.healthDetails}<br/>
+                            Referral Details: {client.healthReferral}<br/>
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -81,8 +113,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showEducationInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal:
+                            Risk Level: {client.educationRisk}<br/>
+                            Goal: {client.educationGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -92,8 +124,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showSocialInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal:
+                            Risk Level: {client.socialRisk}<br/>
+                            Goal: {client.socialGoal}
                         </CardBody> 
                     </Collapse>
                 </Card>
@@ -103,8 +135,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showFoodNutritionInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal:
+                            Risk Level: {client.foodNutritionRisk}<br/>
+                            Goal: {client.foodNutritionGoal}
                         </CardBody> 
                     </Collapse>
                 </Card>
@@ -114,8 +146,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showShelterCareInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal: 
+                            Risk Level: {client.shelterCareRisk}<br/>
+                            Goal: {client.shelterCareGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -125,8 +157,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showLivelihoodInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal: 
+                            Risk Level: {client.livelihoodRisk}<br/>
+                            Goal: {client.livelihoodGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -136,8 +168,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showEmpowermentInfo}>
                         <CardBody>
-                            Risk Level: High<br/>
-                            Goal: 
+                            Risk Level: {client.empowermentRisk}<br/>
+                            Goal: {client.empowermentGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
