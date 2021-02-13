@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, ButtonGroup, Badge } from 'reactstrap';
+import { Container, Form, FormGroup, FormFeedback, InputGroup, Input, Label, Button, ButtonGroup, Badge, Tooltip } from 'reactstrap';
 import { Formiz, FormizStep, useField, useForm } from '@formiz/core';
 
-function MultiStepForm({ children, name }) {
-	let formState = useForm()
+function MultiStepForm({ children, name, onValidSubmit }) {
+  let formState = useForm()
+
+  let [tooltipOpen, setTooltipOpen] = useState(false)
+  const tooltipToggle = () => setTooltipOpen(!tooltipOpen)
+  const canSubmit = (
+    (formState.isLastStep && formState.isValid) || 
+    (!formState.isLastStep && formState.currentStep.isValid)
+  )
 
   const formContainerSize = {
     margin: 'auto',
@@ -11,7 +18,7 @@ function MultiStepForm({ children, name }) {
   }
 
   return (
-    <Formiz connect={formState}>
+    <Formiz connect={formState} onValidSubmit={onValidSubmit}>
       <Container>
         <div style={formContainerSize}>
           <Badge color="primary" pill>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
@@ -23,10 +30,10 @@ function MultiStepForm({ children, name }) {
           <ButtonGroup style={{'width':'100%'}}>
             {formState.steps.map((step, i) => {
 							const { name } = step
-							const goToStep = () => formState.goToStep(name)
+              const goToStep = () => formState.goToStep(name)
 							return (
 								<Button onClick={goToStep} outline={(formState.currentStep?.index !== i)}>
-									{`${i+1}. ${name || 'Form'}`}
+									<strong>{`${i+1}. ${name || 'Form'}`}</strong>
 								</Button>
 							)
 						})}
@@ -34,7 +41,7 @@ function MultiStepForm({ children, name }) {
 
           {/* the sub-forms */}
           <div class='mt-4'>
-						<Form id='multi-form' onSubmit={formState.submitStep}>
+						<Form id='multi-form' onSubmit={formState.submitStep} noValidate>
 							{children}
 						</Form>
           </div>
@@ -51,17 +58,38 @@ function MultiStepForm({ children, name }) {
           <div class='d-flex justify-content-between align-items-center' style={formContainerSize}>
             <div>
 							<strong>{formState.currentStep?.name} &middot;&nbsp;</strong>
-							Step {formState.currentStep?.index + 1} of {formState.steps.length}
+							{formState.currentStep?.index + 1} of {formState.steps.length}
 						</div>
 
             <div>
-              <Button color="primary" outline onClick={formState.prevStep}>Prev</Button>
+              <Button 
+                color="primary"
+                outline
+                disabled={formState.isFirstStep}
+                onClick={formState.prevStep}>
+                  Prev
+              </Button>
               &nbsp;
 
-              { (formState.isLastStep) ? 
-                (<Button type="submit" form='multi-form' color="primary" disabled={!formState.isValid}>Submit</Button>) : 
-                (<Button color="primary" onClick={formState.nextStep}>Next</Button>)
-              }
+              <span id="form-button" class="d-inline-block">
+                <Button
+                  color="primary" 
+                  type="submit" 
+                  form="multi-form"
+                  disabled={!canSubmit}
+                  style={(!canSubmit) ? { pointerEvents: 'none' } : {}}>
+                  {(formState.isLastStep) ? 'Submit' : 'Next'}
+                </Button>
+
+                <Tooltip 
+                  target="form-button"
+                  placement="auto" 
+                  isOpen={tooltipOpen && !canSubmit} 
+                  toggle={tooltipToggle} 
+                  autohide={true}>
+                  Some parts of the form are incomplete or invalid
+                </Tooltip>
+              </span>
             </div>
           </div>
         </Container>
@@ -76,20 +104,32 @@ function Step(props) {
 	)
 }
 
+
 function Field(props) {
-  const { errorMessage, isValid, setValue, value } = useField(props)
+  const [isFocused, setFocused] = useState(false)
+	const { 
+		errorMessage, 
+		isValid, setValue, value, 
+		isPristine, isSubmitted
+	} = useField(props)
+
+	const showError = !isValid && !isFocused && (!isPristine || isSubmitted)
 
   return (
-    <div>
-      <input
-        value={value ?? ''}
-        onChange={e => setValue(e.target.value)}
-      />
-      {
-        !isValid
-        && errorMessage // Display error message
-      }
-    </div>
+		<FormGroup class={props['class']}>
+			<Label>{props['label']}</Label>
+			<InputGroup>
+				<Input
+          {...props}
+					value={value ?? ''}
+					onChange={e => setValue(e.target.value)}
+					onFocus={() => setFocused(true)}
+					onBlur={() => setFocused(false)}
+					invalid={showError}
+				/>
+				<FormFeedback>{showError && errorMessage}</FormFeedback>
+			</InputGroup>
+		</FormGroup>
   )
 }
 
