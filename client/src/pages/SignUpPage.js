@@ -5,7 +5,7 @@ import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap';
 import AppNavbar from "../components/AppNavbar";
 import "../css/SignUp.css";
 
-function SignUp(props) {
+function SignUpPage(props) {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -34,54 +34,63 @@ function SignUp(props) {
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CRB Account</b></h2>
                 <FormGroup>
-                    <Label>First name: </Label>
+                    <Label>First name</Label>
                     <Input type="text"
+                        id="firstName"
                         value={firstName}
                         onChange={(event) => setFirstName(event.target.value)}
                         placeholder="First name" />
                 </FormGroup>
                 <FormGroup>
-                    <Label>Last name: </Label>
+                    <Label>Last name</Label>
                     <Input type="text"
+                        id="lastName"
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
                         placeholder="Last name" />
                 </FormGroup>
                 <FormGroup>
-                    <Label>Username: </Label>
+                    <Label>Username</Label>
                     <Input type="text"
+                        id="userName"
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
                         placeholder="Username" />
                     <FormText><i>Add username to easily log in</i></FormText>
                 </FormGroup>
                 <FormGroup>
-                    <Label for="location">Location: </Label>
-                    <Input type="select" id="location"
-                           value={location} 
-                           onChange={(event) =>
-                                setLocation(event.target.value)}>> //extra bracket here
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <Label for="profilePhoto">Profile Picture</Label>
+                    <Input type="file" name="profilePhoto" id="profilePhoto" />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="location">Location</Label>
+                    <Input type="select"
+                        id="location"
+                        value={location}
+                        onChange={(event) => setLocation(event.target.value)}>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
                     </Input>
                     <FormText><i>Assigned zone. This can be changed later</i></FormText>
                 </FormGroup>
                 <FormGroup>
-                    <label>Password: </label>
+                    <label>Password</label>
                     <Input type="text"
+                        id="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password" />
                     <Input type="text"
+                        id="confirmPassword"
                         value={confirmPassword}
                         onChange={(event) => setConfirmPassword(event.target.value)}
                         placeholder="Confirm password" />
                 </FormGroup>
                 <Button
-                    type="submit" onClick={handleSubmit}>Create Account</Button>
+                    type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
                 <Link to="/login">Login instead</Link>
             </Form>
         </div>
@@ -89,4 +98,4 @@ function SignUp(props) {
 
 }
 
-export default SignUp;
+export default SignUpPage;

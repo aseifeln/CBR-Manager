@@ -7,7 +7,7 @@ import ClientListPage from './pages/ClientListPage';
 import ClientInfoPage from './pages/ClientInfo';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
-import SignUpPage from './pages/SignUpPage' //Import is different from Export on SignUpPage
+import SignUpPage from './pages/SignUpPage'
 
 /**
 * Reference:
