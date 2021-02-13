@@ -4,7 +4,7 @@ import { MultiStepForm } from "./NewClientSignup"
 
 import AppNavbar from '../components/AppNavbar';
 
-function NewVisit(props) {
+function NewVisit() {
 
   const [ healthWheelchair, setHealthWheelchair ] = useState(false);
   const [ healthProsthetic, setHealthProsthetic ] = useState(false);
@@ -19,6 +19,11 @@ function NewVisit(props) {
   const [ socialAdvice, setSocialAdvice ] = useState(false);
   const [ socialAdvocacy, setSocialAdvocacy ] = useState(false);
   const [ socialEncouragement, setSocialEncouragement ] = useState(false);
+
+  const [ educationReferral, setEducationReferral ] = useState(false);
+  const [ educationAdvice, setEducationAdvice ] = useState(false);
+  const [ educationAdvocacy, setEducationAdvocacy ] = useState(false);
+  const [ educationEncouragement, setEducationEncouragement ] = useState(false);
 
   return (
     <div>
@@ -330,7 +335,7 @@ function NewVisit(props) {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="outcome">
+                      <Label for="healthOutcome">
                         Outcome
                       </Label>
                       <Input type="textarea" placeholder="If concluded, what was the outcome?" id="healthOutcome"/>
@@ -438,7 +443,7 @@ function NewVisit(props) {
                 <Row Form>
                   <Col>
                     <FormGroup>
-                      <Label for="outcome">
+                      <Label for="socialOutcome">
                         Outcome
                       </Label>
                       <Input type="textarea" placeholder="If concluded, what was the outcome?" id="socialOutcome"/>
@@ -448,7 +453,111 @@ function NewVisit(props) {
               </Form>
 
               <Form title="Education">
-                Education
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setEducationReferral(!educationReferral)}/>
+                            Referral to other org
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={educationReferral}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="educationReferral"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setEducationAdvice(!educationAdvice)}/>
+                            Advice
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={educationAdvice}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="educationAdvice"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setEducationAdvocacy(!educationAdvocacy)}/>
+                            Advocacy
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={educationAdvocacy}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="educationAdvocacy"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Card>
+                        <CardHeader>
+                          <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                            <Input type="checkbox" onChange={() => setEducationEncouragement(!educationEncouragement)}/>
+                            Encouragement
+                          </Label>
+                        </CardHeader>
+                        <Collapse isOpen={educationEncouragement}>
+                          <CardBody>
+                          <Input type="textarea" placeholder="Description" id="educationEncouragement"/>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="educationGoalMet">
+                        Goal met?*
+                      </Label>
+                      <Input type="select" id="educationGoalMet">
+                        <option>Cancelled</option>
+                        <option>Ongoing</option>
+                        <option>Concluded</option>
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+
+                <Row Form>
+                  <Col>
+                    <FormGroup>
+                      <Label for="educationOutcome">
+                        Outcome
+                      </Label>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="educationOutcome"/>
+                    </FormGroup>
+                  </Col>
+                </Row>
               </Form>
 
             </MultiStepForm>
