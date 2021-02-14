@@ -12,7 +12,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
         HealthGoal, EducationStatus, EducationDesc, EducationGoal,
         SocialStatus, SocialDesc, SocialGoal, WorkerId} = req.body;
-        
+
     client.create({
         FirstName,
         LastName,
@@ -39,7 +39,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         WorkerId
     })
     .then(result => res.send("Client Added Successfully"))
-    .catch(err => res.json(err))
+    .catch(err => res.status(500).json(err))
 })
 
 
