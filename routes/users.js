@@ -4,7 +4,7 @@ const app = express.Router();
 
 const users = [];
 
-app.use(express.json())
+app.use(express.json());
 
 app.get("/register", (req, res) => {
     res.json(users);
@@ -39,7 +39,7 @@ app.post("/register", async (req, res) => {
             confirm_password: req.body.confirm_password
         };
         if(validateRegisterDetails(res, user)){
-            res.status(400).send('Register Unsuccessful');
+            res.status(400).write('Register Unsuccessful');
             res.send()
         }else{
             const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -66,7 +66,7 @@ app.post('/login', async (req, res) => {
     //TODO: Change find in db
     const user = users.find(user => user.username === req.body.username)
     if( user == null ){
-        return res.status(400).send('All fields are required')
+        return res.status(400).send('All fields are required');
     }
     try{
         if(await bcrypt.compare(req.body.password, user.password)){
