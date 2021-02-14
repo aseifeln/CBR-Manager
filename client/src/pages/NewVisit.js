@@ -68,15 +68,15 @@ function NewVisit() {
                   <Row>
                     <Col>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" id="healthCheckBox"/>
+                        <Input type="checkbox" name="healthCheckBox"/>
                         Health
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" id="educationCheckBox"/>
+                        <Input type="checkbox" name="educationCheckBox"/>
                         Education
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" id="socialCheckBox"/>
+                        <Input type="checkbox" name="socialCheckBox"/>
                         Social
                       </Label>
                     </Col>
@@ -88,7 +88,7 @@ function NewVisit() {
                     <FormGroup>
                       <Label for="date">
                         Date:*
-                        <Input type="date" id="date"/>
+                        <Input type="date" name="date"/>
                       </Label>
                     </FormGroup>
                   </Col>
@@ -100,7 +100,7 @@ function NewVisit() {
                       <Label for="worker">
                         CBR Worker*
                       </Label>
-                      <Input placeholder="Autofill CBR worker Name" id="worker"/>
+                      <Input placeholder="Autofill CBR worker Name" name="worker"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -111,7 +111,7 @@ function NewVisit() {
                       <Label for="locationOfVisit">
                         Location of visit*
                       </Label>
-                      <Input id="locationOfVisit"/>
+                      <Input name="locationOfVisit"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -122,7 +122,7 @@ function NewVisit() {
                       <Label for="location">
                         Location*
                       </Label>
-                      <Input  type="select" id="location">
+                      <Input  type="select" name="location">
                         <option>BidiBidi - Zone 1</option>
                         <option>BidiBidi - Zone 2</option>
                         <option>BidiBidi - Zone 4</option>
@@ -140,7 +140,7 @@ function NewVisit() {
                       <Label for="villageNum">
                         Village no*
                       </Label>
-                      <Input id="villageNum"/>
+                      <Input name="villageNum"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -169,7 +169,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthWheelchair}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="wheelchair"/>
+                          <Input type="textarea" placeholder="Description" name="wheelchair"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -189,7 +189,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthProsthetic}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="prosthetic"/>
+                          <Input type="textarea" placeholder="Description" name="prosthetic"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -209,7 +209,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthOrthotic}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="orthotic"/>
+                          <Input type="textarea" placeholder="Description" name="orthotic"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -229,7 +229,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthWheelchairRepair}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="wheelchairRepairs"/>
+                          <Input type="textarea" placeholder="Description" name="wheelchairRepairs"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -249,7 +249,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthReferral}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="healthReferral"/>
+                          <Input type="textarea" placeholder="Description" name="healthReferral"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -269,7 +269,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthAdvice}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="healthAdvice"/>
+                          <Input type="textarea" placeholder="Description" name="healthAdvice"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -289,7 +289,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthAdvocacy}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="healthAdvocacy"/>
+                          <Input type="textarea" placeholder="Description" name="healthAdvocacy"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -309,7 +309,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={healthEncouragement}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="healthEncouragement"/>
+                          <Input type="textarea" placeholder="Description" name="healthEncouragement"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -338,7 +338,7 @@ function NewVisit() {
                       <Label for="healthOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="healthOutcome"/>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" name="healthOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -367,7 +367,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={socialReferral}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="socialReferral"/>
+                          <Input type="textarea" placeholder="Description" name="socialReferral"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -387,7 +387,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={socialAdvice}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="socialAdvice"/>
+                          <Input type="textarea" placeholder="Description" name="socialAdvice"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -407,7 +407,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={socialAdvocacy}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="socialAdvocacy"/>
+                          <Input type="textarea" placeholder="Description" name="socialAdvocacy"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -427,7 +427,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={socialEncouragement}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="socialEncouragement"/>
+                          <Input type="textarea" placeholder="Description" name="socialEncouragement"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -441,7 +441,7 @@ function NewVisit() {
                       <Label for="socialGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" id="socialGoalMet">
+                      <Input type="select" name="socialGoalMet">
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -456,7 +456,7 @@ function NewVisit() {
                       <Label for="socialOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="socialOutcome"/>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" name="socialOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -485,7 +485,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={educationReferral}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="educationReferral"/>
+                          <Input type="textarea" placeholder="Description" name="educationReferral"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -505,7 +505,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={educationAdvice}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="educationAdvice"/>
+                          <Input type="textarea" placeholder="Description" name="educationAdvice"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -525,7 +525,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={educationAdvocacy}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="educationAdvocacy"/>
+                          <Input type="textarea" placeholder="Description" name="educationAdvocacy"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -545,7 +545,7 @@ function NewVisit() {
                         </CardHeader>
                         <Collapse isOpen={educationEncouragement}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" id="educationEncouragement"/>
+                          <Input type="textarea" placeholder="Description" name="educationEncouragement"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -574,7 +574,7 @@ function NewVisit() {
                       <Label for="educationOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" id="educationOutcome"/>
+                      <Input type="textarea" placeholder="If concluded, what was the outcome?" name="educationOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
