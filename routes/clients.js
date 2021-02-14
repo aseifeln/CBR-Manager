@@ -7,9 +7,12 @@ const upload = multer({});
 // @route   POST /clients/add
 // @desc    POST Add a new client to the database
 router.post('/add', upload.single('Photo'), (req,res) => {
-    let {FirstName,LastName,Gender,Location,ContactNo,VillageNo,Age,DisabilityType,GPSLocation,Consent,
-        CaregiverState,CaregiverContactNo,HealthStatus,HealthDesc,HealthGoal,EducationStatus,EducationDesc,
-        EducationGoal,SocialStatus,SocialDesc,SocialGoal,WorkerId} = req.body;
+    let {FirstName, LastName, Gender, Location, ContactNo, 
+        VillageNo, Age, DisabilityType, GPSLocation, Consent,
+        CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
+        HealthGoal, EducationStatus, EducationDesc, EducationGoal,
+        SocialStatus, SocialDesc, SocialGoal, WorkerId} = req.body;
+        
     client.create({
         FirstName,
         LastName,
