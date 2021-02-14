@@ -35,7 +35,7 @@ module.exports = {
     },
     DateCreated: {
         type: Sequelize.DATE,
-        default: Sequelize.NOW,
+        defaultValue: Sequelize.NOW,
         allowNull: false
     },
     ContactNo: {
@@ -43,7 +43,7 @@ module.exports = {
         allowNull: false
     },
     VillageNo: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     Age: {
@@ -57,7 +57,7 @@ module.exports = {
         allowNull: false
     },
     Photo: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('long'),
         allowNull: false
     },
     GPSLocation: {
@@ -74,7 +74,7 @@ module.exports = {
     CaregiverContactNo: {
         type: Sequelize.STRING,
         allowNull: false,
-        default: 'na'
+        defaultValue: 'N/A'
     },
     HealthStatus: {
         type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),

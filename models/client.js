@@ -28,7 +28,7 @@ const Client = db.define('Client', {
     },
     DateCreated: {
         type: Sequelize.DATE,
-        default: Sequelize.NOW,
+        defaultValue: Sequelize.NOW,
         allowNull: false
     },
     ContactNo: {
@@ -36,7 +36,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     VillageNo: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
     },
     Age: {
@@ -50,7 +50,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     Photo: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('long'),
         allowNull: false
     },
     GPSLocation: {
@@ -67,7 +67,7 @@ const Client = db.define('Client', {
     CaregiverContactNo: {
         type: Sequelize.STRING,
         allowNull: false,
-        default: 'na'
+        defaultValue: 'N/A'
     },
     HealthStatus: {
         type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
