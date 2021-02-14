@@ -11,24 +11,24 @@ function NewVisit(props) {
     console.log(props.match.params.id)
   }, [])
 
-  const [ healthWheelchair, setHealthWheelchair ] = useState(false);
-  const [ healthProsthetic, setHealthProsthetic ] = useState(false);
-  const [ healthOrthotic, setHealthOrthotic ] = useState(false);
-  const [ healthWheelchairRepair, setHealthWheelchairRepair ] = useState(false);
-  const [ healthReferral, setHealthReferral ] = useState(false);
-  const [ healthAdvice, setHealthAdvice ] = useState(false);
-  const [ healthAdvocacy, setHealthAdvocacy ] = useState(false);
-  const [ healthEncouragement, setHealthEncouragement ] = useState(false);
+  const [ wheelchairProvided, setWheelchairProvided ] = useState(false);
+  const [ prostheticProvided, setProstheticProvided ] = useState(false);
+  const [ orthoticProvided, setOrthoticProvided ] = useState(false);
+  const [ wheelchairRepairProvided, setWheelchairRepairProvided ] = useState(false);
+  const [ healthReferralProvided, setHealthReferralProvided ] = useState(false);
+  const [ healthAdviceProvided, setHealthAdviceProvided ] = useState(false);
+  const [ healthAdvocacyProvided, setHealthAdvocacyProvided ] = useState(false);
+  const [ healthEncouragementProvided, setHealthEncouragementProvided ] = useState(false);
 
-  const [ socialReferral, setSocialReferral ] = useState(false);
-  const [ socialAdvice, setSocialAdvice ] = useState(false);
-  const [ socialAdvocacy, setSocialAdvocacy ] = useState(false);
-  const [ socialEncouragement, setSocialEncouragement ] = useState(false);
+  const [ socialReferralProvided, setSocialReferralProvided ] = useState(false);
+  const [ socialAdviceProvided, setSocialAdviceProvided ] = useState(false);
+  const [ socialAdvocacyProvided, setSocialAdvocacyProvided ] = useState(false);
+  const [ socialEncouragementProvided, setSocialEncouragementProvided ] = useState(false);
 
-  const [ educationReferral, setEducationReferral ] = useState(false);
-  const [ educationAdvice, setEducationAdvice ] = useState(false);
-  const [ educationAdvocacy, setEducationAdvocacy ] = useState(false);
-  const [ educationEncouragement, setEducationEncouragement ] = useState(false);
+  const [ educationReferralProvided, setEducationReferralProvided ] = useState(false);
+  const [ educationAdviceProvided, setEducationAdviceProvided ] = useState(false);
+  const [ educationAdvocacyProvided, setEducationAdvocacyProvided ] = useState(false);
+  const [ educationEncouragementProvided, setEducationEncouragementProvided ] = useState(false);
 
   return (
     <div>
@@ -168,13 +168,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthWheelchair(!healthWheelchair)}/>
+                            <Input type="checkbox" onChange={() => setWheelchairProvided(!wheelchairProvided)}/>
                             Wheelchair
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthWheelchair}>
+                        <Collapse isOpen={wheelchairProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="wheelchair"/>
+                          <Input type="textarea" placeholder="Description" name="wheelchairDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -188,13 +188,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthProsthetic(!healthProsthetic)}/>
+                            <Input type="checkbox" onChange={() => setProstheticProvided(!prostheticProvided)}/>
                             Prosthetic
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthProsthetic}>
+                        <Collapse isOpen={prostheticProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="prosthetic"/>
+                          <Input type="textarea" placeholder="Description" name="prostheticDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -208,13 +208,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthOrthotic(!healthOrthotic)}/>
+                            <Input type="checkbox" onChange={() => setOrthoticProvided(!orthoticProvided)}/>
                             Orthotic
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthOrthotic}>
+                        <Collapse isOpen={orthoticProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="orthotic"/>
+                          <Input type="textarea" placeholder="Description" name="orthoticDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -228,13 +228,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthWheelchairRepair(!healthWheelchairRepair)}/>
+                            <Input type="checkbox" onChange={() => setWheelchairRepairProvided(!wheelchairRepairProvided)}/>
                             Wheelchair Repairs
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthWheelchairRepair}>
+                        <Collapse isOpen={wheelchairRepairProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="wheelchairRepairs"/>
+                          <Input type="textarea" placeholder="Description" name="wheelchairRepairsDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -248,13 +248,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthReferral(!healthReferral)}/>
+                            <Input type="checkbox" onChange={() => setHealthReferralProvided(!healthReferralProvided)}/>
                             Referral to health centre
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthReferral}>
+                        <Collapse isOpen={healthReferralProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthReferral"/>
+                          <Input type="textarea" placeholder="Description" name="healthReferralDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -268,13 +268,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthAdvice(!healthAdvice)}/>
+                            <Input type="checkbox" onChange={() => setHealthAdviceProvided(!healthAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthAdvice}>
+                        <Collapse isOpen={healthAdviceProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthAdvice"/>
+                          <Input type="textarea" placeholder="Description" name="healthAdviceDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -288,13 +288,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthAdvocacy(!healthAdvocacy)}/>
+                            <Input type="checkbox" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthAdvocacy}>
+                        <Collapse isOpen={healthAdvocacyProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthAdvocacy"/>
+                          <Input type="textarea" placeholder="Description" name="healthAdvocacyDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -308,13 +308,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthEncouragement(!healthEncouragement)}/>
+                            <Input type="checkbox" onChange={() => setHealthEncouragementProvided(!healthEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={healthEncouragement}>
+                        <Collapse isOpen={healthEncouragementProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthEncouragement"/>
+                          <Input type="textarea" placeholder="Description" name="healthEncouragementDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -366,13 +366,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialReferral(!socialReferral)}/>
+                            <Input type="checkbox" onChange={() => setSocialReferralProvided(!socialReferralProvided)}/>
                             Referral to other org
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={socialReferral}>
+                        <Collapse isOpen={socialReferralProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialReferral"/>
+                          <Input type="textarea" placeholder="Description" name="socialReferralDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -386,13 +386,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialAdvice(!socialAdvice)}/>
+                            <Input type="checkbox" onChange={() => setSocialAdviceProvided(!socialAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={socialAdvice}>
+                        <Collapse isOpen={socialAdviceProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialAdvice"/>
+                          <Input type="textarea" placeholder="Description" name="socialAdviceDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -406,13 +406,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialAdvocacy(!socialAdvocacy)}/>
+                            <Input type="checkbox" onChange={() => setSocialAdvocacyProvided(!socialAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={socialAdvocacy}>
+                        <Collapse isOpen={socialAdvocacyProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialAdvocacy"/>
+                          <Input type="textarea" placeholder="Description" name="socialAdvocacyDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -426,13 +426,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialEncouragement(!socialEncouragement)}/>
+                            <Input type="checkbox" onChange={() => setSocialEncouragementProvided(!socialEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={socialEncouragement}>
+                        <Collapse isOpen={socialEncouragementProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialEncouragement"/>
+                          <Input type="textarea" placeholder="Description" name="socialEncouragementDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -484,13 +484,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationReferral(!educationReferral)}/>
+                            <Input type="checkbox" onChange={() => setEducationReferralProvided(!educationReferralProvided)}/>
                             Referral to other org
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={educationReferral}>
+                        <Collapse isOpen={educationReferralProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationReferral"/>
+                          <Input type="textarea" placeholder="Description" name="educationReferralDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -504,13 +504,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationAdvice(!educationAdvice)}/>
+                            <Input type="checkbox" onChange={() => setEducationAdviceProvided(!educationAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={educationAdvice}>
+                        <Collapse isOpen={educationAdviceProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationAdvice"/>
+                          <Input type="textarea" placeholder="Description" name="educationAdviceDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -524,13 +524,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationAdvocacy(!educationAdvocacy)}/>
+                            <Input type="checkbox" onChange={() => setEducationAdvocacyProvided(!educationAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={educationAdvocacy}>
+                        <Collapse isOpen={educationAdvocacyProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationAdvocacy"/>
+                          <Input type="textarea" placeholder="Description" name="educationAdvocacyDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -544,13 +544,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationEncouragement(!educationEncouragement)}/>
+                            <Input type="checkbox" onChange={() => setEducationEncouragementProvided(!educationEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
-                        <Collapse isOpen={educationEncouragement}>
+                        <Collapse isOpen={educationEncouragementProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationEncouragement"/>
+                          <Input type="textarea" placeholder="Description" name="educationEncouragementDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
