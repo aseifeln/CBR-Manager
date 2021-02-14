@@ -7,7 +7,7 @@ import AppNavbar from '../components/AppNavbar';
 function NewVisit(props) {
 
   useEffect(() => {
-    // May possibly need to send GET request to determine if id corresponds to valid client later
+    // TODO: Send GET request for client and worker to fill out some fields
     console.log(props.match.params.id)
   }, [])
 
