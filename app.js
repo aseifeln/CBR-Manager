@@ -2,8 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config({path: '.env'});
 
-
+//Requiring the created routes
 const users = require('./routes/users');
+const clients = require('./routes/clients');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/users', users);
+app.use('/clients', clients);
 
 
 
