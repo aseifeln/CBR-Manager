@@ -4,7 +4,7 @@ const app = express.Router();
 
 const users = [];
 
-app.use(express.json())
+app.use(express.json());
 
 app.get("/register", (req, res) => {
     res.json(users);
