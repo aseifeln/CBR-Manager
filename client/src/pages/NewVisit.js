@@ -19,16 +19,19 @@ function NewVisit(props) {
   const [ healthAdviceProvided, setHealthAdviceProvided ] = useState(false);
   const [ healthAdvocacyProvided, setHealthAdvocacyProvided ] = useState(false);
   const [ healthEncouragementProvided, setHealthEncouragementProvided ] = useState(false);
+  const [ healthGoalMet, setHealthGoatMet ] = useState(false);
 
   const [ socialReferralProvided, setSocialReferralProvided ] = useState(false);
   const [ socialAdviceProvided, setSocialAdviceProvided ] = useState(false);
   const [ socialAdvocacyProvided, setSocialAdvocacyProvided ] = useState(false);
   const [ socialEncouragementProvided, setSocialEncouragementProvided ] = useState(false);
+  const [ socialGoalMet, setSocialGoalMet ] = useState(false);
 
   const [ educationReferralProvided, setEducationReferralProvided ] = useState(false);
   const [ educationAdviceProvided, setEducationAdviceProvided ] = useState(false);
   const [ educationAdvocacyProvided, setEducationAdvocacyProvided ] = useState(false);
   const [ educationEncouragementProvided, setEducationEncouragementProvided ] = useState(false);
+  const [ educationGoalMet, setEducationGoalMet ] = useState(false);
 
   return (
     <div>
@@ -300,7 +303,7 @@ function NewVisit(props) {
                       <Label for="healthGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" id="healthGoalMet">
+                      <Input type="select" id="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value != "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -315,7 +318,7 @@ function NewVisit(props) {
                       <Label for="healthOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" name="healthOutcome"/>
+                      <Input type="textarea" disabled={healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -418,7 +421,7 @@ function NewVisit(props) {
                       <Label for="socialGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="socialGoalMet">
+                      <Input type="select" name="socialGoalMet" onChange={(event) => setSocialGoalMet(event.target.value != "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -433,7 +436,7 @@ function NewVisit(props) {
                       <Label for="socialOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" name="socialOutcome"/>
+                      <Input type="textarea" disabled={socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -536,7 +539,7 @@ function NewVisit(props) {
                       <Label for="educationGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" id="educationGoalMet">
+                      <Input type="select" id="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value != "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -551,7 +554,7 @@ function NewVisit(props) {
                       <Label for="educationOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" placeholder="If concluded, what was the outcome?" name="educationOutcome"/>
+                      <Input type="textarea" disabled={educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
