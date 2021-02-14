@@ -39,7 +39,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         WorkerId
     })
     .then(result => res.send("Client Added Successfully"))
-    .catch(err => res.status(500).json(err))
+    .catch(err => res.status(400).json(err))
 })
 
 
