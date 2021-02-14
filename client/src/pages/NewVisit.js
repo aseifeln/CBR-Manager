@@ -303,7 +303,7 @@ function NewVisit(props) {
                       <Label for="healthGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value != "Concluded")}>
+                      <Input type="select" name="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value !== "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -421,7 +421,7 @@ function NewVisit(props) {
                       <Label for="socialGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="socialGoalMet" onChange={(event) => setSocialGoalMet(event.target.value != "Concluded")}>
+                      <Input type="select" name="socialGoalMet" onChange={(event) => setSocialGoalMet(event.target.value !== "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -539,7 +539,7 @@ function NewVisit(props) {
                       <Label for="educationGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value != "Concluded")}>
+                      <Input type="select" name="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value !== "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
