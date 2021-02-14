@@ -39,11 +39,11 @@ app.post("/register", async (req, res) => {
             confirm_password: req.body.confirm_password
         };
         if(validateRegisterDetails(res, user)){
-            res.send()
+            res.send();
         }else{
             const hashedPassword = await bcrypt.hash(user.password, 10);
-            user.password = hashedPassword
-            user.confirm_password = hashedPassword
+            user.password = hashedPassword;
+            user.confirm_password = hashedPassword;
         }
             //TODO: Check if user already exist in db
             //TODO: Change the password to hashedPassword
@@ -64,7 +64,7 @@ app.post('/login', async (req, res) => {
     //TODO: Change find in db
     const user = users.find(user => user.username === req.body.username)
     if( user == null ){
-        return res.status(400).send('All fields are required')
+        return res.status(400).send('All fields are required');
     }
     try{
         if(await bcrypt.compare(req.body.password, user.password)){
