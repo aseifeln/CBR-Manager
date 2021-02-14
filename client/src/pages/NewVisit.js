@@ -60,34 +60,6 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                {/* Unsure of how else to do this when following the mock UI*/}
-                <FormGroup>
-                  <Row>
-                    <Col>
-                      <Label>
-                        Tags: *(select all that apply)
-                      </Label>
-                    </Col>
-                  </Row>
-                  
-                  <Row>
-                    <Col>
-                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="healthCheckBox"/>
-                        Health
-                      </Label>
-                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="educationCheckBox"/>
-                        Education
-                      </Label>
-                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="socialCheckBox"/>
-                        Social
-                      </Label>
-                    </Col>
-                  </Row>
-                </FormGroup>
-
                 <Row Form>
                   <Col>
                     <FormGroup>
