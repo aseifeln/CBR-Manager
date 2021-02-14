@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Form, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import MultiStepForm from "../components/MultiStepForm"
 
 import AppNavbar from '../components/AppNavbar';
 
-function NewVisit() {
+function NewVisit(props) {
+
+  useEffect(() => {
+    // May possibly need to send GET request to determine if id corresponds to valid client later
+    console.log(props.match.params.id)
+  }, [])
 
   const [ healthWheelchair, setHealthWheelchair ] = useState(false);
   const [ healthProsthetic, setHealthProsthetic ] = useState(false);
@@ -41,7 +46,7 @@ function NewVisit() {
             </Row>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: Name
+                Client: {props.match.params.id}
               </Col>
             </Row>
             <MultiStepForm>
