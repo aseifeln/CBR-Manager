@@ -58,7 +58,7 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       <Label for="purposeOfVisit">Purpose of visit*</Label>
-                      <Input id="purposeOfVisit" placeholder="Ex. disability center referral, disability center referral follow up"/>
+                      <Input name="purposeOfVisit" placeholder="Ex. disability center referral, disability center referral follow up"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -303,7 +303,7 @@ function NewVisit(props) {
                       <Label for="healthGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" id="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value != "Concluded")}>
+                      <Input type="select" name="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value != "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -539,7 +539,7 @@ function NewVisit(props) {
                       <Label for="educationGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" id="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value != "Concluded")}>
+                      <Input type="select" name="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value != "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
