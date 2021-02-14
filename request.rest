@@ -10,8 +10,8 @@ Content-Type: application/json
     "lastname" : "Doe",
     "username" : "johndoe",
     "location" : "1",
-    "password" : "12356",
-    "password2": "123456"
+    "password" : "123456",
+    "confirm_password": "123456"
 }
 
 ###
@@ -22,5 +22,6 @@ POST http://localhost:5000/users/login
 Content-Type: application/json
 
 {
-"password": "123456"
+    "username": "johndoe",
+    "password": "123456"
 }

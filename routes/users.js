@@ -10,6 +10,22 @@ app.get("/register", (req, res) => {
     res.json(users);
 });
 
+function validateRegisterDetails(res, user){
+    FAIL = false;
+    if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.confirm_password){
+        res.status(400).write('All fields are required\n');
+        FAIL = true;
+    }
+    if (user.password.length < 6){
+        res.status(400).write('Password must be at least 6 characters\n');
+        FAIL = true;
+    }
+    if(user.password != user.confirm_password){
+        res.status(400).write('Password and Confirm Password do not match\n');
+        FAIL = true;
+    }
+    return FAIL;
+}
 
 app.post("/register", async (req, res) => {
     //TODO: Change variables after register layout finished
@@ -22,25 +38,19 @@ app.post("/register", async (req, res) => {
             password: req.body.password,
             confirm_password: req.body.confirm_password
         };
-        if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.confirm_password){
-            return res.status(400).send('All fields are required');
-        }
-        else if (user.password.length < 6){
-            return res.status(400).send('Password must be at least 6 characters');
-        }
-        else if(user.password != user.confirm_password){
-            return res.status(400).send('Password and Confirm Password do not match');
-        }
-        else{
+        if(validateRegisterDetails(res, user)){
+            res.send()
+        }else{
             const hashedPassword = await bcrypt.hash(user.password, 10);
-            user.password = hashedPassword;
-            user.confirm_password = hashedPassword;
+            user.password = hashedPassword
+            user.confirm_password = hashedPassword
+        }
             //TODO: Check if user already exist in db
             //TODO: Change the password to hashedPassword
             //TODO: Save in db
-        }
+        
         users.push(user);
-        res.status(201).send();
+        res.status(201).send('Register Successful');
     } catch {
         res.status(500).send();
     }
