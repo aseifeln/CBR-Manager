@@ -20,21 +20,21 @@ app.post("/register", async (req, res) => {
             username: req.body.username, 
             location: req.body.location,
             password: req.body.password,
-            password2: req.body.password2
+            confirm_password: req.body.confirm_password
         };
-        if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.password2){
+        if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.confirm_password){
             return res.status(400).send('All fields are required');
         }
         else if (user.password.length < 6){
             return res.status(400).send('Password must be at least 6 characters');
         }
-        else if(user.password != user.password2){
+        else if(user.password != user.confirm_password){
             return res.status(400).send('Password and Confirm Password do not match');
         }
         else{
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword;
-            user.password2 = hashedPassword;
+            user.confirm_password = hashedPassword;
             //TODO: Check if user already exist in db
             //TODO: Change the password to hashedPassword
             //TODO: Save in db
