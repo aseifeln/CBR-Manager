@@ -70,7 +70,7 @@ const Client = db.define('Client', {
         defaultValue: 'N/A'
     },
     HealthStatus: {
-        type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
+        type: Sequelize.ENUM('Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
         allowNull: false
     },
     HealthDesc: {
@@ -82,7 +82,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     EducationStatus: {
-        type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
+        type: Sequelize.ENUM('Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
         allowNull: false
     },
     EducationDesc: {
@@ -94,7 +94,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     SocialStatus: {
-        type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
+        type: Sequelize.ENUM('Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
         allowNull: false
     },
     SocialDesc: {
