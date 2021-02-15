@@ -6,14 +6,22 @@ POST http://localhost:5000/users/register
 Content-Type: application/json
 
 {
-"username": "Calvin", "password": "123456"
+    "firstname": "John",
+    "lastname" : "Doe",
+    "username" : "johndoe",
+    "location" : "1",
+    "password" : "123456",
+    "confirm_password": "123456"
 }
 
 ###
+
+
 
 POST http://localhost:5000/users/login
 Content-Type: application/json
 
 {
-"username": "Calvin", "password": "123456"
+    "username": "johndoe",
+    "password": "123456"
 }
