@@ -6,12 +6,24 @@ POST http://localhost:5000/users/register
 Content-Type: application/json
 
 {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+"username": "Calvin", "password": "123456"
+=======
+>>>>>>> Stashed changes
     "firstname": "John",
     "lastname" : "Doe",
     "username" : "johndoe",
     "location" : "1",
+<<<<<<< Updated upstream
     "password" : "123456",
     "confirm_password": "123456"
+=======
+    "password" : "12456",
+    "confirm_password": "123456"
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 }
 
 ###
