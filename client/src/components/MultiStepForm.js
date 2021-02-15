@@ -7,10 +7,7 @@ function MultiStepForm({ children, name, onValidSubmit }) {
 
   let [tooltipOpen, setTooltipOpen] = useState(false)
   const tooltipToggle = () => setTooltipOpen(!tooltipOpen)
-  const canSubmit = (
-    (formState.isLastStep && formState.isValid) || 
-    (!formState.isLastStep && formState.currentStep.isValid)
-  )
+  const isInvalidSubmit = (formState.isLastStep && !formState.isValid)
 
   const formContainerSize = {
     margin: 'auto',
@@ -41,13 +38,14 @@ function MultiStepForm({ children, name, onValidSubmit }) {
 
           {/* the sub-forms */}
           <div class='mt-4'>
-						<Form id='multi-form' onSubmit={formState.submitStep} noValidate>
+						<Form id='multi-form' onSubmit={formState.submitStep}>
 							{children}
 						</Form>
           </div>
 
           {/* dummy element just to add extra space */}
           <div class='invisible py-4'>
+            <Button block></Button>
             <Button block></Button>
           </div>
         </div>
@@ -76,18 +74,18 @@ function MultiStepForm({ children, name, onValidSubmit }) {
                   color="primary" 
                   type="submit" 
                   form="multi-form"
-                  disabled={!canSubmit}
-                  style={(!canSubmit) ? { pointerEvents: 'none' } : {}}>
+                  disabled={isInvalidSubmit}
+                  style={(isInvalidSubmit) ? { pointerEvents: 'none' } : {}}>
                   {(formState.isLastStep) ? 'Submit' : 'Next'}
                 </Button>
 
                 <Tooltip 
                   target="form-button"
                   placement="auto" 
-                  isOpen={tooltipOpen && !canSubmit} 
+                  isOpen={tooltipOpen && isInvalidSubmit} 
                   toggle={tooltipToggle} 
                   autohide={true}>
-                  Some parts of the form are incomplete or invalid
+                  Parts of the form are still incomplete or invalid
                 </Tooltip>
               </span>
             </div>
@@ -104,9 +102,9 @@ function Step(props) {
 	)
 }
 
-
-function Field(props) {
+function FieldInput(props) {
   const [isFocused, setFocused] = useState(false)
+  const { class: propClass, label, onChanged } = props
 	const { 
 		errorMessage, 
 		isValid, setValue, value, 
@@ -116,21 +114,26 @@ function Field(props) {
 	const showError = !isValid && !isFocused && (!isPristine || isSubmitted)
 
   return (
-		<FormGroup class={props['class']}>
-			<Label>{props['label']}</Label>
-			<InputGroup>
-				<Input
-          {...props}
-					value={value ?? ''}
-					onChange={e => setValue(e.target.value)}
-					onFocus={() => setFocused(true)}
-					onBlur={() => setFocused(false)}
-					invalid={showError}
-				/>
-				<FormFeedback>{showError && errorMessage}</FormFeedback>
-			</InputGroup>
-		</FormGroup>
+    <div class={propClass}>
+      <FormGroup>
+        {(label) && <Label>{label}</Label>}
+        <InputGroup>
+          <Input
+            {...props}
+            value={value ?? ''}
+            onChange={(e) => {
+              if (onChanged) onChanged(e)
+              setValue(e.target.value)
+            }}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            invalid={showError}
+          />
+          <FormFeedback>{showError && errorMessage}</FormFeedback>
+        </InputGroup>
+      </FormGroup>
+    </div>
   )
 }
 
-export { MultiStepForm, Field, Step }
+export { MultiStepForm, FieldInput, Step }
