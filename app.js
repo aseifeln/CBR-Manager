@@ -16,7 +16,11 @@ app.use(bodyParser.json());
 app.use('/users', users);
 app.use('/clients', clients);
 
-
+// Database
+const db = require('./config/database')
+db.authenticate()
+	.then(() => console.log('[DB] connection established successfully'))
+	.catch((err) => console.log('[DB] Warning: ' + err))
 
 
 const PORT = 5000;
