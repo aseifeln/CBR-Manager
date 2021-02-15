@@ -12,7 +12,9 @@ function NewVisit(props) {
   }, [])
 
   const [ todaysDate ] = useState(new Date().toISOString().substr(0, 10));
+  const [ showSectionCheckboxes, setShowSectionCheckboxes ] = useState(true);
 
+  const [ hideHealthSection, setHideHealthSection ] = useState(true);
   const [ wheelchairProvided, setWheelchairProvided ] = useState(false);
   const [ prostheticProvided, setProstheticProvided ] = useState(false);
   const [ orthoticProvided, setOrthoticProvided ] = useState(false);
@@ -23,12 +25,14 @@ function NewVisit(props) {
   const [ healthEncouragementProvided, setHealthEncouragementProvided ] = useState(false);
   const [ healthGoalMet, setHealthGoatMet ] = useState(false);
 
+  const [ hideSocialSection, setHideSocialSection ] = useState(true);
   const [ socialReferralProvided, setSocialReferralProvided ] = useState(false);
   const [ socialAdviceProvided, setSocialAdviceProvided ] = useState(false);
   const [ socialAdvocacyProvided, setSocialAdvocacyProvided ] = useState(false);
   const [ socialEncouragementProvided, setSocialEncouragementProvided ] = useState(false);
   const [ socialGoalMet, setSocialGoalMet ] = useState(false);
 
+  const [ hideEducationSection, setHideEducationSection ] = useState(true);
   const [ educationReferralProvided, setEducationReferralProvided ] = useState(false);
   const [ educationAdviceProvided, setEducationAdviceProvided ] = useState(false);
   const [ educationAdvocacyProvided, setEducationAdvocacyProvided ] = useState(false);
@@ -60,7 +64,7 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       <Label for="purposeOfVisit">Purpose of visit*</Label>
-                      <Input type="select" name="purposeOfVisit">
+                      <Input type="select" name="purposeOfVisit" onChange={(event) => setShowSectionCheckboxes(event.target.value === "CBR")}>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
                         <option>Disability centre referral follow up</option>
@@ -68,6 +72,34 @@ function NewVisit(props) {
                     </FormGroup>
                   </Col>
                 </Row>
+
+                {/* Unsure of how else to do this when following the mock UI*/}
+                <FormGroup hidden={!showSectionCheckboxes}>
+                  <Row>
+                    <Col>
+                      <Label>
+                        Tags: *(select all that apply)
+                      </Label>
+                    </Col>
+                  </Row>
+                  
+                  <Row>
+                    <Col>
+                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                        <Input type="checkbox" name="healthCheckBox" onChange={() => setHideHealthSection(!hideHealthSection)}/>
+                        Health
+                      </Label>
+                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                        <Input type="checkbox" name="educationCheckBox" onChange={() => setHideSocialSection(!hideSocialSection)}/>
+                        Social
+                      </Label>
+                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                        <Input type="checkbox" name="socialCheckBox" onChange={() => setHideEducationSection(!hideEducationSection)}/>
+                        Education
+                      </Label>
+                    </Col>
+                  </Row>
+                </FormGroup>
 
                 <Row Form>
                   <Col>
@@ -133,7 +165,7 @@ function NewVisit(props) {
                 </Row>
               </Form>
 
-              <Form title="Health">
+              <Form title="Health" hidden={hideHealthSection}>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -331,7 +363,7 @@ function NewVisit(props) {
                 </Row>
               </Form>
 
-              <Form title="Social">
+              <Form title="Social" hidden={hideSocialSection}>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -449,7 +481,7 @@ function NewVisit(props) {
                 </Row>
               </Form>
 
-              <Form title="Education">
+              <Form title="Education" hidden={hideEducationSection}>
                 <Row>
                   <Col>
                     <FormGroup>
