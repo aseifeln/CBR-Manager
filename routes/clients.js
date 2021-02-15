@@ -4,6 +4,13 @@ const client = require('../models/client')
 const multer = require('multer')
 const upload = multer({});
 
+//Function that converts an image byte array into a base64 string
+//Reference: https://robert-keller22.medium.com/upload-and-download-images-to-a-postgres-db-node-js-92e43f232ae4
+function ConvertImage(client){
+    const clientImage = client.Photo.toString('base64')
+    client['Photo'] = clientImage
+}
+
 // @route   POST /clients/add
 // @desc    POST Add a new client to the database
 router.post('/add', upload.single('Photo'), (req,res) => {
@@ -42,7 +49,23 @@ router.post('/add', upload.single('Photo'), (req,res) => {
     .catch(err => res.status(400).json(err))
 })
 
-
+// @route   GET /clients/location/location_name
+// @desc    GET Retrieve all clients residing in a specific location
+router.get('/location/:loc', (req,res) => {
+    const location = req.params.loc
+    
+    client.findAll({
+        where: {
+            Location: location
+        }
+    })
+    .then(clients => {
+        clients.map(client => ConvertImage(client))
+        return clients;
+    })
+    .then(clients => res.json(clients))
+    .catch(err => res.status(400).json(err))  
+})
 
 
 module.exports = router
