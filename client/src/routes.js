@@ -8,6 +8,7 @@ import ClientInfoPage from './pages/ClientInfo';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
+import SignUpPage from './pages/SignUpPage'
 
 /**
 * Reference:
@@ -47,7 +48,8 @@ const ROUTES = [
         component: NewVisitPage
       }
     ]
-  }
+  },
+  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
 ];
 
 export default ROUTES;
