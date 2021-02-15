@@ -2,11 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config({path: '.env'});
 
-<<<<<<< HEAD
-//Requiring the created routes
-=======
 //Requiring the routes created
->>>>>>> master
 const users = require('./routes/users');
 const clients = require('./routes/clients');
 
