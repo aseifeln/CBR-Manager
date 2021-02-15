@@ -19,10 +19,7 @@ function PriorityClients(props){
 
     return(
         <div>
-            <h4>Priority Clients</h4>
-            <h5 className="link">
-                <Link to="/client/new">Link to new client</Link>
-            </h5>
+            <h5>Priority Clients   <Link to="/client/new">Link to new client</Link></h5>
             <ListGroup>
                 {pClientList.map((client)=>
                     <ListGroupItem key={client.name} >

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Container, Row, Col } from 'reactstrap';
 import OutRefs from '../components/OutRef';
 import PriorityClients from '../components/PriorityClients';
 import AppNavbar from '../components/AppNavbar';
@@ -9,15 +10,25 @@ function Dashboard() {
   return (
     <div id="dashboard">
       <AppNavbar />
-        <h2>CBR Dashboard</h2>
-       <div className="main">
-            <div className="priorityClient">
-              <PriorityClients></PriorityClients>
-            </div>
-            <div className="outRefs">
-              <OutRefs></OutRefs>
-            </div>
-        </div>
+      <Container>
+        <Row>
+          <Col>
+            <h2>CBR Dashboard</h2>
+          </Col>
+        </Row>
+        <Row>
+            <Col sm={{size:'auto',offset:1}}>
+              <div className="priorityClient">
+                <PriorityClients></PriorityClients>
+              </div>
+            </Col>
+            <Col sm={{size:'auto',offset:1}}>
+              <div className="outRefs">
+                <OutRefs></OutRefs>
+              </div>
+            </Col>
+        </Row>
+      </Container>
     </div>
   )
 }
