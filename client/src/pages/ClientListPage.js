@@ -55,7 +55,7 @@ function ClientListPage() {
         }
     ]
    const [ clients, setClients ] = useState(junkData);
-   const [ searchFilter, setSearchFilter ] = useState('name');
+   const [ searchFilter, setSearchFilter ] = useState('FirstName');
    const [ searchField, setSearchField ] = useState('');
    const [ radioFilter, setRadioFilter ] = useState('');
 
