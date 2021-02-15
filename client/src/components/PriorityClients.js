@@ -1,5 +1,7 @@
 import React from 'react';
 import {ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import "../css/Login.css";
 
 function PriorityClients(props){
     var pClientList=[{
@@ -17,7 +19,10 @@ function PriorityClients(props){
 
     return(
         <div>
-            <h3>Priority Clients</h3>
+            <h4>Priority Clients</h4>
+            <h5 className="link">
+                <Link to="/client/new">Link to new client</Link>
+            </h5>
             <ListGroup>
                 {pClientList.map((client)=>
                     <ListGroupItem key={client.name} >

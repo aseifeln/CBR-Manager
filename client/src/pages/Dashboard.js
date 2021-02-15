@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import OutRefs from '../components/OutRef';
 import PriorityClients from '../components/PriorityClients';
@@ -10,12 +9,15 @@ function Dashboard() {
   return (
     <div id="dashboard">
       <AppNavbar />
-        <h1>CBR Dashboard</h1>
-        <body>
-          <PriorityClients></PriorityClients>
-          <OutRefs></OutRefs>
-        </body>
-      <Link to="/client/new">Link to new client</Link>
+        <h2>CBR Dashboard</h2>
+       <div className="main">
+            <div className="priorityClient">
+              <PriorityClients></PriorityClients>
+            </div>
+            <div className="outRefs">
+              <OutRefs></OutRefs>
+            </div>
+        </div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ function OutRef(props){
 
     return(
         <div>
-            <h3>Outstanding Referrals</h3>
+            <h4>Outstanding Referrals</h4>
             <ListGroup>
                 {pClientList.map((client)=>
                     <ListGroupItem key={client.name}>

@@ -1,8 +1,22 @@
-h1 {
+h2 {
     text-align: center;
     text-justify: center;
 }
 
-body {
-    display: flexbox;
-    }
+.main{
+    display: flex;
+    justify-content:flex-start;
+}
+
+
+.outRefs{
+    margin: 3em;
+    height: 40em;
+    width: 20em;
+}
+
+.priorityClient{
+    margin: 3em;
+    height: 40em;
+    width: 20em;
+}
