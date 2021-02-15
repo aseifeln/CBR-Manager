@@ -8,8 +8,10 @@ function NewVisit(props) {
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
-    console.log(props.match.params.id)
+    console.log(props.match.params.id);
   }, [])
+
+  const [ todaysDate ] = useState(new Date().toISOString().substr(0, 10));
 
   const [ wheelchairProvided, setWheelchairProvided ] = useState(false);
   const [ prostheticProvided, setProstheticProvided ] = useState(false);
@@ -58,7 +60,11 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       <Label for="purposeOfVisit">Purpose of visit*</Label>
-                      <Input name="purposeOfVisit" placeholder="Ex. disability center referral, disability center referral follow up"/>
+                      <Input type="select" name="purposeOfVisit">
+                        <option>CBR</option>
+                        <option>Disability centre referral</option>
+                        <option>Disability centre referral follow up</option>
+                      </Input>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -68,7 +74,7 @@ function NewVisit(props) {
                     <FormGroup>
                       <Label for="date">
                         Date:*
-                        <Input type="date" name="date"/>
+                        <Input type="date" name="date" value={todaysDate}/>
                       </Label>
                     </FormGroup>
                   </Col>
@@ -105,6 +111,7 @@ function NewVisit(props) {
                       <Input  type="select" name="location">
                         <option>BidiBidi - Zone 1</option>
                         <option>BidiBidi - Zone 2</option>
+                        <option>BidiBidi - Zone 3</option>
                         <option>BidiBidi - Zone 4</option>
                         <option>BidiBidi - Zone 5</option>
                         <option>Palorinya - Basecamp</option>
@@ -303,7 +310,7 @@ function NewVisit(props) {
                       <Label for="healthGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value !== "Concluded")}>
+                      <Input type="select" name="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value === "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -318,7 +325,7 @@ function NewVisit(props) {
                       <Label for="healthOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" disabled={healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome"/>
+                      <Input type="textarea" disabled={!healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -421,7 +428,7 @@ function NewVisit(props) {
                       <Label for="socialGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="socialGoalMet" onChange={(event) => setSocialGoalMet(event.target.value !== "Concluded")}>
+                      <Input type="select" name="socialGoalMet" onChange={(event) => setSocialGoalMet(event.target.value === "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -436,7 +443,7 @@ function NewVisit(props) {
                       <Label for="socialOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" disabled={socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome"/>
+                      <Input type="textarea" disabled={!socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -539,7 +546,7 @@ function NewVisit(props) {
                       <Label for="educationGoalMet">
                         Goal met?*
                       </Label>
-                      <Input type="select" name="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value !== "Concluded")}>
+                      <Input type="select" name="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value === "Concluded")}>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
@@ -554,7 +561,7 @@ function NewVisit(props) {
                       <Label for="educationOutcome">
                         Outcome
                       </Label>
-                      <Input type="textarea" disabled={educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome"/>
+                      <Input type="textarea" disabled={!educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
