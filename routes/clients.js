@@ -64,7 +64,7 @@ router.get('/location/:loc', (req,res) => {
         return clients;
     })
     .then(clients => res.json(clients))
-    .catch(err => res.status(400).json(err))  
+    .catch(err => res.status(404).json(err))  
 })
 
 
