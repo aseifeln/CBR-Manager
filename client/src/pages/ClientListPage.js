@@ -15,21 +15,42 @@ import AppNavbar from '../components/AppNavbar';
 
 function ClientListPage() {
     const junkData = [{
-        "name": "Test3",
-        "id": 1,
-        "location": 373,
-        "priority": 1
+        "FirstName": "Test1",
+        "LastName": "TestLast",
+        "ClientId": 3,
+        "Gender": "Male",
+        "Location": "BidiBidi Zone 3",
+        "Age": 11,
+        "DateCreated": 0,
+        "ContactNo": 6,
+        "DisabilityType": "Amputee",
+        "VillageNo": 2,
+        "priority": 3
     },
         {
-            "name": "Test1",
-            "id": 2,
-            "location": 371,
-            "priority": 1
+            "FirstName": "Test2",
+            "LastName": "TestLast",
+            "ClientId": 2,
+            "Gender": "Male",
+            "Location": "BidiBidi Zone 1",
+            "Age": 10,
+            "DateCreated": 0,
+            "ContactNo": 6,
+            "DisabilityType": "Amputee",
+            "VillageNo": 3,
+            "priority": 2
         },
         {
-            "name": "Test2",
-            "id": 3,
-            "location": 374,
+            "FirstName": "Test3",
+            "LastName": "TestLast",
+            "ClientId": 3,
+            "Gender": "Female",
+            "Location": "BidiBidi Zone 2",
+            "Age": 10,
+            "DateCreated": 0,
+            "ContactNo": 6,
+            "DisabilityType": "Cerebral Palsy",
+            "VillageNo": 1,
             "priority": 1
         }
     ]
@@ -71,12 +92,12 @@ function ClientListPage() {
                            value={searchFilter}
                            onChange={(event) =>
                                 setSearchFilter(event.target.value)}>
-                        <option value="name">Name</option>
-                        <option value="age">Age</option>
-                        <option value="gender">Gender</option>
-                        <option value="zone">Zone</option>
-                        <option value="village_number">Village Number</option>
-                        <option value="type_of_disability">Type of Disability</option>
+                        <option value="FirstName">Name</option>
+                        <option value="Age">Age</option>
+                        <option value="Gender">Gender</option>
+                        <option value="Location">Zone</option>
+                        <option value="VillageNo">Village Number</option>
+                        <option value="DisabilityType">Type of Disability</option>
                     </Input>
                 </FormGroup>
                 <FormGroup tag="radioFilter"
@@ -99,9 +120,9 @@ function ClientListPage() {
 
             </Form>
             <ListGroup>
-                {clients.map(({id, name, location}) => (
+                {clients.map(({FirstName, Age, Gender, Location, VillageNo,  DisabilityType}) => (
                         <ListGroupItem>
-                            {name}, {id}, {location}
+                            {FirstName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
                         </ListGroupItem>
                 ))}
             </ListGroup>
