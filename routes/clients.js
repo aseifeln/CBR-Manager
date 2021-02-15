@@ -19,7 +19,7 @@ router.get('/', (req, res) =>
         clients.map(client => ConvertImage(client))
         return clients;
     })
-    .then(clients => res.json(clients))
+    .then(clients => res.status(400).json(clients))
     .catch(err => res.json(err))   
 )
 
