@@ -14,7 +14,7 @@ function NewClientSignup() {
   }
 
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
-  const phoneNumberRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/g
+  const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
 
   return (
     <>
@@ -109,7 +109,7 @@ function NewClientSignup() {
               <FieldInput 
                 name="ContactNo" 
                 label="Contact Number (Optional)" 
-                type="text"
+                type="number"
                 placeholder="e.g. 756-126-9380"
                 validations={[
                   {
