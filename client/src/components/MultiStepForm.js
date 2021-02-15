@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, FormGroup, FormFeedback, InputGroup, Input, Label, Button, ButtonGroup, Badge, Tooltip } from 'reactstrap';
 import { Formiz, FormizStep, useField, useForm } from '@formiz/core';
 
@@ -104,30 +104,26 @@ function Step(props) {
 
 function FieldInput(props) {
   const [isFocused, setFocused] = useState(false)
-  const { class: propClass, label, onChanged } = props
-	const { 
-		errorMessage, 
-		isValid, setValue, value, 
-		isPristine, isSubmitted
-	} = useField(props)
+  const { className, label, onChange } = props
+	const { errorMessage, isValid, setValue, value, isPristine, isSubmitted } = useField(props)
 
 	const showError = !isValid && !isFocused && (!isPristine || isSubmitted)
 
   return (
-    <div class={propClass}>
+    <div className={className}>
       <FormGroup>
-        {(label) && <Label>{label}</Label>}
+        {(label) && (<Label>{label}</Label>)}
         <InputGroup>
           <Input
             {...props}
             value={value ?? ''}
-            onChange={(e) => {
-              if (onChanged) onChanged(e)
-              setValue(e.target.value)
-            }}
+            invalid={showError}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            invalid={showError}
+            onChange={(e) => {
+              setValue(e.target.value)
+              if (onChange) onChange(e)
+            }}
           />
           <FormFeedback>{showError && errorMessage}</FormFeedback>
         </InputGroup>
@@ -136,4 +132,39 @@ function FieldInput(props) {
   )
 }
 
-export { MultiStepForm, FieldInput, Step }
+function FieldCheck(props) {
+  // <FieldCheck/> for checkboxes and radios
+  const { className, value: propValue, defaultChecked, label, type, onChange } = props
+	const { errorMessage, isValid, setValue, value, isPristine, isSubmitted } = useField(props)
+
+  useEffect(() => {
+    if (defaultChecked) setValue(propValue || true)
+  }, [])
+
+	const showError = !isValid && (!isPristine || isSubmitted)
+
+  return (
+    <div className={`d-inline-block ml-3 pl-1 ${className || ''}`}>
+      <FormGroup>
+        <InputGroup>
+          <Label>
+            <Input
+              {...props}
+              className=''
+              value = {value ?? ''}
+              invalid={showError}
+              onChange={(e) => {
+                if (type === 'radio') setValue(propValue)
+                else if (type === 'checkbox') setValue(!e.target.value)
+                if (onChange) onChange(e)
+              }}
+            />{' ' + label}
+          </Label>
+          <FormFeedback>{showError && errorMessage}</FormFeedback>
+        </InputGroup>
+      </FormGroup>
+    </div>
+  )
+}
+
+export { MultiStepForm, Step, FieldInput, FieldCheck }

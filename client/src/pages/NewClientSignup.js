@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isPattern } from '@formiz/validations';
-import { Label, Col, Row } from 'reactstrap';
+import { Label, Col, Row, Input, FormText } from 'reactstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Rating from 'react-rating';
 
 import AppNavbar from '../components/AppNavbar';
-import { MultiStepForm, FieldInput, Step } from '../components/MultiStepForm';
+import { MultiStepForm, Step, FieldInput, FieldCheck } from '../components/MultiStepForm';
 
 function NewClientSignup() {
   const onValidSubmit = (data) => {
@@ -24,6 +24,11 @@ function NewClientSignup() {
         {/* 1. General Details */}
         <Step name='General'>
           <Row form>
+            <Col xs={12}>
+              <h4>General Details</h4>
+              <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
+            </Col>
+
             <Col xs={6}>
               <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required"/>
             </Col>
@@ -39,38 +44,36 @@ function NewClientSignup() {
             </Col>
 
             <Col xs={10}>
-              <div class='ml-4 pl-2 mt-3 pt-3'>
-                <Label check>
-                  <FieldInput 
-                    name="Gender" 
-                    type="radio"
-                    class='d-inline-block'
-                    defaultValue="Male"/>
-                  Male
-                </Label>
+              <div className='mt-3 pt-3'>
+                <FieldCheck
+                  name="Gender" 
+                  type="radio"
+                  label="Male"
+                  value="Male"
+                  defaultChecked
+                />
 
-                <Label check>
-                  <FieldInput 
-                    name="Gender" 
-                    type="radio" 
-                    defaultValue="Female"
-                    class='d-inline-block ml-4 pl-1'
-                    defaultChecked/>
-                  Female
-                </Label>
+                <FieldCheck
+                  name="Gender" 
+                  type="radio" 
+                  label="Female"
+                  value="Female"
+                  className='ml-4 pl-2'
+                />
               </div>
             </Col>
 
             <Col xs={12}>
-              <img src={imagePreviewSrc} style={{ width: '100%', maxWidth: 125 }}/>
+              <img src={imagePreviewSrc} style={{ width: '100%', maxWidth: 150 }}/>
               <FieldInput 
                 name="Photo" 
                 label="Client Picture (Optional)" 
                 type="file"
-                onChanged={(e) => {
-                  setImagePreviewSrc(URL.createObjectURL(e.target.files[0]))
+                onChange={(e) => {
+                  if (e.target) setImagePreviewSrc(URL.createObjectURL(e.target.files[0]))
                 }}
               />
+              <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
             </Col>
           </Row>
 
@@ -109,7 +112,7 @@ function NewClientSignup() {
               <FieldInput 
                 name="ContactNo" 
                 label="Contact Number (Optional)" 
-                type="number"
+                type="text"
                 placeholder="e.g. 756-126-9380"
                 validations={[
                   {
@@ -135,10 +138,42 @@ function NewClientSignup() {
             </Col>
           </Row>
         </Step>
+
+        {/* 3. Misc Details */}
+        <Step name='Miscellaneous'>
+          <Row form>
+            <Col xs={12}>
+              <h4>Caregiver Details</h4>
+              <FieldInput 
+                name="CaregiverContactNo" 
+                label="Caregiver Contact Number (Optional)" 
+                type="text"
+                placeholder="e.g. 756-126-9380"
+                validations={[
+                  {
+                    rule: isPattern(phoneNumberRegex),
+                    message: 'Invalid contact number format'
+                  }
+                ]}
+              />
+
+              <hr/>
+            </Col>
+
+            <Col xs={12}>
+              <h4>Interviews</h4>
+              <FormText className='mb-2 pb-1'>Consent will allow HHA workers to conduct interviews for research and educational use.</FormText>
+              <FieldCheck
+                name="InterviewConsent"
+                type="checkbox"
+                label="Client consents to Interview"
+              />
+            </Col>
+          </Row>
+        </Step>
       </MultiStepForm>
     </>
   )
-  
 }
 
 export default NewClientSignup;
