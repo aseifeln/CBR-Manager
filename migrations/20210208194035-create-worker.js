@@ -11,27 +11,27 @@ module.exports = {
     queryInterface.createTable('Worker', {
       WorkerId: {
         type: Sequelize.UUID,
-        default: Sequelize.UUIDV4,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
-    },
-    FirstName: {
-        type: Sequelize.STRING(50),
+      },
+      FirstName: {
+          type: Sequelize.STRING(50),
+          allowNull: false
+      },
+      LastName: {
+          type: Sequelize.STRING(50),
+          allowNull: false
+      },
+      Photo: {
+        type: Sequelize.BLOB('long'),
         allowNull: false
-    },
-    LastName: {
-        type: Sequelize.STRING(50),
-        allowNull: false
-    },
-    Photo: {
-      type: Sequelize.BLOB,
-      allowNull: false
-   },
-    Location: {
-        type: Sequelize.ENUM,
-        values: ['BidiBidi Zone 1', 'BidiBidi Zone 2', 'BidiBidi Zone 3', 'BidiBidi Zone 4', 'BidiBidi Zone 5', 'Palorinya Basecamp',
-            'Palorinya Zone 1', 'Palorinya Zone 2', 'Palorinya Zone 3'],
-        allowNull: false
-    }
+      },
+      Location: {
+          type: Sequelize.ENUM,
+          values: ['BidiBidi Zone 1', 'BidiBidi Zone 2', 'BidiBidi Zone 3', 'BidiBidi Zone 4', 'BidiBidi Zone 5', 'Palorinya Basecamp',
+              'Palorinya Zone 1', 'Palorinya Zone 2', 'Palorinya Zone 3'],
+          allowNull: false
+      }
     },{
     tableName: 'Worker',
     timestamps: false
