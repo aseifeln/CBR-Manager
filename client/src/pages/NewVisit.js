@@ -159,15 +159,15 @@ function NewVisit(props) {
                         Location*
                       </Label>
                       <Input  type="select" name="location">
-                        <option>BidiBidi - Zone 1</option>
-                        <option>BidiBidi - Zone 2</option>
-                        <option>BidiBidi - Zone 3</option>
-                        <option>BidiBidi - Zone 4</option>
-                        <option>BidiBidi - Zone 5</option>
-                        <option>Palorinya - Basecamp</option>
-                        <option>Palorinya - Zone 1</option>
-                        <option>Palorinya - Zone 2</option>
-                        <option>Palorinya - Zone 3</option>
+                        <option>BidiBidi Zone 1</option>
+                        <option>BidiBidi Zone 2</option>
+                        <option>BidiBidi Zone 3</option>
+                        <option>BidiBidi Zone 4</option>
+                        <option>BidiBidi Zone 5</option>
+                        <option>Palorinya Basecamp</option>
+                        <option>Palorinya Zone 1</option>
+                        <option>Palorinya Zone 2</option>
+                        <option>Palorinya Zone 3</option>
                       </Input>
                     </FormGroup>
                   </Col>
