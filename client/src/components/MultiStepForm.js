@@ -7,13 +7,13 @@ function MultiStepForm({ children, title, formContainerSize }) {
     let [forms, setForms ] = useState([])
 
     useEffect(() => {
-      var returnForms = []
+      var nonHiddenForms = []
       children.map((form) => {
         if (!form.props['hidden']) {
-          returnForms.push(form);
+          nonHiddenForms.push(form)
         }
       })
-      setForms(returnForms);
+      setForms(nonHiddenForms);
     })
   
     // methods to move back & forth between sub-forms

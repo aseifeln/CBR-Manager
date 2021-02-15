@@ -14,6 +14,10 @@ function NewVisit(props) {
   const [ todaysDate ] = useState(new Date().toISOString().substr(0, 10));
   const [ showSectionCheckboxes, setShowSectionCheckboxes ] = useState(true);
 
+  const [ healthChecked, setHealthChecked ] = useState(false);
+  const [ socialChecked, setSocialChecked ] = useState(false);
+  const [ educationChecked, setEducationChecked ] = useState(false);
+
   const [ hideHealthSection, setHideHealthSection ] = useState(true);
   const [ wheelchairProvided, setWheelchairProvided ] = useState(false);
   const [ prostheticProvided, setProstheticProvided ] = useState(false);
@@ -39,6 +43,19 @@ function NewVisit(props) {
   const [ educationEncouragementProvided, setEducationEncouragementProvided ] = useState(false);
   const [ educationGoalMet, setEducationGoalMet ] = useState(false);
 
+  function changeHiddenValues(event) {
+    if (event.target.value !== "CBR") {
+      setHideHealthSection(true);
+      setHideSocialSection(true);
+      setHideEducationSection(true);
+    }
+    else {
+      setHideHealthSection(!healthChecked);
+      setHideSocialSection(!socialChecked);
+      setHideEducationSection(!educationChecked);
+    }
+  }
+
   return (
     <div>
         <AppNavbar/>
@@ -58,13 +75,14 @@ function NewVisit(props) {
                 Client: {props.match.params.id}
               </Col>
             </Row>
+
             <MultiStepForm>
               <Form title="General Info">
                 <Row Form>
                   <Col>
                     <FormGroup>
                       <Label for="purposeOfVisit">Purpose of visit*</Label>
-                      <Input type="select" name="purposeOfVisit" onChange={(event) => setShowSectionCheckboxes(event.target.value === "CBR")}>
+                      <Input type="select" name="purposeOfVisit" onChange={(event) => {setShowSectionCheckboxes(event.target.value === "CBR"); changeHiddenValues(event)}}>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
                         <option>Disability centre referral follow up</option>
@@ -86,15 +104,15 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="healthCheckBox" onChange={() => setHideHealthSection(!hideHealthSection)}/>
+                        <Input type="checkbox" name="healthCheckBox" onChange={(event) => {setHideHealthSection(!event.target.checked); setHealthChecked(event.target.checked)}}/>
                         Health
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="educationCheckBox" onChange={() => setHideSocialSection(!hideSocialSection)}/>
+                        <Input type="checkbox" name="educationCheckBox" onChange={(event) => {setHideSocialSection(!event.target.checked); setSocialChecked(event.target.checked)}}/>
                         Social
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="socialCheckBox" onChange={() => setHideEducationSection(!hideEducationSection)}/>
+                        <Input type="checkbox" name="socialCheckBox" onChange={(event) => {setHideEducationSection(!event.target.checked); setEducationChecked(event.target.checked)}}/>
                         Education
                       </Label>
                     </Col>
@@ -170,7 +188,7 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       <Label className="font-weight-bold">
-                        What was provided?
+                        What was provided? (Select all that applies)
                       </Label>
                     </FormGroup>
                   </Col>
@@ -368,7 +386,7 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       <Label className="font-weight-bold">
-                        What was provided?
+                        What was provided? (Select all that applies)
                       </Label>
                     </FormGroup>
                   </Col>
@@ -486,7 +504,7 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       <Label className="font-weight-bold">
-                        What was provided?
+                        What was provided? (Select all that applies)
                       </Label>
                     </FormGroup>
                   </Col>
