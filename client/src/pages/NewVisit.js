@@ -78,7 +78,7 @@ function NewVisit(props) {
 
             <MultiStepForm>
               <Form title="General Info">
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="purposeOfVisit">Purpose of visit*</Label>
@@ -119,7 +119,7 @@ function NewVisit(props) {
                   </Row>
                 </FormGroup>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="date">
@@ -130,7 +130,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
                 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="worker">
@@ -141,7 +141,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="locationOfVisit">
@@ -152,7 +152,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col xs={10}>
                     <FormGroup>
                       <Label for="location">
@@ -194,7 +194,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -214,7 +214,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -234,7 +234,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -254,7 +254,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -274,7 +274,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -294,7 +294,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -314,7 +314,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -334,7 +334,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -354,7 +354,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="healthGoalMet">
@@ -369,7 +369,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="healthOutcome">
@@ -392,7 +392,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -412,7 +412,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -432,7 +432,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -452,7 +452,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -472,7 +472,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="socialGoalMet">
@@ -487,7 +487,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="socialOutcome">
@@ -510,7 +510,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -530,7 +530,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -550,7 +550,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -570,7 +570,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Card>
@@ -590,7 +590,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="educationGoalMet">
@@ -605,7 +605,7 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row Form>
+                <Row form>
                   <Col>
                     <FormGroup>
                       <Label for="educationOutcome">
