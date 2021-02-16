@@ -70,6 +70,7 @@ function ClientInfo(props) {
             <Row>
                 <Col>
                     <div className="text-center">
+                        {/* Reference: https://stackoverflow.com/questions/42395034/how-to-display-binary-data-as-image-in-react */}
                         <Media src={`data:image/jpeg;base64,${client.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </div>
                 </Col>
