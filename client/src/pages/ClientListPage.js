@@ -21,7 +21,7 @@ function ClientListPage() {
         "Gender": "Male",
         "Location": "BidiBidi Zone 3",
         "Age": 11,
-        "DateCreated": 0,
+        "DateCreated": 1,
         "ContactNo": 6,
         "DisabilityType": "Amputee",
         "VillageNo": 2,
@@ -33,8 +33,8 @@ function ClientListPage() {
             "ClientId": 2,
             "Gender": "Male",
             "Location": "BidiBidi Zone 1",
-            "Age": 10,
-            "DateCreated": 0,
+            "Age": 13,
+            "DateCreated": 2,
             "ContactNo": 6,
             "DisabilityType": "Amputee",
             "VillageNo": 3,
@@ -47,7 +47,7 @@ function ClientListPage() {
             "Gender": "Female",
             "Location": "BidiBidi Zone 2",
             "Age": 10,
-            "DateCreated": 0,
+            "DateCreated": 3,
             "ContactNo": 6,
             "DisabilityType": "Cerebral Palsy",
             "VillageNo": 1,
@@ -106,13 +106,13 @@ function ClientListPage() {
                     <legend>Sort</legend>
                     <FormGroup check>
                         <Label check>
-                            <Input type="radio" name="radio1" value="by_priority"/>
+                            <Input type="radio" name="radio1" value="priority"/>
                             By Priority
                         </Label>
                     </FormGroup>
                     <FormGroup check>
                         <Label check>
-                            <Input type="radio" name="radio1" value="recently_added"/>
+                            <Input type="radio" name="radio1" value="DateCreated"/>
                             Recently Added
                         </Label>
                     </FormGroup>
