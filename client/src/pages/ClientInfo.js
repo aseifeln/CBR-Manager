@@ -93,9 +93,11 @@ function ClientInfo(props) {
             </Row>
             <Row>
                 <Col align="center">
-                    <Button variant="primary" size="md">
-                        New Visit +
-                    </Button>
+                    <Link to={"/visit/new/" + props.match.params.id}>
+                        <Button variant="primary" size="md">
+                            New Visit +
+                        </Button>
+                    </Link>
                 </Col>
             </Row>
             </Container>

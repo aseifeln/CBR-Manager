@@ -4,7 +4,7 @@ const db = require('../config/database');
 const Worker = db.define('Worker', {
     WorkerId: {
         type: Sequelize.UUID,
-        default: Sequelize.UUIDV4,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
     FirstName: {
@@ -16,7 +16,7 @@ const Worker = db.define('Worker', {
         allowNull: false
     },
     Photo: {
-        type: Sequelize.BLOB,
+        type: Sequelize.BLOB('long'),
         allowNull: false
     },
     Location: {

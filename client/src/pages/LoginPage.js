@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import AppNavbar from "../components/AppNavbar";
 import "../css/Login.css";
@@ -9,7 +10,9 @@ function Login(props) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    function btnClicked() {
+    function handleSubmit(event) {
+        event.preventDefault();
+
         if (authPasses()) {
             props.history.push("/");
             return;
@@ -18,30 +21,32 @@ function Login(props) {
     }
 
     function authPasses() {
-        console.log(username.length, password.length);
         return username.length > 0 && password.length > 0;
     }
 
     return (
-        <div id='login'>
+        <div className='Login'>
             <AppNavbar />
-            <div className='Login'>
-                <label>Username: </label>
-                <input
+            <Form onSubmit={handleSubmit}>
+                <Label>Username: </Label>
+                <Input
                     type="text"
                     required
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
+                    placeholder="Username"
                 />
-                <label>Password: </label>
-                    <input
+                <Label>Password: </Label>
+                    <Input
                     type="password"
                     required
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
+                    placeholder="Password"
                 />
-                <Button block size="lg" color="primary" type="submit" onClick={btnClicked}>Login</Button>
-            </div>
+                <Button type="submit" onClick={handleSubmit}>Login</Button>
+                <Link to="/signup">Create Account</Link>
+            </Form>
         </div>
     )
 
