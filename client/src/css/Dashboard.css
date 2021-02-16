@@ -1,0 +1,23 @@
+h2 {
+    text-align: center;
+    text-justify: center;
+}
+
+.main{
+    display: flex;
+    justify-content:flex-start;
+    right: 100px;
+}
+
+
+.outRefs{
+    margin: 3em;
+    height: 40em;
+    width: 20em;
+}
+
+.priorityClient{
+    margin: 3em;
+    height: 40em;
+    width: 20em;
+}

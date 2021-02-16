@@ -21,8 +21,19 @@ router.get('/:id', (req,res) => {
             return client;
         })
         .then(client => res.json(client))
-        .catch(err => res.status(400).json(err))
+        .catch(err => res.status(404).json(err))
 })
+// @route   GET /clients
+// @desc    Get All clients
+router.get('/', (req, res) => 
+    client.findAll()
+    .then(clients => {
+        clients.map(client => ConvertImage(client))
+        return clients;
+    })
+    .then(clients => res.json(clients))
+    .catch(err => res.status(404).json(err))   
+)
 
 
 // @route   POST /clients/add
