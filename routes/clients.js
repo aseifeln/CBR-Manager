@@ -11,6 +11,19 @@ function ConvertImage(client){
     client['Photo'] = clientImage
 }
 
+// @route   GET /clients
+// @desc    Get All clients
+router.get('/', (req, res) => 
+    client.findAll()
+    .then(clients => {
+        clients.map(client => ConvertImage(client))
+        return clients;
+    })
+    .then(clients => res.json(clients))
+    .catch(err => res.status(404).json(err))   
+)
+
+
 // @route   POST /clients/add
 // @desc    POST Add a new client to the database
 router.post('/add', upload.single('Photo'), (req,res) => {
