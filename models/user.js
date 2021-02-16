@@ -2,21 +2,18 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 const User = db.define('User', {
-    WorkerId: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true
-    },
     Username: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     Password: {
         type: Sequelize.STRING,
         allowNull: false
     },
     Role: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM,
+        values: ['Worker', 'Admin'],
         allowNull: false
     },
     WorkerId: {
@@ -24,7 +21,7 @@ const User = db.define('User', {
       references: {
           model: 'Worker',
           key: 'WorkerId'
-      }
+    }
   }
 }, {
     tableName: 'User',
