@@ -1,20 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
+import { Container, Row, Col } from 'reactstrap';
+import OutRefs from '../components/OutRef';
+import PriorityClients from '../components/PriorityClients';
 import AppNavbar from '../components/AppNavbar';
-import WorkerList from '../components/WorkerList';
+import '../css/Dashboard.css';
 
 function Dashboard() {
   return (
     <div id="dashboard">
       <AppNavbar />
-      <WorkerList 
-          workers={[]} 
-          getWorkers={()=>{}} 
-          addWorker={()=>{}}
-      />
-
-      <Link to="/client/new">Link to new client</Link>
+      <Container>
+        <Row>
+          <Col>
+            <h2>CBR Dashboard</h2>
+          </Col>
+        </Row>
+        <Row>
+            <Col sm={{size:'auto',offset:1}}>
+              <div className="priorityClient">
+                <PriorityClients></PriorityClients>
+              </div>
+            </Col>
+            <Col sm={{size:'auto',offset:1}}>
+              <div className="outRefs">
+                <OutRefs></OutRefs>
+              </div>
+            </Col>
+        </Row>
+      </Container>
     </div>
   )
 }
