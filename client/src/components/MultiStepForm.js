@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, FormGroup, FormFeedback, InputGroup, Input, Label, Button, ButtonGroup, Badge, Tooltip } from 'reactstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 import { Formiz, FormizStep, useField, useForm } from '@formiz/core';
 
 function MultiStepForm({ children, name, onValidSubmit }) {
@@ -167,4 +168,35 @@ function FieldCheck(props) {
   )
 }
 
-export { MultiStepForm, Step, FieldInput, FieldCheck }
+function FieldTypeahead(props) {
+  const [isFocused, setFocused] = useState(false)
+  const { className, label, onChange } = props
+	const { errorMessage, isValid, setValue, value, isPristine, isSubmitted } = useField(props)
+
+	const showError = !isValid && !isFocused && (!isPristine || isSubmitted)
+
+  return (
+    <div className={className}>
+      <FormGroup>
+        {(label) && (<Label>{label}</Label>)}
+        <InputGroup>
+          <Typeahead
+            {...props}
+            labelKey={label}
+            selected={value}
+            isInvalid={showError}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            onChange={(v) => {
+              setValue(v)
+              if (onChange) setValue(onChange(v))
+            }}
+          />
+          <FormFeedback>{showError && errorMessage}</FormFeedback>
+        </InputGroup>
+      </FormGroup>
+    </div>
+  )
+}
+
+export { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead }

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { isPattern } from '@formiz/validations';
-import { Label, Col, Row, Input, FormText } from 'reactstrap';
-import { Typeahead } from 'react-bootstrap-typeahead';
-import Rating from 'react-rating';
+import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
-import { MultiStepForm, Step, FieldInput, FieldCheck } from '../components/MultiStepForm';
+import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
   const onValidSubmit = (data) => {
@@ -45,21 +42,8 @@ function NewClientSignup() {
 
             <Col xs={10}>
               <div className='mt-3 pt-3'>
-                <FieldCheck
-                  name="Gender" 
-                  type="radio"
-                  label="Male"
-                  value="Male"
-                  defaultChecked
-                />
-
-                <FieldCheck
-                  name="Gender" 
-                  type="radio" 
-                  label="Female"
-                  value="Female"
-                  className='ml-4 pl-2'
-                />
+                <FieldCheck name="Gender" type="radio" label="Male" value="Male" defaultChecked/>
+                <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2'/>
               </div>
             </Col>
 
@@ -70,7 +54,9 @@ function NewClientSignup() {
                 label="Client Picture (Optional)" 
                 type="file"
                 onChange={(e) => {
-                  if (e.target) setImagePreviewSrc(URL.createObjectURL(e.target.files[0]))
+                  if (e.target) {
+                    setImagePreviewSrc(URL.createObjectURL(e.target.files[0]))
+                  }
                 }}
               />
               <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
@@ -128,13 +114,57 @@ function NewClientSignup() {
         {/* 2. Health Details */}
         <Step name='Health Details'>
           <Row form>
-            <Col xs={6}>
-              <FieldInput 
-                name="Test" 
-                label="Tester" 
-                type="text"
-                placeholder="e.g. 756-126-9380"
+            <Col xs={12}>
+              <h4 className='mb-3'>Disabilities</h4>
+              <FieldTypeahead
+                id="disabilities"
+                name="Disabilities"
+                placeholder="Add a disability type... (e.g. Polio)"
+                options={[
+                  'Amputee', 'Polio', 
+                  'Spinal Cord Injury', 'Cerebral Palsy', 
+                  'Spina Bifida', 'Hydrocephalus', 
+                  'Visual Impairment','Hearing Impairment', 
+                  'Don\'t Know', 'Other'
+                ]}
+                onChange={(v) => {
+                  // hacky way of removing selections if user chooses
+                  // "Don't Know" or "Other" options but it works 👍
+                  if (v[v.length-1] === 'Don\'t Know' && v.length >= 1) return ['Don\'t Know']
+                  else if (v[v.length-2] === 'Don\'t Know' && v.length >= 1) return v.slice(1)
+
+                  if (v[v.length-1] === 'Other' && v.length >= 1) return ['Other']
+                  else if (v[v.length-2] === 'Other' && v.length >= 1) return v.slice(1)
+                  return v
+                }}
+                multiple
               />
+
+              <hr/>
+            </Col>
+
+            <Col xs={12}>
+              <h4>Wellbeing Check</h4>
+              <FormText>Rate the client's wellbeing following <a href='https://www.hopehealthaction.org/' target='_blank'>HHA's wellbeing guidelines</a>.</FormText> 
+
+              {['Health', 'Education', 'Social'].map((area, i) => (
+                <Card className='mt-4' key={`area-${i}`}>
+                  <CardBody>
+                    <h5>{area}</h5>
+
+                    <FieldInput name={`${area}Status`} label="Current Rating" type="select" required="Rating is required">
+                      <option selected hidden>Choose a rating</option>
+                      <option value='4'>4 — Critical Risk</option>
+                      <option value='3'>3 — High Risk</option>
+                      <option value='2'>2 — Medium Risk</option>
+                      <option value='1'>1 — Low Risk</option>
+                    </FieldInput>
+
+                    <FieldInput name={`${area}Goal`} label="Goals to achieve" type="textarea"/>
+                    <FieldInput name={`${area}Desc`} label="Required resources for area" type="textarea"/>
+                  </CardBody>
+                </Card>
+              ))}
             </Col>
           </Row>
         </Step>
@@ -162,9 +192,9 @@ function NewClientSignup() {
 
             <Col xs={12}>
               <h4>Interviews</h4>
-              <FormText className='mb-2 pb-1'>Consent will allow HHA workers to conduct interviews for research and educational use.</FormText>
+              <FormText className='mb-2 pb-1'>Consent will allow HHA to conduct interviews for research and educational purposes.</FormText>
               <FieldCheck
-                name="InterviewConsent"
+                name="Consent"
                 type="checkbox"
                 label="Client consents to Interview"
               />
