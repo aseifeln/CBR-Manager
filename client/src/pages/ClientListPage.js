@@ -65,18 +65,24 @@ function ClientListPage() {
         // TODO get all clients from the database everytime the component is updated.
     });
 
-    function searchFor(property, input) {
+    function searchFor(property, search) {
         return function(a, b) {
-            if (typeof(a[property]) === 'number') {
-                input = Number(input);
-                console.log(input);
+            let propertyA = a[ property ];
+            let propertyB = b[ property ];
+
+            if (typeof(a[ property ]) === 'number') {
+                search = Number(search);
+            } else {
+              search = search.toLowerCase();
+              propertyA = propertyA.toLowerCase();
+              propertyB = propertyB.toLowerCase();
             }
-            if(a[property] !== input) {
+
+            if(propertyA !== search) {
                 return 1;
-            } else if (b[property] === input) {
+            } else if (propertyB === search) {
                 return -1;
-            }
-            else {
+            } else {
                 return 0;
             }
         }
@@ -84,9 +90,9 @@ function ClientListPage() {
 
     function sortBy(property) {
         return function(a, b) {
-            if (a[property] > b[property]) {
+            if (a[ property ] > b[ property ]) {
                 return 1;
-            } else if (a[property] < b[property]) {
+            } else if (a[ property ] < b[ property ]) {
                 return -1;
             } else {
                 return 0;
@@ -100,7 +106,6 @@ function ClientListPage() {
 
     function filterList(event) {
         event.preventDefault();
-        console.log(searchFilter, searchField, radioFilter);
 
         let sorted_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
