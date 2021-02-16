@@ -58,16 +58,58 @@ function ClientListPage() {
    const [ searchFilter, setSearchFilter ] = useState('FirstName');
    const [ searchField, setSearchField ] = useState('');
    const [ radioFilter, setRadioFilter ] = useState('');
+   const [ forceRenderValue, setForceRenderValue ] = useState(0);
 
 
     useEffect(() => {
         // TODO get all clients from the database everytime the component is updated.
     });
 
+    function searchFor(property, input) {
+        return function(a, b) {
+            if (typeof(a[property]) === 'number') {
+                input = Number(input);
+                console.log(input);
+            }
+            if(a[property] !== input) {
+                return 1;
+            } else if (b[property] === input) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
+
+    function sortBy(property) {
+        return function(a, b) {
+            if (a[property] > b[property]) {
+                return 1;
+            } else if (a[property] < b[property]) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    function forceRender() {
+        setForceRenderValue(forceRenderValue + 1);
+    }
+
     function filterList(event) {
-        console.log(searchFilter, searchField, radioFilter);
         event.preventDefault();
-        // TODO implement sorting
+        console.log(searchFilter, searchField, radioFilter);
+
+        let sorted_clients;
+        sorted_clients = clients.sort(sortBy(radioFilter));
+        sorted_clients = sorted_clients.sort(searchFor(searchFilter, searchField));
+        setClients(sorted_clients);
+        setSearchField('');
+
+        // Needed because react does not rerender automatically when the order of a state array is changed
+        forceRender();
     }
 
     return (
