@@ -165,6 +165,8 @@ function ClientListPage() {
                     </FormGroup>
                 </FormGroup>
 
+                <Button onClick={filterList}>Apply Filters</Button>
+
             </Form>
             <ListGroup>
                 {clients.map(({FirstName, Age, Gender, Location, VillageNo,  DisabilityType}) => (
