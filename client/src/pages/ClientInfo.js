@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AppNavbar from '../components/AppNavbar';
+import NotFoundPage from './404'
 
 function ClientInfo(props) {
 
     const [ client, setClient ] = useState({});
     const [ visits, setVisits ] = useState([]);
+    const [ clientFound, setClientFound ] = useState(false);
 
     const [showHealthInfo, setShowHealthInfo] = useState(true)
     const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false)
@@ -20,35 +23,17 @@ function ClientInfo(props) {
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
-        console.log(props.match.params.id)
 
-        // Mock data
-        setClient({
-            "name": "John Doe",
-            "location": "BidiBidi Zone 1",
-            "age": 30,
-            "gender": "Male",
-            "disability": "Polio",
-            "healthRisk": "High",
-            "healthGoal": "N/A",
-            "healthDetails": "...",
-            "healthReferral": "...",
-            "educationRisk": "High",
-            "educationGoal": "...",
-            "socialRisk": "High",
-            "socialGoal": "...",
-            "livelihoodRisk": "High",
-            "livelihoodGoal": "...",
-            "foodNutritionRisk": "High",
-            "foodNutritionGoal": "...",
-            "shelterCareRisk": "High",
-            "shelterCareGoal": "...",
-            "empowermentRisk": "High",
-            "empowermentGoal": "..."
-        })
+        axios.get('/clients/' + props.match.params.id)
+            .then(response => {
+                setClient(response.data)
+                setClientFound(true)
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
-        // Need to send request to backend to retrieve all visits associated with this client
-
+        // TODO: Send GET Request to backend to retrieve all visits associated with this client
         // Mock visit data
         setVisits(
             [{
@@ -60,6 +45,13 @@ function ClientInfo(props) {
             }]
         )
     }, [])
+
+    if (!clientFound)
+    {
+        return (
+            <NotFoundPage/>
+        )
+    }
     
     return(
         <div>
@@ -67,7 +59,7 @@ function ClientInfo(props) {
             <Container>
                 <Row>
                     <Col>
-                        <h1>Name: {client.name}</h1>
+                        <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
                     <Col>
                         <Link to={"/client/" + props.match.params.id} class="float-right">Edit Client Info</Link>
@@ -78,16 +70,16 @@ function ClientInfo(props) {
             <Row>
                 <Col>
                     <div className="text-center">
-                        <Media object alt="Profile Image" className="rounded-circle rounded"></Media>
+                        <Media src={`data:image/jpeg;base64,${client.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </div>
                 </Col>
                 <Col>
                     Personal Info: 
                     <ul class="list-unstyled">
-                        <li>- Location: {client.location}</li>
-                        <li>- Age: {client.age}</li>
-                        <li>- Gender: {client.gender}</li>
-                        <li>- Disability: {client.disability}</li>
+                        <li>- Location: {client.Location}</li>
+                        <li>- Age: {client.Age}</li>
+                        <li>- Gender: {client.Gender}</li>
+                        <li>- Disability: {client.DisabilityType}</li>
                     </ul>
                 </Col>
             </Row>
@@ -109,8 +101,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showHealthInfo}>
                         <CardBody>
-                            Risk Level: {client.healthRisk}<br/>
-                            Goal: {client.healthGoal}<br/>
+                            Risk Level: {client.HealthStatus}<br/>
+                            Goal: {client.HealthGoal}<br/>
                             Related Visits: <br/>
                             &nbsp; Click on a date to view more info or edit: <br/>
                             <ul>
@@ -118,7 +110,7 @@ function ClientInfo(props) {
                                     <li><Link to={"/"}>Visit {id}</Link></li>
                                 ))}
                             </ul>
-                            More Details: {client.healthDetails}<br/>
+                            More Details: {client.HealthDesc}<br/>
                             Referral Details: {client.healthReferral}<br/>
                         </CardBody>
                     </Collapse>
@@ -129,8 +121,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showEducationInfo}>
                         <CardBody>
-                            Risk Level: {client.educationRisk}<br/>
-                            Goal: {client.educationGoal}
+                            Risk Level: {client.EducationStatus}<br/>
+                            Goal: {client.EducationGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -140,8 +132,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showSocialInfo}>
                         <CardBody>
-                            Risk Level: {client.socialRisk}<br/>
-                            Goal: {client.socialGoal}
+                            Risk Level: {client.SocialStatus}<br/>
+                            Goal: {client.SocialGoal}
                         </CardBody> 
                     </Collapse>
                 </Card>
