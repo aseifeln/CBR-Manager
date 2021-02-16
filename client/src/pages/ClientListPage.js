@@ -14,47 +14,8 @@ import { Form,
 import AppNavbar from '../components/AppNavbar';
 
 function ClientListPage() {
-    const junkData = [{
-        "FirstName": "Test1",
-        "LastName": "TestLast",
-        "ClientId": 3,
-        "Gender": "Male",
-        "Location": "BidiBidi Zone 3",
-        "Age": 11,
-        "DateCreated": 1,
-        "ContactNo": 6,
-        "DisabilityType": "Amputee",
-        "VillageNo": 2,
-        "priority": 3
-    },
-        {
-            "FirstName": "Test2",
-            "LastName": "TestLast",
-            "ClientId": 2,
-            "Gender": "Male",
-            "Location": "BidiBidi Zone 1",
-            "Age": 13,
-            "DateCreated": 2,
-            "ContactNo": 6,
-            "DisabilityType": "Amputee",
-            "VillageNo": 3,
-            "priority": 2
-        },
-        {
-            "FirstName": "Test3",
-            "LastName": "TestLast",
-            "ClientId": 3,
-            "Gender": "Female",
-            "Location": "BidiBidi Zone 2",
-            "Age": 10,
-            "DateCreated": 3,
-            "ContactNo": 6,
-            "DisabilityType": "Cerebral Palsy",
-            "VillageNo": 1,
-            "priority": 1
-        }
-    ]
-   const [ clients, setClients ] = useState(junkData);
+
+   const [ clients, setClients ] = useState(['']);
    const [ searchFilter, setSearchFilter ] = useState('FirstName');
    const [ searchField, setSearchField ] = useState('');
    const [ radioFilter, setRadioFilter ] = useState('');
