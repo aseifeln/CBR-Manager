@@ -55,15 +55,26 @@ app.post("/register", async (req, res) => {
             res.status(400).write('Register Unsuccessful');
             res.send()
         }else{
+            //TODO: Check if user already exist in db
+
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword
             user.confirm_password = hashedPassword
+            
+
+            //TODO: Save in db
+            const new_user = await User.create({ 
+                Username: user.username, 
+                Password: user.password,
+                Role: "Worker"
+            });
+            console.log("USERNAME:", new_user.Username);
+
             users.push(user);
             res.status(201).send('Register Successful');
         }
-            //TODO: Check if user already exist in db
-            //TODO: Change the password to hashedPassword
-            //TODO: Save in db
+
+            
         
         
     } catch {
