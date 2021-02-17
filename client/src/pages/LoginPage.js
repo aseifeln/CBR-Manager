@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import axios from 'axios'
 
 import AppNavbar from "../components/AppNavbar";
 import "../css/Login.css";
@@ -12,7 +13,7 @@ function Login(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-
+        
         if (authPasses()) {
             props.history.push("/");
             return;
@@ -25,12 +26,14 @@ function Login(props) {
     }
 
     return (
+        
         <div className='Login'>
             <AppNavbar />
             <Form onSubmit={handleSubmit}>
                 <Label>Username: </Label>
                 <Input
                     type="text"
+                    id="userName"
                     required
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
@@ -39,6 +42,7 @@ function Login(props) {
                 <Label>Password: </Label>
                     <Input
                     type="password"
+                    id="password"
                     required
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}

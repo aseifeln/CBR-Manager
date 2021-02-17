@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, FormText, Input, Label } from 'reactstrap';
+import axios from 'axios'
 
 import AppNavbar from "../components/AppNavbar";
 import "../css/SignUp.css";
+
+
 
 function SignUpPage(props) {
 
@@ -15,13 +18,30 @@ function SignUpPage(props) {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     function handleSubmit(event) {
-        event.preventDefault();
-
+       
         if (authPasses()) {
+            const user = {
+                firstname: document.getElementById('firstName').value,
+                lastname: document.getElementById('lastName').value,
+                username: document.getElementById('userName').value,
+                location: document.getElementById('location').value,
+                password: document.getElementById('password').value,
+                confirm_password: document.getElementById('confirmPassword').value
+            }
+            axios.post('http://localhost:5000/users/register', {user})
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+              })
+            .catch( err => {
+                console.log(err);
+            })
+            console.log("asd")
             props.history.push("/");
             return;
         }
         alert("Username or password is invalid size");
+        console.log("A")
     }
 
     function authPasses() {
@@ -29,6 +49,7 @@ function SignUpPage(props) {
     }
 
     return (
+        
         <div className='SignUp'>
             <AppNavbar />
             <Form onSubmit={handleSubmit}>

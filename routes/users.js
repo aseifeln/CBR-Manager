@@ -3,10 +3,22 @@ const bcrypt = require('bcrypt');
 const app = express.Router();
 
 const users = [];
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json());
+app.use(express.urlencoded({ extended:false }));
+/*
+app.use(function(req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res,header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
+    next();
+});
+*/
 
-app.get("/register", (req, res) => {
+
+app.get("/register", (req, res, next) => {
     res.json(users);
 });
 
@@ -31,13 +43,14 @@ app.post("/register", async (req, res) => {
     //TODO: Change variables after register layout finished
     try{
         const user = { 
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            username: req.body.username, 
-            location: req.body.location,
-            password: req.body.password,
-            confirm_password: req.body.confirm_password
+            firstname: req.body.user.firstname,
+            lastname: req.body.user.lastname,
+            username: req.body.user.username, 
+            location: req.body.user.location,
+            password: req.body.user.password,
+            confirm_password: req.body.user.confirm_password
         };
+        console.log(user)
         if(validateRegisterDetails(res, user)){
             res.status(400).write('Register Unsuccessful');
             res.send()
@@ -63,6 +76,7 @@ app.post("/register", async (req, res) => {
 
 
 app.post('/login', async (req, res) => {
+    console.log("A")
     //TODO: Change find in db
     const user = users.find(user => user.username === req.body.username)
     if( user == null ){
