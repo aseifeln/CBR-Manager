@@ -11,6 +11,18 @@ function ConvertImage(client){
     client['Photo'] = clientImage
 }
 
+// @route   GET /clients/id
+// @desc    GET Retrieve a client with a certain id from the database
+router.get('/:id', (req,res) => {
+    const clientId = req.params.id
+    client.findByPk(clientId)
+        .then(client => {
+            ConvertImage(client)
+            return client;
+        })
+        .then(client => res.json(client))
+        .catch(err => res.status(404).json(err))
+})
 // @route   GET /clients
 // @desc    Get All clients
 router.get('/', (req, res) => 
