@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import AppNavbar from '../components/AppNavbar';
-import NotFoundPage from './404'
+import NotFoundPage from './404';
 
 function ClientInfo(props) {
 
@@ -11,16 +11,16 @@ function ClientInfo(props) {
     const [ visits, setVisits ] = useState([]);
     const [ clientFound, setClientFound ] = useState(false);
 
-    const [showHealthInfo, setShowHealthInfo] = useState(true)
-    const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false)
-    const [showEducationInfo, setShowEducationInfo] = useState(false)
-    const [showFoodNutritionInfo, setShowFoodNutritionInfo] = useState(false)
-    const [showLivelihoodInfo, setShowLivelihoodInfo] = useState(false)
-    const [showShelterCareInfo, setShowShelterCareInfo] = useState(false)
-    const [showSocialInfo, setShowSocialInfo] = useState(false)
+    const [showHealthInfo, setShowHealthInfo] = useState(true);
+    const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false);
+    const [showEducationInfo, setShowEducationInfo] = useState(false);
+    const [showFoodNutritionInfo, setShowFoodNutritionInfo] = useState(false);
+    const [showLivelihoodInfo, setShowLivelihoodInfo] = useState(false);
+    const [showShelterCareInfo, setShowShelterCareInfo] = useState(false);
+    const [showSocialInfo, setShowSocialInfo] = useState(false);
     
-    const areaFontSize = {fontSize: "20px"}
-    const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"}
+    const areaFontSize = {fontSize: "20px", fontWeight: "bold"};
+    const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
@@ -67,7 +67,7 @@ function ClientInfo(props) {
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
                     <Col>
-                        <Link to={"/client/" + props.match.params.id} class="float-right">Edit Client Info</Link>
+                        <Link to={"/client/" + props.match.params.id} className="float-right">Edit Client Info</Link>
                     </Col>
                 </Row>
             </Container>
@@ -103,7 +103,7 @@ function ClientInfo(props) {
             <Container>
                 <Card>
                     <CardHeader onClick={() => setShowHealthInfo((showHealthInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Health</h2>
+                        <h2 style={areaFontSize}>Health</h2>
                     </CardHeader>
                     <Collapse isOpen={showHealthInfo}>
                         <CardBody>
@@ -124,7 +124,7 @@ function ClientInfo(props) {
                 </Card>
                 <Card>
                     <CardHeader onClick={() => setShowEducationInfo((showEducationInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Education</h2>
+                        <h2 style={areaFontSize}>Education</h2>
                     </CardHeader>
                     <Collapse isOpen={showEducationInfo}>
                         <CardBody>
@@ -135,7 +135,7 @@ function ClientInfo(props) {
                 </Card>
                 <Card>
                     <CardHeader onClick={() => setShowSocialInfo((showSocialInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Social</h2>
+                        <h2 style={areaFontSize}>Social</h2>
                     </CardHeader>
                     <Collapse isOpen={showSocialInfo}>
                         <CardBody>
@@ -147,7 +147,7 @@ function ClientInfo(props) {
                 {/* The remaining areas are for display purposes only and will be added later */}
                 <Card>
                     <CardHeader onClick={() => setShowFoodNutritionInfo((showFoodNutritionInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Food/Nutrition</h2>
+                        <h2 style={areaFontSize}>Food/Nutrition</h2>
                     </CardHeader>
                     <Collapse isOpen={showFoodNutritionInfo}>
                         <CardBody>
@@ -158,7 +158,7 @@ function ClientInfo(props) {
                 </Card>
                 <Card>
                     <CardHeader onClick={() => setShowShelterCareInfo((showShelterCareInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Shelter/Care</h2>
+                        <h2 style={areaFontSize}>Shelter/Care</h2>
                     </CardHeader>
                     <Collapse isOpen={showShelterCareInfo}>
                         <CardBody>
@@ -169,7 +169,7 @@ function ClientInfo(props) {
                 </Card>
                 <Card>
                     <CardHeader onClick={() => setShowLivelihoodInfo((showLivelihoodInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Livelihood</h2>
+                        <h2 style={areaFontSize}>Livelihood</h2>
                     </CardHeader>
                     <Collapse isOpen={showLivelihoodInfo}>
                         <CardBody>
@@ -180,7 +180,7 @@ function ClientInfo(props) {
                 </Card>
                 <Card>
                     <CardHeader onClick={() => setShowEmpowermentInfo((showEmpowermentInfo) ? false : true)}>
-                        <h2 className="font-weight-bold" style={areaFontSize}>Empowerment</h2>
+                        <h2 style={areaFontSize}>Empowerment</h2>
                     </CardHeader>
                     <Collapse isOpen={showEmpowermentInfo}>
                         <CardBody>
