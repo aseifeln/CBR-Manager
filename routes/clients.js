@@ -55,6 +55,19 @@ router.get('/location/:loc', (req,res) => {
     const location = req.params.loc
     
     client.findAll({
+        attributes: {
+            exclude: [
+                'HealthStatus',
+                'HealthDesc', 
+                'HealthGoal',
+                'EducationStatus', 
+                'EducationDesc',
+                'EducationGoal',
+                'SocialStatus',
+                'SocialDesc',
+                'SocialGoal'
+            ]
+        },
         where: {
             Location: location
         }
