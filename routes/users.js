@@ -1,22 +1,14 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const users = require('../models/user')
 const app = express.Router();
+require('dotenv').config();
 
-const users = [];
 const cors = require('cors')
 
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
-/*
-app.use(function(req, res, next){
-    res.header("Access-Control-Allow-Origin", "*");
-    res,header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
-    next();
-});
-*/
-
 
 app.get("/register", (req, res, next) => {
     res.json(users);
@@ -42,7 +34,7 @@ function validateRegisterDetails(res, user){
 app.post("/register", async (req, res) => {
     //TODO: Change variables after register layout finished
     try{
-        const user = { 
+        let user = { 
             firstname: req.body.user.firstname,
             lastname: req.body.user.lastname,
             username: req.body.user.username, 
@@ -54,6 +46,7 @@ app.post("/register", async (req, res) => {
         if(validateRegisterDetails(res, user)){
             res.status(400).write('Register Unsuccessful');
             res.send()
+            return
         }else{
             //TODO: Check if user already exist in db
 
@@ -61,17 +54,20 @@ app.post("/register", async (req, res) => {
             user.password = hashedPassword
             user.confirm_password = hashedPassword
             
-
-            //TODO: Save in db
-            const new_user = await User.create({ 
+            console.log(user)
+            //TODO: Save in db ( FIX DB CONNECTION .ENV FILE INACTIVE )
+            
+            await users.create({
                 Username: user.username, 
                 Password: user.password,
                 Role: "Worker"
-            });
-            console.log("USERNAME:", new_user.Username);
+            })
+            .then(result => res.status(200))
+            .catch(err => res.status(400).json(err))
 
-            users.push(user);
+            
             res.status(201).send('Register Successful');
+            return;
         }
 
             
