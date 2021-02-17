@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Form,
         FormGroup,
         Label,
@@ -59,6 +60,8 @@ function ClientListPage() {
    const [ searchField, setSearchField ] = useState('');
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ forceRenderValue, setForceRenderValue ] = useState(0);
+
+   const history = useHistory();
 
 
     useEffect(() => {
@@ -169,8 +172,10 @@ function ClientListPage() {
 
             </Form>
             <ListGroup>
-                {clients.map(({FirstName, Age, Gender, Location, VillageNo,  DisabilityType}) => (
-                        <ListGroupItem>
+                {clients.map(({FirstName, Age, Gender,
+                                  Location, VillageNo,
+                                  DisabilityType, ClientId}) => (
+                        <ListGroupItem onClick={() => history.push(`/client/${ClientId}`)}>
                             {FirstName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
                         </ListGroupItem>
                 ))}
