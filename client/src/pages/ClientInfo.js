@@ -20,17 +20,20 @@ function ClientInfo(props) {
     const [showSocialInfo, setShowSocialInfo] = useState(false)
     
     const areaFontSize = {fontSize: "20px"}
+    const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"}
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
 
         axios.get('/clients/' + props.match.params.id)
             .then(response => {
-                setClient(response.data)
-                setClientFound(true)
+                setClient(response.data);
+                setClientFound(true);
+                document.title = "Client | " + response.data.FirstName + ' ' + response.data.LastName;
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
+                document.title = "Client not found"
             })
 
         // TODO: Send GET Request to backend to retrieve all visits associated with this client
@@ -46,6 +49,8 @@ function ClientInfo(props) {
         )
     }, [])
 
+    {/* TODO: Will need to figure out a better way to tell users a client isn't found,
+        as right now will still render this component briefly even for existing clients*/}
     if (!clientFound)
     {
         return (
@@ -75,7 +80,7 @@ function ClientInfo(props) {
                     </div>
                 </Col>
                 <Col>
-                    Personal Info: 
+                    <h3 className="font-weight-bold" style={{fontSize: "18px"}}>Personal Info:</h3>
                     <ul class="list-unstyled">
                         <li>- Location: {client.Location}</li>
                         <li>- Age: {client.Age}</li>
@@ -102,17 +107,18 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showHealthInfo}>
                         <CardBody>
-                            Risk Level: {client.HealthStatus}<br/>
-                            Goal: {client.HealthGoal}<br/>
-                            Related Visits: <br/>
+                            <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
+                            <div style={areaInfo}>Related Visits:</div> <br/>
                             &nbsp; Click on a date to view more info or edit: <br/>
                             <ul>
                                 {visits.map(({id}) => (
                                     <li><Link to={"/"}>Visit {id}</Link></li>
                                 ))}
                             </ul>
-                            More Details: {client.HealthDesc}<br/>
-                            Referral Details: {client.healthReferral}<br/>
+                            <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
+                            {/* Unsure if this is required */}
+                            {/* Referral Details: {client.healthReferral}<br/> */}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -122,8 +128,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showEducationInfo}>
                         <CardBody>
-                            Risk Level: {client.EducationStatus}<br/>
-                            Goal: {client.EducationGoal}
+                            <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.EducationGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -133,19 +139,20 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showSocialInfo}>
                         <CardBody>
-                            Risk Level: {client.SocialStatus}<br/>
-                            Goal: {client.SocialGoal}
+                            <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.SocialGoal}
                         </CardBody> 
                     </Collapse>
                 </Card>
+                {/* The remaining areas are for display purposes only and will be added later */}
                 <Card>
                     <CardHeader onClick={() => setShowFoodNutritionInfo((showFoodNutritionInfo) ? false : true)}>
                         <h2 className="font-weight-bold" style={areaFontSize}>Food/Nutrition</h2>
                     </CardHeader>
                     <Collapse isOpen={showFoodNutritionInfo}>
                         <CardBody>
-                            Risk Level: {client.foodNutritionRisk}<br/>
-                            Goal: {client.foodNutritionGoal}
+                            <div style={areaInfo}>Risk Level:</div> {client.foodNutritionRisk}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.foodNutritionGoal}
                         </CardBody> 
                     </Collapse>
                 </Card>
@@ -155,8 +162,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showShelterCareInfo}>
                         <CardBody>
-                            Risk Level: {client.shelterCareRisk}<br/>
-                            Goal: {client.shelterCareGoal}
+                            <div style={areaInfo}>Risk Level:</div> {client.shelterCareRisk}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.shelterCareGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -166,8 +173,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showLivelihoodInfo}>
                         <CardBody>
-                            Risk Level: {client.livelihoodRisk}<br/>
-                            Goal: {client.livelihoodGoal}
+                            <div style={areaInfo}>Risk Level:</div> {client.livelihoodRisk}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.livelihoodGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -177,8 +184,8 @@ function ClientInfo(props) {
                     </CardHeader>
                     <Collapse isOpen={showEmpowermentInfo}>
                         <CardBody>
-                            Risk Level: {client.empowermentRisk}<br/>
-                            Goal: {client.empowermentGoal}
+                            <div style={areaInfo}>Risk Level:</div> {client.empowermentRisk}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.empowermentGoal}
                         </CardBody>
                     </Collapse>
                 </Card>
