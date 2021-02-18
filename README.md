@@ -8,10 +8,11 @@ Steps to run the server for the first time:
     - DB_USERNAME = "your_postgres_username"
     - DB_PASSWORD = your_postgres_password (set it to null if doesn't exist)
     - DB_HOST = "localhost"
+    - DB_DATABASE = "database_name"
     - DB_PORT = your_postgres_port (by default it is 5432)
     - DB_URL = "username:password@host_name:port/db_name" (in the same format)
 
-4) Run "node app.js" to start the server, if you get a "DB connection established successfully" message then you have successfully connected to your database, otherwise and error message will be shows
+4) Run "node app.js" to start the server, if you get a "DB connection established successfully" message then you have successfully connected to your database, otherwise an error message will be shown in the console
 
 5) Run "npx sequelize-cli db:migrate" to let Sequelize create the database tables for you
 
