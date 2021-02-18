@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from "axios";
 import { Form,
         FormGroup,
         Label,
@@ -18,49 +19,10 @@ import { Form,
 import AppNavbar from '../components/AppNavbar';
 
 function ClientListPage() {
-    const junkData = [{
-        "FirstName": "Test1",
-        "LastName": "TestLast",
-        "ClientId": 3,
-        "Gender": "Male",
-        "Location": "BidiBidi Zone 3",
-        "Age": 11,
-        "DateCreated": 1,
-        "ContactNo": 6,
-        "DisabilityType": "Amputee",
-        "VillageNo": 2,
-        "priority": 3
-    },
-        {
-            "FirstName": "Test2",
-            "LastName": "TestLast",
-            "ClientId": 2,
-            "Gender": "Male",
-            "Location": "BidiBidi Zone 1",
-            "Age": 13,
-            "DateCreated": 2,
-            "ContactNo": 6,
-            "DisabilityType": "Amputee",
-            "VillageNo": 3,
-            "priority": 2
-        },
-        {
-            "FirstName": "Test3",
-            "LastName": "TestLast",
-            "ClientId": 3,
-            "Gender": "Female",
-            "Location": "BidiBidi Zone 2",
-            "Age": 10,
-            "DateCreated": 3,
-            "ContactNo": 6,
-            "DisabilityType": "Cerebral Palsy",
-            "VillageNo": 1,
-            "priority": 1
-        }
-    ]
-   const [ forceRenderValue, setForceRenderValue ] = useState(0);
-   const [ clients, setClients ] = useState(junkData);
-   const [ filteredClients, setFilteredClients ] = useState(junkData);
+
+   const [ refresh, setRefresh ] = useState(0);
+   const [ clients, setClients ] = useState(['']);
+   const [ filteredClients, setFilteredClients ] = useState([]);
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ searchName, setSearchName ] = useState('');
    const [ searchAge, setSearchAge ] = useState(0);
@@ -79,54 +41,67 @@ function ClientListPage() {
 
 
     useEffect(() => {
-        // TODO get all clients from the database everytime the component is updated.
-    });
+        axios.get('/clients')
+            .then(function (res) {
+            setClients(res.data);
+            if (filteredClients.length === 0) {
+                setFilteredClients(res.data);
+            }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }, [refresh]);
 
     // TODO refactor
     function searchFor(client) {
-        let lowerSearchName = searchName.toLowerCase();
-        let lowerClientName = client.FirstName.toLowerCase();
-        let x = 0;
-        let y = 0;
+        let lowerSearchName = searchName.toLowerCase().split(' ');
+        let lowerClientFirstName = client.FirstName.toLowerCase();
+        let lowerClientLastName = client.LastName.toLowerCase();
+        let numFilters = 0;
+        let numFiltersMatching = 0;
 
         if (isOpenAge) {
             if (client.Age === searchAge) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenGender) {
             if (client.Gender === searchGender) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenLocation) {
             if (client.Location === searchLocation) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenVillageNo) {
             if (client.VillageNo === searchVillageNo) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenDisability) {
             if (client.DisabilityType === searchDisability) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
-        if (lowerClientName === lowerSearchName || lowerSearchName === '') {
-            x++;
-            y++;
-        } else {
-            return false;
-        }
+        lowerSearchName.forEach(name => {
+            if (name === lowerClientFirstName || name === lowerClientLastName || name === '') {
+                numFilters++;
+                numFiltersMatching++;
+            } else {
+                numFiltersMatching--;
+            }
+        });
 
-        return x === y;
+
+        return numFilters === numFiltersMatching;
     }
 
     function sortBy(property) {
@@ -141,12 +116,9 @@ function ClientListPage() {
         }
     }
 
-    function forceRender() {
-        setForceRenderValue(forceRenderValue + 1);
-    }
-
     function filterList(event) {
         event.preventDefault();
+        setRefresh(refresh + 1);
 
         let sorted_clients;
         let searched_clients;
@@ -154,9 +126,18 @@ function ClientListPage() {
         searched_clients = sorted_clients.filter(searchFor);
         setFilteredClients(searched_clients);
         setSearchName('');
+    }
 
-        // Needed because react does not rerender automatically when the order of a state array is changed
-        forceRender();
+    function resetFilters() {
+        setIsOpenAge(false);
+        setIsOpenGender(false);
+        setIsOpenLocation(false);
+        setIsOpenVillageNo(false);
+        setIsOpenDisability(false);
+        setSearchName('');
+
+        setFilteredClients(clients);
+        setRefresh(refresh + 1);
     }
 
     function setFilters(event) {
@@ -195,23 +176,23 @@ function ClientListPage() {
                     <FormGroup onChange={setFilters}>
                         <Row>
                             <Col xs="auto">
-                                <Input type="checkbox" value="Age"/>
+                                <Input checked={isOpenAge} type="checkbox" value="Age"/>
                                 Age
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="Gender"/>
+                                <Input checked={isOpenGender} type="checkbox" value="Gender"/>
                                 Gender
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="Location"/>
+                                <Input checked={isOpenLocation} type="checkbox" value="Location"/>
                                 Zone
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="VillageNo"/>
+                                <Input checked={isOpenVillageNo} type="checkbox" value="VillageNo"/>
                                 Village Number
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="DisabilityType"/>
+                                <Input checked={isOpenDisability} type="checkbox" value="DisabilityType"/>
                                 Type of Disability
                             </Col>
                         </Row>
@@ -309,15 +290,16 @@ function ClientListPage() {
 
                 <Button onClick={filterList}>Apply Filters</Button>
             </Form>
-
+            <Button onClick={resetFilters}>Reset</Button>
 
             <ListGroup>
-                {filteredClients.map(({FirstName, Age, Gender,
+                {filteredClients.map(({FirstName, LastName, Age, Gender,
                                   Location, VillageNo,
                                   DisabilityType, ClientId}) => (
-                        <ListGroupItem onClick={() => history.push(`/client/${ClientId}`)}>
-                            {FirstName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
-                            <Button style={{'float': 'right'}}>View</Button>
+                        <ListGroupItem>
+                            {FirstName}, {LastName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
+                            <Button onClick={() => history.push(`/client/${ClientId}`)}
+                                    style={{'float': 'right'}}>View</Button>
                         </ListGroupItem>
                 ))}
             </ListGroup>
