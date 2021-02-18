@@ -64,6 +64,12 @@ function ClientListPage() {
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ forceRenderValue, setForceRenderValue ] = useState(0);
 
+   const [isOpenAge, setIsOpenAge] = useState(false);
+   const [isOpenVillageNo, setIsOpenVillageNo] = useState(false);
+   const [isOpenGender, setIsOpenGender] = useState(false);
+   const [isOpenLocation, setIsOpenLocation] = useState(false);
+   const [isOpenDisability, setIsOpenDisability] = useState(false);
+
    const history = useHistory();
 
 
@@ -121,6 +127,29 @@ function ClientListPage() {
 
         // Needed because react does not rerender automatically when the order of a state array is changed
         forceRender();
+    }
+
+    function setFilters(event) {
+        setSearchFilters(searchFilters.concat(event.target.value));
+
+        switch(event.target.value) {
+            case 'Age':
+                setIsOpenAge(!isOpenAge);
+                break;
+            case 'VillageNo':
+                setIsOpenVillageNo(!isOpenVillageNo)
+                break;
+            case 'Gender':
+                setIsOpenGender(!isOpenGender);
+                break
+            case 'Location':
+                setIsOpenLocation(!isOpenLocation);
+                break
+            case 'DisabilityType':
+                setIsOpenDisability(!isOpenDisability);
+                break;
+            default:
+        }
     }
 
     return (
