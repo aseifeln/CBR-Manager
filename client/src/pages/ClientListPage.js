@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from "axios";
 import { Form,
         FormGroup,
         Label,
@@ -19,7 +20,7 @@ import AppNavbar from '../components/AppNavbar';
 
 function ClientListPage() {
 
-   const [ forceRenderValue, setForceRenderValue ] = useState(0);
+   const [ refresh, setRefresh ] = useState(0);
    const [ clients, setClients ] = useState(['']);
    const [ filteredClients, setFilteredClients ] = useState(['']);
    const [ radioFilter, setRadioFilter ] = useState('');
@@ -40,8 +41,18 @@ function ClientListPage() {
 
 
     useEffect(() => {
-        // TODO get all clients from the database everytime the component is updated.
-    });
+        axios.get('/clients')
+            .then(function (res) {
+            setClients(res.data);
+            console.log(filteredClients.length)
+            if (filteredClients.length === 0) {
+                setFilteredClients(res.data);
+            }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }, [refresh]);
 
     // TODO refactor
     function searchFor(client) {
@@ -102,10 +113,6 @@ function ClientListPage() {
         }
     }
 
-    function forceRender() {
-        setForceRenderValue(forceRenderValue + 1);
-    }
-
     function filterList(event) {
         event.preventDefault();
 
@@ -115,9 +122,18 @@ function ClientListPage() {
         searched_clients = sorted_clients.filter(searchFor);
         setFilteredClients(searched_clients);
         setSearchName('');
+    }
 
-        // Needed because react does not rerender automatically when the order of a state array is changed
-        forceRender();
+    function resetFilters() {
+        setIsOpenAge(false);
+        setIsOpenGender(false);
+        setIsOpenLocation(false);
+        setIsOpenVillageNo(false);
+        setIsOpenDisability(false);
+        setSearchName('');
+
+        setFilteredClients(clients);
+        setRefresh(refresh + 1);
     }
 
     function setFilters(event) {
@@ -156,23 +172,23 @@ function ClientListPage() {
                     <FormGroup onChange={setFilters}>
                         <Row>
                             <Col xs="auto">
-                                <Input type="checkbox" value="Age"/>
+                                <Input checked={isOpenAge} type="checkbox" value="Age"/>
                                 Age
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="Gender"/>
+                                <Input checked={isOpenGender} type="checkbox" value="Gender"/>
                                 Gender
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="Location"/>
+                                <Input checked={isOpenLocation} type="checkbox" value="Location"/>
                                 Zone
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="VillageNo"/>
+                                <Input checked={isOpenVillageNo} type="checkbox" value="VillageNo"/>
                                 Village Number
                             </Col>
                             <Col xs="auto">
-                                <Input type="checkbox" value="DisabilityType"/>
+                                <Input checked={isOpenDisability} type="checkbox" value="DisabilityType"/>
                                 Type of Disability
                             </Col>
                         </Row>
