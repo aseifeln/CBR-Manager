@@ -58,16 +58,21 @@ function ClientListPage() {
             "priority": 1
         }
     ]
-   const [ clients, setClients ] = useState(junkData);
-   const [ searchFilter, setSearchFilter ] = useState('FirstName');
-   const [ searchField, setSearchField ] = useState('');
-   const [ radioFilter, setRadioFilter ] = useState('');
    const [ forceRenderValue, setForceRenderValue ] = useState(0);
+   const [ clients, setClients ] = useState(junkData);
+   const [ radioFilter, setRadioFilter ] = useState('');
+   const [ searchFilters, setSearchFilters ] = useState(['FirstName']);
+   const [ searchName, setSearchName ] = useState('');
+   const [ searchAge, setSearchAge ] = useState('');
+   const [ searchGender, setSearchGender ] = useState('');
+   const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
+   const [ searchVillageNo, setSearchVillageNo ] = useState('');
+   const [ searchDisability, setSearchDisability ] = useState('Amputee');
 
    const [isOpenAge, setIsOpenAge] = useState(false);
-   const [isOpenVillageNo, setIsOpenVillageNo] = useState(false);
    const [isOpenGender, setIsOpenGender] = useState(false);
    const [isOpenLocation, setIsOpenLocation] = useState(false);
+   const [isOpenVillageNo, setIsOpenVillageNo] = useState(false);
    const [isOpenDisability, setIsOpenDisability] = useState(false);
 
    const history = useHistory();
@@ -118,12 +123,13 @@ function ClientListPage() {
 
     function filterList(event) {
         event.preventDefault();
+        console.log(searchFilters);
 
         let sorted_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
-        sorted_clients = sorted_clients.sort(searchFor(searchFilter, searchField));
+        sorted_clients = sorted_clients.sort(searchFor(searchFilters, searchName));
         setClients(sorted_clients);
-        setSearchField('');
+        setSearchName('');
 
         // Needed because react does not rerender automatically when the order of a state array is changed
         forceRender();
@@ -187,23 +193,23 @@ function ClientListPage() {
                         </Row>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="text" id="searchField"
-                               value={searchField}
-                               onChange={(event) => setSearchField(
+                        <Input type="text" id="searchName"
+                               value={searchName}
+                               onChange={(event) => setSearchName(
                                    event.target.value)}
                                placeholder="Name" />
                     </FormGroup>
                 <Collapse isOpen={isOpenAge}>
                     <FormGroup>
                         <Input type="number"
-                               value={searchField}
-                               onChange={(event) => setSearchField(
+                               value={searchAge}
+                               onChange={(event) => setSearchAge(
                                    event.target.value)}
                                placeholder="Age" />
                     </FormGroup>
                 </Collapse>
                 <Collapse isOpen={isOpenGender}>
-                    <FormGroup onChange={(event) => setSearchField(event.target.value)}>
+                    <FormGroup onChange={(event) => setSearchGender(event.target.value)}>
                         <FormGroup check>
                             <Label check>
                                 <Input type="radio" name="radio1" value="Male"/>
@@ -220,8 +226,8 @@ function ClientListPage() {
                 </Collapse>
                 <Collapse isOpen={isOpenLocation}>
                     <Input type="select"
-                           value={searchField}
-                           onChange={(event) => setSearchField(event.target.value)}>
+                           value={searchLocation}
+                           onChange={(event) => setSearchLocation(event.target.value)}>
                         <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
                         <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
                         <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
@@ -236,15 +242,15 @@ function ClientListPage() {
                 <Collapse isOpen={isOpenVillageNo}>
                     <FormGroup>
                         <Input type="number"
-                               onChange={(event) => setSearchField(
+                               onChange={(event) => setSearchVillageNo(
                                    event.target.value)}
                                placeholder="Village Number" />
                     </FormGroup>
                 </Collapse>
                 <Collapse isOpen={isOpenDisability}>
                     <Input type="select"
-                           value={searchField}
-                           onChange={(event) => setSearchField(event.target.value)}>
+                           value={searchDisability}
+                           onChange={(event) => setSearchDisability(event.target.value)}>
                         <option value="Amputee">Amputee</option>
                         <option value="Polio">Polio</option>
                         <option value="Spinal Cord Injury">Spinal Cord Injury</option>
@@ -276,17 +282,19 @@ function ClientListPage() {
                 </FormGroup>
 
                 <Button onClick={filterList}>Apply Filters</Button>
-
             </Form>
+
             <ListGroup>
                 {clients.map(({FirstName, Age, Gender,
                                   Location, VillageNo,
                                   DisabilityType, ClientId}) => (
                         <ListGroupItem onClick={() => history.push(`/client/${ClientId}`)}>
                             {FirstName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
+                            <Button style={{'float': 'right'}}>View</Button>
                         </ListGroupItem>
                 ))}
             </ListGroup>
+
             {/*TODO set this up for overflowing clients*/}
             <Pagination aria-label="Client List Pages">
                 <PaginationItem>
