@@ -1,52 +1,93 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Form,
         FormGroup,
         Label,
         Input,
+        Row,
+        Col,
         Container,
         Pagination,
         PaginationItem,
         PaginationLink,
         ListGroup,
         ListGroupItem,
-        Button } from 'reactstrap';
+        Button,
+        Collapse } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
 
 function ClientListPage() {
 
-   const [ clients, setClients ] = useState(['']);
-   const [ searchFilter, setSearchFilter ] = useState('FirstName');
-   const [ searchField, setSearchField ] = useState('');
-   const [ radioFilter, setRadioFilter ] = useState('');
    const [ forceRenderValue, setForceRenderValue ] = useState(0);
+   const [ clients, setClients ] = useState(['']);
+   const [ filteredClients, setFilteredClients ] = useState(['']);
+   const [ radioFilter, setRadioFilter ] = useState('');
+   const [ searchName, setSearchName ] = useState('');
+   const [ searchAge, setSearchAge ] = useState(0);
+   const [ searchGender, setSearchGender ] = useState('');
+   const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
+   const [ searchVillageNo, setSearchVillageNo ] = useState(0);
+   const [ searchDisability, setSearchDisability ] = useState('Amputee');
+
+   const [isOpenAge, setIsOpenAge] = useState(false);
+   const [isOpenGender, setIsOpenGender] = useState(false);
+   const [isOpenLocation, setIsOpenLocation] = useState(false);
+   const [isOpenVillageNo, setIsOpenVillageNo] = useState(false);
+   const [isOpenDisability, setIsOpenDisability] = useState(false);
+
+   const history = useHistory();
 
 
     useEffect(() => {
         // TODO get all clients from the database everytime the component is updated.
     });
 
-    function searchFor(property, search) {
-        return function(a, b) {
-            let propertyA = a[ property ];
-            let propertyB = b[ property ];
+    // TODO refactor
+    function searchFor(client) {
+        let lowerSearchName = searchName.toLowerCase();
+        let lowerClientName = client.FirstName.toLowerCase();
+        let x = 0;
+        let y = 0;
 
-            if (typeof(a[ property ]) === 'number') {
-                search = Number(search);
-            } else {
-              search = search.toLowerCase();
-              propertyA = propertyA.toLowerCase();
-              propertyB = propertyB.toLowerCase();
+        if (isOpenAge) {
+            if (client.Age === searchAge) {
+                y++;
             }
-
-            if(propertyA !== search) {
-                return 1;
-            } else if (propertyB === search) {
-                return -1;
-            } else {
-                return 0;
-            }
+            x++;
         }
+        if (isOpenGender) {
+            if (client.Gender === searchGender) {
+                y++;
+            }
+            x++;
+        }
+        if (isOpenLocation) {
+            if (client.Location === searchLocation) {
+                y++;
+            }
+            x++;
+        }
+        if (isOpenVillageNo) {
+            if (client.VillageNo === searchVillageNo) {
+                y++;
+            }
+            x++;
+        }
+        if (isOpenDisability) {
+            if (client.DisabilityType === searchDisability) {
+                y++;
+            }
+            x++;
+        }
+        if (lowerClientName === lowerSearchName || lowerSearchName === '') {
+            x++;
+            y++;
+        } else {
+            return false;
+        }
+
+        return x === y;
     }
 
     function sortBy(property) {
@@ -69,13 +110,36 @@ function ClientListPage() {
         event.preventDefault();
 
         let sorted_clients;
+        let searched_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
-        sorted_clients = sorted_clients.sort(searchFor(searchFilter, searchField));
-        setClients(sorted_clients);
-        setSearchField('');
+        searched_clients = sorted_clients.filter(searchFor);
+        setFilteredClients(searched_clients);
+        setSearchName('');
 
         // Needed because react does not rerender automatically when the order of a state array is changed
         forceRender();
+    }
+
+    function setFilters(event) {
+
+        switch(event.target.value) {
+            case 'Age':
+                setIsOpenAge(!isOpenAge);
+                break;
+            case 'VillageNo':
+                setIsOpenVillageNo(!isOpenVillageNo)
+                break;
+            case 'Gender':
+                setIsOpenGender(!isOpenGender);
+                break
+            case 'Location':
+                setIsOpenLocation(!isOpenLocation);
+                break
+            case 'DisabilityType':
+                setIsOpenDisability(!isOpenDisability);
+                break;
+            default:
+        }
     }
 
     return (
@@ -87,27 +151,105 @@ function ClientListPage() {
                 <Button href="/client/new">Create New Client</Button>
             </div>
             <Form onSubmit={filterList}>
-                <FormGroup>
-                    <Input type="text" id="searchField"
-                           value={searchField}
-                           onChange={(event) => setSearchField(
-                               event.target.value)}
-                           placeholder="Search for Client" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="searchFilter">Search by</Label>
-                    <Input type="select" id="searchFilter"
-                           value={searchFilter}
-                           onChange={(event) =>
-                                setSearchFilter(event.target.value)}>
-                        <option value="FirstName">Name</option>
-                        <option value="Age">Age</option>
-                        <option value="Gender">Gender</option>
-                        <option value="Location">Zone</option>
-                        <option value="VillageNo">Village Number</option>
-                        <option value="DisabilityType">Type of Disability</option>
+                <Label>Choose Filters</Label>
+                <Container>
+                    <FormGroup onChange={setFilters}>
+                        <Row>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="Age"/>
+                                Age
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="Gender"/>
+                                Gender
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="Location"/>
+                                Zone
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="VillageNo"/>
+                                Village Number
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="DisabilityType"/>
+                                Type of Disability
+                            </Col>
+                        </Row>
+                    </FormGroup>
+                </Container>
+                    <FormGroup>
+                        <Input type="text" id="searchName"
+                               value={searchName}
+                               onChange={(event) => setSearchName(
+                                   event.target.value)}
+                               placeholder="Name" />
+                    </FormGroup>
+                <Collapse isOpen={isOpenAge}>
+                    <FormGroup>
+                        <Input type="number"
+                               value={searchAge}
+                               onChange={(event) => setSearchAge(
+                                   Number(event.target.value))}
+                               placeholder="Age" />
+                    </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenGender}>
+                    <FormGroup onChange={(event) => setSearchGender(event.target.value)}>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="radio1" value="Male"/>
+                                Male
+                            </Label>
+                        </FormGroup>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="radio1" value="Female"/>
+                                Female
+                            </Label>
+                        </FormGroup>
+                    </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenLocation}>
+                    <Input type="select"
+                           value={searchLocation}
+                           onChange={(event) => setSearchLocation(event.target.value)}>
+                        <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
+                        <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
+                        <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
+                        <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
+                        <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
+                        <option value="Palorinya Basecamp">Palorinya Basecamp</option>
+                        <option value="Palorinya Zone 1">Palorinya Zone 1</option>
+                        <option value="Palorinya Zone 2">Palorinya Zone 2</option>
+                        <option value="Palorinya Zone 3">Palorinya Zone 3</option>
                     </Input>
-                </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenVillageNo}>
+                    <FormGroup>
+                        <Input type="number"
+                               value={searchVillageNo}
+                               onChange={(event) => setSearchVillageNo(
+                                   Number(event.target.value))}
+                               placeholder="Village Number" />
+                    </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenDisability}>
+                    <Input type="select"
+                           value={searchDisability}
+                           onChange={(event) => setSearchDisability(event.target.value)}>
+                        <option value="Amputee">Amputee</option>
+                        <option value="Polio">Polio</option>
+                        <option value="Spinal Cord Injury">Spinal Cord Injury</option>
+                        <option value="Cerebral Palsy">Cerebral Palsy</option>
+                        <option value="Spina Bifida">Spina Bifida</option>
+                        <option value="Hydrocephalus">Hydrocephalus</option>
+                        <option value="Visual Impairment">Visual Impairment</option>
+                        <option value="Hearing Impairment">Hearing Impairment</option>
+                        <option value="Don\'t Know">Don\'t Know</option>
+                        <option value="Other">Other</option>
+                    </Input>
+                </Collapse>
                 <FormGroup tag="radioFilter"
                            value={radioFilter}
                            onChange={(event) => setRadioFilter(event.target.value)} >
@@ -127,15 +269,20 @@ function ClientListPage() {
                 </FormGroup>
 
                 <Button onClick={filterList}>Apply Filters</Button>
-
             </Form>
+
+
             <ListGroup>
-                {clients.map(({FirstName, Age, Gender, Location, VillageNo,  DisabilityType}) => (
-                        <ListGroupItem>
+                {filteredClients.map(({FirstName, Age, Gender,
+                                  Location, VillageNo,
+                                  DisabilityType, ClientId}) => (
+                        <ListGroupItem onClick={() => history.push(`/client/${ClientId}`)}>
                             {FirstName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
+                            <Button style={{'float': 'right'}}>View</Button>
                         </ListGroupItem>
                 ))}
             </ListGroup>
+
             {/*TODO set this up for overflowing clients*/}
             <Pagination aria-label="Client List Pages">
                 <PaginationItem>
