@@ -25,9 +25,11 @@ function SignUpPage(props) {
                 lastname: document.getElementById('lastName').value,
                 username: document.getElementById('userName').value,
                 location: document.getElementById('location').value,
+                photo: document.getElementById('profilePhoto').value,
                 password: document.getElementById('password').value,
                 confirm_password: document.getElementById('confirmPassword').value
             }
+            console.log(user.photo)
             axios.post('http://localhost:5000/users/register', {user})
             .then(res => {
                 console.log(res);
