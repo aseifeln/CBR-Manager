@@ -4,13 +4,16 @@ import { Form,
         FormGroup,
         Label,
         Input,
+        Row,
+        Col,
         Container,
         Pagination,
         PaginationItem,
         PaginationLink,
         ListGroup,
         ListGroupItem,
-        Button } from 'reactstrap';
+        Button,
+        Collapse } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
 
@@ -129,27 +132,102 @@ function ClientListPage() {
                 <Button href="/client/new">Create New Client</Button>
             </div>
             <Form onSubmit={filterList}>
-                <FormGroup>
-                    <Input type="text" id="searchField"
+                <Label>Choose Filters</Label>
+                    <FormGroup onChange={setFilters}>
+                        <Row>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="Age"/>
+                                Age
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="Gender"/>
+                                Gender
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="Location"/>
+                                Zone
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="VillageNo"/>
+                                Village Number
+                            </Col>
+                            <Col xs="auto">
+                                <Input type="checkbox" value="DisabilityType"/>
+                                Type of Disability
+                            </Col>
+                        </Row>
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="text" id="searchField"
+                               value={searchField}
+                               onChange={(event) => setSearchField(
+                                   event.target.value)}
+                               placeholder="Name" />
+                    </FormGroup>
+                <Collapse isOpen={isOpenAge}>
+                    <FormGroup>
+                        <Input type="number"
+                               value={searchField}
+                               onChange={(event) => setSearchField(
+                                   event.target.value)}
+                               placeholder="Age" />
+                    </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenGender}>
+                    <FormGroup onChange={(event) => setSearchField(event.target.value)}>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="radio1" value="Male"/>
+                                Male
+                            </Label>
+                        </FormGroup>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="radio1" value="Female"/>
+                                Female
+                            </Label>
+                        </FormGroup>
+                    </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenLocation}>
+                    <Input type="select"
                            value={searchField}
-                           onChange={(event) => setSearchField(
-                               event.target.value)}
-                           placeholder="Search for Client" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="searchFilter">Search by</Label>
-                    <Input type="select" id="searchFilter"
-                           value={searchFilter}
-                           onChange={(event) =>
-                                setSearchFilter(event.target.value)}>
-                        <option value="FirstName">Name</option>
-                        <option value="Age">Age</option>
-                        <option value="Gender">Gender</option>
-                        <option value="Location">Zone</option>
-                        <option value="VillageNo">Village Number</option>
-                        <option value="DisabilityType">Type of Disability</option>
+                           onChange={(event) => setSearchField(event.target.value)}>
+                        <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
+                        <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
+                        <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
+                        <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
+                        <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
+                        <option value="Palorinya Basecamp">Palorinya Basecamp</option>
+                        <option value="Palorinya Zone 1">Palorinya Zone 1</option>
+                        <option value="Palorinya Zone 2">Palorinya Zone 2</option>
+                        <option value="Palorinya Zone 3">Palorinya Zone 3</option>
                     </Input>
-                </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenVillageNo}>
+                    <FormGroup>
+                        <Input type="number"
+                               onChange={(event) => setSearchField(
+                                   event.target.value)}
+                               placeholder="Village Number" />
+                    </FormGroup>
+                </Collapse>
+                <Collapse isOpen={isOpenDisability}>
+                    <Input type="select"
+                           value={searchField}
+                           onChange={(event) => setSearchField(event.target.value)}>
+                        <option value="Amputee">Amputee</option>
+                        <option value="Polio">Polio</option>
+                        <option value="Spinal Cord Injury">Spinal Cord Injury</option>
+                        <option value="Cerebral Palsy">Cerebral Palsy</option>
+                        <option value="Spina Bifida">Spina Bifida</option>
+                        <option value="Hydrocephalus">Hydrocephalus</option>
+                        <option value="Visual Impairment">Visual Impairment</option>
+                        <option value="Hearing Impairment">Hearing Impairment</option>
+                        <option value="Don\'t Know">Don\'t Know</option>
+                        <option value="Other">Other</option>
+                    </Input>
+                </Collapse>
                 <FormGroup tag="radioFilter"
                            value={radioFilter}
                            onChange={(event) => setRadioFilter(event.target.value)} >
