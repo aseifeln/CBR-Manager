@@ -1,3 +1,6 @@
+// This separate version of the MultiStepForm component is temporary, as it is a modified from the old version of the component
+// TODO: Combine the modifications made to the old component with the new MultiStepForm component
+
 import React, { useEffect, useState } from 'react';
 import { Container, Button, ButtonGroup, Badge } from 'reactstrap';
 
