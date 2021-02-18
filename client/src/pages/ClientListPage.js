@@ -60,13 +60,13 @@ function ClientListPage() {
     ]
    const [ forceRenderValue, setForceRenderValue ] = useState(0);
    const [ clients, setClients ] = useState(junkData);
+   const [ filteredClients, setFilteredClients ] = useState(junkData);
    const [ radioFilter, setRadioFilter ] = useState('');
-   const [ searchFilters, setSearchFilters ] = useState(['FirstName']);
    const [ searchName, setSearchName ] = useState('');
-   const [ searchAge, setSearchAge ] = useState('');
+   const [ searchAge, setSearchAge ] = useState(0);
    const [ searchGender, setSearchGender ] = useState('');
    const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
-   const [ searchVillageNo, setSearchVillageNo ] = useState('');
+   const [ searchVillageNo, setSearchVillageNo ] = useState(0);
    const [ searchDisability, setSearchDisability ] = useState('Amputee');
 
    const [isOpenAge, setIsOpenAge] = useState(false);
@@ -82,27 +82,51 @@ function ClientListPage() {
         // TODO get all clients from the database everytime the component is updated.
     });
 
-    function searchFor(property, search) {
-        return function(a, b) {
-            let propertyA = a[ property ];
-            let propertyB = b[ property ];
+    // TODO refactor
+    function searchFor(client) {
+        let lowerSearchName = searchName.toLowerCase();
+        let lowerClientName = client.FirstName.toLowerCase();
+        let x = 0;
+        let y = 0;
 
-            if (typeof(a[ property ]) === 'number') {
-                search = Number(search);
-            } else {
-              search = search.toLowerCase();
-              propertyA = propertyA.toLowerCase();
-              propertyB = propertyB.toLowerCase();
+        if (isOpenAge) {
+            if (client.Age === searchAge) {
+                y++;
             }
-
-            if(propertyA !== search) {
-                return 1;
-            } else if (propertyB === search) {
-                return -1;
-            } else {
-                return 0;
-            }
+            x++;
         }
+        if (isOpenGender) {
+            if (client.Gender === searchGender) {
+                y++;
+            }
+            x++;
+        }
+        if (isOpenLocation) {
+            if (client.Location === searchLocation) {
+                y++;
+            }
+            x++;
+        }
+        if (isOpenVillageNo) {
+            if (client.VillageNo === searchVillageNo) {
+                y++;
+            }
+            x++;
+        }
+        if (isOpenDisability) {
+            if (client.DisabilityType === searchDisability) {
+                y++;
+            }
+            x++;
+        }
+        if (lowerClientName === lowerSearchName || lowerSearchName === '') {
+            x++;
+            y++;
+        } else {
+            return false;
+        }
+
+        return x === y;
     }
 
     function sortBy(property) {
@@ -123,12 +147,12 @@ function ClientListPage() {
 
     function filterList(event) {
         event.preventDefault();
-        console.log(searchFilters);
 
         let sorted_clients;
+        let searched_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
-        sorted_clients = sorted_clients.sort(searchFor(searchFilters, searchName));
-        setClients(sorted_clients);
+        searched_clients = sorted_clients.filter(searchFor);
+        setFilteredClients(searched_clients);
         setSearchName('');
 
         // Needed because react does not rerender automatically when the order of a state array is changed
@@ -136,7 +160,6 @@ function ClientListPage() {
     }
 
     function setFilters(event) {
-        setSearchFilters(searchFilters.concat(event.target.value));
 
         switch(event.target.value) {
             case 'Age':
@@ -168,6 +191,7 @@ function ClientListPage() {
             </div>
             <Form onSubmit={filterList}>
                 <Label>Choose Filters</Label>
+                <Container>
                     <FormGroup onChange={setFilters}>
                         <Row>
                             <Col xs="auto">
@@ -192,6 +216,7 @@ function ClientListPage() {
                             </Col>
                         </Row>
                     </FormGroup>
+                </Container>
                     <FormGroup>
                         <Input type="text" id="searchName"
                                value={searchName}
@@ -204,7 +229,7 @@ function ClientListPage() {
                         <Input type="number"
                                value={searchAge}
                                onChange={(event) => setSearchAge(
-                                   event.target.value)}
+                                   Number(event.target.value))}
                                placeholder="Age" />
                     </FormGroup>
                 </Collapse>
@@ -242,8 +267,9 @@ function ClientListPage() {
                 <Collapse isOpen={isOpenVillageNo}>
                     <FormGroup>
                         <Input type="number"
+                               value={searchVillageNo}
                                onChange={(event) => setSearchVillageNo(
-                                   event.target.value)}
+                                   Number(event.target.value))}
                                placeholder="Village Number" />
                     </FormGroup>
                 </Collapse>
@@ -284,8 +310,9 @@ function ClientListPage() {
                 <Button onClick={filterList}>Apply Filters</Button>
             </Form>
 
+
             <ListGroup>
-                {clients.map(({FirstName, Age, Gender,
+                {filteredClients.map(({FirstName, Age, Gender,
                                   Location, VillageNo,
                                   DisabilityType, ClientId}) => (
                         <ListGroupItem onClick={() => history.push(`/client/${ClientId}`)}>
