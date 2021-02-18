@@ -56,8 +56,9 @@ function ClientListPage() {
 
     // TODO refactor
     function searchFor(client) {
-        let lowerSearchName = searchName.toLowerCase();
-        let lowerClientName = client.FirstName.toLowerCase();
+        let lowerSearchName = searchName.toLowerCase().split(' ');
+        let lowerClientFirstName = client.FirstName.toLowerCase();
+        let lowerClientLastName = client.LastName.toLowerCase();
         let x = 0;
         let y = 0;
 
@@ -91,12 +92,15 @@ function ClientListPage() {
             }
             x++;
         }
-        if (lowerClientName === lowerSearchName || lowerSearchName === '') {
-            x++;
-            y++;
-        } else {
-            return false;
-        }
+        lowerSearchName.forEach(name => {
+            if (name === lowerClientFirstName || name === lowerClientLastName || name === '') {
+                x++;
+                y++;
+            } else {
+                y--;
+            }
+        });
+
 
         return x === y;
     }
@@ -116,6 +120,7 @@ function ClientListPage() {
     function filterList(event) {
         event.preventDefault();
         setRefresh(refresh + 1);
+
         let sorted_clients;
         let searched_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
@@ -289,12 +294,13 @@ function ClientListPage() {
             <Button onClick={resetFilters}>Reset</Button>
 
             <ListGroup>
-                {filteredClients.map(({FirstName, Age, Gender,
+                {filteredClients.map(({FirstName, LastName, Age, Gender,
                                   Location, VillageNo,
                                   DisabilityType, ClientId}) => (
-                        <ListGroupItem onClick={() => history.push(`/client/${ClientId}`)}>
-                            {FirstName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
-                            <Button style={{'float': 'right'}}>View</Button>
+                        <ListGroupItem>
+                            {FirstName}, {LastName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
+                            <Button onClick={() => history.push(`/client/${ClientId}`)}
+                                    style={{'float': 'right'}}>View</Button>
                         </ListGroupItem>
                 ))}
             </ListGroup>
