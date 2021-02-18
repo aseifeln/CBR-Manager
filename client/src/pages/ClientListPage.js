@@ -115,7 +115,7 @@ function ClientListPage() {
 
     function filterList(event) {
         event.preventDefault();
-
+        setRefresh(refresh + 1);
         let sorted_clients;
         let searched_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
