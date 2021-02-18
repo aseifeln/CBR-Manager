@@ -44,7 +44,6 @@ function ClientListPage() {
         axios.get('/clients')
             .then(function (res) {
             setClients(res.data);
-            console.log(filteredClients.length)
             if (filteredClients.length === 0) {
                 setFilteredClients(res.data);
             }
@@ -59,50 +58,50 @@ function ClientListPage() {
         let lowerSearchName = searchName.toLowerCase().split(' ');
         let lowerClientFirstName = client.FirstName.toLowerCase();
         let lowerClientLastName = client.LastName.toLowerCase();
-        let x = 0;
-        let y = 0;
+        let numFilters = 0;
+        let numFiltersMatching = 0;
 
         if (isOpenAge) {
             if (client.Age === searchAge) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenGender) {
             if (client.Gender === searchGender) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenLocation) {
             if (client.Location === searchLocation) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenVillageNo) {
             if (client.VillageNo === searchVillageNo) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         if (isOpenDisability) {
             if (client.DisabilityType === searchDisability) {
-                y++;
+                numFiltersMatching++;
             }
-            x++;
+            numFilters++;
         }
         lowerSearchName.forEach(name => {
             if (name === lowerClientFirstName || name === lowerClientLastName || name === '') {
-                x++;
-                y++;
+                numFilters++;
+                numFiltersMatching++;
             } else {
-                y--;
+                numFiltersMatching--;
             }
         });
 
 
-        return x === y;
+        return numFilters === numFiltersMatching;
     }
 
     function sortBy(property) {
