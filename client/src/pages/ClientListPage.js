@@ -22,7 +22,7 @@ function ClientListPage() {
 
    const [ refresh, setRefresh ] = useState(0);
    const [ clients, setClients ] = useState(['']);
-   const [ filteredClients, setFilteredClients ] = useState(['']);
+   const [ filteredClients, setFilteredClients ] = useState([]);
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ searchName, setSearchName ] = useState('');
    const [ searchAge, setSearchAge ] = useState(0);
@@ -286,7 +286,7 @@ function ClientListPage() {
 
                 <Button onClick={filterList}>Apply Filters</Button>
             </Form>
-
+            <Button onClick={resetFilters}>Reset</Button>
 
             <ListGroup>
                 {filteredClients.map(({FirstName, Age, Gender,
