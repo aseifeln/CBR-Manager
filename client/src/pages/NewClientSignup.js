@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
@@ -6,8 +7,16 @@ import AppNavbar from '../components/AppNavbar';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
-  const onValidSubmit = (data) => {
-    console.log(data)
+  const onValidSubmit = async (data) => {
+    // console.log(data)
+    
+    try {
+      const results = await axios.post('/clients/add', data)
+      console.log(results)
+
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
