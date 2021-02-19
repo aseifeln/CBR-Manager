@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
+
 const Worker = db.define('Worker', {
     WorkerId: {
         type: Sequelize.UUID,

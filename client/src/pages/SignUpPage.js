@@ -91,11 +91,15 @@ function SignUpPage(props) {
                         id="location"
                         value={location}
                         onChange={(event) => setLocation(event.target.value)}>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        <option>BidiBidi Zone 1</option>
+                        <option>BidiBidi Zone 2</option>
+                        <option>BidiBidi Zone 3</option>
+                        <option>BidiBidi Zone 4</option>
+                        <option>BidiBidi Zone 5</option>
+                        <option>Palorinya Basecamp</option>
+                        <option>Palorinya Zone 1</option>
+                        <option>Palorinya Zone 2</option>
+                        <option>Palorinya Zone 3</option>
                     </Input>
                     <FormText><i>Assigned zone. This can be changed later</i></FormText>
                 </FormGroup>

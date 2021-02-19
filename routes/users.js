@@ -6,6 +6,7 @@ const app = express.Router();
 const multer = require('multer')
 const upload = multer({});
 const { v4: uuidv4 } = require('uuid');
+const Sequelize = require('sequelize');
 
 require('dotenv').config();
 
@@ -60,15 +61,14 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             user.password = hashedPassword
             user.confirm_password = hashedPassword
 
-
+            
             //TODO: Save in db ( FIX DB CONNECTION .ENV FILE INACTIVE )
-            const new_WorkerId = uuidv4();
-            await workers.create({
-                WorkerId: new_WorkerId,
+            //const new_WorkerId = uuidv4();
+            const new_worker = await workers.create({
                 FirstName: user.firstname,
                 LastName: user.lastname,
                 Photo: user.photo,
-                Location: user.location
+                Location: 'BidiBidi Zone 1'
             })
             .then(result => res.status(200))
             .catch(err => res.status(400).json(err))
@@ -77,7 +77,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
                 Username: user.username, 
                 Password: user.password,
                 Role: "Worker",
-                WorkerId: new_WorkerId
+                WorkerId: new_worker.WorkerId
             })
             .then(result => res.status(200))
             .catch(err => res.status(400).json(err))
@@ -89,6 +89,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
     } catch {
         res.status(500).send();
     }
+
 
 });
 
