@@ -68,11 +68,13 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
                 FirstName: user.firstname,
                 LastName: user.lastname,
                 Photo: user.photo,
-                Location: 'BidiBidi Zone 1'
+                Location: user.location
             })
-            .then(result => res.status(200))
+            .then(function(worker){
+                return worker
+            })
             .catch(err => res.status(400).json(err))
-        
+
             await users.create({
                 Username: user.username, 
                 Password: user.password,
