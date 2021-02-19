@@ -74,7 +74,36 @@ router.post('/add', upload.single('Photo'), (req,res) => {
     .catch(err => res.status(400).json(err))
 })
 
-
+// @route   GET /clients/location/location_name
+// @desc    GET Retrieve all clients residing in a specific location
+router.get('/location/:loc', (req,res) => {
+    const location = req.params.loc
+    
+    client.findAll({
+        attributes: {
+            exclude: [
+                'HealthStatus',
+                'HealthDesc', 
+                'HealthGoal',
+                'EducationStatus', 
+                'EducationDesc',
+                'EducationGoal',
+                'SocialStatus',
+                'SocialDesc',
+                'SocialGoal'
+            ]
+        },
+        where: {
+            Location: location
+        }
+    })
+    .then(clients => {
+        clients.map(client => ConvertImage(client))
+        return clients;
+    })
+    .then(clients => res.json(clients))
+    .catch(err => res.status(404).json(err))  
+})
 
 
 module.exports = router
