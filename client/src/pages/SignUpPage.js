@@ -134,7 +134,7 @@ function SignUpPage(props) {
                     <FormFeedback>Password must be more than 5 characters</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                    <Label  for="password">Confirm Password</Label>
+                    <Label  for="confirmPassword">Confirm Password</Label>
                     <Input invalid={confirmPasswordErr} type="password"
                         id="confirmPassword"
                         value={confirmPassword}
