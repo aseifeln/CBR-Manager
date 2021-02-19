@@ -57,13 +57,11 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             return
         }else{
             //TODO: Check if user already exist in db
+            //TODO: prints the error message in frontend (new issue?)
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword
             user.confirm_password = hashedPassword
 
-            
-            //TODO: Save in db ( FIX DB CONNECTION .ENV FILE INACTIVE )
-            //const new_WorkerId = uuidv4();
             const new_worker = await workers.create({
                 FirstName: user.firstname,
                 LastName: user.lastname,
