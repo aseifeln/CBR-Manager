@@ -12,6 +12,7 @@ function SignUpPage(props) {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [location, setLocation] = useState("");
+    const [photo, setPhoto] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -30,6 +31,7 @@ function SignUpPage(props) {
         setPasswordErr(false)
         setConfirmPasswordErr(false)
     }
+
     function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
@@ -38,7 +40,6 @@ function SignUpPage(props) {
             props.history.push("/");
             return;
         }
-        //alert("Username or password is invalid size");
     }
 
     function authPasses() { 
@@ -51,13 +52,15 @@ function SignUpPage(props) {
         if(!username.length > 0){
             setUsernameErr(true)
         }
-        if(!password.length > 0){
+        if(password.length <= 5){
             setPasswordErr(true)
         }
-        if(!confirmPassword.length > 0 || (confirmPassword !== password)){
+        if(confirmPassword !== password){
             setConfirmPasswordErr(true)
         }
-        //return true;
+        if(photo === ""){
+            setPhotoErr(true)
+        }
     }
 
     return (
@@ -95,7 +98,12 @@ function SignUpPage(props) {
                 </FormGroup>
                 <FormGroup>
                     <Label for="profilePhoto">Profile Picture</Label>
-                    <Input invalid={photoErr} type="file" name="profilePhoto" id="profilePhoto" />
+                    <Input invalid={photoErr} 
+                        type="file" 
+                        name="profilePhoto" 
+                        id="profilePhoto"
+                        onChange={(event) => setPhoto(event.target.files[0])}
+                         />
                     <FormFeedback>Please upload a profile picture!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
@@ -123,7 +131,7 @@ function SignUpPage(props) {
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password" />
-                    <FormFeedback>Password must have more than 5 characters</FormFeedback>
+                    <FormFeedback>Password must be more than 5 characters</FormFeedback>
                     <Input invalid={confirmPasswordErr} type="password"
                         id="confirmPassword"
                         value={confirmPassword}
