@@ -37,11 +37,12 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
-            props.history.push("/");
+            props.history.push("/login");
             return;
         }
+        props.history.push("/signup");
+        //TODO: change to better alert depending on the errors (maybe change to list? not alert?)
         alert("Username or password is invalid size");
-        console.log("A")
     }
 
     function authPasses() {

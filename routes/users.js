@@ -20,20 +20,20 @@ app.get("/register", (req, res, next) => {
 });
 
 function validateRegisterDetails(res, user){
-    FAIL = false;
+    SUCCESS = true;
     if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.confirm_password){
         res.status(400).write('All fields are required\n');
-        FAIL = true;
+        SUCCESS = false;
     }
     if (user.password.length < 6){
         res.status(400).write('Password must be at least 6 characters\n');
-        FAIL = true;
+        SUCCESS = false;
     }
     if(user.password != user.confirm_password){
         res.status(400).write('Password and Confirm Password do not match\n');
-        FAIL = true;
+        SUCCESS = false;
     }
-    return FAIL;
+    return SUCCESS;
 }
 
 
@@ -50,13 +50,11 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             password: req.body.user.password,
             confirm_password: req.body.user.confirm_password
         };
-        if(validateRegisterDetails(res, user)){
+        if(!validateRegisterDetails(res, user)){
             res.status(400).write('Register Unsuccessful');
-            res.send()
-            return
+            return res.send()
+            
         }else{
-            //TODO: Check if user already exist in db
-            //TODO: prints the error message in frontend (new issue?)
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword
             user.confirm_password = hashedPassword
@@ -128,7 +126,6 @@ app.post('/login', async (req, res) => {
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     return res.send(SUCCESS);
                 } else {
-                    console.log("asd")
                     return res.send(WRONGPASSWORD);
                 }
             });

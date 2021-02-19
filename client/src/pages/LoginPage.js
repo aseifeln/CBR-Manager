@@ -8,7 +8,6 @@ import "../css/Login.css";
 
 function Login(props) {
     const WRONGPASSWORD = '0'
-    const SUCCESS = '1'
     const UNREGISTERED = '2'
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -27,7 +26,8 @@ function Login(props) {
                 else if(res.data == WRONGPASSWORD){
                     alert("Wrong Password");
                     props.history.push("/login");
-                } else if(res.data == UNREGISTERED) {
+                } 
+                else if(res.data == UNREGISTERED) {
                     alert("User is not registered");
                     props.history.push("/login");
                 } else { //SUCCESS
