@@ -132,6 +132,9 @@ function SignUpPage(props) {
                         onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password" />
                     <FormFeedback>Password must be more than 5 characters</FormFeedback>
+                </FormGroup>
+                <FormGroup>
+                    <Label  for="password">Confirm Password</Label>
                     <Input invalid={confirmPasswordErr} type="password"
                         id="confirmPassword"
                         value={confirmPassword}
