@@ -122,7 +122,7 @@ function SignUpPage(props) {
                         <option>Palorinya Zone 2</option>
                         <option>Palorinya Zone 3</option>
                     </Input>
-                    <FormText><i>Assigned zone. This can be changed later</i></FormText>
+                    <FormText><i>Choose your assigned zone.</i></FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label  for="password">Password</Label>
