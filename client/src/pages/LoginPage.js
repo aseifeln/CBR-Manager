@@ -7,30 +7,39 @@ import AppNavbar from "../components/AppNavbar";
 import "../css/Login.css";
 
 function Login(props) {
-
+    const WRONGPASSWORD = '0'
+    const SUCCESS = '1'
+    const UNREGISTERED = '2'
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log("hereeeeeeeee")
         const user = {
             username: document.getElementById('userName').value,
             password: document.getElementById('password').value,
         }
         axios.post('http://localhost:5000/users/login',{user})
             .then(res => {
-                console.log(res);
-                console.log(res.data);
+                if(!authPasses()){
+                    alert("Username or password is invalid size");
+                }
+                else if(res.data == WRONGPASSWORD){
+                    alert("Wrong Password");
+                    props.history.push("/login");
+                } else if(res.data == UNREGISTERED) {
+                    alert("User is not registered");
+                    props.history.push("/login");
+                } else { //SUCCESS
+                    props.history.push("/");
+                }
+                return;
               })
             .catch( err => {
                 console.log(err);
             })
-        if (authPasses()) {
-            props.history.push("/");
-            return;
-        }
-        alert("Username or password is invalid size");
+
+        
     }
 
     function authPasses() {

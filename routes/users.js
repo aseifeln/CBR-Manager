@@ -5,7 +5,6 @@ const workers = require('../models/worker')
 const app = express.Router();
 const multer = require('multer')
 const upload = multer({});
-const { v4: uuidv4 } = require('uuid');
 const Sequelize = require('sequelize');
 
 require('dotenv').config();
@@ -118,17 +117,19 @@ async function passwordIsTrue(loginPassword, databasePassword){
 }
 
 app.post('/login', async (req, res) => {
+    const WRONGPASSWORD = '0'
+    const SUCCESS = '1'
+    const UNREGISTERED = '2'
     const loginUsername = req.body.user.username
     const loginPassword = req.body.user.password
     if(await userIsExist(loginUsername) == true){
         try{
             await getUserPassword(loginUsername).then(async function(result){
                 if(await passwordIsTrue(loginPassword, result.Password)){
-                    console.log("Login Success")
-                    res.send('Login Success');
+                    return res.send(SUCCESS);
                 } else {
-                    console.log("Wrong Password")
-                    res.send('Wrong Password');
+                    console.log("asd")
+                    return res.send(WRONGPASSWORD);
                 }
             });
             
@@ -137,8 +138,7 @@ app.post('/login', async (req, res) => {
             res.status(500).send();
         }
     } else {
-        console.log("User is not registered")
-        res.send('User is not registered');
+        res.send(UNREGISTERED);
     }
 });
 

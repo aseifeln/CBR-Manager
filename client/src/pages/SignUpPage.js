@@ -29,7 +29,6 @@ function SignUpPage(props) {
                 password: document.getElementById('password').value,
                 confirm_password: document.getElementById('confirmPassword').value
             }
-            console.log(user.photo)
             axios.post('http://localhost:5000/users/register', {user})
             .then(res => {
                 console.log(res);
@@ -38,7 +37,6 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
-            console.log("asd")
             props.history.push("/");
             return;
         }
