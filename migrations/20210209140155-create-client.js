@@ -77,7 +77,7 @@ module.exports = {
         defaultValue: 'N/A'
     },
     HealthStatus: {
-        type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
+        type: Sequelize.ENUM('Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
         allowNull: false
     },
     HealthDesc: {
@@ -89,7 +89,7 @@ module.exports = {
         allowNull: false
     },
     EducationStatus: {
-        type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
+        type: Sequelize.ENUM('Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
         allowNull: false
     },
     EducationDesc: {
@@ -101,7 +101,7 @@ module.exports = {
         allowNull: false
     },
     SocialStatus: {
-        type: Sequelize.ENUM('Crtical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
+        type: Sequelize.ENUM('Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'),
         allowNull: false
     },
     SocialDesc: {

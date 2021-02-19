@@ -1,262 +1,206 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Button, ButtonGroup, Form, FormGroup, Label, Input, FormText, Col, Row, Badge, Card, CardBody } from 'reactstrap';
-import { Typeahead } from 'react-bootstrap-typeahead';
-import Rating from 'react-rating';
+import React, { useState } from 'react';
+import { isPattern } from '@formiz/validations';
+import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
-
-function MultiStepForm({ children, title }) {
-  let [step, setStep] = useState(0)
-
-  // methods to move back & forth between sub-forms
-  const stepNext = () => setStep(Math.min(step+1, children.length-1))
-  const stepPrev = () => setStep(Math.max(step-1, 0))
-
-  const formContainerSize = {
-    margin: 'auto',
-    maxWidth: 600
-  }
-
-  return (
-    <>
-      <Container>
-        <div style={formContainerSize}>
-          <Badge color="primary" pill>Step {step+1} of {children.length}</Badge>
-          {(title) && <h2>{title}</h2>}
-          <hr/>
-          <ButtonGroup style={{'width':'100%'}}>
-            {children.map((Child, i) => (
-              <Button onClick={() => setStep(i)} outline={(step !== i)}>
-                {`${i+1}. ${Child.props['title'] || 'Form'}`}
-              </Button>
-            ))}
-          </ButtonGroup>
-
-          <div class='mt-4'>
-            {children.map((Child, i) => (
-              <div class={(step !== i) && 'd-none'}>
-                {Child}
-              </div>
-            ))}
-          </div>
-
-          {/* dummy element just to add extra space */}
-          <div class='invisible py-4'>
-            <Button block></Button>
-          </div>
-        </div>
-      </Container>
-
-      <div class='fixed-bottom bg-light py-2'>
-        <Container>
-          <div class='d-flex justify-content-between align-items-center' style={formContainerSize}>
-            <div>Step {step+1} of {children.length}</div>
-
-            <div>
-              <Button color="primary" outline onClick={stepPrev}>Prev</Button>
-              &nbsp;
-
-              { (step+1 >= children.length) ? 
-                (<Button color="primary">Submit</Button>) : 
-                (<Button color="primary" onClick={stepNext}>Next</Button>)
-              }
-            </div>
-          </div>
-        </Container>
-      </div>
-    </>
-  )
-}
+import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
+  const onValidSubmit = (data) => {
+    console.log(data)
+  }
+
+  const [imagePreviewSrc, setImagePreviewSrc] = useState('')
+  const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
+
   return (
     <>
       <AppNavbar/>
-      <MultiStepForm title='New Client: John Doe'>
+      <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit}>
 
-        {/* SECTION 1. General Details */}
-        <Form title='General'>
+        {/* 1. General Details */}
+        <Step name='General'>
           <Row form>
-            <Col xs={6}>
-              <FormGroup>
-                <Label for="exampleEmail">First Name</Label>
-                <Input type="text" name="first-name" />
-              </FormGroup>
+            <Col xs={12}>
+              <h4>General Details</h4>
+              <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
             </Col>
 
             <Col xs={6}>
-              <FormGroup>
-                <Label for="exampleEmail">Last Name</Label>
-                <Input type="text" name="first-name" />
-              </FormGroup>
+              <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required"/>
+            </Col>
+
+            <Col xs={6}>
+              <FieldInput name="LastName" label="Last Name" type="text" required="Last Name is required"/>
             </Col>
           </Row>
 
           <Row form>
             <Col xs={2}>
-              <FormGroup>
-                <Label for="exampleEmail">Age</Label>
-                <Input type="number" name="age" />
-              </FormGroup>
+              <FieldInput name="Age" label="Age" type="number" min="1" required="Age is required"/>
             </Col>
 
             <Col xs={10}>
-              <FormGroup class='ml-2'>
-                <Label class='mb-2 pb-1'>Gender</Label>
-                <br/>
-
-                <Label check>
-                  <Input type="radio" name="radio2" style={{  
-                    'position': 'relative',
-                    'marginLeft': 0,
-                    'marginRight': '0.05em'
-                  }} />&nbsp;Male&nbsp;
-                </Label>
-                <Label check>
-                  <Input type="radio" name="radio2" style={{  
-                    'position': 'relative',
-                    'marginLeft': '0.2em',
-                    'marginRight': '0.05em'
-                  }}/>&nbsp;Female&nbsp;
-                </Label>
-              </FormGroup>
+              <div className='mt-3 pt-3'>
+                <FieldCheck name="Gender" type="radio" label="Male" value="Male" defaultChecked/>
+                <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2'/>
+              </div>
             </Col>
-          </Row>
 
-          <Row form>
-            <Col md={12}>
-              <FormGroup>
-                <Button outline>Upload Client Picture</Button>
-              </FormGroup>
+            <Col xs={12}>
+              <img src={imagePreviewSrc} style={{ width: '100%', maxWidth: 150 }}/>
+              <FieldInput 
+                name="Photo" 
+                label="Client Picture (Optional)" 
+                type="file"
+                onChange={(e) => {
+                  if (e.target) {
+                    setImagePreviewSrc(URL.createObjectURL(e.target.files[0]))
+                  }
+                }}
+              />
+              <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
             </Col>
           </Row>
 
           <hr/>
 
           <Row form>
-            <Col md={12}>
-              <FormGroup>
-                <Label for="exampleEmail">Date</Label>
-                <Input type="date" name="age" />
-              </FormGroup>
-            </Col>
-          </Row>
-
-          <Row form>      
-            <Col xs={10} md={8}>
-              <FormGroup>
-                <Label for="location">Location</Label>
-                <Input type="select" name="select">
-                  <option>BidiBidi Zone 1</option>
-                  <option>BidiBidi Zone 2</option>
-                  <option>BidiBidi Zone 3</option>
-                  <option>BidiBidi Zone 4</option>
-                  <option>BidiBidi Zone 5</option>
-                  <option>Palorinya Basecamp</option>
-                  <option>Palorinya Zone 1</option>
-                  <option>Palorinya Zone 2</option>
-                  <option>Palorinya Zone 3</option>
-                </Input>
-              </FormGroup>
+            <Col xs={12}>
+              <FieldInput 
+                name="Date" 
+                label="New Client Date" 
+                type="date" 
+                defaultValue={(new Date()).toLocaleDateString('en-CA')}
+              />
             </Col>
 
-            <Col xs={2} md={4}>
-              <FormGroup>
-                <Label for="village-num">Village #</Label>
-                <Input type="number" name="village-num"/>
-              </FormGroup>
+            <Col xs={9} md={10}>
+              <FieldInput name="Location" label="Location" type="select" required="Location is required">
+                <option selected hidden>Choose a location</option>
+                <option>BidiBidi Zone 1</option>
+                <option>BidiBidi Zone 2</option>
+                <option>BidiBidi Zone 3</option>
+                <option>BidiBidi Zone 4</option>
+                <option>BidiBidi Zone 5</option>
+                <option>Palorinya Basecamp</option>
+                <option>Palorinya Zone 1</option>
+                <option>Palorinya Zone 2</option>
+                <option>Palorinya Zone 3</option>
+              </FieldInput>
             </Col>
 
-            <Col md={12}>
-              <FormGroup>
-                <Label for="exampleEmail">Contact Number (optional)</Label>
-                <Input type="text" name="age" placeholder="e.g. 123-123-1234" />
-              </FormGroup>
-            </Col>
-          </Row>
-        </Form>
-
-        {/* SECTION 2. Health Details */}
-        <Form title='Health Details'>
-          <h4>Disabilities</h4>
-          <FormText>Physical/mental disabilities the client has.</FormText>
-          <div class='mt-2'>
-            <Typeahead
-              labelKey="disabilities"
-              placeholder="Add a disability type&#8230; (e.g. Spina Bifida)"
-              multiple
-              options={[
-                "Amputee", "Polio", "Spinal Cord Injury", 
-                "Cerebral Palsy", "Spina Bifida", "Hydrocephalus", 
-                "Visual Impairment", "Hearing Impairment"
-              ]}
-            />
-
-            <FormGroup check inline>
-              <Label>
-                <Input type="checkbox" /> Don't know/Other
-              </Label>
-            </FormGroup>
-          </div>
-
-          <h4 class='mt-4'>Health Check</h4>
-          <FormText>Rate the following areas under <a href='#'>HHA's wellbeing guidelines</a>.</FormText> 
-
-          <div class='mt-3'>
-            <Card>
-              <CardBody>
-                <h6>General Wellbeing</h6>
-                <Rating />
-
-                <FormGroup>
-                  <Label for="exampleText">Client requirements</Label>
-                  <Input type="textarea" name="text" id="exampleText" />
-                </FormGroup>
-
-                <FormGroup>
-                  <Label for="exampleText">Goals</Label>
-                  <Input type="textarea" name="text" id="exampleText" />
-                </FormGroup>
-              </CardBody>
-            </Card>
-          </div>
-        </Form>
-
-        {/* SECTION 3. Miscellaneous */}
-        <Form title='Misc.'>
-          <Row form>
-            <Col md={12}>
-              <h5>Available for Interview?</h5>
-              <FormGroup check inline>
-                <Label>
-                  <Input type="checkbox" /> The client consents to future interviews.
-                </Label>
-              </FormGroup>
+            <Col xs={3} md={2}>
+              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required"/>
             </Col>
 
             <Col xs={12}>
-              <h5 class='mt-2'>Caregiver Availability</h5>
-              <FormGroup check inline>
-                <Label>
-                  <Input type="checkbox" /> Caregiver is present?
-                </Label>
-              </FormGroup>
-
-              <Col class='mt-2 ml-4'>
-                <hr class='mt-2 mb-3'/>
-                <FormGroup>
-                  <Label for="exampleEmail">Contact Number (optional)</Label>
-                  <Input type="text" name="age" placeholder="e.g. 123-123-1234" />
-                </FormGroup>
-                <FormGroup>
-                  <Button outline>Upload Client &amp; Caregiver Picture</Button>
-                  <FormText>The photo should include both the client and caregiver within the same frame.</FormText>
-                </FormGroup>
-              </Col>
+              <FieldInput 
+                name="ContactNo" 
+                label="Contact Number (Optional)" 
+                type="text"
+                placeholder="e.g. 756-126-9380"
+                validations={[
+                  {
+                    rule: isPattern(phoneNumberRegex),
+                    message: 'Invalid contact number format'
+                  }
+                ]}
+              />
             </Col>
           </Row>
-        </Form>
+        </Step>
+
+        {/* 2. Health Details */}
+        <Step name='Health Details'>
+          <Row form>
+            <Col xs={12}>
+              <h4 className='mb-3'>Disabilities</h4>
+              <FieldTypeahead
+                id="disabilities"
+                name="Disabilities"
+                placeholder="Add a disability type... (e.g. Polio)"
+                options={[
+                  'Amputee', 'Polio', 
+                  'Spinal Cord Injury', 'Cerebral Palsy', 
+                  'Spina Bifida', 'Hydrocephalus', 
+                  'Visual Impairment','Hearing Impairment', 
+                  'Don\'t Know', 'Other'
+                ]}
+                onChange={(v) => {
+                  // hacky way of removing selections if user chooses
+                  // "Don't Know" or "Other" options but it works 👍
+                  if (v[v.length-1] === 'Don\'t Know' && v.length >= 1) return ['Don\'t Know']
+                  else if (v[v.length-2] === 'Don\'t Know' && v.length >= 1) return v.slice(1)
+
+                  if (v[v.length-1] === 'Other' && v.length >= 1) return ['Other']
+                  else if (v[v.length-2] === 'Other' && v.length >= 1) return v.slice(1)
+                  return v
+                }}
+                multiple
+              />
+
+              <hr/>
+            </Col>
+
+            <Col xs={12}>
+              <h4>Wellbeing Check</h4>
+              <FormText>Rate the client's wellbeing following <a href='https://www.hopehealthaction.org/' target='_blank'>HHA's wellbeing guidelines</a>.</FormText> 
+
+              {['Health', 'Education', 'Social'].map((area, i) => (
+                <Card className='mt-4' key={`area-${i}`}>
+                  <CardBody>
+                    <h5>{area}</h5>
+
+                    <FieldInput name={`${area}Status`} label="Current Rating" type="select" required="Rating is required">
+                      <option selected hidden>Choose a rating</option>
+                      <option value='4'>4 — Critical Risk</option>
+                      <option value='3'>3 — High Risk</option>
+                      <option value='2'>2 — Medium Risk</option>
+                      <option value='1'>1 — Low Risk</option>
+                    </FieldInput>
+
+                    <FieldInput name={`${area}Goal`} label="Goals to achieve" type="textarea"/>
+                    <FieldInput name={`${area}Desc`} label="Required resources for area" type="textarea"/>
+                  </CardBody>
+                </Card>
+              ))}
+            </Col>
+          </Row>
+        </Step>
+
+        {/* 3. Misc Details */}
+        <Step name='Miscellaneous'>
+          <Row form>
+            <Col xs={12}>
+              <h4>Caregiver Details</h4>
+              <FieldInput 
+                name="CaregiverContactNo" 
+                label="Caregiver Contact Number (Optional)" 
+                type="text"
+                placeholder="e.g. 756-126-9380"
+                validations={[
+                  {
+                    rule: isPattern(phoneNumberRegex),
+                    message: 'Invalid contact number format'
+                  }
+                ]}
+              />
+
+              <hr/>
+            </Col>
+
+            <Col xs={12}>
+              <h4>Interviews</h4>
+              <FormText className='mb-2 pb-1'>Consent will allow HHA to conduct interviews for research and educational purposes.</FormText>
+              <FieldCheck
+                name="Consent"
+                type="checkbox"
+                label="Client consents to Interview"
+              />
+            </Col>
+          </Row>
+        </Step>
       </MultiStepForm>
     </>
   )
