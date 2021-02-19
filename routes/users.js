@@ -3,6 +3,10 @@ const bcrypt = require('bcrypt');
 const users = require('../models/user')
 const workers = require('../models/worker')
 const app = express.Router();
+const multer = require('multer')
+const upload = multer({});
+const { v4: uuidv4 } = require('uuid');
+
 require('dotenv').config();
 
 const cors = require('cors')
@@ -34,7 +38,7 @@ function validateRegisterDetails(res, user){
 
 
 
-app.post("/register", async (req, res) => {
+app.post("/register", upload.single('Photo'), async (req, res) => {
     //TODO: Change variables after register layout finished
     try{
         let user = { 
@@ -42,59 +46,49 @@ app.post("/register", async (req, res) => {
             lastname: req.body.user.lastname,
             username: req.body.user.username, 
             location: req.body.user.location,
-            password: req.body.user.password,
             photo: req.body.user.photo,
+            password: req.body.user.password,
             confirm_password: req.body.user.confirm_password
         };
-        console.log(user)
         if(validateRegisterDetails(res, user)){
             res.status(400).write('Register Unsuccessful');
             res.send()
             return
         }else{
             //TODO: Check if user already exist in db
-
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword
             user.confirm_password = hashedPassword
-            
-            console.log(user)
+
+
             //TODO: Save in db ( FIX DB CONNECTION .ENV FILE INACTIVE )
-            //FAIL : ADD TO WORKERS
+            const new_WorkerId = uuidv4();
             await workers.create({
-                WorkerId: uuid_generate_v4(),
-                Firstname: user.firstname, 
-                Lastname: user.lastname,
-                Location: user.location,
-                Photo: "hey"
-                //Photo: 
-                //TODO:WORKERID AND PHOTO (CANNOT BE NULL)
+                WorkerId: new_WorkerId,
+                FirstName: user.firstname,
+                LastName: user.lastname,
+                Photo: user.photo,
+                Location: user.location
             })
             .then(result => res.status(200))
             .catch(err => res.status(400).json(err))
-            //SUCCESS : ADD TO USERS
+        
             await users.create({
                 Username: user.username, 
                 Password: user.password,
-                Role: "Worker"
-                //TODO:WORKERID 
+                Role: "Worker",
+                WorkerId: new_WorkerId
             })
             .then(result => res.status(200))
             .catch(err => res.status(400).json(err))
-
-            
 
             res.status(201).send('Register Successful');
             return;
         }
 
-            
-        
-        
     } catch {
         res.status(500).send();
     }
-
 
 });
 

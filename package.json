@@ -29,7 +29,9 @@
     "pg-hstore": "^2.3.3",
     "react-router-dom": "^5.2.0",
     "sequelize": "^6.5.0",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
