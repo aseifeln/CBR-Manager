@@ -93,25 +93,53 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 
 });
 
+async function userIsExist(username){
+    const exist = await users.count({
+        where: {
+          Username: username
+        }
+    })
+    .then(count => {
+        return (count > 0) ? true : false
+    });
+    return exist;
+}
 
+async function getUserPassword(username) {
+    return await users.findOne({
+      where: {
+        Username: username
+      }
+    });
+}
+
+async function passwordIsTrue(loginPassword, databasePassword){
+    return await bcrypt.compare(loginPassword, databasePassword)
+}
 
 app.post('/login', async (req, res) => {
-    console.log("A")
-    //TODO: Change find in db
-    const user = users.find(user => user.username === req.body.username)
-    if( user == null ){
-        return res.status(400).send('All fields are required');
-    }
-    try{
-        if(await bcrypt.compare(req.body.password, user.password)){
-            res.send('Login Success');
-        } else {
-            res.send('Wrong Password');
+    const loginUsername = req.body.user.username
+    const loginPassword = req.body.user.password
+    if(await userIsExist(loginUsername) == true){
+        try{
+            await getUserPassword(loginUsername).then(async function(result){
+                if(await passwordIsTrue(loginPassword, result.Password)){
+                    console.log("Login Success")
+                    res.send('Login Success');
+                } else {
+                    console.log("Wrong Password")
+                    res.send('Wrong Password');
+                }
+            });
+            
+        }catch{
+            console.log("Error")
+            res.status(500).send();
         }
-    }catch{
-        res.status(500).send();
+    } else {
+        console.log("User is not registered")
+        res.send('User is not registered');
     }
-
 });
 
 module.exports = app;

@@ -13,7 +13,19 @@ function Login(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        
+        console.log("hereeeeeeeee")
+        const user = {
+            username: document.getElementById('userName').value,
+            password: document.getElementById('password').value,
+        }
+        axios.post('http://localhost:5000/users/login',{user})
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+              })
+            .catch( err => {
+                console.log(err);
+            })
         if (authPasses()) {
             props.history.push("/");
             return;
