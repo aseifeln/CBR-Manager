@@ -10,26 +10,11 @@ function PriorityClients(){
     const toggle = () => setDropdownOpen(prevState => !prevState);
 
     const [location, setLocation] = useState("BidiBidi Zone 1");
-    const [data, setData]= useState([]);
-    var pClientList=[{
-        name:"John Doe",
-        location:"Bididi",
-        risk:3
-    },
-    {
-        name:"Michael Jackson",
-        location:"Bididi",
-        risk:2
-    }
-]
-
+    const [data, setData]= useState(['']);
 
     useEffect(()=>{
         axios.get(`/clients/location/${location}`)
-        .then(res =>{
-            setData(res.data);
-            console.log(data);
-        })
+        .then(res =>{setData(res.data)});
       },[location]);
 
     
@@ -37,7 +22,7 @@ function PriorityClients(){
 
     return(
         <div>
-            <h5>Priority Clients   <Link to="/client/new">Link to new client</Link></h5>
+            <h5>Priority Clients   <Link to="/client-list">See All Clients</Link></h5>
             <div>Current Location: {location}</div> 
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
                 <DropdownToggle caret>Location</DropdownToggle>
@@ -54,17 +39,19 @@ function PriorityClients(){
                 </DropdownMenu>
             </Dropdown>
             <ListGroup>
-                {pClientList.map((client)=>
-                    <ListGroupItem key={client.name} >
-                        <ListGroupItemHeading> {client.name} </ListGroupItemHeading>
-                        <ListGroupItemHeading> ID: {client.id}</ListGroupItemHeading>
+                {data.length>0?data.map((client)=>{
+                    return(
+                    <ListGroupItem key={client.ClientId} >
+                        <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
+                        <ListGroupItemHeading> ID: {client.ClientId}</ListGroupItemHeading>
                         <ListGroupItemText>
-                            <p>Location: {client.location}</p>
-                            <p>Risk: {client.risk}</p>
+                            <p>Gender: {client.Gender}</p>
+                            <p>Disability Type: {client.DisabilityType}</p>
                         </ListGroupItemText>
                     </ListGroupItem>
                     )
-                }
+                })
+                :<ListGroupItem>Empty</ListGroupItem>}
             </ListGroup>
         </div>
     );

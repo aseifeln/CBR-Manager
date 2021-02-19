@@ -6,7 +6,6 @@ h2 {
 .main{
     display: flex;
     justify-content:flex-start;
-    right: 100px;
 }
 
 
