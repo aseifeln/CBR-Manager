@@ -153,6 +153,7 @@ function ClientListPage() {
         setIsOpenDisability(false);
         setSearchName('');
 
+        setOffset(0);
         setFilteredClients(clients);
         setClientPages(clients);
         setRefresh(refresh + 1);
@@ -181,7 +182,7 @@ function ClientListPage() {
     }
 
     function handlePageClick(event) {
-        setOffset(event.selected + 1);
+        setOffset(event.selected * clientsPerPage);
     }
 
     return (
@@ -343,7 +344,7 @@ function ClientListPage() {
                            onPageChange={handlePageClick}
                            containerClassName={'pagination'}
                            subContainerClassName={'pages pagination'}
-                           activeClassName={'active'}/>
+                           activeClassName={'active'} />
 
         </Container>
         </>
