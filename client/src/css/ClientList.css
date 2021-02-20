@@ -1,0 +1,45 @@
+
+.Title h1 {
+    text-align: center;
+}
+
+.Title {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.ClientList Button {
+    float: right;
+    border-color: lightgrey;
+    background-color: white;
+    color: blue;
+}
+
+.SortSection div {
+    display: inline;
+    margin: 10px;
+}
+
+.ChooseFilters {
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    border-radius: 8px;
+    margin: 15px;
+    padding: 10px;
+}
+.ChooseFilters div {
+    margin-inline-start: 5px;
+}
+
+.pagination a {
+    text-align: center;
+    margin-top: 20px;
+    color: blue;
+    float: center;
+    padding: 8px 16px;
+    border-radius: 2px;
+}
+
+
+
