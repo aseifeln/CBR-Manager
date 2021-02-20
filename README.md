@@ -1,3 +1,27 @@
+# CBR Manager  
+
+The CBR (Community Based Rehabilitation) manager application was created to help facilitating rehabilitation work in communities in the refugee settlements in BidiBidi and Paloryina, Northern Uganda to increase the impact of the work done by HHA (Hope Health Action). There are two / three main types of users. There are admins who oversee the entire process and workers who directly interact with the clients. Workers are responsible for adding clients to the database and filling in visit forms for them.  As of right now, this is only a web application, but a mobile application is desired at a later phase. Despite this, this web application will typically be accessed on mobile devices by workers and desktop by admins. Furthermore, there is ideally going to also be a feature to generate measurable data by the admins. This web application uses React as the frontend with NodeJS as the backend and PostgreSQL as the database. The sequelizer library was used so that writing queries was not necessary.
+
+## Directory Structure:
+
+The root directory contains the files and directories for a NodeJS backend server with the “client” directory housing our frontend React application. Aside from the client directory, there are a few backend directories / files to take note of:
+
+-	app.js: The starter NodeJS file 
+-	migrations: These are the migration files created by the sequelizer NodeJS library. They are to be ran to create all the necessary tables within a PostgreSQL database to house the data for the application and can also be ran with additional parameters to delete all the tables
+-	models: The models for the various data objects that are used by the application
+-	routes: This contains the files responsible for the backend API that accesses the database upon request. This is intended for the frontend to send HTTP requests to retrieve / add / edit / delete data objects.
+-	seeders: Used to load some stock data into the web application for testing / demo purposes
+
+Within the client directory, there are two directories and the package.json file for all dependencies used in the backend. Within the src files:
+
+-	app.js: The starting file for a React application
+-	routes.js: Contains the various routes in our web application and the component they’re responsible for loading up. Note that the routes are organized as an array of JSON objects
+-	components: Functional components that can be reused for various pages
+-	css: the css files used by some of the pages
+-	pages: The functional components that are rendered for certain routes and all the components are functional components.
+
+## Build directions / dependencies / run instructions:
+
 Steps to run the server for the first time:
 
 1) Download Postgres server from : https://www.postgresql.org/download/
