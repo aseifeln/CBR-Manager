@@ -135,6 +135,7 @@ function ClientListPage() {
     function filterList(event) {
         event.preventDefault();
         setRefresh(refresh + 1);
+        setOffset(0);
 
         let sorted_clients;
         let searched_clients;
@@ -336,15 +337,16 @@ function ClientListPage() {
                 ))}
             </ListGroup>
 
-            <ReactPaginate previousLabel={'previous'}
-                           nextLabel={'next'}
+            <ReactPaginate previousLabel={'Previous'}
+                           nextLabel={'Next'}
                            breakLabel={'...'}
                            pageCount={pageCount}
                            pageRangeDisplayed={5}
+                           marginPagesDisplayed={2}
                            onPageChange={handlePageClick}
                            containerClassName={'pagination'}
                            subContainerClassName={'pages pagination'}
-                           activeClassName={'active'} />
+                           activeClassName={'pagination_active'} />
 
         </Container>
         </>
