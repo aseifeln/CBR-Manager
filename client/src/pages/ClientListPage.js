@@ -13,6 +13,7 @@ import { Form,
         ListGroup,
         ListGroupItem,
         Button,
+        Table,
         Collapse } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
@@ -324,18 +325,36 @@ function ClientListPage() {
                     </Collapse>
                 </Container>
             </Form>
-
-            <ListGroup>
-                {currentPageClients.map(({FirstName, LastName, Age, Gender,
-                                  Location, VillageNo,
-                                  DisabilityType, ClientId}) => (
-                        <ListGroupItem>
-                            {FirstName}, {LastName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
-                            <Button onClick={() => history.push(`/client/${ClientId}`)}
-                                    style={{'float': 'right'}}>View</Button>
-                        </ListGroupItem>
-                ))}
-            </ListGroup>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Location</th>
+                        <th>VillageNo</th>
+                        <th>DisabilityType</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {currentPageClients.map(({FirstName, LastName, Age, Gender,
+                                          Location, VillageNo,
+                                          DisabilityType, ClientId}) => (
+                                    <tr>
+                                        <td>{FirstName}</td>
+                                        <td>{LastName}</td>
+                                        <td>{Age}</td>
+                                        <td>{Gender}</td>
+                                        <td>{Location}</td>
+                                        <td>{VillageNo}</td>
+                                        <td>{DisabilityType}</td>
+                                        <Button onClick={() => history.push(`/client/${ClientId}`)}
+                                                style={{'float': 'right'}}>View</Button>
+                                    </tr>
+                        ))}
+                </tbody>
+            </Table>
 
             <ReactPaginate previousLabel={'Previous'}
                            nextLabel={'Next'}
