@@ -38,21 +38,23 @@ function PriorityClients(){
                     <DropdownItem onClick={()=>setLocation("Palorinya Zone 3")}> Palorinya Zone 3</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <ListGroup>
-                {data.length>0?data.map((client)=>{
-                    return(
-                    <ListGroupItem key={client.ClientId} >
-                        <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
-                        <ListGroupItemHeading> ID: {client.ClientId}</ListGroupItemHeading>
-                        <ListGroupItemText>
-                            <p>Gender: {client.Gender}</p>
-                            <p>Disability Type: {client.DisabilityType}</p>
-                        </ListGroupItemText>
-                    </ListGroupItem>
-                    )
-                })
-                :<ListGroupItem>Empty</ListGroupItem>}
-            </ListGroup>
+            <div style={{maxHeight: "400px", overflowY: "auto"}}>
+                <ListGroup>
+                    {data.length>0?data.map((client)=>{
+                        return(
+                        <ListGroupItem key={client.ClientId}>
+                            <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
+                            <ListGroupItemHeading> ID: {client.ClientId}</ListGroupItemHeading>
+                            <ListGroupItemText>
+                                <p style={{margin:"0"}}>Gender: {client.Gender}</p>
+                                <p style={{margin:"0"}}>Disability Type: {client.DisabilityType}</p>
+                            </ListGroupItemText>
+                        </ListGroupItem>
+                        )
+                    })
+                    :<ListGroupItem>Empty</ListGroupItem>}
+                </ListGroup>
+            </div>
         </div>
     );
 }
