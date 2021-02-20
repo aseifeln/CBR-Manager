@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 
@@ -16,6 +16,7 @@ import { Form,
         Collapse } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
+import "../css/ClientList.css";
 
 function ClientListPage() {
 
@@ -186,14 +187,41 @@ function ClientListPage() {
     return (
         <>
         <AppNavbar />
-        <Container>
-            <div>
+        <Container className='ClientList'>
+            <div className='Title'>
                 <h1>Client List</h1>
-                <Button href="/client/new">Create New Client</Button>
+                <Link to="/client/new">+ Create new client</Link>
             </div>
             <Form onSubmit={filterList}>
-                <Label>Choose Filters</Label>
-                <Container>
+                <FormGroup>
+                    <Input type="text" id="searchName"
+                           value={searchName}
+                           onChange={(event) => setSearchName(
+                               event.target.value)}
+                           placeholder="Search by name" />
+                </FormGroup>
+                <Container className='SortSection'>
+                    <FormGroup tag="radioFilter"
+                               value={radioFilter}
+                               onChange={(event) => setRadioFilter(event.target.value)} >
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="radio1" value="priority"/>
+                                By Priority
+                            </Label>
+                        </FormGroup>
+                        <FormGroup check>
+                            <Label check>
+                                <Input type="radio" name="radio1" value="DateCreated"/>
+                                Recently Added
+                            </Label>
+                        </FormGroup>
+                    </FormGroup>
+                </Container>
+                <Container className='ChooseFilters'>
+                    <Label>Filters</Label>
+                    <Button onClick={filterList}>Apply Filters</Button>
+                    <Button onClick={resetFilters}>Reset</Button>
                     <FormGroup onChange={setFilters}>
                         <Row>
                             <Col xs="auto">
@@ -218,100 +246,82 @@ function ClientListPage() {
                             </Col>
                         </Row>
                     </FormGroup>
+                    <Collapse isOpen={isOpenAge}>
+                        <FormGroup>
+                            <Label>Age</Label>
+                            <Input type="number"
+                                   value={searchAge}
+                                   onChange={(event) => setSearchAge(
+                                       Number(event.target.value))}
+                                   placeholder="Age" />
+                        </FormGroup>
+                    </Collapse>
+                    <Collapse isOpen={isOpenGender}>
+                        <FormGroup onChange={(event) => setSearchGender(event.target.value)}>
+                            <Label>Gender</Label>
+                            <FormGroup check>
+                                <Label check>
+                                    <Input type="radio" name="radio1" value="Male"/>
+                                    Male
+                                </Label>
+                            </FormGroup>
+                            <FormGroup check>
+                                <Label check>
+                                    <Input type="radio" name="radio1" value="Female"/>
+                                    Female
+                                </Label>
+                            </FormGroup>
+                        </FormGroup>
+                    </Collapse>
+                    <Collapse isOpen={isOpenLocation}>
+                        <FormGroup>
+                            <Label>Zone</Label>
+                            <Input type="select"
+                                   value={searchLocation}
+                                   onChange={(event) => setSearchLocation(event.target.value)}>
+                                <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
+                                <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
+                                <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
+                                <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
+                                <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
+                                <option value="Palorinya Basecamp">Palorinya Basecamp</option>
+                                <option value="Palorinya Zone 1">Palorinya Zone 1</option>
+                                <option value="Palorinya Zone 2">Palorinya Zone 2</option>
+                                <option value="Palorinya Zone 3">Palorinya Zone 3</option>
+                            </Input>
+                        </FormGroup>
+                    </Collapse>
+                    <Collapse isOpen={isOpenVillageNo}>
+                        <FormGroup>
+                            <Label>Village No</Label>
+                            <Input type="number"
+                                   value={searchVillageNo}
+                                   onChange={(event) => setSearchVillageNo(
+                                       Number(event.target.value))}
+                                   placeholder="Village Number" />
+                        </FormGroup>
+                    </Collapse>
+                    <Collapse isOpen={isOpenDisability}>
+                        <FormGroup>
+                            <Label>Disability Type</Label>
+                            <Input type="select"
+                                   value={searchDisability}
+                                   onChange={(event) => setSearchDisability(event.target.value)}>
+                                <option value="Amputee">Amputee</option>
+                                <option value="Polio">Polio</option>
+                                <option value="Spinal Cord Injury">Spinal Cord Injury</option>
+                                <option value="Cerebral Palsy">Cerebral Palsy</option>
+                                <option value="Spina Bifida">Spina Bifida</option>
+                                <option value="Hydrocephalus">Hydrocephalus</option>
+                                <option value="Visual Impairment">Visual Impairment</option>
+                                <option value="Hearing Impairment">Hearing Impairment</option>
+                                <option value="Don\'t Know">Don\'t Know</option>
+                                <option value="Other">Other</option>
+                            </Input>
+                        </FormGroup>
+                    </Collapse>
                 </Container>
-                    <FormGroup>
-                        <Input type="text" id="searchName"
-                               value={searchName}
-                               onChange={(event) => setSearchName(
-                                   event.target.value)}
-                               placeholder="Name" />
-                    </FormGroup>
-                <Collapse isOpen={isOpenAge}>
-                    <FormGroup>
-                        <Input type="number"
-                               value={searchAge}
-                               onChange={(event) => setSearchAge(
-                                   Number(event.target.value))}
-                               placeholder="Age" />
-                    </FormGroup>
-                </Collapse>
-                <Collapse isOpen={isOpenGender}>
-                    <FormGroup onChange={(event) => setSearchGender(event.target.value)}>
-                        <FormGroup check>
-                            <Label check>
-                                <Input type="radio" name="radio1" value="Male"/>
-                                Male
-                            </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                            <Label check>
-                                <Input type="radio" name="radio1" value="Female"/>
-                                Female
-                            </Label>
-                        </FormGroup>
-                    </FormGroup>
-                </Collapse>
-                <Collapse isOpen={isOpenLocation}>
-                    <Input type="select"
-                           value={searchLocation}
-                           onChange={(event) => setSearchLocation(event.target.value)}>
-                        <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
-                        <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
-                        <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
-                        <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
-                        <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
-                        <option value="Palorinya Basecamp">Palorinya Basecamp</option>
-                        <option value="Palorinya Zone 1">Palorinya Zone 1</option>
-                        <option value="Palorinya Zone 2">Palorinya Zone 2</option>
-                        <option value="Palorinya Zone 3">Palorinya Zone 3</option>
-                    </Input>
-                </Collapse>
-                <Collapse isOpen={isOpenVillageNo}>
-                    <FormGroup>
-                        <Input type="number"
-                               value={searchVillageNo}
-                               onChange={(event) => setSearchVillageNo(
-                                   Number(event.target.value))}
-                               placeholder="Village Number" />
-                    </FormGroup>
-                </Collapse>
-                <Collapse isOpen={isOpenDisability}>
-                    <Input type="select"
-                           value={searchDisability}
-                           onChange={(event) => setSearchDisability(event.target.value)}>
-                        <option value="Amputee">Amputee</option>
-                        <option value="Polio">Polio</option>
-                        <option value="Spinal Cord Injury">Spinal Cord Injury</option>
-                        <option value="Cerebral Palsy">Cerebral Palsy</option>
-                        <option value="Spina Bifida">Spina Bifida</option>
-                        <option value="Hydrocephalus">Hydrocephalus</option>
-                        <option value="Visual Impairment">Visual Impairment</option>
-                        <option value="Hearing Impairment">Hearing Impairment</option>
-                        <option value="Don\'t Know">Don\'t Know</option>
-                        <option value="Other">Other</option>
-                    </Input>
-                </Collapse>
-                <FormGroup tag="radioFilter"
-                           value={radioFilter}
-                           onChange={(event) => setRadioFilter(event.target.value)} >
-                    <legend>Sort</legend>
-                    <FormGroup check>
-                        <Label check>
-                            <Input type="radio" name="radio1" value="priority"/>
-                            By Priority
-                        </Label>
-                    </FormGroup>
-                    <FormGroup check>
-                        <Label check>
-                            <Input type="radio" name="radio1" value="DateCreated"/>
-                            Recently Added
-                        </Label>
-                    </FormGroup>
-                </FormGroup>
-
-                <Button onClick={filterList}>Apply Filters</Button>
             </Form>
-            <Button onClick={resetFilters}>Reset</Button>
 
             <ListGroup>
                 {currentPageClients.map(({FirstName, LastName, Age, Gender,
