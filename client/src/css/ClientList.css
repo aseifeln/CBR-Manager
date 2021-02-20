@@ -33,10 +33,8 @@
 }
 
 .pagination a {
-    text-align: center;
     margin-top: 20px;
     color: blue;
-    float: center;
     padding: 8px 16px;
     border-radius: 2px;
 }
