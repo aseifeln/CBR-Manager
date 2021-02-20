@@ -22,7 +22,7 @@ function Dashboard() {
                 <PriorityClients></PriorityClients>
               </div>
             </Col>
-            <Col sm={{size:'auto',offset:2}}>
+            <Col sm={{size:'auto',offset:0}}>
               <div className="outRefs">
                 <OutRefs></OutRefs>
               </div>

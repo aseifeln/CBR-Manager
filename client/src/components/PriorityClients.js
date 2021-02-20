@@ -22,10 +22,11 @@ function PriorityClients(){
 
     return(
         <div>
-            <h5>Priority Clients   <Link to="/client-list">See All Clients</Link></h5>
+            <h4 style={{color:"#9646b7"}}>Priority Clients</h4>
+            <Link to="/client-list" style={{color:"#22a9ba", fontSize:"1rem"}}>See All Clients</Link>
             <div>Current Location: {location}</div> 
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                <DropdownToggle caret>Location</DropdownToggle>
+                <DropdownToggle caret style={{backgroundColor:"#46ad2f"}}>Location</DropdownToggle>
                 <DropdownMenu>
                     <DropdownItem onClick={()=>setLocation("BidiBidi Zone 1")}> BidiBidi Zone 1</DropdownItem>
                     <DropdownItem onClick={()=>setLocation("BidiBidi Zone 2")}> BidiBidi Zone 2</DropdownItem>

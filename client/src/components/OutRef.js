@@ -7,7 +7,7 @@ function OutRef(props){
 
     return(
         <div>
-            <h4>Outstanding Referrals</h4>
+            <h4 style={{color:"#9646b7"}}>Outstanding Referrals</h4>
             <ListGroup>
                 <ListGroupItem>Empty</ListGroupItem>
             </ListGroup>
