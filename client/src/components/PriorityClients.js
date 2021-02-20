@@ -42,7 +42,7 @@ function PriorityClients(){
                 <ListGroup>
                     {data.length>0?data.map((client)=>{
                         return(
-                        <ListGroupItem key={client.ClientId}>
+                        <ListGroupItem key={client.ClientId} tag="a" href={`/client/${client.ClientId}`} action>
                             <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
                             <ListGroupItemHeading> ID: {client.ClientId}</ListGroupItemHeading>
                             <ListGroupItemText>
