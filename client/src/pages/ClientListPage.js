@@ -190,7 +190,7 @@ function ClientListPage() {
         <>
         <Container className='ClientList'>
             <div className='Title'>
-                <h1 style={{color:"#9646b7"}}>Client List</h1>
+                <h1 style={{color:"#9646b7f"}}>Client List</h1>
                 <Link to="/client/new" style={{color:"#22a9ba"}}>+ Create new client</Link>
             </div>
             <Form onSubmit={filterList}>

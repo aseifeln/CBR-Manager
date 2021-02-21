@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
@@ -50,7 +51,7 @@ function ClientInfo(props) {
     }, [])
 
     {/* TODO: Will need to figure out a better way to tell users a client isn't found,
-        as right now will still render this component briefly even for existing clients*/}
+as right now will still render this component briefly even for existing clients*/}
     if (!clientFound)
     {
         return (
