@@ -45,7 +45,17 @@ async function userIsExist(username){
     return exist;
 }
 
+async function getUserPassword(username) {
+    return await users.findOne({
+      where: {
+        Username: username
+      }
+    });
+}
 
+async function passwordIsTrue(loginPassword, databasePassword){
+    return await bcrypt.compare(loginPassword, databasePassword)
+}
 
 app.post("/register", upload.single('Photo'), async (req, res) => {
     try{
@@ -98,23 +108,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
     } catch {
         res.status(500).send();
     }
-
-
 });
-
-
-
-async function getUserPassword(username) {
-    return await users.findOne({
-      where: {
-        Username: username
-      }
-    });
-}
-
-async function passwordIsTrue(loginPassword, databasePassword){
-    return await bcrypt.compare(loginPassword, databasePassword)
-}
 
 app.post('/login', async (req, res) => {
     const WRONGPASSWORD = '0'
