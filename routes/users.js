@@ -33,6 +33,18 @@ function validateRegisterDetails(res, user){
     return SUCCESS;
 }
 
+async function userIsExist(username){
+    const exist = await users.count({
+        where: {
+          Username: username
+        }
+    })
+    .then(count => {
+        return (count > 0) ? true : false
+    });
+    return exist;
+}
+
 
 
 app.post("/register", upload.single('Photo'), async (req, res) => {
@@ -49,11 +61,10 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
         if(!validateRegisterDetails(res, user)){
             res.status(400).write('Register Unsuccessful');
             return res.send()
-        
         }
-        else if (userIsExist(user.username)){
+        else if (await userIsExist(user.username)){
             const REGISTERED = '3'
-            res.send(REGISTERED);
+            return res.send(REGISTERED);
             
         }else{
             const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -91,17 +102,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 
 });
 
-async function userIsExist(username){
-    const exist = await users.count({
-        where: {
-          Username: username
-        }
-    })
-    .then(count => {
-        return (count > 0) ? true : false
-    });
-    return exist;
-}
+
 
 async function getUserPassword(username) {
     return await users.findOne({

@@ -18,7 +18,7 @@ function Login(props) {
             username: username, //test this?
             password: password,
         }
-        axios.post('http://localhost:5000/users/login',{user})
+        axios.post('/users/login',{user})
             .then(res => {
                 if(!authPasses()){
                     alert("Username or password is invalid size");

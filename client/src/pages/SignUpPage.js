@@ -45,11 +45,11 @@ function SignUpPage(props) {
                 lastname: lastName,
                 username: username,
                 location: document.getElementById('location').value,
-                photo: photo,
+                photo: document.getElementById('profilePhoto').value,
                 password: password,
                 confirm_password: confirmPassword
             }
-            axios.post('http://localhost:5000/users/register', {user})
+            axios.post('/users/register', {user})
             .then(async res => {
                 const REGISTERED = '3'
                 if(res.data == REGISTERED){
