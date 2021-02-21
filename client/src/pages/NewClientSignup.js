@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
@@ -7,6 +8,11 @@ import AppNavbar from '../components/AppNavbar';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
+  const [imagePreviewSrc, setImagePreviewSrc] = useState('')
+  const [caregiverPresent, setCaregiverPresent] = useState(false)
+  const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
+  const history = useHistory()
+
   function formatSubmitData(data) {
     data['Consent'] = (data['Consent']) ? 'Y' : 'N'
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
@@ -23,6 +29,7 @@ function NewClientSignup() {
 
   async function onValidSubmit(data) {
     data = formatSubmitData(data)
+
     
     try {
       const results = await axios.post('/clients/add', data, {
@@ -30,16 +37,15 @@ function NewClientSignup() {
           'Content-Type': 'multipart/form-data'
         }
       })
+
       console.log(results)
-  
+      alert('New client successfully added')
+      history.push('/')
+      
     } catch(err) {
       console.error(err.message)
     }
   }
-
-  const [imagePreviewSrc, setImagePreviewSrc] = useState('')
-  const [caregiverPresent, setCaregiverPresent] = useState(false)
-  const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
 
   return (
     <>
