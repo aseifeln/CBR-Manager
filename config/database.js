@@ -1,5 +1,22 @@
-
 const { Sequelize } = require('sequelize');
 
 //Connecting to DB
-module.exports = new Sequelize('postgres://' + process.env.DB_URL)
+
+// Reference: https://stackoverflow.com/questions/58965011/sequelizeconnectionerror-self-signed-certificate
+if (process.env.NODE_ENV === 'production')
+{
+    module.exports = new Sequelize(process.env.DATABASE_URL, {
+        dialect: 'postgres',
+        protocol: 'postgres',
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        }
+    })
+}
+else 
+{
+    module.exports = new Sequelize('postgres://' + process.env.DB_URL)
+}
