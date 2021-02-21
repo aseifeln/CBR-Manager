@@ -24,7 +24,7 @@ function Login(props) {
         event.preventDefault();
         initialErrState();
         const user = {
-            username: username, //test this?
+            username: username, 
             password: password,
         }
         axios.post('/users/login',{user})
@@ -36,7 +36,7 @@ function Login(props) {
                 else if(res.data == UNREGISTERED) {
                     alert("User is not registered");
                     props.history.push("/login");
-                } else { //SUCCESS
+                } else { 
                     props.history.push("/");
                 }
                 return;
