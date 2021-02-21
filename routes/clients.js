@@ -71,7 +71,11 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         WorkerId
     })
     .then(result => res.send("Client Added Successfully"))
-    .catch(err => res.status(400).json(err))
+    .catch(err => {
+        console.log(err)
+        res.status(400).json(err)
+    })
+
 })
 
 // @route   GET /clients/location/location_name
@@ -102,7 +106,10 @@ router.get('/location/:loc', (req,res) => {
         return clients;
     })
     .then(clients => res.json(clients))
-    .catch(err => res.status(404).json(err))  
+    .catch(err => {
+        console.log(err);
+        res.status(404).json(err)
+    })  
 })
 
 
