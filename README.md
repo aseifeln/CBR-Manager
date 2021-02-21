@@ -20,7 +20,7 @@ Within the client directory, there are two directories and the package.json file
 -	css: the css files used by some of the pages
 -	pages: The functional components that are rendered for certain routes and all the components are functional components.
 
-## Build Directions / Dependencies / Run instructions ##
+## Build Directions / Dependencies / Run Instructions ##
 
 ### Installing Dependencies ###
 
