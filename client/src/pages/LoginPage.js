@@ -25,31 +25,30 @@ function Login(props) {
         initialErrState();
 
         if (authPasses()) {
-            props.history.push("/");
-            return;
+            const user = {
+                username: username, 
+                password: password,
+            }
+            axios.post('/users/login',{user})
+                .then(res => {
+                    if(res.data == WRONGPASSWORD){
+                        alert("Wrong Password");
+                        props.history.push("/login");
+                    } 
+                    else if(res.data == UNREGISTERED) {
+                        alert("User is not registered");
+                        props.history.push("/login");
+                    } else { 
+                        props.history.push("/");
+                    }
+                    return;
+                  })
+                .catch( err => {
+                    console.log(err);
+                })
         }
 
-        const user = {
-            username: username, 
-            password: password,
-        }
-        axios.post('/users/login',{user})
-            .then(res => {
-                if(res.data == WRONGPASSWORD){
-                    alert("Wrong Password");
-                    props.history.push("/login");
-                } 
-                else if(res.data == UNREGISTERED) {
-                    alert("User is not registered");
-                    props.history.push("/login");
-                } else { 
-                    props.history.push("/");
-                }
-                return;
-              })
-            .catch( err => {
-                console.log(err);
-            })
+        
     }
 
     function authPasses() {

@@ -90,7 +90,10 @@ app.post('/login', async (req, res) => {
     const UNREGISTERED = '2'
     const loginUsername = req.body.user.username
     const loginPassword = req.body.user.password
+    console.log(loginUsername)
+    console.log(loginPassword)
     if(await userIsExist(loginUsername) == true){
+        console.log("asdd")
         try{
             await getUserPassword(loginUsername).then(async function(result){
                 if(await passwordIsTrue(loginPassword, result.Password)){
@@ -105,6 +108,7 @@ app.post('/login', async (req, res) => {
             res.status(500).send();
         }
     } else {
+        console.log("asd")
         res.send(UNREGISTERED);
     }
 });
