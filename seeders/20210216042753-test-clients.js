@@ -6,7 +6,7 @@ const disabilities = ['Amputee', 'Polio', 'Spinal Cord Injury', 'Cerebral Palsy'
 const locations = ['BidiBidi Zone 1', 'BidiBidi Zone 2', 'BidiBidi Zone 3', 'BidiBidi Zone 4', 'BidiBidi Zone 5', 'Palorinya Basecamp',
   'Palorinya Zone 1', 'Palorinya Zone 2', 'Palorinya Zone 3'];
 const statuses = ['Critical Risk', 'High Risk', 'Medium Risk', 'Low Risk'];
-const num_villages = 5;
+const num_villages = 6;
 const genders = ['Male', 'Female'];   // Please don't hurt me, its just for testing
 
 function randomInt(min, max) {
@@ -20,9 +20,9 @@ module.exports = {
       "FirstName": faker.name.firstName(),
         "LastName":  faker.name.lastName(),
         "DateCreated": faker.date.recent(),
-        "Gender": genders[randomInt(0,1)],
+        "Gender": genders[randomInt(0,2)],
         "Location": locations[randomInt(0, locations.length)],
-        "ContactNo": faker.phone.phoneNumber("111-111-1111"),
+        "ContactNo": faker.phone.phoneNumberFormat(),
         "VillageNo": randomInt(1, num_villages),
         "Age": randomInt(1, 99),
         "DisabilityType": disabilities[randomInt(0, disabilities.length)],
@@ -45,9 +45,9 @@ module.exports = {
         "FirstName": faker.name.firstName(),
         "LastName":  faker.name.lastName(),
         "DateCreated": faker.date.recent(),
-        "Gender": genders[randomInt(0,1)],
+        "Gender": genders[randomInt(0,2)],
         "Location": locations[randomInt(0, locations.length)],
-        "ContactNo": faker.phone.phoneNumber("111-111-1111"),
+        "ContactNo": faker.phone.phoneNumberFormat(),
         "VillageNo": randomInt(1, num_villages),
         "Age": randomInt(1, 99),
         "DisabilityType": disabilities[randomInt(0, disabilities.length)],
@@ -70,9 +70,9 @@ module.exports = {
         "FirstName": faker.name.firstName(),
         "LastName":  faker.name.lastName(),
         "DateCreated": faker.date.recent(),
-        "Gender": genders[randomInt(0,1)],
+        "Gender": genders[randomInt(0,2)],
         "Location": locations[randomInt(0, locations.length)],
-        "ContactNo": faker.phone.phoneNumber("111-111-1111"),
+        "ContactNo": faker.phone.phoneNumberFormat(),
         "VillageNo": randomInt(1, num_villages),
         "Age": randomInt(1, 99),
         "DisabilityType": disabilities[randomInt(0, disabilities.length)],
@@ -95,9 +95,9 @@ module.exports = {
         "FirstName": faker.name.firstName(),
         "LastName":  faker.name.lastName(),
         "DateCreated": faker.date.recent(),
-        "Gender": genders[randomInt(0,1)],
+        "Gender": genders[randomInt(0,2)],
         "Location": locations[randomInt(0, locations.length)],
-        "ContactNo": faker.phone.phoneNumber("111-111-1111"),
+        "ContactNo": faker.phone.phoneNumberFormat(),
         "VillageNo": randomInt(1, num_villages),
         "Age": randomInt(1, 99),
         "DisabilityType": disabilities[randomInt(0, disabilities.length)],
@@ -120,9 +120,9 @@ module.exports = {
         "FirstName": faker.name.firstName(),
         "LastName":  faker.name.lastName(),
         "DateCreated": faker.date.recent(),
-        "Gender": genders[randomInt(0,1)],
+        "Gender": genders[randomInt(0,2)],
         "Location": locations[randomInt(0, locations.length)],
-        "ContactNo": faker.phone.phoneNumber("111-111-1111"),
+        "ContactNo": faker.phone.phoneNumberFormat(),
         "VillageNo": randomInt(1, num_villages),
         "Age": randomInt(1, 99),
         "DisabilityType": disabilities[randomInt(0, disabilities.length)],
