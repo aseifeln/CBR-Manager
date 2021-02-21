@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
-import AppNavbar from "../components/AppNavbar";
 import "../css/Login.css";
 
 function Login(props) {
@@ -43,7 +42,6 @@ function Login(props) {
 
     return (
         <div className='Login'>
-            <AppNavbar />
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label>Username: </Label>

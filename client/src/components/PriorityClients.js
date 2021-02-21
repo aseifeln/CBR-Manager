@@ -26,7 +26,7 @@ function PriorityClients(){
             <Link to="/client-list" style={{color:"#22a9ba", fontSize:"1rem"}}>See All Clients</Link>
             <div>Current Location: {location}</div> 
             <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-                <DropdownToggle caret style={{backgroundColor:"#46ad2f"}}>Location</DropdownToggle>
+                <DropdownToggle caret style={{backgroundColor:"#46ad2f",margin:"10px"}}>Location</DropdownToggle>
                 <DropdownMenu>
                     <DropdownItem onClick={()=>setLocation("BidiBidi Zone 1")}> BidiBidi Zone 1</DropdownItem>
                     <DropdownItem onClick={()=>setLocation("BidiBidi Zone 2")}> BidiBidi Zone 2</DropdownItem>
@@ -39,7 +39,7 @@ function PriorityClients(){
                     <DropdownItem onClick={()=>setLocation("Palorinya Zone 3")}> Palorinya Zone 3</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <div style={{maxHeight: "400px", overflowY: "auto"}}>
+            <div style={{maxHeight: "35em", overflowY: "auto",minWidth:"30em",border:"1px solid grey"}}>
                 <ListGroup>
                     {data.length>0?data.map((client)=>{
                         return(

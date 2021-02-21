@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
-import AppNavbar from '../components/AppNavbar';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
@@ -15,7 +14,6 @@ function NewClientSignup() {
 
   return (
     <>
-      <AppNavbar/>
       <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit}>
 
         {/* 1. General Details */}

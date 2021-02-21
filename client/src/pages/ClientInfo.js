@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import AppNavbar from '../components/AppNavbar';
 import NotFoundPage from './404';
 
 function ClientInfo(props) {
@@ -60,7 +59,6 @@ function ClientInfo(props) {
     
     return(
         <div>
-            <AppNavbar/>
             <Container>
                 <Row>
                     <Col>

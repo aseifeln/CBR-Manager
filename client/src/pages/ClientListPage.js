@@ -14,7 +14,6 @@ import { Form,
         Table,
         Collapse } from 'reactstrap';
 
-import AppNavbar from '../components/AppNavbar';
 import "../css/ClientList.css";
 
 function ClientListPage() {
@@ -187,7 +186,6 @@ function ClientListPage() {
 
     return (
         <>
-        <AppNavbar />
         <Container className='ClientList'>
             <div className='Title'>
                 <h1>Client List</h1>

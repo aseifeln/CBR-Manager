@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
 
 
-import AppNavbar from "../components/AppNavbar";
 import "../css/SignUp.css";
 
 function SignUpPage(props) {
@@ -65,7 +64,6 @@ function SignUpPage(props) {
 
     return (
         <div className='SignUp'>
-            <AppNavbar />
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CRB Account</b></h2>
                 <FormGroup>
