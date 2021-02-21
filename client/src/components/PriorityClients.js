@@ -45,10 +45,33 @@ function PriorityClients(){
                         return(
                         <ListGroupItem key={client.ClientId} tag="a" href={`/client/${client.ClientId}`} action>
                             <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
-                            <ListGroupItemHeading> ID: {client.ClientId}</ListGroupItemHeading>
                             <ListGroupItemText>
                                 <p style={{margin:"0"}}>Gender: {client.Gender}</p>
                                 <p style={{margin:"0"}}>Disability Type: {client.DisabilityType}</p>
+                            </ListGroupItemText>
+                            <ListGroupItemText style={
+                                (client.HealthStatus==="Critical Risk")?{color:"red"}:
+                                (client.HealthStatus==="High Risk")?{color:"orange"}:
+                                (client.HealthStatus==="Medium Risk")?{color:"#fcd95b"}:
+                                {color:"green"}
+                                }>
+                                <span style={{color:"#9646b7"}}>Health Status: </span> {client.HealthStatus}
+                            </ListGroupItemText>
+                            <ListGroupItemText style={
+                                (client.SocialStatus==="Critical Risk")?{color:"red"}:
+                                (client.SocialStatus==="High Risk")?{color:"orange"}:
+                                (client.SocialStatus==="Medium Risk")?{color:"#fcd95b"}:
+                                {color:"green"}
+                                }>
+                                <span style={{color:"#9646b7"}}>Social Status: </span> {client.SocialStatus}
+                            </ListGroupItemText>
+                            <ListGroupItemText style={
+                                (client.EducationStatus==="Critical Risk")?{color:"red"}:
+                                (client.EducationStatus==="High Risk")?{color:"orange"}:
+                                (client.EducationStatus==="Medium Risk")?{color:"#fcd95b"}:
+                                {color:"green"}
+                                }>
+                                <span style={{color:"#9646b7"}}>Education Status: </span> {client.EducationStatus}
                             </ListGroupItemText>
                         </ListGroupItem>
                         )
