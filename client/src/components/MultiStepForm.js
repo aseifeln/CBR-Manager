@@ -21,7 +21,7 @@ function MultiStepForm({ children, name, onValidSubmit }) {
         <div style={formContainerSize}>
           <Badge color="primary" pill>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
 
-          {(name) && <h2>{name}</h2>}
+          {(name) && <h2 style={{textAlign: 'left'}}>{name}</h2>}
           <hr/>
 
           {/* step navigation buttons */}
@@ -71,14 +71,22 @@ function MultiStepForm({ children, name, onValidSubmit }) {
               &nbsp;
 
               <span id="form-button" class="d-inline-block">
-                <Button
-                  color="primary" 
-                  type="submit" 
-                  form="multi-form"
-                  disabled={isInvalidSubmit}
-                  style={(isInvalidSubmit) ? { pointerEvents: 'none' } : {}}>
-                  {(formState.isLastStep) ? 'Submit' : 'Next'}
-                </Button>
+                {((formState.isLastStep) ? (
+                  <Button
+                    color="primary" 
+                    type="submit" 
+                    form="multi-form"
+                    disabled={isInvalidSubmit}
+                    style={(isInvalidSubmit) ? { pointerEvents: 'none' } : {}}>
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    color="primary"
+                    onClick={formState.submitStep}>
+                    Next
+                  </Button>
+                ))}
 
                 <Tooltip 
                   target="form-button"
@@ -156,7 +164,7 @@ function FieldCheck(props) {
               invalid={showError}
               onChange={(e) => {
                 if (type === 'radio') setValue(propValue)
-                else if (type === 'checkbox') setValue(!e.target.value)
+                else if (type === 'checkbox') setValue(e.target.checked)
                 if (onChange) onChange(e)
               }}
             />{' ' + label}
