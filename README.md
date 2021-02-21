@@ -51,3 +51,14 @@ Run in project root directory:
 ### Run Instructions ###
 
 After all the set up is done, use the command "npm run start" in the project root directory and the client and server will start simultaneously.
+
+## Deployment ##
+
+This is to be done in production mode and there are a few options.
+
+### Heroku ###
+
+1. Create an account on Heroku and create an application.
+2. Follow the provided instructions for deployment on the page after creating the application (i.e. git init -> heroku git:remote -a <app_name>)
+3. After pushing the application to Heroku, run "heroku addons:create heroku-postgresql:hobby-dev".
+4. After the application has been successfully built by Heroku, run "heroku run npx sequelize-cli db:migrate" to create the necessary tables.
