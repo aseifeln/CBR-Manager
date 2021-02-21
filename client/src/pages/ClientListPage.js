@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from "axios";
+import ReactPaginate from 'react-paginate';
+
 import { Form,
         FormGroup,
         Label,
@@ -8,12 +10,8 @@ import { Form,
         Row,
         Col,
         Container,
-        Pagination,
-        PaginationItem,
-        PaginationLink,
-        ListGroup,
-        ListGroupItem,
         Button,
+        Table,
         Collapse } from 'reactstrap';
 
 import AppNavbar from '../components/AppNavbar';
@@ -22,8 +20,12 @@ import "../css/ClientList.css";
 function ClientListPage() {
 
    const [ refresh, setRefresh ] = useState(0);
-   const [ clients, setClients ] = useState(['']);
-   const [ filteredClients, setFilteredClients ] = useState([]);
+   const [ offset, setOffset ] = useState(0);
+   const [ pageCount, setPageCount ] = useState(0);
+   const [ clients, setClients ] = useState([]);
+   const [ currentPageClients, setCurrentPageClients ] = useState([]);
+   const [ filteredClients, setFilteredClients ] = useState(['']);
+
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ searchName, setSearchName ] = useState('');
    const [ searchAge, setSearchAge ] = useState(0);
@@ -39,20 +41,32 @@ function ClientListPage() {
    const [isOpenDisability, setIsOpenDisability] = useState(false);
 
    const history = useHistory();
-
+   const clientsPerPage = 5;
 
     useEffect(() => {
         axios.get('/clients')
             .then(function (res) {
             setClients(res.data);
-            if (filteredClients.length === 0) {
+            if (filteredClients[0] === '') {
                 setFilteredClients(res.data);
+                setClientPages(res.data);
             }
             })
             .catch(function (err) {
                 console.log(err);
             });
     }, [refresh]);
+
+
+    useEffect(() => {
+        setClientPages(filteredClients);
+    }, [offset]);
+
+    function setClientPages(relevantClients) {
+        setPageCount(Math.ceil(relevantClients.length / clientsPerPage));
+        let currentPage = relevantClients.slice(offset, offset + clientsPerPage);
+        setCurrentPageClients(currentPage);
+    }
 
     // TODO refactor
     function searchFor(client) {
@@ -120,12 +134,14 @@ function ClientListPage() {
     function filterList(event) {
         event.preventDefault();
         setRefresh(refresh + 1);
+        setOffset(0);
 
         let sorted_clients;
         let searched_clients;
         sorted_clients = clients.sort(sortBy(radioFilter));
         searched_clients = sorted_clients.filter(searchFor);
         setFilteredClients(searched_clients);
+        setClientPages(searched_clients);
         setSearchName('');
     }
 
@@ -137,7 +153,9 @@ function ClientListPage() {
         setIsOpenDisability(false);
         setSearchName('');
 
+        setOffset(0);
         setFilteredClients(clients);
+        setClientPages(clients);
         setRefresh(refresh + 1);
     }
 
@@ -161,6 +179,10 @@ function ClientListPage() {
                 break;
             default:
         }
+    }
+
+    function handlePageClick(event) {
+        setOffset(event.selected * clientsPerPage);
     }
 
     return (
@@ -301,53 +323,48 @@ function ClientListPage() {
                     </Collapse>
                 </Container>
             </Form>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Location</th>
+                        <th>VillageNo</th>
+                        <th>DisabilityType</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {currentPageClients.map(({FirstName, LastName, Age, Gender,
+                                          Location, VillageNo,
+                                          DisabilityType, ClientId}) => (
+                                    <tr>
+                                        <td>{FirstName}</td>
+                                        <td>{LastName}</td>
+                                        <td>{Age}</td>
+                                        <td>{Gender}</td>
+                                        <td>{Location}</td>
+                                        <td>{VillageNo}</td>
+                                        <td>{DisabilityType}</td>
+                                        <Button onClick={() => history.push(`/client/${ClientId}`)}
+                                                style={{'float': 'right'}}>View</Button>
+                                    </tr>
+                        ))}
+                </tbody>
+            </Table>
 
-            <ListGroup>
-                {filteredClients.map(({FirstName, LastName, Age, Gender,
-                                  Location, VillageNo,
-                                  DisabilityType, ClientId}) => (
-                        <ListGroupItem>
-                            {FirstName}, {LastName}, {Age}, {Gender}, {Location}, {VillageNo}, {DisabilityType}
-                            <Button onClick={() => history.push(`/client/${ClientId}`)}
-                                    style={{'float': 'right'}}>View</Button>
-                        </ListGroupItem>
-                ))}
-            </ListGroup>
-
-            {/*TODO set this up for overflowing clients*/}
-            <Pagination aria-label="Client List Pages">
-                <PaginationItem>
-                    <PaginationLink previous href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#1">
-                        1
-                    </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#2">
-                        2
-                    </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#3">
-                        3
-                    </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#4">
-                        4
-                    </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#5">
-                        5
-                    </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink next href="#" />
-                </PaginationItem>
-            </Pagination>
+            <ReactPaginate previousLabel={'Previous'}
+                           nextLabel={'Next'}
+                           breakLabel={'...'}
+                           pageCount={pageCount}
+                           pageRangeDisplayed={5}
+                           marginPagesDisplayed={2}
+                           onPageChange={handlePageClick}
+                           forcePage={offset / clientsPerPage}
+                           containerClassName={'pagination'}
+                           subContainerClassName={'pages pagination'}
+                           activeClassName={'pagination_active'} />
 
         </Container>
         </>
