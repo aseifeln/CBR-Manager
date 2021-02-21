@@ -11,10 +11,6 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 
-app.get("/register", (req, res, next) => {
-    res.json(users);
-});
-
 function validateRegisterDetails(res, user){
     SUCCESS = true;
     if (user.password.length < 6){
