@@ -11,20 +11,6 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 
-function validateRegisterDetails(res, user){
-    SUCCESS = true;
-    if (user.password.length < 6){
-        res.status(400).write('Password must be at least 6 characters\n');
-        SUCCESS = false;
-    }
-    if(user.password != user.confirm_password){
-        res.status(400).write('Password and Confirm Password do not match\n');
-        SUCCESS = false;
-    }
-    
-    return SUCCESS;
-}
-
 async function userIsExist(username){
     const exist = await users.count({
         where: {
@@ -60,11 +46,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             password: req.body.user.password,
             confirm_password: req.body.user.confirm_password
         };
-        if(!validateRegisterDetails(res, user)){
-            res.status(400).write('Register Unsuccessful');
-            return res.send()
-        }
-        else if (await userIsExist(user.username)){
+        if (await userIsExist(user.username)){
             const REGISTERED = '3'
             return res.send(REGISTERED);
             
