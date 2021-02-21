@@ -15,8 +15,8 @@ function Login(props) {
     function handleSubmit(event) {
         event.preventDefault();
         const user = {
-            username: document.getElementById('userName').value,
-            password: document.getElementById('password').value,
+            username: username, //test this?
+            password: password,
         }
         axios.post('http://localhost:5000/users/login',{user})
             .then(res => {

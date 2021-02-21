@@ -5,10 +5,6 @@ const workers = require('../models/worker')
 const app = express.Router();
 const multer = require('multer')
 const upload = multer({});
-const Sequelize = require('sequelize');
-
-require('dotenv').config();
-
 const cors = require('cors')
 
 app.use(cors())
@@ -33,13 +29,13 @@ function validateRegisterDetails(res, user){
         res.status(400).write('Password and Confirm Password do not match\n');
         SUCCESS = false;
     }
+    
     return SUCCESS;
 }
 
 
 
 app.post("/register", upload.single('Photo'), async (req, res) => {
-    //TODO: Change variables after register layout finished
     try{
         let user = { 
             firstname: req.body.user.firstname,
@@ -53,6 +49,11 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
         if(!validateRegisterDetails(res, user)){
             res.status(400).write('Register Unsuccessful');
             return res.send()
+        
+        }
+        else if (userIsExist(user.username)){
+            const REGISTERED = '3'
+            res.send(REGISTERED);
             
         }else{
             const hashedPassword = await bcrypt.hash(user.password, 10);

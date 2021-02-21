@@ -41,18 +41,22 @@ function SignUpPage(props) {
 
         if (authPasses()) {
             const user = {
-                firstname: document.getElementById('firstName').value,
-                lastname: document.getElementById('lastName').value,
-                username: document.getElementById('userName').value,
+                firstname: firstName,
+                lastname: lastName,
+                username: username,
                 location: document.getElementById('location').value,
-                photo: document.getElementById('profilePhoto').value,
-                password: document.getElementById('password').value,
-                confirm_password: document.getElementById('confirmPassword').value
+                photo: photo,
+                password: password,
+                confirm_password: confirmPassword
             }
             axios.post('http://localhost:5000/users/register', {user})
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
+            .then(async res => {
+                const REGISTERED = '3'
+                if(res.data == REGISTERED){
+                    alert("Username is already taken");
+                    await props.history.push("/signup");
+                    return;
+                }
             })
             .catch( err => {
                 console.log(err);
