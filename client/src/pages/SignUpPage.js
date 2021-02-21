@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
 
 
 import AppNavbar from "../components/AppNavbar";
 import "../css/SignUp.css";
+
+
 
 function SignUpPage(props) {
 
@@ -37,33 +40,64 @@ function SignUpPage(props) {
         initialErrState();
 
         if (authPasses()) {
-            props.history.push("/");
+            const user = {
+                firstname: firstName,
+                lastname: lastName,
+                username: username,
+                location: document.getElementById('location').value,
+                photo: document.getElementById('profilePhoto').value,
+                password: password,
+                confirm_password: confirmPassword
+            }
+            axios.post('/users/register', {user})
+            .then(async res => {
+                const REGISTERED = '3'
+                if(res.data == REGISTERED){
+                    alert("Username is already taken");
+                    await props.history.push("/signup");
+                    return;
+                }
+            })
+            .catch( err => {
+                console.log(err);
+            })
+            props.history.push("/login");
             return;
         }
+        props.history.push("/signup");
     }
 
     function authPasses() { 
+        var PASS = true
         if(!firstName.length > 0){
             setFirstNameErr(true)
+            PASS = false
         }
         if(!lastName.length > 0){
             setLastNameErr(true)
+            PASS = false
         }
         if(!username.length > 0){
             setUsernameErr(true)
+            PASS = false
         }
         if(password.length <= 5){
             setPasswordErr(true)
+            PASS = false
         }
         if(confirmPassword !== password){
             setConfirmPasswordErr(true)
+            PASS = false
         }
         if(photo === ""){
             setPhotoErr(true)
+            PASS = false
         }
+        return PASS
     }
 
     return (
+        
         <div className='SignUp'>
             <AppNavbar />
             <Form onSubmit={handleSubmit}>
