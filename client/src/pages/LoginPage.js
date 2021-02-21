@@ -23,6 +23,12 @@ function Login(props) {
     function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
+
+        if (authPasses()) {
+            props.history.push("/");
+            return;
+        }
+
         const user = {
             username: username, 
             password: password,
@@ -45,6 +51,20 @@ function Login(props) {
                 console.log(err);
             })
     }
+
+    function authPasses() {
+        let pass = true
+        if(!username.length > 0){
+            setUsernameErr(true)
+            pass = false
+        }
+        if(!password.length > 0){
+            setPasswordErr(true)
+            pass = false
+        }
+        return pass
+    }
+
 
     return (
         
