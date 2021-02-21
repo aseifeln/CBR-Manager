@@ -11,7 +11,7 @@ function Dashboard() {
       <Container>
         <Row>
           <Col>
-            <h2>CBR Dashboard</h2>
+            <h1>CBR Dashboard</h1>
           </Col>
         </Row>
         <Row>

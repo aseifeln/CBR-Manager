@@ -142,7 +142,7 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/login">Login instead</Link>
+                <Link to="/login" style={{color:"#22a9ba"}}>Login instead</Link>
             </Form>
         </div>
     )

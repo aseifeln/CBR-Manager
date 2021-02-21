@@ -10,7 +10,7 @@ import './css/App.css';
 function App() {
     return (
         <Router>
-            <AppNavbar />
+            <AppNavbar style={{position:"sticky"}}/>
             <RenderRoutes routes={ROUTES}/>
         </Router>
     );

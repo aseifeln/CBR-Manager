@@ -14,7 +14,7 @@ function NewClientSignup() {
 
   return (
     <>
-      <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit}>
+      <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit} style={{color:"#9646b7"}}>
 
         {/* 1. General Details */}
         <Step name='General'>

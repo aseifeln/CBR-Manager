@@ -18,8 +18,9 @@ function ClientInfo(props) {
     const [showShelterCareInfo, setShowShelterCareInfo] = useState(false);
     const [showSocialInfo, setShowSocialInfo] = useState(false);
     
-    const areaFontSize = {fontSize: "20px", fontWeight: "bold"};
+    const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
+    const areaColor={backgroundColor:"#9646b7"};
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
@@ -65,7 +66,7 @@ function ClientInfo(props) {
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
                     <Col>
-                        <Link to={"/client/" + props.match.params.id} className="float-right">Edit Client Info</Link>
+                        <Link to={"/client/" + props.match.params.id} className="float-right" style={{color:"#22a9ba"}}>Edit Client Info</Link>
                     </Col>
                 </Row>
             </Container>
@@ -90,7 +91,7 @@ function ClientInfo(props) {
             <Row>
                 <Col align="center">
                     <Link to={"/visit/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md">
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
                             New Visit +
                         </Button>
                     </Link>
@@ -100,7 +101,7 @@ function ClientInfo(props) {
             <br/>
             <Container>
                 <Card>
-                    <CardHeader onClick={() => setShowHealthInfo((showHealthInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowHealthInfo((showHealthInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Health</h2>
                     </CardHeader>
                     <Collapse isOpen={showHealthInfo}>
@@ -121,7 +122,7 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowEducationInfo((showEducationInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowEducationInfo((showEducationInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Education</h2>
                     </CardHeader>
                     <Collapse isOpen={showEducationInfo}>
@@ -132,7 +133,7 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowSocialInfo((showSocialInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowSocialInfo((showSocialInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Social</h2>
                     </CardHeader>
                     <Collapse isOpen={showSocialInfo}>
@@ -144,7 +145,7 @@ function ClientInfo(props) {
                 </Card>
                 {/* The remaining areas are for display purposes only and will be added later */}
                 <Card>
-                    <CardHeader onClick={() => setShowFoodNutritionInfo((showFoodNutritionInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowFoodNutritionInfo((showFoodNutritionInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Food/Nutrition</h2>
                     </CardHeader>
                     <Collapse isOpen={showFoodNutritionInfo}>
@@ -155,7 +156,7 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowShelterCareInfo((showShelterCareInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowShelterCareInfo((showShelterCareInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Shelter/Care</h2>
                     </CardHeader>
                     <Collapse isOpen={showShelterCareInfo}>
@@ -166,7 +167,7 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowLivelihoodInfo((showLivelihoodInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowLivelihoodInfo((showLivelihoodInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Livelihood</h2>
                     </CardHeader>
                     <Collapse isOpen={showLivelihoodInfo}>
@@ -177,7 +178,7 @@ function ClientInfo(props) {
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowEmpowermentInfo((showEmpowermentInfo) ? false : true)}>
+                    <CardHeader onClick={() => setShowEmpowermentInfo((showEmpowermentInfo) ? false : true)} style={areaColor}>
                         <h2 style={areaFontSize}>Empowerment</h2>
                     </CardHeader>
                     <Collapse isOpen={showEmpowermentInfo}>
