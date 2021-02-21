@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 
 //Connecting to DB
 
-// Reference: https://github.com/sequelize/sequelize/issues/956
+// Reference: https://stackoverflow.com/questions/58965011/sequelizeconnectionerror-self-signed-certificate
 if (process.env.NODE_ENV === 'production')
 {
     module.exports = new Sequelize(process.env.DATABASE_URL, {
