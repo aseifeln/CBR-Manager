@@ -29,10 +29,7 @@ function Login(props) {
         }
         axios.post('/users/login',{user})
             .then(res => {
-                if(!authPasses()){
-                    alert("Username or password is invalid size");
-                }
-                else if(res.data == WRONGPASSWORD){
+                if(res.data == WRONGPASSWORD){
                     alert("Wrong Password");
                     props.history.push("/login");
                 } 
@@ -47,19 +44,6 @@ function Login(props) {
             .catch( err => {
                 console.log(err);
             })
-    }
-
-    function authPasses() {
-        let pass = true
-        if(!username.length > 0){
-            setUsernameErr(true)
-            pass = false
-        }
-        if(!password.length > 0){
-            setPasswordErr(true)
-            pass = false
-        }
-        return pass
     }
 
     return (
