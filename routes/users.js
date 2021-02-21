@@ -17,10 +17,6 @@ app.get("/register", (req, res, next) => {
 
 function validateRegisterDetails(res, user){
     SUCCESS = true;
-    if( !user.firstname || !user.lastname || !user.username || !user.location || !user.password || !user.confirm_password){
-        res.status(400).write('All fields are required\n');
-        SUCCESS = false;
-    }
     if (user.password.length < 6){
         res.status(400).write('Password must be at least 6 characters\n');
         SUCCESS = false;
