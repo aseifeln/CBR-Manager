@@ -22,7 +22,6 @@ function ClientListPage() {
    const [ refresh, setRefresh ] = useState(0);
    const [ offset, setOffset ] = useState(0);
    const [ pageCount, setPageCount ] = useState(0);
-   const [ currentPageNumber, setCurrentPageNumber] = useState(0);
    const [ clients, setClients ] = useState([]);
    const [ currentPageClients, setCurrentPageClients ] = useState([]);
    const [ filteredClients, setFilteredClients ] = useState(['']);
@@ -136,7 +135,6 @@ function ClientListPage() {
         event.preventDefault();
         setRefresh(refresh + 1);
         setOffset(0);
-        setCurrentPageNumber(0);
 
         let sorted_clients;
         let searched_clients;
@@ -156,7 +154,6 @@ function ClientListPage() {
         setSearchName('');
 
         setOffset(0);
-        setCurrentPageNumber(0);
         setFilteredClients(clients);
         setClientPages(clients);
         setRefresh(refresh + 1);
@@ -186,7 +183,6 @@ function ClientListPage() {
 
     function handlePageClick(event) {
         setOffset(event.selected * clientsPerPage);
-        setCurrentPageNumber(currentPageNumber + 1);
     }
 
     return (
@@ -365,7 +361,7 @@ function ClientListPage() {
                            pageRangeDisplayed={5}
                            marginPagesDisplayed={2}
                            onPageChange={handlePageClick}
-                           forcePage={currentPageNumber}
+                           forcePage={offset / clientsPerPage}
                            containerClassName={'pagination'}
                            subContainerClassName={'pages pagination'}
                            activeClassName={'pagination_active'} />
