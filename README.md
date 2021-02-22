@@ -30,7 +30,7 @@ Run in project root directory:
 
 ### Setting up the Database ###
 
-1) Download Postgres server from : https://www.postgresql.org/download/
+1) Download any local [PostgreSQL server](https://www.postgresql.org/download/)
 
 2) Connect to the server and create an empty database using the terminal or any GUI tool (TablePlus is a good option for Mac users).
 
