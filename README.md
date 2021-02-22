@@ -55,7 +55,7 @@ After all the set up is done, use the command "npm run start" in the project roo
 
 ## Deployment ##
 
-This is to be done in production mode and there are a few options.
+This is to be done in production mode and there are a few options (more will be added later).
 
 ### Heroku ###
 
