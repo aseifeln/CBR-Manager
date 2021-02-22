@@ -7,12 +7,13 @@ The CBR (Community Based Rehabilitation) Manager application was created to help
 The root directory contains the files and directories for a NodeJS backend server with the “client” directory housing our frontend React application. Aside from the client directory, there are a few backend directories / files to take note of:
 
 -	app.js: The starter NodeJS file 
+-   config: Contains files for configuring connection to database
 -	migrations: These are the migration files created by the sequelizer NodeJS library. They are to be ran to create all the necessary tables within a PostgreSQL database to house the data for the application and can also be ran with additional parameters to delete all the tables
 -	models: The models for the various data objects that are used by the application
 -	routes: This contains the files responsible for the backend API that accesses the database upon request. This is intended for the frontend to send HTTP requests to retrieve / add / edit / delete data objects.
 -	seeders: Used to load some stock data into the web application for testing / demo purposes
 
-Within the client directory, there are two directories and the package.json file for all dependencies used in the backend. Within the src files:
+Within the client directory, there are two directories and the package.json file for all dependencies used in the backend. The public folder contains a stock index.html and icon for the site. Within the src files:
 
 -	app.js: The starting file for the React application
 -	routes.js: Contains the various routes in our web application and the component they’re responsible for loading up. Note that the routes are organized as an array of JSON objects
