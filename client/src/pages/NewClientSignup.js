@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
@@ -11,6 +11,10 @@ function NewClientSignup() {
   const [caregiverPresent, setCaregiverPresent] = useState(false)
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
+
+  useEffect(() => {
+    document.title="New Client Registration"
+  }, [])
 
   function formatSubmitData(data) {
     data['Consent'] = (data['Consent']) ? 'Y' : 'N'

@@ -14,6 +14,10 @@ function Login(props) {
     const[usernameErr, setUsernameErr] = useState(false);
     const[passwordErr, setPasswordErr] = useState(false);
 
+    useEffect(() => {
+        document.title="Login"
+      }, [])
+
     function initialErrState(){
         setUsernameErr(false)
         setPasswordErr(false)
