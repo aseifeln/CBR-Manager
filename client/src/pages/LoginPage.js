@@ -36,13 +36,13 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/login");
+                        props.history.push("/");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/login");
-                    } else { 
                         props.history.push("/");
+                    } else { 
+                        props.history.push("/dashboard");
                     }
                     return;
                   })
