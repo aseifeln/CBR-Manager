@@ -14,8 +14,9 @@ import { Form,
         Table,
         Collapse } from 'reactstrap';
 
-import AppNavbar from '../components/AppNavbar';
 import "../css/ClientList.css";
+
+const buttonColor={color:"white",backgroundColor:"#46ad2f"}
 
 function ClientListPage() {
 
@@ -187,11 +188,10 @@ function ClientListPage() {
 
     return (
         <>
-        <AppNavbar />
         <Container className='ClientList'>
             <div className='Title'>
-                <h1>Client List</h1>
-                <Link to="/client/new">+ Create new client</Link>
+                <h1 style={{color:"#9646b7f"}}>Client List</h1>
+                <Link to="/client/new" style={{color:"#22a9ba"}}>+ Create new client</Link>
             </div>
             <Form onSubmit={filterList}>
                 <FormGroup>
@@ -221,8 +221,8 @@ function ClientListPage() {
                 </Container>
                 <Container className='ChooseFilters'>
                     <Label>Filters</Label>
-                    <Button onClick={filterList}>Apply Filters</Button>
-                    <Button onClick={resetFilters}>Reset</Button>
+                    <Button onClick={filterList} style={buttonColor}>Apply Filters</Button>
+                    <Button onClick={resetFilters} style={buttonColor}>Reset</Button>
                     <FormGroup onChange={setFilters}>
                         <Row>
                             <Col xs="auto">
@@ -348,7 +348,7 @@ function ClientListPage() {
                                         <td>{VillageNo}</td>
                                         <td>{DisabilityType}</td>
                                         <Button onClick={() => history.push(`/client/${ClientId}`)}
-                                                style={{'float': 'right'}}>View</Button>
+                                                style={{'float': 'right' ,color:"white",backgroundColor:"#46ad2f"}}>View</Button>
                                     </tr>
                         ))}
                 </tbody>
@@ -364,7 +364,7 @@ function ClientListPage() {
                            forcePage={offset / clientsPerPage}
                            containerClassName={'pagination'}
                            subContainerClassName={'pages pagination'}
-                           activeClassName={'pagination_active'} />
+                           activeClassName={'pagination_active'}/>
 
         </Container>
         </>

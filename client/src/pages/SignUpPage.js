@@ -4,7 +4,6 @@ import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
 
 
-import AppNavbar from "../components/AppNavbar";
 import "../css/SignUp.css";
 
 
@@ -99,7 +98,6 @@ function SignUpPage(props) {
     return (
         
         <div className='SignUp'>
-            <AppNavbar />
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CRB Account</b></h2>
                 <FormGroup>
@@ -178,7 +176,7 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/">Login instead</Link>
+                <Link to="/" style={{color:"#22a9ba"}}>Login instead</Link>
             </Form>
         </div>
     )

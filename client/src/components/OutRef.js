@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
+import {ListGroup, ListGroupItem} from 'reactstrap';
 
 function OutRef(props){
 

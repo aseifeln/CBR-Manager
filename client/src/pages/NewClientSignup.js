@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
-import AppNavbar from '../components/AppNavbar';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
@@ -49,7 +48,6 @@ function NewClientSignup() {
 
   return (
     <>
-      <AppNavbar/>
       <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit}>
 
         {/* 1. General Details */}
@@ -176,7 +174,7 @@ function NewClientSignup() {
 
             <Col xs={12}>
               <h4>Wellbeing Check</h4>
-              <FormText>Rate the client's wellbeing following <a href='https://www.hopehealthaction.org/' target='_blank'>HHA's wellbeing guidelines</a>.</FormText> 
+              <FormText>Rate the client's wellbeing following <a href='https://www.hopehealthaction.org/' target='blank'>HHA's wellbeing guidelines</a>.</FormText> 
 
               {['Health', 'Education', 'Social'].map((area, i) => (
                 <Card className='mt-4' key={`area-${i}`}>

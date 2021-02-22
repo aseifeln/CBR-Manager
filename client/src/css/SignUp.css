@@ -1,6 +1,6 @@
 
 .SignUp H2 {
-    text-align: center
+    text-align: center;
 }
 
 .SignUp Form {
@@ -16,7 +16,7 @@
 .SignUp button {
     margin-top: 40px;
     margin-bottom: 15px;
-    background-color: #22a9ba;
+    background-color: #46ad2f;
     width: 100%;
 }
 

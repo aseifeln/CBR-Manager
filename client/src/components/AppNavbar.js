@@ -21,19 +21,19 @@ function AppNavbar(props) {
 
     return(
         <div>
-            <Navbar color="dark" dark expand="lg" className="mb-5">
+            <Navbar expand="lg" style={{backgroundColor:"#22a9ba",color:"inherit",marginBottom:"40px",padding:"15px"}}>
             <Container>
                     <Link to="/dashboard">
-                        <NavbarBrand>CBR Manager</NavbarBrand>
+                        <NavbarBrand style={{color:"white"}}>CBR Manager</NavbarBrand>
                     </Link>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <Link to="/dashboard" className="nav-link">
+                            <Link to="/dashboard" className="nav-link" style={{color:"#c7eabe"}}>
                                 Dashboard
                             </Link>
                         </NavItem>
                         <UncontrolledDropdown nav inNavbar>
-                            <DropdownToggle nav caret>Clients</DropdownToggle>
+                            <DropdownToggle nav caret style={{color:"#c7eabe"}}>Clients</DropdownToggle>
                             <DropdownMenu>
                                 <DropdownItem tag={Link} to="/client/new">
                                         Add new client

@@ -12,16 +12,16 @@ function MultiStepForm({ children, name, onValidSubmit }) {
 
   const formContainerSize = {
     margin: 'auto',
-    maxWidth: 600
+    maxWidth: 600,
   }
 
   return (
     <Formiz connect={formState} onValidSubmit={onValidSubmit}>
       <Container>
         <div style={formContainerSize}>
-          <Badge color="primary" pill>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
+          <Badge pill style={{backgroundColor:"#46ad2f"}}>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
 
-          {(name) && <h2 style={{textAlign: 'left'}}>{name}</h2>}
+          {(name) && <h2 style={{color:"#9646b7", textAlign:"left"}}>{name}</h2>}
           <hr/>
 
           {/* step navigation buttons */}
@@ -62,10 +62,10 @@ function MultiStepForm({ children, name, onValidSubmit }) {
 
             <div>
               <Button 
-                color="primary"
                 outline
                 disabled={formState.isFirstStep}
-                onClick={formState.prevStep}>
+                onClick={formState.prevStep}
+                style={{backgroundColor:"#46ad2f",color:"white"}}>
                   Prev
               </Button>
               &nbsp;
@@ -77,16 +77,18 @@ function MultiStepForm({ children, name, onValidSubmit }) {
                     type="submit" 
                     form="multi-form"
                     disabled={isInvalidSubmit}
-                    style={(isInvalidSubmit) ? { pointerEvents: 'none' } : {}}>
+                    style={(isInvalidSubmit) ? { pointerEvents: 'none' , color:"white",backgroundColor:"#46ad2f"} : {color:"white",backgroundColor:"#46ad2f"}}>
                     Submit
                   </Button>
                 ) : (
                   <Button
                     color="primary"
-                    onClick={formState.submitStep}>
+                    onClick={formState.submitStep}
+                    style={{color:"white",backgroundColor:"#46ad2f"}}>
                     Next
                   </Button>
                 ))}
+
 
                 <Tooltip 
                   target="form-button"
@@ -164,7 +166,7 @@ function FieldCheck(props) {
               invalid={showError}
               onChange={(e) => {
                 if (type === 'radio') setValue(propValue)
-                else if (type === 'checkbox') setValue(e.target.checked)
+                else if (type === 'checkbox') setValue(!e.target.value)
                 if (onChange) onChange(e)
               }}
             />{' ' + label}
