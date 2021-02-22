@@ -52,7 +52,7 @@ function PriorityClients(){
                             <ListGroupItemText style={
                                 (client.HealthStatus==="Critical Risk")?{color:"red"}:
                                 (client.HealthStatus==="High Risk")?{color:"orange"}:
-                                (client.HealthStatus==="Medium Risk")?{color:"#fcd95b"}:
+                                (client.HealthStatus==="Medium Risk")?{color:"black"}:
                                 {color:"green"}
                                 }>
                                 <span style={{color:"#9646b7"}}>Health Status: </span> {client.HealthStatus}
@@ -60,7 +60,7 @@ function PriorityClients(){
                             <ListGroupItemText style={
                                 (client.SocialStatus==="Critical Risk")?{color:"red"}:
                                 (client.SocialStatus==="High Risk")?{color:"orange"}:
-                                (client.SocialStatus==="Medium Risk")?{color:"#fcd95b"}:
+                                (client.SocialStatus==="Medium Risk")?{color:"black"}:
                                 {color:"green"}
                                 }>
                                 <span style={{color:"#9646b7"}}>Social Status: </span> {client.SocialStatus}
@@ -68,7 +68,7 @@ function PriorityClients(){
                             <ListGroupItemText style={
                                 (client.EducationStatus==="Critical Risk")?{color:"red"}:
                                 (client.EducationStatus==="High Risk")?{color:"orange"}:
-                                (client.EducationStatus==="Medium Risk")?{color:"#fcd95b"}:
+                                (client.EducationStatus==="Medium Risk")?{color:"black"}:
                                 {color:"green"}
                                 }>
                                 <span style={{color:"#9646b7"}}>Education Status: </span> {client.EducationStatus}
