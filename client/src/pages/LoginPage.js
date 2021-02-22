@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
 import "../css/Login.css";
 
 function Login(props) {
-
+    const WRONGPASSWORD = '0'
+    const UNREGISTERED = '2'
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -22,9 +24,30 @@ function Login(props) {
         initialErrState();
 
         if (authPasses()) {
-            props.history.push("/");
-            return;
+            const user = {
+                username: username, 
+                password: password,
+            }
+            axios.post('/users/login',{user})
+                .then(res => {
+                    if(res.data == WRONGPASSWORD){
+                        alert("Wrong Password");
+                        props.history.push("/login");
+                    } 
+                    else if(res.data == UNREGISTERED) {
+                        alert("User is not registered");
+                        props.history.push("/login");
+                    } else { 
+                        props.history.push("/");
+                    }
+                    return;
+                  })
+                .catch( err => {
+                    console.log(err);
+                })
         }
+
+        
     }
 
     function authPasses() {
@@ -40,7 +63,9 @@ function Login(props) {
         return pass
     }
 
+
     return (
+        
         <div className='Login'>
             <Form onSubmit={handleSubmit}>
                 <FormGroup>

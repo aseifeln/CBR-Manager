@@ -21,7 +21,11 @@ function MultiStepForm({ children, name, onValidSubmit }) {
         <div style={formContainerSize}>
           <Badge pill style={{backgroundColor:"#46ad2f"}}>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
 
+<<<<<<< HEAD
           {(name) && <h2 style={{color:"#9646b7"}}>{name}</h2>}
+=======
+          {(name) && <h2 style={{textAlign: 'left'}}>{name}</h2>}
+>>>>>>> master
           <hr/>
 
           {/* step navigation buttons */}
@@ -38,23 +42,23 @@ function MultiStepForm({ children, name, onValidSubmit }) {
           </ButtonGroup>
 
           {/* the sub-forms */}
-          <div class='mt-4'>
+          <div className='mt-4'>
 						<Form id='multi-form' onSubmit={formState.submitStep}>
 							{children}
 						</Form>
           </div>
 
           {/* dummy element just to add extra space */}
-          <div class='invisible py-4'>
+          <div className='invisible py-4'>
             <Button block></Button>
             <Button block></Button>
           </div>
         </div>
       </Container>
 
-      <div class='fixed-bottom bg-light py-2'>
+      <div className='fixed-bottom bg-light py-2'>
         <Container>
-          <div class='d-flex justify-content-between align-items-center' style={formContainerSize}>
+          <div className='d-flex justify-content-between align-items-center' style={formContainerSize}>
             <div>
 							<strong>{formState.currentStep?.name} &middot;&nbsp;</strong>
 							{formState.currentStep?.index + 1} of {formState.steps.length}
@@ -79,6 +83,25 @@ function MultiStepForm({ children, name, onValidSubmit }) {
                   style={(isInvalidSubmit) ? { pointerEvents: 'none' , color:"white",backgroundColor:"#46ad2f"} : {color:"white",backgroundColor:"#46ad2f"}}>
                   {(formState.isLastStep) ? 'Submit' : 'Next'}
                 </Button>
+=======
+              <span id="form-button" className="d-inline-block">
+                {((formState.isLastStep) ? (
+                  <Button
+                    color="primary" 
+                    type="submit" 
+                    form="multi-form"
+                    disabled={isInvalidSubmit}
+                    style={(isInvalidSubmit) ? { pointerEvents: 'none' } : {}}>
+                    Submit
+                  </Button>
+                ) : (
+                  <Button
+                    color="primary"
+                    onClick={formState.submitStep}>
+                    Next
+                  </Button>
+                ))}
+>>>>>>> master
 
                 <Tooltip 
                   target="form-button"
@@ -156,7 +179,7 @@ function FieldCheck(props) {
               invalid={showError}
               onChange={(e) => {
                 if (type === 'radio') setValue(propValue)
-                else if (type === 'checkbox') setValue(!e.target.value)
+                else if (type === 'checkbox') setValue(e.target.checked)
                 if (onChange) onChange(e)
               }}
             />{' ' + label}
