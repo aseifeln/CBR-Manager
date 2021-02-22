@@ -38,23 +38,23 @@ function MultiStepForm({ children, name, onValidSubmit }) {
           </ButtonGroup>
 
           {/* the sub-forms */}
-          <div class='mt-4'>
+          <div className='mt-4'>
 						<Form id='multi-form' onSubmit={formState.submitStep}>
 							{children}
 						</Form>
           </div>
 
           {/* dummy element just to add extra space */}
-          <div class='invisible py-4'>
+          <div className='invisible py-4'>
             <Button block></Button>
             <Button block></Button>
           </div>
         </div>
       </Container>
 
-      <div class='fixed-bottom bg-light py-2'>
+      <div className='fixed-bottom bg-light py-2'>
         <Container>
-          <div class='d-flex justify-content-between align-items-center' style={formContainerSize}>
+          <div className='d-flex justify-content-between align-items-center' style={formContainerSize}>
             <div>
 							<strong>{formState.currentStep?.name} &middot;&nbsp;</strong>
 							{formState.currentStep?.index + 1} of {formState.steps.length}
@@ -70,7 +70,7 @@ function MultiStepForm({ children, name, onValidSubmit }) {
               </Button>
               &nbsp;
 
-              <span id="form-button" class="d-inline-block">
+              <span id="form-button" className="d-inline-block">
                 {((formState.isLastStep) ? (
                   <Button
                     color="primary" 
