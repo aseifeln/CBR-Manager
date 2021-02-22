@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 
 import { Container, Row, Col } from 'reactstrap';
 import OutRefs from '../components/OutRef';
@@ -6,6 +6,10 @@ import PriorityClients from '../components/PriorityClients';
 import '../css/Dashboard.css';
 
 function Dashboard() {
+
+  useEffect(() => {
+    document.title="CBR Dashboard"
+  }, [])
   return (
     <div id="dashboard">
       <Container>
