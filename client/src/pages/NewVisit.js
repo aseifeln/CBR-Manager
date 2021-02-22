@@ -7,7 +7,6 @@ function NewVisit(props) {
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
-    console.log(props.match.params.id);
     document.title="New Visit";
   }, [])
 
