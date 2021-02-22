@@ -42,7 +42,7 @@ function NewClientSignup() {
 
       console.log(results)
       alert('New client successfully added')
-      history.push('/')
+      history.push('/dashboard')
       
     } catch(err) {
       console.error(err.message)
