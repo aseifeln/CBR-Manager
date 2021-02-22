@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Form, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import MultiStepForm from "../components/VisitMultiStepForm"
 
-import AppNavbar from '../components/AppNavbar';
 
 function NewVisit(props) {
 
@@ -58,7 +57,6 @@ function NewVisit(props) {
 
   return (
     <div>
-        <AppNavbar/>
         <Container>
             <Row>
               <Col className="font-weight-bold">

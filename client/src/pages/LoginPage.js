@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
-import AppNavbar from "../components/AppNavbar";
 import "../css/Login.css";
 
 function Login(props) {
@@ -68,7 +67,6 @@ function Login(props) {
     return (
         
         <div className='Login'>
-            <AppNavbar />
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label>Username: </Label>
@@ -93,7 +91,7 @@ function Login(props) {
                     <FormFeedback>Please enter your password!</FormFeedback>
                 </FormGroup>
                 <Button type="submit" onClick={handleSubmit}>Login</Button>
-                <Link to="/signup">Create Account</Link>
+                <Link to="/signup" style={{color:"#22a9ba"}}>Create Account</Link>
             </Form>
         </div>
     )

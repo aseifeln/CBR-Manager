@@ -86,13 +86,10 @@ router.get('/location/:loc', (req,res) => {
     client.findAll({
         attributes: {
             exclude: [
-                'HealthStatus',
                 'HealthDesc', 
                 'HealthGoal',
-                'EducationStatus', 
                 'EducationDesc',
                 'EducationGoal',
-                'SocialStatus',
                 'SocialDesc',
                 'SocialGoal'
             ]
