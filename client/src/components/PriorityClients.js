@@ -43,7 +43,7 @@ function PriorityClients(){
                 <ListGroup>
                     {data.length>0?data.map((client)=>{
                         return(
-                        <ListGroupItem key={client.ClientId} tag="a" href={`/client/${client.ClientId}`} action>
+                        <ListGroupItem key={client.ClientId} tag={Link} to={`/client/${client.ClientId}`} action>
                             <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
                             <ListGroupItemText>
                                 <p style={{margin:"0"}}>Gender: {client.Gender}</p>
