@@ -15,7 +15,7 @@ import SignUpPage from './pages/SignUpPage'
 * https://medium.com/better-programming/react-router-architecture-thats-simple-scalable-and-protected-da896827f946
 */
 const ROUTES = [
-  { path: '/', key: 'ROOT', exact: true, component: Dashboard },
+  { path: '/', key: 'ROOT', exact: true, component: LoginPage },
   {
     path: '/client',
     key: 'CLIENT',
@@ -35,7 +35,7 @@ const ROUTES = [
     ]
   },
   { path: '/client-list', key: 'CLIENT_LIST', exact: true, component: ClientListPage},
-  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
+  { path: '/dashboard', key: 'DASHBOARD', exact: true, component: Dashboard },
   {
     path: '/visit',
     key: 'VISIT',

@@ -11,6 +11,7 @@ UncontrolledDropdown,
     NavLink,
     Container
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
 // Dropdown functionality from:
@@ -22,16 +23,24 @@ function AppNavbar(props) {
         <div>
             <Navbar color="dark" dark expand="lg" className="mb-5">
             <Container>
-                    <NavbarBrand href="/">CBR Manager</NavbarBrand>
+                    <Link to="/dashboard">
+                        <NavbarBrand>CBR Manager</NavbarBrand>
+                    </Link>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink href="/">Dashboard</NavLink>
+                            <Link to="/dashboard" className="nav-link">
+                                Dashboard
+                            </Link>
                         </NavItem>
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret>Clients</DropdownToggle>
                             <DropdownMenu>
-                            <DropdownItem href="/client/new">Add new client</DropdownItem>
-                            <DropdownItem tag="a" href="/client-list">All clients</DropdownItem>
+                                <DropdownItem tag={Link} to="/client/new">
+                                        Add new client
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to="/client-list"> 
+                                        All clients
+                                </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
