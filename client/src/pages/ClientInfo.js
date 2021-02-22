@@ -129,7 +129,8 @@ as right now will still render this component briefly even for existing clients*
                     <Collapse isOpen={showEducationInfo}>
                         <CardBody>
                             <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.EducationGoal}
+                            <div style={areaInfo}>Goal:</div> {client.EducationGoal} <br />
+                            <div style={areaInfo}>Description:</div> {client.EducationDesc}
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -140,7 +141,8 @@ as right now will still render this component briefly even for existing clients*
                     <Collapse isOpen={showSocialInfo}>
                         <CardBody>
                             <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.SocialGoal}
+                            <div style={areaInfo}>Goal:</div> {client.SocialGoal}<br />
+                            <div style={areaInfo}>Description:</div> {client.SocialDesc}
                         </CardBody> 
                     </Collapse>
                 </Card>
