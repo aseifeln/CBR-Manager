@@ -21,7 +21,6 @@ function NewClientSignup() {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['DisabilityType'] = (data['DisabilityType'] || ['Don\'t Know'])[0]
     data['Photo'] = (imagePreviewSrc) || null
-    console.log(data)
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
