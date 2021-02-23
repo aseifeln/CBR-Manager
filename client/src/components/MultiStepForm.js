@@ -3,17 +3,12 @@ import { Container, Form, FormGroup, FormFeedback, InputGroup, Input, Label, But
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Formiz, FormizStep, useField, useForm } from '@formiz/core';
 
-function MultiStepForm({ children, name, onValidSubmit }) {
+function MultiStepForm({ children, name, formContainerSize, onValidSubmit }) {
   let formState = useForm()
 
   let [tooltipOpen, setTooltipOpen] = useState(false)
   const tooltipToggle = () => setTooltipOpen(!tooltipOpen)
   const isInvalidSubmit = (formState.isLastStep && !formState.isValid)
-
-  const formContainerSize = {
-    margin: 'auto',
-    maxWidth: 600,
-  }
 
   return (
     <Formiz connect={formState} onValidSubmit={onValidSubmit}>

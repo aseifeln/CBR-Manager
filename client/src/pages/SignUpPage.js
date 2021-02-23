@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
@@ -24,6 +24,10 @@ function SignUpPage(props) {
     const [photoErr, setPhotoErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
     const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
+
+    useEffect(() => {
+        document.title="Create CBR Account"
+      }, [])
     
     function initialErrState(){
         setFirstNameErr(false)
@@ -99,7 +103,7 @@ function SignUpPage(props) {
         
         <div className='SignUp'>
             <Form onSubmit={handleSubmit}>
-                <h2><b>Create CRB Account</b></h2>
+                <h2><b>Create CBR Account</b></h2>
                 <FormGroup>
                     <Label for="firstName">First name</Label>
                     <Input invalid={firstNameErr} type="text"

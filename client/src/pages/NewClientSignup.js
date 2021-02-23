@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
@@ -12,12 +12,15 @@ function NewClientSignup() {
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
+  useEffect(() => {
+    document.title="New Client Registration"
+  }, [])
+
   function formatSubmitData(data) {
     data['Consent'] = (data['Consent']) ? 'Y' : 'N'
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['DisabilityType'] = (data['DisabilityType'] || ['Don\'t Know'])[0]
     data['Photo'] = (imagePreviewSrc) || null
-    console.log(data)
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
@@ -39,16 +42,21 @@ function NewClientSignup() {
 
       console.log(results)
       alert('New client successfully added')
-      history.push('/')
+      history.push('/dashboard')
       
     } catch(err) {
       console.error(err.message)
     }
   }
 
+  const formContainerSize = {
+    margin: 'auto',
+    maxWidth: 600,
+  }
+
   return (
     <>
-      <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit}>
+      <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
 
         {/* 1. General Details */}
         <Step name='General'>

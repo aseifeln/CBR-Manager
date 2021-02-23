@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, FormGroup, Form, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import MultiStepForm from "../components/VisitMultiStepForm"
+import { Container, Button, FormGroup, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
+import { MultiStepForm, Step } from "../components/MultiStepForm"
 
 
 function NewVisit(props) {
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
-    console.log(props.match.params.id);
+    document.title="New Visit";
   }, [])
 
   const [ todaysDate ] = useState(new Date().toISOString().substr(0, 10));
@@ -59,8 +59,8 @@ function NewVisit(props) {
     <div>
         <Container>
             <Row>
-              <Col className="font-weight-bold">
-              New Visit
+              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
+                Client: {props.match.params.id}
               </Col>
               <Col>
                 <Button variant="primary" size="md" className="float-right">
@@ -68,14 +68,9 @@ function NewVisit(props) {
                 </Button>
               </Col>
             </Row>
-            <Row>
-              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {props.match.params.id}
-              </Col>
-            </Row>
 
-            <MultiStepForm>
-              <Form title="General Info">
+            <MultiStepForm name="New Visit">
+              <Step name="General Info">
                 <Row form>
                   <Col>
                     <FormGroup>
@@ -179,9 +174,9 @@ function NewVisit(props) {
                     </FormGroup>
                   </Col>
                 </Row>
-              </Form>
+              </Step>
 
-              <Form title="Health" hidden={hideHealthSection}>
+              <Step name="Health" isEnabled={!hideHealthSection}>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -377,9 +372,9 @@ function NewVisit(props) {
                     </FormGroup>
                   </Col>
                 </Row>
-              </Form>
+              </Step>
 
-              <Form title="Social" hidden={hideSocialSection}>
+              <Step name="Social" isEnabled={!hideSocialSection}>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -495,9 +490,9 @@ function NewVisit(props) {
                     </FormGroup>
                   </Col>
                 </Row>
-              </Form>
+              </Step>
 
-              <Form title="Education" hidden={hideEducationSection}>
+              <Step name="Education" isEnabled={!hideEducationSection}>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -613,7 +608,7 @@ function NewVisit(props) {
                     </FormGroup>
                   </Col>
                 </Row>
-              </Form>
+              </Step>
 
             </MultiStepForm>
         </Container>

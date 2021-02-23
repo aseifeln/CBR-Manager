@@ -63,6 +63,10 @@ function ClientListPage() {
         setClientPages(filteredClients);
     }, [offset]);
 
+    useEffect(() => {
+        document.title="Client List"
+      }, [])
+
     function setClientPages(relevantClients) {
         setPageCount(Math.ceil(relevantClients.length / clientsPerPage));
         let currentPage = relevantClients.slice(offset, offset + clientsPerPage);

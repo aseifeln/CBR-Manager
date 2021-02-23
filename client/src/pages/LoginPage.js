@@ -14,6 +14,10 @@ function Login(props) {
     const[usernameErr, setUsernameErr] = useState(false);
     const[passwordErr, setPasswordErr] = useState(false);
 
+    useEffect(() => {
+        document.title="Login"
+      }, [])
+
     function initialErrState(){
         setUsernameErr(false)
         setPasswordErr(false)
@@ -32,13 +36,13 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/login");
+                        props.history.push("/");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/login");
-                    } else { 
                         props.history.push("/");
+                    } else { 
+                        props.history.push("/dashboard");
                     }
                     return;
                   })
