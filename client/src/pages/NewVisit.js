@@ -59,18 +59,13 @@ function NewVisit(props) {
     <div>
         <Container>
             <Row>
-              <Col className="font-weight-bold">
-              New Visit
+            <Col className="font-weight-bold" style={{fontSize: "30px"}}>
+                Client: {props.match.params.id}
               </Col>
               <Col>
                 <Button variant="primary" size="md" className="float-right">
                   Save Visit
                 </Button>
-              </Col>
-            </Row>
-            <Row>
-              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {props.match.params.id}
               </Col>
             </Row>
 
