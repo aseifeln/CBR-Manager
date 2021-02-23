@@ -49,9 +49,14 @@ function NewClientSignup() {
     }
   }
 
+  const formContainerSize = {
+    margin: 'auto',
+    maxWidth: 600,
+  }
+
   return (
     <>
-      <MultiStepForm name='New Client Registration' onValidSubmit={onValidSubmit}>
+      <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
 
         {/* 1. General Details */}
         <Step name='General'>
