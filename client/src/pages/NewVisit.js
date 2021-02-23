@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, FormGroup, Form, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
+import { Container, Button, FormGroup, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step } from "../components/MultiStepForm"
 
 
@@ -59,7 +59,7 @@ function NewVisit(props) {
     <div>
         <Container>
             <Row>
-            <Col className="font-weight-bold" style={{fontSize: "30px"}}>
+              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
                 Client: {props.match.params.id}
               </Col>
               <Col>
