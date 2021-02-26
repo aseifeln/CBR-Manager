@@ -53,6 +53,44 @@ router.post('/add', (req,res) => {
         });
     }
 
+    if (EducationForm != null) {
+        var EducationFormId = uuidv4();
+        educationForm.create({
+            EducationFormId,
+            Advice: SocialForm.Advice,
+            Advocacy: SocialForm.Advocacy,
+            OrganizationReferral: SocialForm.OrganizationReferral,
+            Encouragement: SocialForm.Encouragement,
+            GoalMet: SocialForm.GoalMet,
+            ConcludedOutcome: SocialForm.ConcludedOutcome
+        })
+        .then(console.log("Education form added successfully"))
+        .catch(err => {
+            console.log(err);
+            res.status(404).json(err);
+            return;
+        });
+    }
+
+    if (SocialForm != null) {
+        var SocialFormId = uuidv4();
+        socialForm.create({
+            SocialFormId,
+            Advice: SocialForm.Advice,
+            Advocacy: SocialForm.Advocacy,
+            OrganizationReferral: SocialForm.OrganizationReferral,
+            Encouragement: SocialForm.Encouragement,
+            GoalMet: SocialForm.GoalMet,
+            ConcludedOutcome: SocialForm.ConcludedOutcome
+        })
+        .then(console.log("Social form added successfully"))
+        .catch(err => {
+            console.log(err);
+            res.status(404).json(err);
+            return;
+        });
+    }
+
     visit.create({
         VisitId,
         VisitPurpose,
