@@ -203,6 +203,7 @@ function ClientListPage() {
                            onChange={(event) => setSearchName(
                                event.target.value)}
                            placeholder="Search by name" />
+                    <Input type="submit" hidden />
                 </FormGroup>
                 <Container className='SortSection'>
                     <FormGroup tag="radioFilter"
