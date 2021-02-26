@@ -30,6 +30,29 @@ router.post('/add', (req,res) => {
 
     const VisitId = uuidv4();
 
+    if (HealthForm != null) {
+        var HealthFormId = uuidv4();
+        healthForm.create({
+            HealthFormId,
+            Wheelchair: HealthForm.Wheelchair,
+            Prosthetic: HealthForm.Prosthetic,
+            Orthotic: HealthForm.Orthotic,
+            WheelchairRepair: HealthForm.WheelchairRepair,
+            HealthCenterReferral: HealthForm.HealthCenterReferral,
+            Advice: HealthForm.Advice,
+            Advocacy: HealthForm.Advocacy,
+            Encouragement: HealthForm.Encouragement,
+            GoalMet: HealthForm.GoalMet,
+            ConcludedOutcome: HealthForm.ConcludedOutcome
+        })
+        .then(console.log("Health form added successfully"))
+        .catch(err => {
+            console.log(err);
+            res.status(404).json(err);
+            return;
+        });
+    }
+
     visit.create({
         VisitId,
         VisitPurpose,
