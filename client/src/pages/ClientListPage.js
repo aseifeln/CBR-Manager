@@ -266,13 +266,13 @@ function ClientListPage() {
                             <Label>Gender</Label>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="radio" name="radio1" value="Male"/>
+                                    <Input type="radio" name="radio2" value="Male"/>
                                     Male
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="radio" name="radio1" value="Female"/>
+                                    <Input type="radio" name="radio2" value="Female"/>
                                     Female
                                 </Label>
                             </FormGroup>
