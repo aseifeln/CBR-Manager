@@ -73,7 +73,6 @@ function ClientListPage() {
         setCurrentPageClients(currentPage);
     }
 
-    // TODO refactor
     function searchFor(client) {
         let lowerSearchName = searchName.toLowerCase().split(' ');
         let lowerClientFirstName = client.FirstName.toLowerCase();
@@ -211,7 +210,7 @@ function ClientListPage() {
                                onChange={(event) => setRadioFilter(event.target.value)} >
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio1" value="priority"/>
+                                <Input type="radio" name="radio1" value="Priority"/>
                                 By Priority
                             </Label>
                         </FormGroup>
