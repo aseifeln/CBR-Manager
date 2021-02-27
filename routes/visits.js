@@ -4,8 +4,6 @@ const visit = require('../models/visit')
 const healthForm = require('../models/healthForm')
 const educationForm = require('../models/educationForm')
 const socialForm = require('../models/socialForm')
-const multer = require('multer')
-const upload = multer({});
 const { v4: uuidv4 } = require('uuid');
 
 // @route   GET /visits/id
@@ -28,8 +26,6 @@ router.post('/add', (req,res) => {
         Location, VillageNumber, WorkerId,
         HealthForm, EducationForm, SocialForm} = req.body;
 
-    const VisitId = uuidv4();
-
     if (HealthForm != null) {
         var HealthFormId = uuidv4();
         healthForm.create({
@@ -49,7 +45,6 @@ router.post('/add', (req,res) => {
         .catch(err => {
             console.log(err);
             res.status(404).json(err);
-            return;
         });
     }
 
@@ -57,18 +52,17 @@ router.post('/add', (req,res) => {
         var EducationFormId = uuidv4();
         educationForm.create({
             EducationFormId,
-            Advice: SocialForm.Advice,
-            Advocacy: SocialForm.Advocacy,
-            OrganizationReferral: SocialForm.OrganizationReferral,
-            Encouragement: SocialForm.Encouragement,
-            GoalMet: SocialForm.GoalMet,
-            ConcludedOutcome: SocialForm.ConcludedOutcome
+            Advice: EducationForm.Advice,
+            Advocacy: EducationForm.Advocacy,
+            OrganizationReferral: EducationForm.OrganizationReferral,
+            Encouragement: EducationForm.Encouragement,
+            GoalMet: EducationForm.GoalMet,
+            ConcludedOutcome: EducationForm.ConcludedOutcome
         })
         .then(console.log("Education form added successfully"))
         .catch(err => {
             console.log(err);
             res.status(404).json(err);
-            return;
         });
     }
 
@@ -87,12 +81,10 @@ router.post('/add', (req,res) => {
         .catch(err => {
             console.log(err);
             res.status(404).json(err);
-            return;
         });
     }
 
     visit.create({
-        VisitId,
         VisitPurpose,
         GPSLocation,
         Date,

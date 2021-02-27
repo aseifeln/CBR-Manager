@@ -4,7 +4,7 @@ const db = require('../config/database');
 const EducationForm = db.define('EducationForm', {
     EducationFormId: {
       type: Sequelize.UUID,
-      default: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
     Advice: {
