@@ -15,7 +15,7 @@ router.get('/:id', (req,res) => {
             return visit;
         })
         .then(visit => res.json(visit))
-        .catch(err => res.status(404).json(err))
+        .catch(err => res.status(400).json(err))
 })
 
 
@@ -44,7 +44,7 @@ router.post('/add', (req,res) => {
         .then(console.log("Health form added successfully"))
         .catch(err => {
             console.log(err);
-            res.status(404).json(err);
+            res.status(400).json(err);
         });
     }
 
@@ -62,7 +62,7 @@ router.post('/add', (req,res) => {
         .then(console.log("Education form added successfully"))
         .catch(err => {
             console.log(err);
-            res.status(404).json(err);
+            res.status(400).json(err);
         });
     }
 
@@ -80,7 +80,7 @@ router.post('/add', (req,res) => {
         .then(console.log("Social form added successfully"))
         .catch(err => {
             console.log(err);
-            res.status(404).json(err);
+            res.status(400).json(err);
         });
     }
 
