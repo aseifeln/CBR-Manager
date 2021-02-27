@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, FormGroup, Col, Row, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
+import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm"
 
 
@@ -220,15 +220,15 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <FieldInput type="checkbox" name="healthCheckBox" onChange={() => setHideHealthSection(!hideHealthSection)}/>
+                        <Input type="checkbox" name="healthCheckBox" onChange={() => setHideHealthSection(!hideHealthSection)}/>
                         Health
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <FieldInput type="checkbox" name="educationCheckBox" onChange={() => setHideSocialSection(!hideSocialSection)}/>
+                        <Input type="checkbox" name="educationCheckBox" onChange={() => setHideSocialSection(!hideSocialSection)}/>
                         Social
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <FieldInput type="checkbox" name="socialCheckBox" onChange={() => setHideEducationSection(!hideEducationSection)}/>
+                        <Input type="checkbox" name="socialCheckBox" onChange={() => setHideEducationSection(!hideEducationSection)}/>
                         Education
                       </Label>
                     </Col>
@@ -302,7 +302,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="wheelchairCheck" onChange={() => setWheelchairProvided(!wheelchairProvided)}/>
+                            <Input type="checkbox" name="wheelchairCheck" onChange={() => setWheelchairProvided(!wheelchairProvided)}/>
                             Wheelchair
                           </Label>
                         </CardHeader>
@@ -322,7 +322,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="prostheticCheck" onChange={() => setProstheticProvided(!prostheticProvided)}/>
+                            <Input type="checkbox" name="prostheticCheck" onChange={() => setProstheticProvided(!prostheticProvided)}/>
                             Prosthetic
                           </Label>
                         </CardHeader>
@@ -342,7 +342,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="orthoticCheck" onChange={() => setOrthoticProvided(!orthoticProvided)}/>
+                            <Input type="checkbox" name="orthoticCheck" onChange={() => setOrthoticProvided(!orthoticProvided)}/>
                             Orthotic
                           </Label>
                         </CardHeader>
@@ -362,7 +362,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="wheelchairRepairsCheck" onChange={() => setWheelchairRepairProvided(!wheelchairRepairProvided)}/>
+                            <Input type="checkbox" name="wheelchairRepairsCheck" onChange={() => setWheelchairRepairProvided(!wheelchairRepairProvided)}/>
                             Wheelchair Repairs
                           </Label>
                         </CardHeader>
@@ -382,7 +382,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="healthReferralCheck" onChange={() => setHealthReferralProvided(!healthReferralProvided)}/>
+                            <Input type="checkbox" name="healthReferralCheck" onChange={() => setHealthReferralProvided(!healthReferralProvided)}/>
                             Referral to health centre
                           </Label>
                         </CardHeader>
@@ -402,7 +402,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="healthAdviceCheck" onChange={() => setHealthAdviceProvided(!healthAdviceProvided)}/>
+                            <Input type="checkbox" name="healthAdviceCheck" onChange={() => setHealthAdviceProvided(!healthAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
@@ -422,7 +422,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="healthAdvocacyCheck" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
+                            <Input type="checkbox" name="healthAdvocacyCheck" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
@@ -442,7 +442,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="healthEncouragementCheck" onChange={() => setHealthEncouragementProvided(!healthEncouragementProvided)}/>
+                            <Input type="checkbox" name="healthEncouragementCheck" onChange={() => setHealthEncouragementProvided(!healthEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
@@ -499,7 +499,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="socialReferralCheck" onChange={() => setSocialReferralProvided(!socialReferralProvided)}/>
+                            <Input type="checkbox" name="socialReferralCheck" onChange={() => setSocialReferralProvided(!socialReferralProvided)}/>
                             Referral to other org
                           </Label>
                         </CardHeader>
@@ -519,7 +519,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="socialAdviceCheck" onChange={() => setSocialAdviceProvided(!socialAdviceProvided)}/>
+                            <Input type="checkbox" name="socialAdviceCheck" onChange={() => setSocialAdviceProvided(!socialAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
@@ -539,7 +539,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="socialAdvocacyCheck" onChange={() => setSocialAdvocacyProvided(!socialAdvocacyProvided)}/>
+                            <Input type="checkbox" name="socialAdvocacyCheck" onChange={() => setSocialAdvocacyProvided(!socialAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
@@ -559,7 +559,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="socialEncouragementCheck" onChange={() => setSocialEncouragementProvided(!socialEncouragementProvided)}/>
+                            <Input type="checkbox" name="socialEncouragementCheck" onChange={() => setSocialEncouragementProvided(!socialEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
@@ -616,7 +616,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="educationReferralCheck" onChange={() => setEducationReferralProvided(!educationReferralProvided)}/>
+                            <Input type="checkbox" name="educationReferralCheck" onChange={() => setEducationReferralProvided(!educationReferralProvided)}/>
                             Referral to other org
                           </Label>
                         </CardHeader>
@@ -636,7 +636,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="educationAdvice" onChange={() => setEducationAdviceProvided(!educationAdviceProvided)}/>
+                            <Input type="checkbox" name="educationAdvice" onChange={() => setEducationAdviceProvided(!educationAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
@@ -656,7 +656,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="educationAdvocacyCheck" onChange={() => setEducationAdvocacyProvided(!educationAdvocacyProvided)}/>
+                            <Input type="checkbox" name="educationAdvocacyCheck" onChange={() => setEducationAdvocacyProvided(!educationAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
@@ -676,7 +676,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <FieldInput type="checkbox" name="educationEncouragementCheck" onChange={() => setEducationEncouragementProvided(!educationEncouragementProvided)}/>
+                            <Input type="checkbox" name="educationEncouragementCheck" onChange={() => setEducationEncouragementProvided(!educationEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
