@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, FormGroup, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
+import { Container, Button, FormGroup, Col, Row, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm"
 
 
@@ -13,9 +13,6 @@ function NewVisit(props) {
   function onValidSubmit(data) {
     console.log(data)
   } 
-
-  const [ todaysDate ] = useState(new Date().toISOString().substr(0, 10));
-  const [ showSectionCheckboxes, setShowSectionCheckboxes ] = useState(true);
 
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
@@ -89,7 +86,7 @@ function NewVisit(props) {
                 </Row>
 
                 {/* Unsure of how else to do this when following the mock UI*/}
-                <FormGroup hidden={!showSectionCheckboxes}>
+                <FormGroup>
                   <Row>
                     <Col>
                       <Label>
@@ -303,7 +300,7 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" name="healthAdvocacyCheck" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
+                            <FieldInput type="checkbox" name="healthAdvocacyCheck" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
