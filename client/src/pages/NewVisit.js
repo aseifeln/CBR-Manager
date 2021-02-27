@@ -75,7 +75,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" default="CBR">
+                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit">
                         <option selected hidden>Select Purpose</option>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
@@ -337,7 +337,11 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="healthGoalMet" label="Goal met?">
+                      <FieldInput type="select" name="healthGoalMet" label="Goal met?" onChange={(event) => {
+                        if (event.target) {
+                          setHealthGoatMet(event.target.value === "Concluded")
+                        }
+                      }}>
                         <option selected hidden>Was the goal met?</option>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
@@ -450,7 +454,11 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="socialGoalMet" label="Goal met?">
+                      <FieldInput type="select" name="socialGoalMet" label="Goal met?" onChange={(event) => {
+                        if (event.target) {
+                          setSocialGoalMet(event.target.value === "Concluded")
+                        }
+                      }}>
                         <option selected hidden>Was the goal met?</option>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
@@ -563,7 +571,11 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="educationGoalMet" label="Goal met?">
+                      <FieldInput type="select" name="educationGoalMet" label="Goal met?" onChange={(event) => {
+                        if (event.target) {
+                          setEducationGoalMet(event.target.value === "Concluded")
+                        }
+                      }}>
                         <option selected hidden>Was the goal met?</option>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
