@@ -146,7 +146,6 @@ function ClientListPage() {
         searched_clients = sorted_clients.filter(searchFor);
         setFilteredClients(searched_clients);
         setClientPages(searched_clients);
-        setSearchName('');
     }
 
     function resetFilters() {
@@ -197,13 +196,20 @@ function ClientListPage() {
                 <Link to="/client/new" style={{color:"#22a9ba"}}>+ Create new client</Link>
             </div>
             <Form onSubmit={filterList}>
-                <FormGroup>
+                <FormGroup className="SearchName">
                     <Input type="text" id="searchName"
                            value={searchName}
                            onChange={(event) => setSearchName(
                                event.target.value)}
                            placeholder="Search by name" />
                     <Input type="submit" hidden />
+                    <button onClick={(e) =>
+                    {setSearchName('');
+                    e.preventDefault();
+                    }} >X</button>
+
+
+
                 </FormGroup>
                 <Container className='SortSection'>
                     <FormGroup tag="radioFilter"
