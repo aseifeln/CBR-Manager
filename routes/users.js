@@ -6,6 +6,7 @@ const app = express.Router();
 const multer = require('multer')
 const upload = multer({});
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 
 app.use(cors())
 app.use(express.json());
@@ -94,6 +95,10 @@ app.post('/login', async (req, res) => {
         try{
             await getUserPassword(loginUsername).then(async function(result){
                 if(await passwordIsTrue(loginPassword, result.Password)){
+                    const user = { username: loginUsername }
+                    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                    console.log(accessToken)
+                    res.json({ accessToken: accessToken })
                     return res.send(SUCCESS);
                 } else {
                     return res.send(WRONGPASSWORD);
