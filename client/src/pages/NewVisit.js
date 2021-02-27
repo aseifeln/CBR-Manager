@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Col, Row, Input, Label, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step } from "../components/MultiStepForm"
+import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm"
 
 
 function NewVisit(props) {
@@ -9,6 +9,10 @@ function NewVisit(props) {
     // TODO: Send GET request for client and worker to fill out some fields
     document.title="New Visit";
   }, [])
+
+  function onValidSubmit(data) {
+    console.log(data)
+  } 
 
   const [ todaysDate ] = useState(new Date().toISOString().substr(0, 10));
   const [ showSectionCheckboxes, setShowSectionCheckboxes ] = useState(true);
@@ -69,17 +73,17 @@ function NewVisit(props) {
               </Col>
             </Row>
 
-            <MultiStepForm name="New Visit">
+            <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
               <Step name="General Info">
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="purposeOfVisit">Purpose of visit*</Label>
-                      <Input type="select" name="purposeOfVisit" onChange={(event) => {setShowSectionCheckboxes(event.target.value === "CBR"); changeHiddenValues(event)}}>
+                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" default="CBR">
+                        <option selected hidden>Select Purpose</option>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
                         <option>Disability centre referral follow up</option>
-                      </Input>
+                      </FieldInput>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -97,15 +101,15 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="healthCheckBox" onChange={(event) => {setHideHealthSection(!event.target.checked); setHealthChecked(event.target.checked)}}/>
+                        <FieldInput type="checkbox" name="healthCheckBox" onChange={() => setHideHealthSection(!hideHealthSection)}/>
                         Health
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="educationCheckBox" onChange={(event) => {setHideSocialSection(!event.target.checked); setSocialChecked(event.target.checked)}}/>
+                        <FieldInput type="checkbox" name="educationCheckBox" onChange={() => setHideSocialSection(!hideSocialSection)}/>
                         Social
                       </Label>
                       <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                        <Input type="checkbox" name="socialCheckBox" onChange={(event) => {setHideEducationSection(!event.target.checked); setEducationChecked(event.target.checked)}}/>
+                        <FieldInput type="checkbox" name="socialCheckBox" onChange={() => setHideEducationSection(!hideEducationSection)}/>
                         Education
                       </Label>
                     </Col>
@@ -115,10 +119,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="date">
-                        Date:*
-                        <Input type="date" name="date" value={todaysDate}/>
-                      </Label>
+                        <FieldInput type="date" name="date" label="Date:" defaultValue={(new Date()).toLocaleDateString('en-CA')}/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -126,10 +127,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="worker">
-                        CBR Worker*
-                      </Label>
-                      <Input placeholder="Autofill CBR worker Name" name="worker"/>
+                      <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -137,10 +135,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="locationOfVisit">
-                        Location of visit*
-                      </Label>
-                      <Input name="locationOfVisit"/>
+                      <FieldInput name="locationOfVisit" label="Location of visit"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -148,10 +143,8 @@ function NewVisit(props) {
                 <Row form>
                   <Col xs={10}>
                     <FormGroup>
-                      <Label for="location">
-                        Location*
-                      </Label>
-                      <Input  type="select" name="location">
+                      <FieldInput type="select" name="location" label="Location">
+                        <option selected hidden>Select a location</option>
                         <option>BidiBidi Zone 1</option>
                         <option>BidiBidi Zone 2</option>
                         <option>BidiBidi Zone 3</option>
@@ -161,16 +154,13 @@ function NewVisit(props) {
                         <option>Palorinya Zone 1</option>
                         <option>Palorinya Zone 2</option>
                         <option>Palorinya Zone 3</option>
-                      </Input>
+                      </FieldInput>
                     </FormGroup>
                   </Col>
 
                   <Col xs={2}>
                     <FormGroup>
-                      <Label for="villageNum">
-                        Village no*
-                      </Label>
-                      <Input name="villageNum"/>
+                      <FieldInput name="villageNum" label="Village no"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -193,13 +183,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setWheelchairProvided(!wheelchairProvided)}/>
+                            <FieldInput type="checkbox" name="wheelchairCheck" onChange={() => setWheelchairProvided(!wheelchairProvided)}/>
                             Wheelchair
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={wheelchairProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="wheelchairDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="wheelchairDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -213,13 +203,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setProstheticProvided(!prostheticProvided)}/>
+                            <FieldInput type="checkbox" name="prostheticCheck" onChange={() => setProstheticProvided(!prostheticProvided)}/>
                             Prosthetic
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={prostheticProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="prostheticDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="prostheticDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -233,13 +223,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setOrthoticProvided(!orthoticProvided)}/>
+                            <FieldInput type="checkbox" name="orthoticCheck" onChange={() => setOrthoticProvided(!orthoticProvided)}/>
                             Orthotic
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={orthoticProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="orthoticDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="orthoticDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -253,13 +243,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setWheelchairRepairProvided(!wheelchairRepairProvided)}/>
+                            <FieldInput type="checkbox" name="wheelchairRepairsCheck" onChange={() => setWheelchairRepairProvided(!wheelchairRepairProvided)}/>
                             Wheelchair Repairs
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={wheelchairRepairProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="wheelchairRepairsDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="wheelchairRepairsDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -273,13 +263,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthReferralProvided(!healthReferralProvided)}/>
+                            <FieldInput type="checkbox" name="healthReferralCheck" onChange={() => setHealthReferralProvided(!healthReferralProvided)}/>
                             Referral to health centre
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={healthReferralProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthReferralDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="healthReferralDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -293,13 +283,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthAdviceProvided(!healthAdviceProvided)}/>
+                            <FieldInput type="checkbox" name="healthAdviceCheck" onChange={() => setHealthAdviceProvided(!healthAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={healthAdviceProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthAdviceDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="healthAdviceDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -313,13 +303,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
+                            <Input type="checkbox" name="healthAdvocacyCheck" onChange={() => setHealthAdvocacyProvided(!healthAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={healthAdvocacyProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthAdvocacyDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="healthAdvocacyDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -333,13 +323,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setHealthEncouragementProvided(!healthEncouragementProvided)}/>
+                            <FieldInput type="checkbox" name="healthEncouragementCheck" onChange={() => setHealthEncouragementProvided(!healthEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={healthEncouragementProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="healthEncouragementDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="healthEncouragementDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -350,14 +340,12 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="healthGoalMet">
-                        Goal met?*
-                      </Label>
-                      <Input type="select" name="healthGoalMet" onChange={(event) => setHealthGoatMet(event.target.value === "Concluded")}>
+                      <FieldInput type="select" name="healthGoalMet" label="Goal met?">
+                        <option selected hidden>Was the goal met?</option>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
-                      </Input>
+                      </FieldInput>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -365,10 +353,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="healthOutcome">
-                        Outcome
-                      </Label>
-                      <Input type="textarea" disabled={!healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome"/>
+                      <FieldInput type="textarea" disabled={!healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome" label="Outcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -391,13 +376,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialReferralProvided(!socialReferralProvided)}/>
+                            <FieldInput type="checkbox" name="socialReferralCheck" onChange={() => setSocialReferralProvided(!socialReferralProvided)}/>
                             Referral to other org
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={socialReferralProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialReferralDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="socialReferralDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -411,13 +396,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialAdviceProvided(!socialAdviceProvided)}/>
+                            <FieldInput type="checkbox" name="socialAdviceCheck" onChange={() => setSocialAdviceProvided(!socialAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={socialAdviceProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialAdviceDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="socialAdviceDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -431,13 +416,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialAdvocacyProvided(!socialAdvocacyProvided)}/>
+                            <FieldInput type="checkbox" name="socialAdvocacyCheck" onChange={() => setSocialAdvocacyProvided(!socialAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={socialAdvocacyProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialAdvocacyDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="socialAdvocacyDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -451,13 +436,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setSocialEncouragementProvided(!socialEncouragementProvided)}/>
+                            <FieldInput type="checkbox" name="socialEncouragementCheck" onChange={() => setSocialEncouragementProvided(!socialEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={socialEncouragementProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="socialEncouragementDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="socialEncouragementDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -468,14 +453,12 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="socialGoalMet">
-                        Goal met?*
-                      </Label>
-                      <Input type="select" name="socialGoalMet" onChange={(event) => setSocialGoalMet(event.target.value === "Concluded")}>
+                      <FieldInput type="select" name="socialGoalMet" label="Goal met?">
+                        <option selected hidden>Was the goal met?</option>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
-                      </Input>
+                      </FieldInput>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -483,10 +466,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="socialOutcome">
-                        Outcome
-                      </Label>
-                      <Input type="textarea" disabled={!socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome"/>
+                      <FieldInput type="textarea" disabled={!socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome" label="Outcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -509,13 +489,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationReferralProvided(!educationReferralProvided)}/>
+                            <FieldInput type="checkbox" name="educationReferralCheck" onChange={() => setEducationReferralProvided(!educationReferralProvided)}/>
                             Referral to other org
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={educationReferralProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationReferralDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="educationReferralDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -529,13 +509,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationAdviceProvided(!educationAdviceProvided)}/>
+                            <FieldInput type="checkbox" name="educationAdvice" onChange={() => setEducationAdviceProvided(!educationAdviceProvided)}/>
                             Advice
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={educationAdviceProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationAdviceDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="educationAdviceDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -549,13 +529,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationAdvocacyProvided(!educationAdvocacyProvided)}/>
+                            <FieldInput type="checkbox" name="educationAdvocacyCheck" onChange={() => setEducationAdvocacyProvided(!educationAdvocacyProvided)}/>
                             Advocacy
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={educationAdvocacyProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationAdvocacyDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="educationAdvocacyDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -569,13 +549,13 @@ function NewVisit(props) {
                       <Card>
                         <CardHeader>
                           <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                            <Input type="checkbox" onChange={() => setEducationEncouragementProvided(!educationEncouragementProvided)}/>
+                            <FieldInput type="checkbox" name="educationEncouragementCheck" onChange={() => setEducationEncouragementProvided(!educationEncouragementProvided)}/>
                             Encouragement
                           </Label>
                         </CardHeader>
                         <Collapse isOpen={educationEncouragementProvided}>
                           <CardBody>
-                          <Input type="textarea" placeholder="Description" name="educationEncouragementDesc"/>
+                          <FieldInput type="textarea" placeholder="Description" name="educationEncouragementDesc"/>
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -586,14 +566,12 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="educationGoalMet">
-                        Goal met?*
-                      </Label>
-                      <Input type="select" name="educationGoalMet" onChange={(event) => setEducationGoalMet(event.target.value === "Concluded")}>
+                      <FieldInput type="select" name="educationGoalMet" label="Goal met?">
+                        <option selected hidden>Was the goal met?</option>
                         <option>Cancelled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
-                      </Input>
+                      </FieldInput>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -601,10 +579,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <Label for="educationOutcome">
-                        Outcome
-                      </Label>
-                      <Input type="textarea" disabled={!educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome"/>
+                      <FieldInput type="textarea" disabled={!educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome" label="Outcome"/>
                     </FormGroup>
                   </Col>
                 </Row>
