@@ -193,10 +193,10 @@ function ClientListPage() {
     return (
         <>
         <Container className='ClientList'>
-            <div className='Title'>
+            <Container className='Title'>
                 <h1 style={{color:"#9646b7f"}}>Client List</h1>
                 <Link to="/client/new" style={{color:"#22a9ba"}}>+ Create new client</Link>
-            </div>
+            </Container>
             <Form onSubmit={filterList}>
                 <FormGroup>
                     <Input type="text" id="searchName"
@@ -225,6 +225,8 @@ function ClientListPage() {
                 </Container>
                 <Container className='ChooseFilters'>
                     <Label>Filters</Label>
+                    <Button style={{color:"white", backgroundColor:"red"}}
+                            onClick={() => {alert("Nothing happened.... yet")}}>Export</Button>
                     <Button onClick={filterList} style={buttonColor}>Apply Filters</Button>
                     <Button onClick={resetFilters} style={buttonColor}>Reset</Button>
                     <FormGroup onChange={setFilters}>
@@ -343,7 +345,7 @@ function ClientListPage() {
                         {currentPageClients.map(({FirstName, LastName, Age, Gender,
                                           Location, VillageNo,
                                           DisabilityType, ClientId}) => (
-                                    <tr>
+                            <tr>
                                         <td>{FirstName}</td>
                                         <td>{LastName}</td>
                                         <td>{Age}</td>
