@@ -45,10 +45,11 @@ function Login(props) {
                         props.history.push("/dashboard");
                     }
                     console.log(res.data.accessToken)
-                    if(res.data.accessToken){
+                    /*if(res.data.accessToken){
                         console.log(res.data.accessToken)
                         localStorage.setItem("user", JSON.stringify(res.data));
                     }
+                    */
                     return;
                   })
                 .catch( err => {

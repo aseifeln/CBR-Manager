@@ -36,6 +36,26 @@ async function passwordIsTrue(loginPassword, databasePassword){
     return await bcrypt.compare(loginPassword, databasePassword)
 }
 
+function authenticateToken(req, res, next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1] //BEARER token
+    console.log(authHeader)
+    console.log(token)
+    if( token == null ){
+        console.log('oops')
+        return res.status(401).send("No access to token")
+    }
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
+        if(err){
+            console.log('ayaya')
+            return res.status(403).send("Token is no longer valid")
+        }
+        req.user = user
+        console.log('great')
+        next()
+    })
+}
+
 app.post("/register", upload.single('Photo'), async (req, res) => {
     try{
         let user = { 
@@ -85,7 +105,17 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
     }
 });
 
+function generateAccessToken(user){
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})//ideal 10m-30m
+}
+
+app.post('/token', (req, res) => {
+    const refreshToken = req.body.token
+    console.log(refreshToken)
+})
+
 app.post('/login', async (req, res) => {
+    console.log("ASSASASASA")
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'
@@ -96,12 +126,14 @@ app.post('/login', async (req, res) => {
             await getUserPassword(loginUsername).then(async function(result){
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
-                    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+                    const accessToken = generateAccessToken(user)
+                    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
                     console.log(accessToken)
-                    res.json({ accessToken: accessToken })
+                    console.log(refreshToken)
+                    res.json({ accessToken: accessToken, refreshToken: refreshToken })
                     return res.send(SUCCESS);
                 } else {
-                    return res.send(WRONGPASSWORD);
+                    return res.send(WRONGPASSWORD); 
                 }
             });
             
