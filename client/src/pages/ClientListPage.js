@@ -42,7 +42,7 @@ function ClientListPage() {
    const [isOpenDisability, setIsOpenDisability] = useState(false);
 
    const history = useHistory();
-   const clientsPerPage = 5;
+   const clientsPerPage = 30;
 
     useEffect(() => {
         axios.get('/clients')
