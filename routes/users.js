@@ -121,6 +121,8 @@ app.post('/login', async (req, res) => {
     const UNREGISTERED = '2'
     const loginUsername = req.body.user.username
     const loginPassword = req.body.user.password
+    console.log(loginPassword)
+    console.log(loginUsername)
     if(await userIsExist(loginUsername) == true){
         try{
             await getUserPassword(loginUsername).then(async function(result){
@@ -128,8 +130,10 @@ app.post('/login', async (req, res) => {
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
                     const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-                    console.log(accessToken)
-                    console.log(refreshToken)
+                    res.cookie('ACCESS_TOKEN', accessToken, {
+                        maxAge : 15,
+                        httpOnly : true
+                    })
                     res.json({ accessToken: accessToken, refreshToken: refreshToken })
                     return res.send(SUCCESS);
                 } else {
