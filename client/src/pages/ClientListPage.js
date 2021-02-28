@@ -155,6 +155,13 @@ function ClientListPage() {
         setIsOpenVillageNo(false);
         setIsOpenDisability(false);
         setSearchName('');
+        setSearchGender('');
+        setRadioFilter('');
+        setSearchAge(0);
+        setSearchLocation('BidiBidi Zone 1');
+        setSearchVillageNo(0);
+        setSearchDisability('Amputee');
+
 
         setOffset(0);
         setFilteredClients(clients);
@@ -217,13 +224,15 @@ function ClientListPage() {
                                onChange={(event) => setRadioFilter(event.target.value)} >
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio1" value="Priority"/>
+                                <Input type="radio" name="sortRadio" value="Priority"
+                                       checked={radioFilter === 'Priority'} />
                                 By Priority
                             </Label>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio1" value="DateCreated"/>
+                                <Input type="radio" name="sortRadio" value="DateCreated"
+                                       checked={radioFilter === 'DateCreated'} />
                                 Recently Added
                             </Label>
                         </FormGroup>
@@ -272,13 +281,15 @@ function ClientListPage() {
                             <Label>Gender</Label>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="radio" name="radio2" value="Male"/>
+                                    <Input type="radio" name="genderRadio" value="Male"
+                                           checked={searchGender === 'Male'}/>
                                     Male
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="radio" name="radio2" value="Female"/>
+                                    <Input type="radio" name="genderRadio" value="Female"
+                                           checked={searchGender === 'Female'}/>
                                     Female
                                 </Label>
                             </FormGroup>
