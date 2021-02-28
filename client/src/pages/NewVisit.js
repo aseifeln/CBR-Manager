@@ -197,7 +197,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit">
+                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" required="Purpose is required">
                         <option selected hidden>Select Purpose</option>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
@@ -207,7 +207,6 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                {/* Unsure of how else to do this when following the mock UI*/}
                 <FormGroup>
                   <Row>
                     <Col>
@@ -238,7 +237,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                        <FieldInput type="date" name="date" label="Date:" defaultValue={(new Date()).toLocaleDateString('en-CA')}/>
+                        <FieldInput type="date" name="date" label="Date:" required="Date required" defaultValue={(new Date()).toLocaleDateString('en-CA')}/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -262,7 +261,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col xs={10}>
                     <FormGroup>
-                      <FieldInput type="select" name="location" label="Location">
+                      <FieldInput type="select" name="location" label="Location" required="Location is required">
                         <option selected hidden>Select a location</option>
                         <option>BidiBidi Zone 1</option>
                         <option>BidiBidi Zone 2</option>
@@ -279,7 +278,7 @@ function NewVisit(props) {
 
                   <Col xs={2}>
                     <FormGroup>
-                      <FieldInput name="villageNum" label="Village no"/>
+                      <FieldInput name="villageNum" label="Village no" type="number" required="Village number is required"/>
                     </FormGroup>
                   </Col>
                 </Row>
@@ -308,7 +307,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={wheelchairProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="wheelchairDesc"/>
+                            {(wheelchairProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="wheelchairDesc" required={wheelchairProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -328,7 +329,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={prostheticProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="prostheticDesc"/>
+                            {(prostheticProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="prostheticDesc" required={prostheticProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -348,7 +351,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={orthoticProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="orthoticDesc"/>
+                            {(orthoticProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="orthoticDesc" required={orthoticProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -368,7 +373,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={wheelchairRepairProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="wheelchairRepairsDesc"/>
+                            {(wheelchairRepairProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="wheelchairRepairsDesc" required={wheelchairProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -388,7 +395,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthReferralProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="healthReferralDesc"/>
+                            {(healthReferralProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="healthReferralDesc" required={healthReferralProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -408,7 +417,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthAdviceProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="healthAdviceDesc"/>
+                            {(healthAdviceProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="healthAdviceDesc" required={healthAdviceProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -428,7 +439,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthAdvocacyProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="healthAdvocacyDesc"/>
+                            {(healthAdvocacyProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="healthAdvocacyDesc" required={healthAdvocacyProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -448,7 +461,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={healthEncouragementProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="healthEncouragementDesc"/>
+                            {(healthEncouragementProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="healthEncouragementDesc" required={healthEncouragementProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -459,7 +474,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="healthGoalMet" label="Goal met?" onChange={(event) => {
+                      <FieldInput type="select" name="healthGoalMet" label="Goal met?" required="Selection required" onChange={(event) => {
                         if (event.target) {
                           setHealthGoatMet(event.target.value === "Concluded")
                         }
@@ -476,7 +491,9 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="textarea" disabled={!healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome" label="Outcome"/>
+                      {(healthGoalMet) ? (
+                        <FieldInput type="textarea" disabled={!healthGoalMet} placeholder="If concluded, what was the outcome?" name="healthOutcome" label="Outcome" required={healthGoalMet && "Outcome required"}/>
+                      ) : ''}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -505,7 +522,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={socialReferralProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="socialReferralDesc"/>
+                            {(socialReferralProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="socialReferralDesc" required={socialReferralProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -525,7 +544,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={socialAdviceProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="socialAdviceDesc"/>
+                            {(socialAdviceProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="socialAdviceDesc" required={socialAdviceProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -545,7 +566,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={socialAdvocacyProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="socialAdvocacyDesc"/>
+                            {(socialAdvocacyProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="socialAdvocacyDesc" required={socialAdvocacyProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -565,7 +588,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={socialEncouragementProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="socialEncouragementDesc"/>
+                            {(socialEncouragementProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="socialEncouragementDesc" required={socialEncouragementProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -576,7 +601,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="socialGoalMet" label="Goal met?" onChange={(event) => {
+                      <FieldInput type="select" name="socialGoalMet" label="Goal met?" required="Selection required" onChange={(event) => {
                         if (event.target) {
                           setSocialGoalMet(event.target.value === "Concluded")
                         }
@@ -593,7 +618,9 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="textarea" disabled={!socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome" label="Outcome"/>
+                      {(socialGoalMet) ? (
+                        <FieldInput type="textarea" disabled={!socialGoalMet} placeholder="If concluded, what was the outcome?" name="socialOutcome" label="Outcome" required={socialGoalMet && "Outcome required"}/>
+                      ) : ''}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -622,7 +649,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={educationReferralProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="educationReferralDesc"/>
+                            {(educationReferralProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="educationReferralDesc" required={educationReferralProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -642,7 +671,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={educationAdviceProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="educationAdviceDesc"/>
+                            {(educationAdviceProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="educationAdviceDesc" required={educationAdviceProvided && "Description Required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -662,7 +693,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={educationAdvocacyProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="educationAdvocacyDesc"/>
+                            {(educationAdvocacyProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="educationAdvocacyDesc" required={educationAdvocacyProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -682,7 +715,9 @@ function NewVisit(props) {
                         </CardHeader>
                         <Collapse isOpen={educationEncouragementProvided}>
                           <CardBody>
-                          <FieldInput type="textarea" placeholder="Description" name="educationEncouragementDesc"/>
+                            {(educationEncouragementProvided) ? (
+                              <FieldInput type="textarea" placeholder="Description" name="educationEncouragementDesc" required={educationEncouragementProvided && "Description required"}/>
+                            ) : ''}
                           </CardBody>
                         </Collapse>
                       </Card>
@@ -693,7 +728,7 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="educationGoalMet" label="Goal met?" onChange={(event) => {
+                      <FieldInput type="select" name="educationGoalMet" label="Goal met?" required="Selection required" onChange={(event) => {
                         if (event.target) {
                           setEducationGoalMet(event.target.value === "Concluded")
                         }
@@ -710,7 +745,9 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="textarea" disabled={!educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome" label="Outcome"/>
+                      {(educationGoalMet) ? (
+                        <FieldInput type="textarea" disabled={!educationGoalMet} placeholder="If concluded, what was the outcome?" name="educationOutcome" label="Outcome" required={educationGoalMet && "Outcome required"}/>
+                      ) : ''}
                     </FormGroup>
                   </Col>
                 </Row>
