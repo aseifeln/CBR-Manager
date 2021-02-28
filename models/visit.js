@@ -37,6 +37,13 @@ const Visit = db.define('Visit', {
             key: 'WorkerId'
         }
     },
+    ClientId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'Client',
+            key: 'ClientId'
+        }
+    },
     HealthFormId: {
         type: Sequelize.UUID,
         references: {

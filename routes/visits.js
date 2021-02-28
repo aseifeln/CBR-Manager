@@ -23,7 +23,7 @@ router.get('/:id', (req,res) => {
 // @desc    POST Add a new client to the database
 router.post('/add', (req,res) => {
     let {VisitPurpose, GPSLocation, Date,
-        Location, VillageNumber, WorkerId,
+        Location, VillageNumber, WorkerId, ClientId,
         HealthForm, EducationForm, SocialForm} = req.body;
 
     if (HealthForm != null) {
@@ -91,6 +91,7 @@ router.post('/add', (req,res) => {
         Location,
         VillageNumber,
         WorkerId,
+        ClientId,
         HealthFormId,
         EducationFormId,
         SocialFormId
