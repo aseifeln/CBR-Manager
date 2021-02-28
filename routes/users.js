@@ -7,8 +7,10 @@ const multer = require('multer')
 const upload = multer({});
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 app.use(cors())
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 
@@ -35,7 +37,8 @@ async function getUserPassword(username) {
 async function passwordIsTrue(loginPassword, databasePassword){
     return await bcrypt.compare(loginPassword, databasePassword)
 }
-
+//TODO: Maybe needed in logout
+/*
 function authenticateToken(req, res, next){
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1] //BEARER token
@@ -52,7 +55,20 @@ function authenticateToken(req, res, next){
         }
         req.user = user
         console.log('great')
+        console.log(user)
         next()
+    })
+}
+*/
+
+function generateAccessToken(user){
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})//ideal 10m-30m
+}
+
+function generateCookie(res, accessToken){
+    res.cookie('ACCESS_TOKEN', accessToken, {
+        maxAge : 1000 * 60 * 15, //(ms * s * mins) 15 mins
+        httpOnly : true
     })
 }
 
@@ -105,39 +121,24 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
     }
 });
 
-function generateAccessToken(user){
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})//ideal 10m-30m
-}
-
-app.post('/token', (req, res) => {
-    const refreshToken = req.body.token
-    console.log(refreshToken)
-})
-
 app.post('/login', async (req, res) => {
-    console.log("ASSASASASA")
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'
     const loginUsername = req.body.user.username
     const loginPassword = req.body.user.password
-    console.log(loginPassword)
-    console.log(loginUsername)
     if(await userIsExist(loginUsername) == true){
         try{
             await getUserPassword(loginUsername).then(async function(result){
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
-                    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-                    res.cookie('ACCESS_TOKEN', accessToken, {
-                        maxAge : 15,
-                        httpOnly : true
-                    })
-                    res.json({ accessToken: accessToken, refreshToken: refreshToken })
+                    // TODO: Maybe needed in logout = const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+                    generateCookie(res, accessToken);
+                    res.json({ accessToken: accessToken }) // TODO: Maybe needed in logout = , refreshToken: refreshToken 
                     return res.send(SUCCESS);
                 } else {
-                    return res.send(WRONGPASSWORD); 
+                    return res.send(WRONGPASSWORD);     
                 }
             });
             
