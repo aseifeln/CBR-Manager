@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm"
-
+import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 function NewVisit(props) {
+
+  const history = useHistory();
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
@@ -19,9 +22,10 @@ function NewVisit(props) {
     newData['Date'] = data.date;
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
+    newData['ClientId'] = props.match.params.id;
     
-    // Placeholder
-    newData['WorkerId'] = "7bbdcaf6-1399-4764-9ef4-dad297f725f3";
+    // TODO: Fill in workerId once there is an API to retrieve this for current user
+    // newData['WorkerId'] = "";
 
     if (!hideHealthSection) {
       // Prepare Health Form data
@@ -126,15 +130,23 @@ function NewVisit(props) {
       newData['EducationForm'] = educationform;
     }
 
-    console.log(newData);
-
     return newData;
   }
 
   function onValidSubmit(data) {
     data = prepareData(data);
     console.log(data)
-  } 
+
+    axios.post('/visits/add/', data)
+    // TODO: Redirect to visit page once that has been created
+    .then(response => {
+        alert("New visit added successfully");
+        history.push('/dashboard');
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  }
 
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
