@@ -4,7 +4,7 @@ const db = require('../config/database');
 const HealthForm = db.define('HealthForm', {
     HealthFormId: {
       type: Sequelize.UUID,
-      default: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
     Wheelchair: {

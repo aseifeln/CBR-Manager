@@ -105,6 +105,11 @@ const Client = db.define('Client', {
         type: Sequelize.TEXT,
         allowNull: false
     },
+    Priority: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
     WorkerId: {
         type: Sequelize.UUID,
         references: {

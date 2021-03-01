@@ -4,7 +4,7 @@ const db = require('../config/database');
 const Visit = db.define('Visit', {
     VisitId: {
       type: Sequelize.UUID,
-      default: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
     VisitPurpose: {
@@ -17,7 +17,7 @@ const Visit = db.define('Visit', {
     },
     Date: {
       type: Sequelize.DATEONLY,
-      default: Sequelize.NOW,
+      defaultValue: Sequelize.NOW,
       allowNull: false
     },
     Location: {
@@ -35,6 +35,13 @@ const Visit = db.define('Visit', {
         references: {
             model: 'Worker',
             key: 'WorkerId'
+        }
+    },
+    ClientId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: 'Client',
+            key: 'ClientId'
         }
     },
     HealthFormId: {
