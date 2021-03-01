@@ -41,11 +41,14 @@ function ClientInfo(props) {
         // Mock visit data
         setVisits(
             [{
-                "id": 1
+                "id": 1,
+                "date": "01/01/2021"
             }, {
-                "id": 2
+                "id": 2,
+               "date": "01/01/2021"
             }, {
-                "id": 3
+                "id": 3,
+               "date": "01/01/2021"
             }]
         )
     }, [])
@@ -110,12 +113,6 @@ as right now will still render this component briefly even for existing clients*
                             <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
                             <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
                             <div style={areaInfo}>Related Visits:</div> <br/>
-                            &nbsp; Click on a date to view more info or edit: <br/>
-                            <ul>
-                                {visits.map(({id}) => (
-                                    <li><Link to={"/"}>Visit {id}</Link></li>
-                                ))}
-                            </ul>
                             <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
                             {/* Unsure if this is required */}
                             {/* Referral Details: {client.healthReferral}<br/> */}
@@ -190,6 +187,19 @@ as right now will still render this component briefly even for existing clients*
                             <div style={areaInfo}>Goal:</div> {client.empowermentGoal}
                         </CardBody>
                     </Collapse>
+                </Card>
+                <Card>
+                    <CardHeader style={areaColor}>
+                        <h2 style={areaFontSize}>All Visits</h2>
+                    </CardHeader>
+                    <CardBody>
+                        &nbsp; Click on a date to view more info or edit: <br/>
+                        <ul>
+                            {visits.map(({id, date}) => (
+                                <li><Link to={`/visit/${id}`}>{date}</Link></li>
+                            ))}
+                        </ul>
+                    </CardBody>
                 </Card>
             </Container>
         </div>
