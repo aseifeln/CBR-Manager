@@ -153,7 +153,7 @@ function NewVisit(props) {
 
                   <Col xs={2}>
                     <FormGroup>
-                      <FieldInput name="villageNum" label="Village no" type="number" required="Village number is required"/>
+                      <FieldInput name="villageNum" label="Village Number" type="number" required="Village number is required"/>
                     </FormGroup>
                   </Col>
                 </Row>
