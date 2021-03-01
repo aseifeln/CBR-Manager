@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Visit = require('./visit');
+const User = require('./user');
+const Client = require('./client');
 
 
 const Worker = db.define('Worker', {
@@ -30,5 +33,28 @@ const Worker = db.define('Worker', {
     tableName: 'Worker',
     timestamps: false
 });
+
+//Define associations here
+Worker.hasMany(Visit, {
+    foreignKey:{
+        name: 'WorkerId',
+        type: Sequelize.UUID
+    }
+})
+Worker.hasMany(Client, {
+    foreignKey:{
+        name: 'WorkerId',
+        type: Sequelize.UUID
+    }
+})
+Worker.hasOne(User, {
+    foreignKey:{
+        name: 'WorkerId',
+        type: Sequelize.UUID
+    }
+})
+Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 
 module.exports = Worker;
