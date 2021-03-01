@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm"
-
+import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 
 function NewVisit(props) {
 
@@ -10,6 +9,7 @@ function NewVisit(props) {
     document.title="New Visit";
   }, [])
 
+  // May be needed for later
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
   const [ educationChecked, setEducationChecked ] = useState(false);
@@ -39,6 +39,7 @@ function NewVisit(props) {
   const [ educationEncouragementProvided, setEducationEncouragementProvided ] = useState(false);
   const [ educationGoalMet, setEducationGoalMet ] = useState(false);
 
+  // May be needed for later
   function changeHiddenValues(event) {
     if (event.target.value !== "CBR") {
       setHideHealthSection(true);
@@ -85,7 +86,7 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label>
-                        Tags: *(select all that apply)
+                        Tags (select all that apply)
                       </Label>
                     </Col>
                   </Row>
