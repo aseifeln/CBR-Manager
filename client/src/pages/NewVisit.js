@@ -10,132 +10,6 @@ function NewVisit(props) {
     document.title="New Visit";
   }, [])
 
-  function prepareData(data) {
-
-    var newData = {}
-
-    // Prepare General info
-    newData['VisitPurpose'] = data.purposeOfVisit;
-    newData['Date'] = data.date;
-    newData['Location'] = data.location;
-    newData['VillageNumber'] = data.villageNum;
-    
-    // Placeholder
-    newData['WorkerId'] = "7bbdcaf6-1399-4764-9ef4-dad297f725f3";
-
-    if (!hideHealthSection) {
-      // Prepare Health Form data
-      const healthform = {};
-
-      if (wheelchairProvided) {
-        healthform['Wheelchair'] = data.wheelchairDesc;
-      }
-
-      if (prostheticProvided) {
-        healthform['Prosthetic'] = data.prostheticDesc;
-      }
-
-      if (orthoticProvided) {
-        healthform['Orthotic'] = data.orthoticDesc;
-      }
-
-      if (wheelchairRepairProvided) {
-        healthform['WheelchairRepair'] = data.wheelchairRepairsDesc;
-      }
-
-      if (healthReferralProvided) {
-        healthform['HealthCenterReferral'] = data.healthReferralDesc;
-      }
-
-      if (healthAdviceProvided) {
-        healthform['Advice'] = data.healthAdviceDesc;
-      }
-
-      if (healthAdvocacyProvided) {
-        healthform['Advocacy'] = data.healthAdvocacyDesc;
-      }
-
-      if (healthEncouragementProvided) {
-        healthform['Encouragement'] = data.healthEncouragementDesc;
-      }
-
-      healthform['GoalMet'] = data.healthGoalMet;
-
-      if (data.healthGoalMet === "Concluded") {
-        healthform['ConcludedOutcome'] = data.healthOutcome;
-      }
-
-      newData['HealthForm'] = healthform;
-    }
-
-    if (!hideSocialSection) {
-      // Prepare Social Form data
-      const socialform = {};
-
-      if (socialAdviceProvided) {
-        socialform['Advice'] = data.socialAdviceDesc;
-      }
-
-      if (socialAdvocacyProvided) {
-        socialform['Advocacy'] = data.socialAdvocacyDesc;
-      }
-
-      if (socialReferralProvided) {
-        socialform['OrganizationReferral'] = data.socialReferralDesc;
-      }
-
-      if (socialEncouragementProvided) {
-        socialform['Encouragement'] = data.socialEncouragementDesc;
-      }
-
-      socialform['GoalMet'] = data.socialGoalMet;
-
-      if (data.socialGoalMet === "Concluded") {
-        socialform['ConcludedOutcome'] = data.socialOutcome;
-      }
-
-      newData['SocialForm'] = socialform;
-    }
-
-    if (!hideEducationSection) {
-      // Prepare Education Form data
-      const educationform = {};
-
-      if (educationAdviceProvided) {
-        educationform['Advice'] = data.educationAdviceDesc;
-      }
-
-      if (educationAdvocacyProvided) {
-        educationform['Advocacy'] = data.educationAdvocacyDesc;
-      }
-
-      if (educationReferralProvided) {
-        educationform['OrganizationReferral'] = data.educationReferralDesc;
-      }
-
-      if (educationEncouragementProvided) {
-        educationform['Encouragement'] = data.educationEncouragementDesc;
-      }
-
-      educationform['GoalMet'] = data.educationGoalMet;
-
-      if (data.educationGoalMet === "Concluded") {
-        educationform['ConcludedOutcome'] = data.educationOutcome;
-      }
-
-      newData['EducationForm'] = educationform;
-    }
-
-    console.log(newData);
-
-    return newData;
-  }
-
-  function onValidSubmit(data) {
-    data = prepareData(data);
-    console.log(data)
-  } 
-
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
   const [ educationChecked, setEducationChecked ] = useState(false);
@@ -192,7 +66,7 @@ function NewVisit(props) {
               </Col>
             </Row>
 
-            <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
+            <MultiStepForm name="New Visit">
               <Step name="General Info">
                 <Row form>
                   <Col>
