@@ -375,10 +375,10 @@ function ClientListPage() {
                     <Collapse isOpen={isOpenVillageNo}>
                         <FormGroup>
                             <Label>Village No</Label>
-                            <Input type="number"
+                            <Input type="text"
                                    value={searchVillageNo}
                                    onChange={(event) => setSearchVillageNo(
-                                       Number(event.target.value))}
+                                       event.target.value)}
                                    placeholder="Village Number" />
                         </FormGroup>
                     </Collapse>
