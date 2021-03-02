@@ -6,14 +6,28 @@ import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
-function EditClient() {
+function EditClient(props) {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
+  const [ client, setClient ] = useState({});
+
   useEffect(() => {
-    document.title="New Client Registration"
+
+    axios.get('/clients/' + props.match.params.id)
+    .then(response => {
+        setClient(response.data);
+    })
+    .catch(error => {
+        console.log(error);
+        document.title = "Client not found";
+        alert("Client not found");
+        history.push("/dashboard");
+    })
+
+    document.title="Edit Client"
   }, [])
 
   function formatSubmitData(data) {
@@ -55,40 +69,47 @@ function EditClient() {
   }
 
   return (
-    <>
-      <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
+    <div key={client.ClientId}>
+      <MultiStepForm name='Edit Client' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
 
         {/* 1. General Details */}
         <Step name='General'>
           <Row form>
             <Col xs={12}>
-              <h4>General Details</h4>
+              <h4></h4>
               <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
             </Col>
 
             <Col xs={6}>
-              <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required"/>
+              <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required" defaultValue={client.FirstName}/>
             </Col>
 
             <Col xs={6}>
-              <FieldInput name="LastName" label="Last Name" type="text" required="Last Name is required"/>
+              <FieldInput name="LastName" label="Last Name" type="text" required="Last Name is required" defaultValue={client.LastName}/>
             </Col>
           </Row>
 
           <Row form>
             <Col xs={2}>
-              <FieldInput name="Age" label="Age" type="number" min="1" required="Age is required"/>
+              <FieldInput name="Age" label="Age" type="number" min="1" required="Age is required" defaultValue={client.Age}/>
             </Col>
 
             <Col xs={10}>
-              <div className='mt-3 pt-3'>
-                <FieldCheck name="Gender" type="radio" label="Male" value="Male" defaultChecked/>
-                <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2'/>
+              {(client.Gender === 'Male') ? (
+                <div className='mt-3 pt-3'>
+                  <FieldCheck name="Gender" type="radio" label="Male" value="Male" defaultChecked/>
+                  <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2'/>
+                </div>
+              ) : (
+                <div className='mt-3 pt-3'>
+                  <FieldCheck name="Gender" type="radio" label="Male" value="Male"/>
+                  <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2' defaultChecked/>
               </div>
+              )}
             </Col>
 
             <Col xs={12}>
-              <img src={(imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc)} style={{ width: '100%', maxWidth: 150 }}/>
+              <img src={((imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc)) || `data:image/jpeg;base64,${client.Photo}`} style={{ width: '100%', maxWidth: 150 }}/>
               <FieldInput 
                 name="Photo" 
                 label="Client Picture"
@@ -107,17 +128,9 @@ function EditClient() {
           <hr/>
 
           <Row form>
-            <Col xs={12}>
-              <FieldInput 
-                name="Date" 
-                label="New Client Date" 
-                type="date" 
-                defaultValue={(new Date()).toLocaleDateString('en-CA')}
-              />
-            </Col>
 
             <Col xs={9} md={10}>
-              <FieldInput name="Location" label="Location" type="select" required="Location is required">
+              <FieldInput name="Location" label="Location" type="select" required="Location is required" defaultValue={client.Location}>
                 <option selected hidden>Choose a location</option>
                 <option>BidiBidi Zone 1</option>
                 <option>BidiBidi Zone 2</option>
@@ -132,7 +145,7 @@ function EditClient() {
             </Col>
 
             <Col xs={3} md={2}>
-              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required"/>
+              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required" defaultValue={client.VillageNo}/>
             </Col>
 
             <Col xs={12}>
@@ -141,6 +154,7 @@ function EditClient() {
                 label="Contact Number (Optional)" 
                 type="text"
                 placeholder="e.g. 756-126-9380"
+                defaultValue={client.ContactNo}
                 validations={[
                   {
                     rule: isPattern(phoneNumberRegex),
@@ -249,7 +263,7 @@ function EditClient() {
           </Row>
         </Step>
       </MultiStepForm>
-    </>
+    </div>
   )
 }
 
