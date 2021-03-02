@@ -10,7 +10,7 @@ router.get('/', async (req,res) => {
 
     // Get all filtered clients
     let filters = req.query;
-    let nameInSearch = filters.hasOwnProperty('FirstName') && filters.hasOwnProperty('LastName')
+    let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName')
     let selectionClause = {
         [Op.or]:
             [

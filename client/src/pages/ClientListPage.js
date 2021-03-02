@@ -159,7 +159,7 @@ function ClientListPage() {
         setRadioFilter('');
         setSearchAge(0);
         setSearchLocation('BidiBidi Zone 1');
-        setSearchVillageNo(0);
+        setSearchVillageNo('');
         setSearchDisability('Amputee');
 
 
@@ -233,7 +233,6 @@ function ClientListPage() {
         }
 
         filters = filters.concat('}');
-
         filters = JSON.parse(filters);
 
         return filters;
