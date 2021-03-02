@@ -6,6 +6,7 @@ require('dotenv').config({path: '.env'});
 const users = require('./routes/users');
 const clients = require('./routes/clients');
 const excel = require('./routes/excel');
+const visits = require('./routes/visits');
 
 const app = express();
 const path = require('path')
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use('/users', users);
 app.use('/clients', clients);
 app.use('/excel', excel);
+app.use('/visits', visits);
 
 // Running in production
 

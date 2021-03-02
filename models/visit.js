@@ -4,7 +4,7 @@ const db = require('../config/database');
 const Visit = db.define('Visit', {
     VisitId: {
       type: Sequelize.UUID,
-      default: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
     VisitPurpose: {
@@ -17,7 +17,7 @@ const Visit = db.define('Visit', {
     },
     Date: {
       type: Sequelize.DATEONLY,
-      default: Sequelize.NOW,
+      defaultValue: Sequelize.NOW,
       allowNull: false
     },
     Location: {
@@ -29,36 +29,7 @@ const Visit = db.define('Visit', {
     VillageNumber: {
       type: Sequelize.INTEGER,
       allowNull: false
-    },
-    WorkerId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'Worker',
-            key: 'WorkerId'
-        }
-    },
-    HealthFormId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'HealthForm',
-            key: 'HealthFormId'
-        }
-    },
-    EducationFormId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'EducationForm',
-            key: 'EducationFormId'
-        }
-    },
-    SocialFormId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'SocialForm',
-            key: 'SocialFormId'
-        }
-    },
-
+    }
 }, {
     tableName: 'Visit',
     timestamps: false

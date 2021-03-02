@@ -58,6 +58,33 @@
     background: lightblue;
 }
 
+.SearchName {
+    position:relative;
+}
+
+.SearchName button {
+    position: absolute;
+    top: 1px;
+    right: 10px;
+    border:none;
+    color: black;
+    outline: none;
+    opacity: 0.4;
+    font-size: 20px;
+    text-align:center;
+    font-weight:bold;
+    padding:2px;
+}
+.SearchName button:hover {
+    opacity: 0.5;
+}
+
+
+
+
+
+
+
 
 
 
