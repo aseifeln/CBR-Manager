@@ -218,9 +218,7 @@ function ClientListPage() {
         if (names.length === 2) {
             filters = filters.concat(`"FirstName": "${names[0]}", "LastName": "${names[1]}"`);
         } else {
-            if (names[0] === '') {
-                console.log("Empty Name Field");
-            } else {
+            if (!(names[0] === '')) {
                 filters = filters.concat(`"FirstName": "${names[0]}"`);
             }
         }
