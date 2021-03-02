@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Visit = require('./visit');
 
 const Client = db.define('Client', {
     ClientId: {
@@ -109,18 +110,20 @@ const Client = db.define('Client', {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
-    },
-    WorkerId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'Worker',
-            key: 'WorkerId'
-        }
     }
 
 }, {
     tableName: 'Client',
     timestamps: false
 });
+
+//Define associations here
+Client.hasMany(Visit, {
+    foreignKey:{
+        name: 'ClientId',
+        type: Sequelize.INTEGER
+    }
+})
+Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
 
 module.exports = Client;

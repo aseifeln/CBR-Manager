@@ -29,43 +29,7 @@ const Visit = db.define('Visit', {
     VillageNumber: {
       type: Sequelize.INTEGER,
       allowNull: false
-    },
-    WorkerId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'Worker',
-            key: 'WorkerId'
-        }
-    },
-    ClientId: {
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'Client',
-            key: 'ClientId'
-        }
-    },
-    HealthFormId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'HealthForm',
-            key: 'HealthFormId'
-        }
-    },
-    EducationFormId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'EducationForm',
-            key: 'EducationFormId'
-        }
-    },
-    SocialFormId: {
-        type: Sequelize.UUID,
-        references: {
-            model: 'SocialForm',
-            key: 'SocialFormId'
-        }
-    },
-
+    }
 }, {
     tableName: 'Visit',
     timestamps: false
