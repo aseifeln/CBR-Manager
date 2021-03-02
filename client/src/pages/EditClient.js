@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
-import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
+import { Col, Row, FormText, CardBody, Card, Button } from 'reactstrap';
 
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
@@ -13,18 +13,20 @@ function EditClient(props) {
   const history = useHistory()
 
   const [ client, setClient ] = useState({});
+  const [ photo, setPhoto ] = useState("");
 
   useEffect(() => {
 
     axios.get('/clients/' + props.match.params.id)
     .then(response => {
         setClient(response.data);
+        setPhoto(response.data.Photo);
     })
     .catch(error => {
         console.log(error);
         document.title = "Client not found";
         alert("Client not found");
-        //history.push("/dashboard");
+        history.push("/dashboard");
     })
 
     document.title="Edit Client"
@@ -109,7 +111,11 @@ function EditClient(props) {
             </Col>
 
             <Col xs={12}>
-              <img src={((imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc)) || `data:image/jpeg;base64,${client.Photo}`} style={{ width: '100%', maxWidth: 150 }}/>
+              {(photo.length < 100) ? (
+                <img src={((imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc))} style={{ width: '100%', maxWidth: 150 }}/>
+              ) : (
+                <img src={((imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc)) || `data:image/jpeg;base64,${client.Photo}`} style={{ width: '100%', maxWidth: 150 }}/>
+              )}
               <FieldInput 
                 name="Photo" 
                 label="Client Picture"
@@ -121,6 +127,11 @@ function EditClient(props) {
                   }
                 }}
               />
+              <button onClick={(e) => {
+                e.preventDefault();
+                setPhoto("");
+                setImagePreviewSrc('')
+                }}>Clear photo</button>
               <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
             </Col>
           </Row>
