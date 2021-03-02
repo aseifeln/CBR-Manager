@@ -109,7 +109,7 @@ router.get('/location/:loc', (req,res) => {
     })  
 })
 
-// @route   GET /clients/id/edit
+// @route   PUT /clients/id/edit
 // @desc    PUT the newly modified entries for client with id in database
 router.put('/:id/edit', upload.single('Photo'), (req, res) => {
 
