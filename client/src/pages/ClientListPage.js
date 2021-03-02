@@ -42,7 +42,7 @@ function ClientListPage() {
    const [isOpenDisability, setIsOpenDisability] = useState(false);
 
    const history = useHistory();
-   const clientsPerPage = 5;
+   const clientsPerPage = 30;
 
     useEffect(() => {
         axios.get('/clients')
@@ -73,7 +73,6 @@ function ClientListPage() {
         setCurrentPageClients(currentPage);
     }
 
-    // TODO refactor
     function searchFor(client) {
         let lowerSearchName = searchName.toLowerCase().split(' ');
         let lowerClientFirstName = client.FirstName.toLowerCase();
@@ -126,9 +125,9 @@ function ClientListPage() {
 
     function sortBy(property) {
         return function(a, b) {
-            if (a[ property ] > b[ property ]) {
+            if (a[ property ] < b[ property ]) {
                 return 1;
-            } else if (a[ property ] < b[ property ]) {
+            } else if (a[ property ] > b[ property ]) {
                 return -1;
             } else {
                 return 0;
@@ -147,7 +146,6 @@ function ClientListPage() {
         searched_clients = sorted_clients.filter(searchFor);
         setFilteredClients(searched_clients);
         setClientPages(searched_clients);
-        setSearchName('');
     }
 
     function resetFilters() {
@@ -157,6 +155,13 @@ function ClientListPage() {
         setIsOpenVillageNo(false);
         setIsOpenDisability(false);
         setSearchName('');
+        setSearchGender('');
+        setRadioFilter('');
+        setSearchAge(0);
+        setSearchLocation('BidiBidi Zone 1');
+        setSearchVillageNo(0);
+        setSearchDisability('Amputee');
+
 
         setOffset(0);
         setFilteredClients(clients);
@@ -198,12 +203,20 @@ function ClientListPage() {
                 <Link to="/client/new" style={{color:"#22a9ba"}}>+ Create new client</Link>
             </div>
             <Form onSubmit={filterList}>
-                <FormGroup>
+                <FormGroup className="SearchName">
                     <Input type="text" id="searchName"
                            value={searchName}
                            onChange={(event) => setSearchName(
                                event.target.value)}
                            placeholder="Search by name" />
+                    <Input type="submit" hidden />
+                    <button onClick={(e) =>
+                    {setSearchName('');
+                    e.preventDefault();
+                    }} >X</button>
+
+
+
                 </FormGroup>
                 <Container className='SortSection'>
                     <FormGroup tag="radioFilter"
@@ -211,13 +224,15 @@ function ClientListPage() {
                                onChange={(event) => setRadioFilter(event.target.value)} >
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio1" value="priority"/>
+                                <Input type="radio" name="sortRadio" value="Priority"
+                                       checked={radioFilter === 'Priority'} />
                                 By Priority
                             </Label>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio1" value="DateCreated"/>
+                                <Input type="radio" name="sortRadio" value="DateCreated"
+                                       checked={radioFilter === 'DateCreated'} />
                                 Recently Added
                             </Label>
                         </FormGroup>
@@ -266,13 +281,15 @@ function ClientListPage() {
                             <Label>Gender</Label>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="radio" name="radio1" value="Male"/>
+                                    <Input type="radio" name="genderRadio" value="Male"
+                                           checked={searchGender === 'Male'}/>
                                     Male
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="radio" name="radio1" value="Female"/>
+                                    <Input type="radio" name="genderRadio" value="Female"
+                                           checked={searchGender === 'Female'}/>
                                     Female
                                 </Label>
                             </FormGroup>

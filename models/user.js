@@ -15,14 +15,7 @@ const User = db.define('User', {
         type: Sequelize.ENUM,
         values: ['Worker', 'Admin'],
         allowNull: false
-    },
-    WorkerId: {
-      type: Sequelize.UUID,
-      references: {
-          model: 'Worker',
-          key: 'WorkerId'
     }
-  }
 }, {
     tableName: 'User',
     timestamps: false

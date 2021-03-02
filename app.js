@@ -5,6 +5,7 @@ require('dotenv').config({path: '.env'});
 //Requiring the routes created
 const users = require('./routes/users');
 const clients = require('./routes/clients');
+const visits = require('./routes/visits');
 
 const app = express();
 const path = require('path')
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 // Routes
 app.use('/users', users);
 app.use('/clients', clients);
+app.use('/visits', visits);
 
 // Running in production
 

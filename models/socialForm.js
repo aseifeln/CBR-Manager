@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Visit = require('./visit');
 
 const SocialForm = db.define('SocialForm', {
     SocialFormId: {
       type: Sequelize.UUID,
-      default: Sequelize.UUIDV4,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
     Advice: {
@@ -36,5 +37,14 @@ const SocialForm = db.define('SocialForm', {
     tableName: 'SocialForm',
     timestamps: false
 });
+
+//Define associations here
+SocialForm.hasOne(Visit, {
+  foreignKey:{
+    name: 'SocialFormId',
+    type: Sequelize.UUID
+  }
+})
+Visit.belongsTo(SocialForm, {foreignKey: 'SocialFormId', targetKey: 'SocialFormId'})
 
 module.exports = SocialForm;

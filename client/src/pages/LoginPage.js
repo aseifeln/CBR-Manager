@@ -44,6 +44,7 @@ function Login(props) {
                     } else { 
                         props.history.push("/dashboard");
                     }
+                    
                     return;
                   })
                 .catch( err => {
