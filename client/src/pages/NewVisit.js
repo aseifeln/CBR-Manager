@@ -177,6 +177,7 @@ function NewVisit(props) {
   const [ educationEncouragementProvided, setEducationEncouragementProvided ] = useState(false);
   const [ educationGoalMet, setEducationGoalMet ] = useState(false);
 
+  // May be needed for later
   function changeHiddenValues(event) {
     if (event.target.value !== "CBR") {
       setHideHealthSection(true);
@@ -223,7 +224,7 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label>
-                        Tags: *(select all that apply)
+                        Tags (select all that apply)
                       </Label>
                     </Col>
                   </Row>
@@ -290,7 +291,7 @@ function NewVisit(props) {
 
                   <Col xs={2}>
                     <FormGroup>
-                      <FieldInput name="villageNum" label="Village no" type="number" required="Village number is required"/>
+                      <FieldInput name="villageNum" label="Village Number" type="number" required="Village number is required"/>
                     </FormGroup>
                   </Col>
                 </Row>
