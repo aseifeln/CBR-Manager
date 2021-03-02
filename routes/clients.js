@@ -152,7 +152,7 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
                 .then(client => res.status(200).json(client))
                 .catch(err => res.status(400).json(err))
             }
-            // No photo found, so removing it
+            // No photo found, leave it as the previous one
             catch{
                 client.update({
                     FirstName,
@@ -163,7 +163,6 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
                     VillageNo,
                     Age,
                     DisabilityType,
-                    Photo: [],
                     GPSLocation,
                     Consent,
                     CaregiverState,
