@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const visit = require('../models/visit')
+const worker = require('../models/worker')
 const healthForm = require('../models/healthForm')
 const educationForm = require('../models/educationForm')
 const socialForm = require('../models/socialForm')
@@ -17,6 +18,34 @@ router.get('/:id', (req,res) => {
         .then(visit => res.json(visit))
         .catch(err => res.status(400).json(err))
 })
+
+// @route   GET /visits/client/id
+// @desc    GET Retrieve all visits for a specific client from the database ordered by date
+router.get('/client/:id', (req, res) => {
+    const clientId = req.params.id;
+
+    visit.findAll({
+        attributes: [
+            'ClientId', 'VisitId', 'VisitPurpose', 'Date'
+        ],
+        where: {
+            ClientId: clientId
+        },
+        order: [
+            ['Date', 'DESC']
+        ],
+        include: [{
+            model: worker,
+            required: true,
+            attributes: [
+                'FirstName', 'LastName'
+            ]
+        }]
+    })
+    .then(visits => res.json(visits))
+    .catch(err => res.status(404).json(err))
+})
+
 
 
 // @route   POST /visit/add
