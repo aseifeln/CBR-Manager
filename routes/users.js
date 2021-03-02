@@ -6,8 +6,11 @@ const app = express.Router();
 const multer = require('multer')
 const upload = multer({});
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 app.use(cors())
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 
@@ -33,6 +36,40 @@ async function getUserPassword(username) {
 
 async function passwordIsTrue(loginPassword, databasePassword){
     return await bcrypt.compare(loginPassword, databasePassword)
+}
+//TODO: Maybe needed in logout
+/*
+function authenticateToken(req, res, next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1] //BEARER token
+    console.log(authHeader)
+    console.log(token)
+    if( token == null ){
+        console.log('oops')
+        return res.status(401).send("No access to token")
+    }
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
+        if(err){
+            console.log('ayaya')
+            return res.status(403).send("Token is no longer valid")
+        }
+        req.user = user
+        console.log('great')
+        console.log(user)
+        next()
+    })
+}
+*/
+
+function generateAccessToken(user){
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})//ideal 10m-30m
+}
+
+function generateCookie(res, accessToken){
+    res.cookie('ACCESS_TOKEN', accessToken, {
+        maxAge : 1000 * 60 * 15, //(ms * s * mins) 15 mins
+        httpOnly : true
+    })
 }
 
 app.post("/register", upload.single('Photo'), async (req, res) => {
@@ -94,9 +131,14 @@ app.post('/login', async (req, res) => {
         try{
             await getUserPassword(loginUsername).then(async function(result){
                 if(await passwordIsTrue(loginPassword, result.Password)){
+                    const user = { username: loginUsername }
+                    const accessToken = generateAccessToken(user)
+                    // TODO: Maybe needed in logout = const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+                    generateCookie(res, accessToken);
+                    res.json({ accessToken: accessToken }) // TODO: Maybe needed in logout = , refreshToken: refreshToken 
                     return res.send(SUCCESS);
                 } else {
-                    return res.send(WRONGPASSWORD);
+                    return res.send(WRONGPASSWORD);     
                 }
             });
             
