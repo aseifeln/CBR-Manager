@@ -117,7 +117,7 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
         VillageNo, Age, DisabilityType, GPSLocation, Consent,
         CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
         HealthGoal, EducationStatus, EducationDesc, EducationGoal,
-        SocialStatus, SocialDesc, SocialGoal, WorkerId} = req.body;
+        SocialStatus, SocialDesc, SocialGoal, WorkerId, DeletePhoto} = req.body;
 
     const clientId = req.params.id
     client.findByPk(clientId)
@@ -152,34 +152,65 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
                 .then(client => res.status(200).json(client))
                 .catch(err => res.status(400).json(err))
             }
-            // No photo found, leave it as the previous one
+            // No photo found, leave it as the previous one or delete
             catch{
-                client.update({
-                    FirstName,
-                    LastName,
-                    Gender,
-                    Location,
-                    ContactNo,
-                    VillageNo,
-                    Age,
-                    DisabilityType,
-                    GPSLocation,
-                    Consent,
-                    CaregiverState,
-                    CaregiverContactNo,
-                    HealthStatus,
-                    HealthDesc,
-                    HealthGoal,
-                    EducationStatus,
-                    EducationDesc,
-                    EducationGoal,
-                    SocialStatus,
-                    SocialDesc,
-                    SocialGoal,
-                    WorkerId
-                })
-                .then(client => res.status(200).json(client))
-                .catch(err => res.status(400).json(err))
+                if (DeletePhoto === "Y") {
+                    client.update({
+                        FirstName,
+                        LastName,
+                        Gender,
+                        Location,
+                        ContactNo,
+                        VillageNo,
+                        Age,
+                        DisabilityType,
+                        Photo: [],
+                        GPSLocation,
+                        Consent,
+                        CaregiverState,
+                        CaregiverContactNo,
+                        HealthStatus,
+                        HealthDesc,
+                        HealthGoal,
+                        EducationStatus,
+                        EducationDesc,
+                        EducationGoal,
+                        SocialStatus,
+                        SocialDesc,
+                        SocialGoal,
+                        WorkerId
+                    })
+                    .then(client => res.status(200).json(client))
+                    .catch(err => res.status(400).json(err))
+                }
+                else {
+                    client.update({
+                        FirstName,
+                        LastName,
+                        Gender,
+                        Location,
+                        ContactNo,
+                        VillageNo,
+                        Age,
+                        DisabilityType,
+                        GPSLocation,
+                        Consent,
+                        CaregiverState,
+                        CaregiverContactNo,
+                        HealthStatus,
+                        HealthDesc,
+                        HealthGoal,
+                        EducationStatus,
+                        EducationDesc,
+                        EducationGoal,
+                        SocialStatus,
+                        SocialDesc,
+                        SocialGoal,
+                        WorkerId
+                    })
+                    .then(client => res.status(200).json(client))
+                    .catch(err => res.status(400).json(err))
+                }
             }
         })
         .catch(err => res.status(404).json(err))
