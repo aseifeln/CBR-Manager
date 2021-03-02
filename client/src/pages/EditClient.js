@@ -24,7 +24,7 @@ function EditClient(props) {
         console.log(error);
         document.title = "Client not found";
         alert("Client not found");
-        history.push("/dashboard");
+        //history.push("/dashboard");
     })
 
     document.title="Edit Client"
@@ -198,24 +198,56 @@ function EditClient(props) {
               <h4>Wellbeing Check</h4>
               <FormText>Rate the client's wellbeing following <a href='https://www.hopehealthaction.org/' target='blank'>HHA's wellbeing guidelines</a>.</FormText> 
 
-              {['Health', 'Education', 'Social'].map((area, i) => (
-                <Card className='mt-4' key={`area-${i}`}>
-                  <CardBody>
-                    <h5>{area}</h5>
+              <Card className='mt-4'>
+                <CardBody>
+                  <h5>Health</h5>
 
-                    <FieldInput name={`${area}Status`} label="Current Rating" type="select" required="Rating is required">
-                      <option selected hidden>Choose a rating</option>
-                      <option value='Critical Risk'>4 — Critical Risk</option>
-                      <option value='High Risk'>3 — High Risk</option>
-                      <option value='Medium Risk'>2 — Medium Risk</option>
-                      <option value='Low Risk'>1 — Low Risk</option>
-                    </FieldInput>
+                  <FieldInput name="Health Status" label="Current Rating" type="select" required="Rating is required" defaultValue={client.HealthStatus}>
+                    <option selected hidden>Choose a rating</option>
+                    <option value='Critical Risk'>4 — Critical Risk</option>
+                    <option value='High Risk'>3 — High Risk</option>
+                    <option value='Medium Risk'>2 — Medium Risk</option>
+                    <option value='Low Risk'>1 — Low Risk</option>
+                  </FieldInput>
 
-                    <FieldInput name={`${area}Goal`} label="Goals to achieve" type="textarea"/>
-                    <FieldInput name={`${area}Desc`} label="Required resources for area" type="textarea"/>
-                  </CardBody>
-                </Card>
-              ))}
+                  <FieldInput name="Health Goal" label="Goals to achieve" type="textarea" defaultValue={client.HealthGoal}/>
+                  <FieldInput name="Health Description" label="Required resources for area" type="textarea" defaultValue={client.HealthDesc}/>
+                </CardBody>
+              </Card>
+
+              <Card className='mt-4'>
+                <CardBody>
+                  <h5>Social</h5>
+
+                  <FieldInput name="Social Status" label="Current Rating" type="select" required="Rating is required" defaultValue={client.SocialStatus}>
+                    <option selected hidden>Choose a rating</option>
+                    <option value='Critical Risk'>4 — Critical Risk</option>
+                    <option value='High Risk'>3 — High Risk</option>
+                    <option value='Medium Risk'>2 — Medium Risk</option>
+                    <option value='Low Risk'>1 — Low Risk</option>
+                  </FieldInput>
+
+                  <FieldInput name="Social Goal" label="Goals to achieve" type="textarea" defaultValue={client.SocialGoal}/>
+                  <FieldInput name="Social Description" label="Required resources for area" type="textarea" defaultValue={client.SocialDesc}/>
+                </CardBody>
+              </Card>
+
+              <Card className='mt-4'>
+                <CardBody>
+                  <h5>Education</h5>
+
+                  <FieldInput name="Education Status" label="Current Rating" type="select" required="Rating is required" defaultValue={client.EducationStatus}>
+                    <option selected hidden>Choose a rating</option>
+                    <option value='Critical Risk'>4 — Critical Risk</option>
+                    <option value='High Risk'>3 — High Risk</option>
+                    <option value='Medium Risk'>2 — Medium Risk</option>
+                    <option value='Low Risk'>1 — Low Risk</option>
+                  </FieldInput>
+
+                  <FieldInput name="Education Goal" label="Goals to achieve" type="textarea" defaultValue={client.EducationGoal}/>
+                  <FieldInput name="Education Description" label="Required resources for area" type="textarea" defaultValue={client.EducationDesc}/>
+                </CardBody>
+              </Card>
             </Col>
           </Row>
         </Step>
@@ -229,6 +261,7 @@ function EditClient(props) {
                 name="CaregiverState"
                 type="checkbox"
                 label="Caregiver present?"
+                defaultChecked={client.CaregiverState}
                 onChange={() => setCaregiverPresent(!caregiverPresent)}
               />
 
@@ -239,6 +272,7 @@ function EditClient(props) {
                   type="text"
                   placeholder="e.g. 756-126-9380"
                   required={(caregiverPresent) && 'Contact No. is required'}
+                  defaultValue={client.CaregiverContactNo}
                   validations={[
                     {
                       rule: isPattern(phoneNumberRegex),
@@ -258,6 +292,7 @@ function EditClient(props) {
                 name="Consent"
                 type="checkbox"
                 label="Client consents to Interview"
+                defaultChecked={client.Consent}
               />
             </Col>
           </Row>
