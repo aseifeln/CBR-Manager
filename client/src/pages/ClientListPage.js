@@ -350,7 +350,7 @@ function ClientListPage() {
                                         <td>{Gender}</td>
                                         <td>{Location}</td>
                                         <td>{VillageNo}</td>
-                                        <td>{DisabilityType}</td>
+                                        <td>{(DisabilityType || []).join(', ')}</td>
                                         <Button onClick={() => history.push(`/client/${ClientId}`)}
                                                 style={{'float': 'right' ,color:"white",backgroundColor:"#46ad2f"}}>View</Button>
                                     </tr>
