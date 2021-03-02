@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Visit = require('./visit');
 
 const HealthForm = db.define('HealthForm', {
     HealthFormId: {
@@ -52,5 +53,14 @@ const HealthForm = db.define('HealthForm', {
     tableName: 'HealthForm',
     timestamps: false
 });
+
+//Define associations here
+HealthForm.hasOne(Visit, {
+  foreignKey:{
+    name: 'HealthFormId',
+    type: Sequelize.UUID
+  }
+})
+Visit.belongsTo(HealthForm, {foreignKey: 'HealthFormId', targetKey: 'HealthFormId'})
 
 module.exports = HealthForm;
