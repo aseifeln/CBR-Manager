@@ -32,7 +32,7 @@ function ClientListPage() {
    const [ searchAge, setSearchAge ] = useState(0);
    const [ searchGender, setSearchGender ] = useState('');
    const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
-   const [ searchVillageNo, setSearchVillageNo ] = useState(0);
+   const [ searchVillageNo, setSearchVillageNo ] = useState('');
    const [ searchDisability, setSearchDisability ] = useState('Amputee');
 
    const [isOpenAge, setIsOpenAge] = useState(false);
@@ -147,7 +147,6 @@ function ClientListPage() {
         searched_clients = sorted_clients.filter(searchFor);
         setFilteredClients(searched_clients);
         setClientPages(searched_clients);
-        setSearchName('');
     }
 
     function resetFilters() {
@@ -190,6 +189,81 @@ function ClientListPage() {
         setOffset(event.selected * clientsPerPage);
     }
 
+    function convertFiltersToJSON() {
+        // TODO add the order by after filters
+        let names = searchName.split(' ');
+        let filters = '{';
+        for (let i = 0; i < names.length; i++) {
+            names[i] = names[i].charAt(0).toUpperCase() + names[i].slice(1).toLowerCase();
+            if (i > 1) {
+                names.splice(i);
+            }
+        }
+
+        if(isOpenAge) {
+            filters = filters.concat(`"Age": ${searchAge},`);
+        }
+        if(isOpenGender) {
+            filters = filters.concat(`"Gender": "${searchGender}",`);
+        }
+        if(isOpenLocation) {
+            filters = filters.concat(`"Location": "${searchLocation}",`);
+        }
+        if(isOpenVillageNo) {
+            filters = filters.concat(`"VillageNo": "${searchVillageNo}",`);
+        }
+        if(isOpenDisability) {
+            filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
+        }
+        if (names.length === 2) {
+            filters = filters.concat(`"FirstName": "${names[0]}", "LastName": "${names[1]}"`);
+        } else {
+            if (names[0] === '') {
+                console.log("Empty Name Field");
+            } else {
+                filters = filters.concat(`"FirstName": "${names[0]}"`);
+            }
+        }
+        if (filters.endsWith(',')) {
+            filters = filters.replace(',', '');
+        }
+
+        filters = filters.concat('}');
+
+        filters = JSON.parse(filters);
+
+        return filters;
+    }
+
+    // Download excel file
+    // Modified from Reference: https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
+    function downloadExcelWorkbook() {
+        // Not allowed to create an empty workbook
+        if (filteredClients.length === 0) {
+            alert("Cannot export an empty list");
+            return;
+        }
+
+        let filters = convertFiltersToJSON();
+
+        axios.request({url: '/excel',
+                             method: 'GET',
+                             params: filters,
+                             responseType: 'blob',
+            })
+            .then(function (res) {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'clients.xlsx'); // TODO create modal that gets the name for the file
+                document.body.appendChild(link);
+                link.click();
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+
     return (
         <>
         <Container className='ClientList'>
@@ -226,7 +300,7 @@ function ClientListPage() {
                 <Container className='ChooseFilters'>
                     <Label>Filters</Label>
                     <Button style={{color:"white", backgroundColor:"red"}}
-                            onClick={() => {alert("Nothing happened.... yet")}}>Export</Button>
+                            onClick={downloadExcelWorkbook}>Export</Button>
                     <Button onClick={filterList} style={buttonColor}>Apply Filters</Button>
                     <Button onClick={resetFilters} style={buttonColor}>Reset</Button>
                     <FormGroup onChange={setFilters}>
