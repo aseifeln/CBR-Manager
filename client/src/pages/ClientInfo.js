@@ -22,6 +22,7 @@ function ClientInfo(props) {
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
+    const areaColor2={backgroundColor:"#22a9ba"};
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
@@ -37,20 +38,13 @@ function ClientInfo(props) {
                 document.title = "Client not found"
             })
 
-        // TODO: Send GET Request to backend to retrieve all visits associated with this client
-        // Mock visit data
-        setVisits(
-            [{
-                "id": 1,
-                "date": "01/01/2021"
-            }, {
-                "id": 2,
-               "date": "01/01/2021"
-            }, {
-                "id": 3,
-               "date": "01/01/2021"
-            }]
-        )
+        axios.get('/visits/client/' + props.match.params.id)
+            .then(response => {
+                setVisits(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }, [])
 
     {/* TODO: Will need to figure out a better way to tell users a client isn't found,
@@ -189,14 +183,14 @@ as right now will still render this component briefly even for existing clients*
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader style={areaColor}>
+                    <CardHeader style={areaColor2}>
                         <h2 style={areaFontSize}>All Visits</h2>
                     </CardHeader>
                     <CardBody>
                         &nbsp; Click on a date to view more info or edit: <br/>
                         <ul>
-                            {visits.map(({id, date}) => (
-                                <li><Link to={`/visit/${id}`}>{date}</Link></li>
+                            {visits.map(({VisitId, Date}) => (
+                                <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
                             ))}
                         </ul>
                     </CardBody>
