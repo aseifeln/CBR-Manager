@@ -149,11 +149,10 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
             WorkerId
         })
         .then((client) => {
-            // Check for if photo was in the request or if deleting
             try {
                 client.update({
                     Photo: req.file.buffer
-                }, {where: {ClientId: clientId}})
+                })
                 .then(() => res.status(200).json("Client edited succcessfully"))
                 .catch(err => res.status(400).json(err))
             }
@@ -161,7 +160,7 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
                 if (DeletePhoto === "Y") {
                     client.update({
                         Photo: [],
-                    }, {where: {ClientId: clientId}})
+                    })
                     .then(() => res.status(200).json("Client edited succcessfully"))
                     .catch(err => res.status(400).json(err))
                 }
