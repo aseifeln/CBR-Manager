@@ -109,5 +109,81 @@ router.get('/location/:loc', (req,res) => {
     })  
 })
 
+// @route   GET /clients/id/edit
+// @desc    PUT newly modified entry for client with id in database
+router.put('/:id/edit', upload.single('Photo'), (req, res) => {
+
+    let {FirstName, LastName, Gender, Location, ContactNo, 
+        VillageNo, Age, DisabilityType, GPSLocation, Consent,
+        CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
+        HealthGoal, EducationStatus, EducationDesc, EducationGoal,
+        SocialStatus, SocialDesc, SocialGoal, WorkerId} = req.body;
+
+    const clientId = req.params.id
+    client.findByPk(clientId)
+        .then(client => {
+            // Photo found in request
+            try {
+                client.update({
+                    FirstName,
+                    LastName,
+                    Gender,
+                    Location,
+                    ContactNo,
+                    VillageNo,
+                    Age,
+                    DisabilityType,
+                    Photo: req.file.buffer,
+                    GPSLocation,
+                    Consent,
+                    CaregiverState,
+                    CaregiverContactNo,
+                    HealthStatus,
+                    HealthDesc,
+                    HealthGoal,
+                    EducationStatus,
+                    EducationDesc,
+                    EducationGoal,
+                    SocialStatus,
+                    SocialDesc,
+                    SocialGoal,
+                    WorkerId
+                })
+                .then(client => res.status(200).json(client))
+                .catch(err => res.status(400).json(err))
+            }
+            // No photo found, so removing it
+            catch{
+                client.update({
+                    FirstName,
+                    LastName,
+                    Gender,
+                    Location,
+                    ContactNo,
+                    VillageNo,
+                    Age,
+                    DisabilityType,
+                    Photo: [],
+                    GPSLocation,
+                    Consent,
+                    CaregiverState,
+                    CaregiverContactNo,
+                    HealthStatus,
+                    HealthDesc,
+                    HealthGoal,
+                    EducationStatus,
+                    EducationDesc,
+                    EducationGoal,
+                    SocialStatus,
+                    SocialDesc,
+                    SocialGoal,
+                    WorkerId
+                })
+                .then(client => res.status(200).json(client))
+                .catch(err => res.status(400).json(err))
+            }
+        })
+        .catch(err => res.status(404).json(err))
+})
 
 module.exports = router
