@@ -1,15 +1,153 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 function NewVisit(props) {
+
+  const history = useHistory();
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
     document.title="New Visit";
   }, [])
 
-  // May be needed for later
+  function prepareData(data) {
+
+    var newData = {}
+
+    // Prepare General info
+    newData['VisitPurpose'] = data.purposeOfVisit;
+    newData['Date'] = data.date;
+    newData['Location'] = data.location;
+    newData['VillageNumber'] = data.villageNum;
+    newData['ClientId'] = props.match.params.id;
+    
+    // TODO: Fill in workerId once there is an API to retrieve this for current user
+    // newData['WorkerId'] = "";
+
+    if (!hideHealthSection) {
+      // Prepare Health Form data
+      const healthform = {};
+
+      if (wheelchairProvided) {
+        healthform['Wheelchair'] = data.wheelchairDesc;
+      }
+
+      if (prostheticProvided) {
+        healthform['Prosthetic'] = data.prostheticDesc;
+      }
+
+      if (orthoticProvided) {
+        healthform['Orthotic'] = data.orthoticDesc;
+      }
+
+      if (wheelchairRepairProvided) {
+        healthform['WheelchairRepair'] = data.wheelchairRepairsDesc;
+      }
+
+      if (healthReferralProvided) {
+        healthform['HealthCenterReferral'] = data.healthReferralDesc;
+      }
+
+      if (healthAdviceProvided) {
+        healthform['Advice'] = data.healthAdviceDesc;
+      }
+
+      if (healthAdvocacyProvided) {
+        healthform['Advocacy'] = data.healthAdvocacyDesc;
+      }
+
+      if (healthEncouragementProvided) {
+        healthform['Encouragement'] = data.healthEncouragementDesc;
+      }
+
+      healthform['GoalMet'] = data.healthGoalMet;
+
+      if (data.healthGoalMet === "Concluded") {
+        healthform['ConcludedOutcome'] = data.healthOutcome;
+      }
+
+      newData['HealthForm'] = healthform;
+    }
+
+    if (!hideSocialSection) {
+      // Prepare Social Form data
+      const socialform = {};
+
+      if (socialAdviceProvided) {
+        socialform['Advice'] = data.socialAdviceDesc;
+      }
+
+      if (socialAdvocacyProvided) {
+        socialform['Advocacy'] = data.socialAdvocacyDesc;
+      }
+
+      if (socialReferralProvided) {
+        socialform['OrganizationReferral'] = data.socialReferralDesc;
+      }
+
+      if (socialEncouragementProvided) {
+        socialform['Encouragement'] = data.socialEncouragementDesc;
+      }
+
+      socialform['GoalMet'] = data.socialGoalMet;
+
+      if (data.socialGoalMet === "Concluded") {
+        socialform['ConcludedOutcome'] = data.socialOutcome;
+      }
+
+      newData['SocialForm'] = socialform;
+    }
+
+    if (!hideEducationSection) {
+      // Prepare Education Form data
+      const educationform = {};
+
+      if (educationAdviceProvided) {
+        educationform['Advice'] = data.educationAdviceDesc;
+      }
+
+      if (educationAdvocacyProvided) {
+        educationform['Advocacy'] = data.educationAdvocacyDesc;
+      }
+
+      if (educationReferralProvided) {
+        educationform['OrganizationReferral'] = data.educationReferralDesc;
+      }
+
+      if (educationEncouragementProvided) {
+        educationform['Encouragement'] = data.educationEncouragementDesc;
+      }
+
+      educationform['GoalMet'] = data.educationGoalMet;
+
+      if (data.educationGoalMet === "Concluded") {
+        educationform['ConcludedOutcome'] = data.educationOutcome;
+      }
+
+      newData['EducationForm'] = educationform;
+    }
+
+    return newData;
+  }
+
+  function onValidSubmit(data) {
+    data = prepareData(data);
+    console.log(data)
+
+    axios.post('/visits/add/', data)
+    // TODO: Redirect to visit page once that has been created
+    .then(response => {
+        alert("New visit added successfully");
+        history.push('/dashboard');
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  }
+
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
   const [ educationChecked, setEducationChecked ] = useState(false);
@@ -67,7 +205,7 @@ function NewVisit(props) {
               </Col>
             </Row>
 
-            <MultiStepForm name="New Visit">
+            <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
               <Step name="General Info">
                 <Row form>
                   <Col>
