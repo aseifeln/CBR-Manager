@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import NewClientSignup from './pages/NewClientSignup';
 import ClientListPage from './pages/ClientListPage';
 import ClientInfoPage from './pages/ClientInfo';
+import EditClientPage from './pages/EditClient';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
@@ -31,6 +32,11 @@ const ROUTES = [
         key: 'CLIENT_INFO',
         exact: true,
         component: ClientInfoPage
+      }, {
+        path: '/client/:id/edit',
+        key: 'EDIT_CLIENT',
+        exact: true,
+        component: EditClientPage
       }
     ]
   },
