@@ -126,8 +126,9 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
         await sequelize.transaction( async (t) => {
             const clientToEdit = await client.findByPk(clientId, {transaction: t})
 
-            if (clientToEdit === null)
+            if (clientToEdit === null) {
                 throw new Error("Client not found")
+            }
 
             await clientToEdit.update({
                 FirstName,
