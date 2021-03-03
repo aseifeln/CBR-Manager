@@ -149,14 +149,14 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
             WorkerId
         })
         .then((client) => {
-            try {
+            if (typeof req.file !== 'undefined') {
                 client.update({
                     Photo: req.file.buffer
                 })
                 .then(() => res.status(200).json("Client edited succcessfully"))
                 .catch(err => res.status(400).json(err))
             }
-            catch {
+            else {
                 if (DeletePhoto === "Y") {
                     client.update({
                         Photo: [],
