@@ -21,14 +21,12 @@ function NewClientSignup() {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['Photo'] = (imagePreviewSrc) || null
     // postgres array uses '{}' instead of '[]'
-    data['DisabilityType'] = (data['DisabilityType']) ? `{${data['DisabilityType']}}` : '{}' 
-    // console.log(data)
+    data['DisabilityType'] = (data['DisabilityType']) ? `{${data['DisabilityType']}}` : "{Don't Know}" 
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
       formData.append(key, (val != null) ? val : 'N/A')
     }
-
     return formData
   }
 
