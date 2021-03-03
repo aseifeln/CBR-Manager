@@ -127,10 +127,8 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
             const clientToEdit = await client.findByPk(clientId, {transaction: t})
 
             if (clientToEdit === null)
-            {
-                res.status(404).json("Client not found")
-            }
-    
+                throw new Error("Client not found")
+
             await clientToEdit.update({
                 FirstName,
                 LastName,
@@ -169,8 +167,12 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
             res.status(200).json("Client updated successfully")   
         })
     } 
+
     catch (err) {
-        res.status(400).json(err)
+        if (err.message === "Client not found")
+            res.status(404).json(err.message)
+        else
+            res.status(400).json(err.name + ": " + err.message)
     }
 })
 
