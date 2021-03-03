@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const visit = require('../models/visit')
 const worker = require('../models/worker')
+const client = require('../models/client')
 const healthForm = require('../models/healthForm')
 const educationForm = require('../models/educationForm')
 const socialForm = require('../models/socialForm')
@@ -17,9 +18,15 @@ router.get('/:id', (req,res) => {
         },
         attributes: [
             'VisitPurpose', 'GPSLocation', 'Date',
-            'Location', 'VillageNumber', 'ClientId'
+            'Location', 'VillageNumber'
         ],
-        include: [
+        include: [{
+            model: client,
+            required: true,
+            attributes: [
+              'ClientId', 'FirstName', 'LastName'
+            ]
+        },
         {
             model: worker,
             required: true,
