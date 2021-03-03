@@ -3,13 +3,30 @@ import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader,
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import NotFoundPage from './404';
 
 function NewVisit(props) {
 
   const history = useHistory();
+  const [ client, setClient ] = useState({});
+  const [ CBRVisit, setCBRVisit ] = useState(false);
+  const [ clientFound, setClientFound ] = useState(false);
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
+
+    axios.get('/clients/' + props.match.params.id)
+    .then(response => {
+        setClient(response.data);
+        setClientFound(true)
+    })
+    .catch(error => {
+        console.log(error);
+        document.title = "Client not found";
+        alert("Client not found");
+        history.push('/dashboard')
+    })
+
     document.title="New Visit";
   }, [])
 
@@ -148,6 +165,8 @@ function NewVisit(props) {
     })
   }
 
+  const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
+
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
   const [ educationChecked, setEducationChecked ] = useState(false);
@@ -191,12 +210,19 @@ function NewVisit(props) {
     }
   }
 
+  if (!clientFound)
+  {
+    return (
+        <NotFoundPage/>
+    )
+  }
+
   return (
     <div>
         <Container>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {props.match.params.id}
+                Client: {client.FirstName + ' ' + client.LastName}
               </Col>
               <Col>
                 <Button variant="primary" size="md" className="float-right">
@@ -210,7 +236,11 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" required="Purpose is required">
+                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" required="Purpose is required" onChange={(e) => {
+                        if (e.target) {
+                          (e.target.value === "CBR") ? setCBRVisit(true) : setCBRVisit(false)
+                        }
+                      }}>
                         <option selected hidden>Select Purpose</option>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
@@ -224,7 +254,9 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label>
-                        Tags (select all that apply)
+                        {(CBRVisit) ? (
+                          "CBR Category (select all that apply)"
+                        ) : ("Tags (select all that apply)")}
                       </Label>
                     </Col>
                   </Row>
@@ -298,6 +330,21 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Health" isEnabled={!hideHealthSection}>
+                <Row>
+                  <Col>
+                    <Card>
+                      <CardHeader className="font-weight-bold">
+                        Client Health Info
+                      </CardHeader>
+                        <CardBody>
+                          <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
+                          <div style={areaInfo}>Goal:</div> {client.HealthGoal} <br />
+                          <div style={areaInfo}>Description:</div> {client.HealthDesc}
+                        </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <br/>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -515,6 +562,22 @@ function NewVisit(props) {
               <Step name="Social" isEnabled={!hideSocialSection}>
                 <Row>
                   <Col>
+                    <Card>
+                      <CardHeader className="font-weight-bold">
+                        Client Social Info
+                      </CardHeader>
+                        <CardBody>
+                          <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
+                          <div style={areaInfo}>Goal:</div> {client.SocialGoal} <br />
+                          <div style={areaInfo}>Description:</div> {client.SocialDesc}
+                        </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <br/>
+                
+                <Row>
+                  <Col>
                     <FormGroup>
                       <Label className="font-weight-bold">
                         What was provided? (Select all that applies)
@@ -640,6 +703,22 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Education" isEnabled={!hideEducationSection}>
+                <Row>
+                  <Col>
+                    <Card>
+                      <CardHeader className="font-weight-bold">
+                        Client Education Info
+                      </CardHeader>
+                        <CardBody>
+                          <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
+                          <div style={areaInfo}>Goal:</div> {client.EducationGoal} <br />
+                          <div style={areaInfo}>Description:</div> {client.EducationDesc}
+                        </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <br/>
+
                 <Row>
                   <Col>
                     <FormGroup>
