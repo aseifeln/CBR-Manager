@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const client = require('../models/client')
-const multer = require('multer')
+const multer = require('multer');
+const { sequelize } = require('../models/client');
 const upload = multer({});
 
 //Function that converts an image byte array into a base64 string
@@ -111,7 +112,7 @@ router.get('/location/:loc', (req,res) => {
 
 // @route   PUT /clients/id/edit
 // @desc    PUT the newly modified entries for client with id in database
-router.put('/:id/edit', upload.single('Photo'), (req, res) => {
+router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
 
     let {FirstName, LastName, Gender, Location, ContactNo, 
         VillageNo, Age, DisabilityType, GPSLocation, Consent,
@@ -121,56 +122,56 @@ router.put('/:id/edit', upload.single('Photo'), (req, res) => {
 
     const clientId = req.params.id
 
-    client.findByPk(clientId)
-    .then(client => {
-        // Update everything but photo first
-        client.update({
-            FirstName,
-            LastName,
-            Gender,
-            Location,
-            ContactNo,
-            VillageNo,
-            Age,
-            DisabilityType,
-            GPSLocation,
-            Consent,
-            CaregiverState,
-            CaregiverContactNo,
-            HealthStatus,
-            HealthDesc,
-            HealthGoal,
-            EducationStatus,
-            EducationDesc,
-            EducationGoal,
-            SocialStatus,
-            SocialDesc,
-            SocialGoal,
-            WorkerId
-        })
-        .then((client) => {
+    try {
+        const result = await sequelize.transaction( async (t) => {
+            const clientToEdit = await client.findByPk(clientId)
+
+            if (clientToEdit === null)
+            {
+                res.status(404).json("Client not found")
+            }
+    
+            await clientToEdit.update({
+                FirstName,
+                LastName,
+                Gender,
+                Location,
+                ContactNo,
+                VillageNo,
+                Age,
+                DisabilityType,
+                GPSLocation,
+                Consent,
+                CaregiverState,
+                CaregiverContactNo,
+                HealthStatus,
+                HealthDesc,
+                HealthGoal,
+                EducationStatus,
+                EducationDesc,
+                EducationGoal,
+                SocialStatus,
+                SocialDesc,
+                SocialGoal,
+                WorkerId
+            })
+    
             if (typeof req.file !== 'undefined') {
-                client.update({
+                await clientToEdit.update({
                     Photo: req.file.buffer
                 })
-                .then(() => res.status(200).json("Client edited succcessfully"))
-                .catch(err => res.status(400).json(err))
             }
-            else {
-                if (DeletePhoto === "Y") {
-                    client.update({
-                        Photo: [],
-                    })
-                    .then(() => res.status(200).json("Client edited succcessfully"))
-                    .catch(err => res.status(400).json(err))
-                }
-                else
-                    res.status(200).json("Client edited succcessfully")
+            else if (DeletePhoto === "Y") {
+                await clientToEdit.update({
+                    Photo: []
+                })
             }
+            res.status(200).json("Client updated successfully")   
         })
-        .catch(err => res.status(400).json(err))
-    })
-    .catch(err => res.status(404).json(err))
+    } 
+    catch (err) {
+        res.status(400).json(err)
+    }
 })
 
 module.exports = router
