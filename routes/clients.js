@@ -124,7 +124,7 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
 
     try {
         await sequelize.transaction( async (t) => {
-            const clientToEdit = await client.findByPk(clientId)
+            const clientToEdit = await client.findByPk(clientId, {transaction: t})
 
             if (clientToEdit === null)
             {
@@ -154,17 +154,17 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
                 SocialDesc,
                 SocialGoal,
                 WorkerId
-            })
+            }, {transaction: t})
     
             if (typeof req.file !== 'undefined') {
                 await clientToEdit.update({
                     Photo: req.file.buffer
-                })
+                }, {transaction: t})
             }
             else if (DeletePhoto === "Y") {
                 await clientToEdit.update({
                     Photo: []
-                })
+                }, {transaction: t})
             }
             res.status(200).json("Client updated successfully")   
         })
