@@ -185,7 +185,6 @@ function EditClient(props) {
                 name="DisabilityType"
                 placeholder="Add a disability type... (e.g. Polio)"
                 required onChange={(e) => {console.log(e.length)}}
-                // Default selected doesn't work with validation
                 defaultValue={client.DisabilityType}
                 options={[
                   'Amputee', 'Polio', 
@@ -195,8 +194,6 @@ function EditClient(props) {
                   'Don\'t Know', 'Other'
                 ]}
                 onChange={(v) => {
-                  //console.log(v)
-
                   // hacky way of removing selections if user chooses
                   // "Don't Know" or "Other" options but it works 👍
                   if (v[v.length-1] === 'Don\'t Know' && v.length >= 1) return ['Don\'t Know']
