@@ -85,7 +85,7 @@ as right now will still render this component briefly even for existing clients*
                         <li>- Location: {client.Location}</li>
                         <li>- Age: {client.Age}</li>
                         <li>- Gender: {client.Gender}</li>
-                        <li>- Disability: {client.DisabilityType}</li>
+                        <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
                     </ul>
                 </Col>
             </Row>

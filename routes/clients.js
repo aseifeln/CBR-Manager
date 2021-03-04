@@ -24,6 +24,7 @@ router.get('/:id', (req,res) => {
         .then(client => res.json(client))
         .catch(err => res.status(404).json(err))
 })
+
 // @route   GET /clients
 // @desc    Get All clients
 router.get('/', (req, res) => 
@@ -35,7 +36,6 @@ router.get('/', (req, res) =>
     .then(clients => res.json(clients))
     .catch(err => res.status(404).json(err))   
 )
-
 
 // @route   POST /clients/add
 // @desc    POST Add a new client to the database
@@ -71,12 +71,13 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         SocialGoal,
         WorkerId
     })
-    .then(result => res.send("Client Added Successfully"))
+    .then(() => {
+        res.send("Client Added Successfully")
+    })
     .catch(err => {
         console.log(err)
         res.status(400).json(err)
     })
-
 })
 
 // @route   GET /clients/location/location_name
