@@ -105,7 +105,7 @@ function ClientListPage() {
             numFilters++;
         }
         if (isOpenDisability) {
-            if (client.DisabilityType === searchDisability) {
+            if ((client.DisabilityType || []).includes(searchDisability)) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -416,7 +416,7 @@ function ClientListPage() {
                     </Collapse>
                 </Container>
             </Form>
-            <Table>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>FirstName</th>
@@ -439,7 +439,7 @@ function ClientListPage() {
                                         <td>{Gender}</td>
                                         <td>{Location}</td>
                                         <td>{VillageNo}</td>
-                                        <td>{DisabilityType}</td>
+                                        <td>{(DisabilityType || []).join(', ')}</td>
                                         <Button onClick={() => history.push(`/client/${ClientId}`)}
                                                 style={{'float': 'right' ,color:"white",backgroundColor:"#46ad2f"}}>View</Button>
                                     </tr>
