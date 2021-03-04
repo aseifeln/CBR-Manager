@@ -1,4 +1,3 @@
-const { UUID } = require('sequelize');
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
