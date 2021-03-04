@@ -184,7 +184,8 @@ function EditClient(props) {
                 id="DisabilityType"
                 name="DisabilityType"
                 placeholder="Add a disability type... (e.g. Polio)"
-                required onChange={(e) => {console.log(e.length)}}
+                // TODO: Fix bug where the required doesn't work properly with defaultValue
+                required={"At least one option must be chosen"}
                 defaultValue={client.DisabilityType}
                 options={[
                   'Amputee', 'Polio', 
