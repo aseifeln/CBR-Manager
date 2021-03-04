@@ -16,7 +16,7 @@ function VisitInfo(props) {
 
         axios.get('/visits/' + props.match.params.id)
         .then(response => {
-            setVisit(response.data);
+            setVisit(response.data[0]);
             setVisitFound(true);
             console.log(response.data);
         })
@@ -40,7 +40,7 @@ function VisitInfo(props) {
             <Container>
                 <Row>
                     <Col>
-                        <Button tag={Link} to={'/client/'+ visit.ClientId}>Back</Button>
+                        <Button tag={Link} to={'/client/'+ visit.Client?.ClientId}>Back</Button>
                     </Col>
                 </Row>
             </Container>
