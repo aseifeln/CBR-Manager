@@ -42,8 +42,6 @@ const Referral = db.define('Referral', {
         type: Sequelize.STRING,
         allowNull: true
     }
-   
-
 }, {
     tableName: 'Referral',
     timestamps: false
