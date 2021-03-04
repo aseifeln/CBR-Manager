@@ -40,6 +40,10 @@ function EditClient(props) {
     // postgres array uses '{}' instead of '[]'
     data['DisabilityType'] = (data['DisabilityType']) ? `{${data['DisabilityType']}}` : "{Don't Know}" 
 
+    if (photo.length < 100 && !imagePreviewSrc) {
+      data['DeletePhoto'] = "Y"
+    }
+
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
       formData.append(key, (val != null) ? val : 'N/A')
