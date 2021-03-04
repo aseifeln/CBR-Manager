@@ -47,7 +47,7 @@ function PriorityClients(){
                             <ListGroupItemHeading> {client.FirstName} {client.LastName} </ListGroupItemHeading>
                             <ListGroupItemText>
                                 <p style={{margin:"0"}}>Gender: {client.Gender}</p>
-                                <p style={{margin:"0"}}>Disability Type: {client.DisabilityType}</p>
+                                <p style={{margin:"0"}}>Disability Type: {(client.DisabilityType || []).join(', ')}</p>
                             </ListGroupItemText>
                             <ListGroupItemText style={
                                 (client.HealthStatus==="Critical Risk")?{color:"red"}:

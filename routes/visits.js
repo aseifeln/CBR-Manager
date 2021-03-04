@@ -55,6 +55,34 @@ router.get('/:id', (req,res) => {
 
 })
 
+// @route   GET /visits/client/id
+// @desc    GET Retrieve all visits for a specific client from the database ordered by date
+router.get('/client/:id', (req, res) => {
+    const clientId = req.params.id;
+
+    visit.findAll({
+        attributes: [
+            'ClientId', 'VisitId', 'VisitPurpose', 'Date'
+        ],
+        where: {
+            ClientId: clientId
+        },
+        order: [
+            ['Date', 'DESC']
+        ],
+        include: [{
+            model: worker,
+            required: true,
+            attributes: [
+                'FirstName', 'LastName'
+            ]
+        }]
+    })
+    .then(visits => res.json(visits))
+    .catch(err => res.status(404).json(err))
+})
+
+
 
 // @route   POST /visit/add
 // @desc    POST Add a new visit to the database
