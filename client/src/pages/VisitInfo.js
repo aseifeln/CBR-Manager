@@ -39,10 +39,11 @@ function VisitInfo(props) {
             <Container>
                 <Row>
                     <Col>
-                        <Button tag={Link} to={'/client/'+ visit.Client?.ClientId}>Back</Button>
+                        <Button tag={Link} to={'/client/'+ visit.Client?.ClientId}>Back to Client</Button>
                     </Col>
                 </Row>
             </Container>
+            <br/>
             <Container>
                 <Row>
                     <Col><h1>Summary:</h1></Col>
