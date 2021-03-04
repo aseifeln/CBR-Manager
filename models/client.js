@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 const Visit = require('./visit');
+const Referral = require('./referral');
 
 const Client = db.define('Client', {
     ClientId: {
@@ -124,6 +125,13 @@ Client.hasMany(Visit, {
         type: Sequelize.INTEGER
     }
 })
+Client.hasMany(Referral, {
+    foreignKey:{
+        name: 'ClientId',
+        type: Sequelize.UUID
+    }
+})
 Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
+Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'})
 
 module.exports = Client;
