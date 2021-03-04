@@ -29,7 +29,7 @@ function ClientListPage() {
 
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ searchName, setSearchName ] = useState('');
-   const [ searchAge, setSearchAge ] = useState(0);
+   const [ searchAge, setSearchAge ] = useState('');
    const [ searchGender, setSearchGender ] = useState('');
    const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
    const [ searchVillageNo, setSearchVillageNo ] = useState('');
@@ -81,7 +81,7 @@ function ClientListPage() {
         let numFiltersMatching = 0;
 
         if (isOpenAge) {
-            if (client.Age === searchAge) {
+            if (client.Age === Number(searchAge)) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -157,7 +157,7 @@ function ClientListPage() {
         setSearchName('');
         setSearchGender('');
         setRadioFilter('');
-        setSearchAge(0);
+        setSearchAge('');
         setSearchLocation('BidiBidi Zone 1');
         setSearchVillageNo('');
         setSearchDisability('Amputee');
@@ -207,7 +207,7 @@ function ClientListPage() {
         }
 
         if(isOpenAge) {
-            filters = filters.concat(`"Age": ${searchAge},`);
+            filters = filters.concat(`"Age": ${Number(searchAge)},`);
         }
         if(isOpenGender) {
             filters = filters.concat(`"Gender": "${searchGender}",`);
@@ -287,8 +287,6 @@ function ClientListPage() {
                     e.preventDefault();
                     }} >X</button>
 
-
-
                 </FormGroup>
                 <Container className='SortSection'>
                     <FormGroup tag="radioFilter"
@@ -345,8 +343,9 @@ function ClientListPage() {
                             <Label>Age</Label>
                             <Input type="number"
                                    value={searchAge}
-                                   onChange={(event) => setSearchAge(
-                                       Number(event.target.value))}
+                                   min="1"
+                                   onChange={(event) =>
+                                        setSearchAge(event.target.value)}
                                    placeholder="Age" />
                         </FormGroup>
                     </Collapse>
