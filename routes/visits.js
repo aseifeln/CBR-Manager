@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const visit = require('../models/visit')
+const worker = require('../models/worker')
+const client = require('../models/client')
 const healthForm = require('../models/healthForm')
 const educationForm = require('../models/educationForm')
 const socialForm = require('../models/socialForm')
@@ -10,17 +12,52 @@ const { v4: uuidv4 } = require('uuid');
 // @desc    GET Retrieve a visit with a certain id from the database
 router.get('/:id', (req,res) => {
     const visitId = req.params.id
-    visit.findByPk(visitId)
-        .then(visit => {
-            return visit;
-        })
-        .then(visit => res.json(visit))
-        .catch(err => res.status(400).json(err))
+    visit.findAll({
+        where: {
+            VisitId: visitId
+        },
+        attributes: [
+            'VisitPurpose', 'GPSLocation', 'Date',
+            'Location', 'VillageNumber'
+        ],
+        include: [{
+            model: client,
+            required: true,
+            attributes: [
+              'ClientId', 'FirstName', 'LastName'
+            ]
+        },
+        {
+            model: worker,
+            required: true,
+            attributes: [
+                'WorkerId', 'FirstName', 'LastName'
+            ]
+        },
+        {
+            model: healthForm,
+            required: false
+
+        },
+        {
+            model: educationForm,
+            required: false
+        },
+        {
+            model: socialForm,
+            required: false
+        }]
+    })
+    .then(visits => {
+        res.json(visits);
+    })
+    .catch(err => res.status(404).json(err))
+
 })
 
 
 // @route   POST /visit/add
-// @desc    POST Add a new client to the database
+// @desc    POST Add a new visit to the database
 router.post('/add', async (req,res) => {
     let {VisitPurpose, GPSLocation, Date,
         Location, VillageNumber, WorkerId, ClientId,

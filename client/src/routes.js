@@ -9,6 +9,7 @@ import EditClientPage from './pages/EditClient';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
+import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 
 /**
@@ -52,6 +53,12 @@ const ROUTES = [
         key: 'NEW_VISIT',
         exact: true,
         component: NewVisitPage
+      },
+      {
+        path: '/visit/:id',
+        key: 'VISIT_INFO',
+        exact: true,
+        component: VisitInfoPage
       }
     ]
   },

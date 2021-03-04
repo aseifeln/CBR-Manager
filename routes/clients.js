@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const client = require('../models/client')
-const multer = require('multer')
+const multer = require('multer');
+const { sequelize } = require('../models/client');
 const upload = multer({});
 
 //Function that converts an image byte array into a base64 string
@@ -109,5 +110,71 @@ router.get('/location/:loc', (req,res) => {
     })  
 })
 
+// @route   PUT /clients/id/edit
+// @desc    PUT the newly modified entries for client with id in database
+router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
+
+    let {FirstName, LastName, Gender, Location, ContactNo, 
+        VillageNo, Age, DisabilityType, GPSLocation, Consent,
+        CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
+        HealthGoal, EducationStatus, EducationDesc, EducationGoal,
+        SocialStatus, SocialDesc, SocialGoal, WorkerId, DeletePhoto} = req.body;
+
+    const clientId = req.params.id
+
+    try {
+        await sequelize.transaction( async (t) => {
+            const clientToEdit = await client.findByPk(clientId, {transaction: t})
+
+            if (clientToEdit === null) {
+                throw new Error("Client not found")
+            }
+
+            await clientToEdit.update({
+                FirstName,
+                LastName,
+                Gender,
+                Location,
+                ContactNo,
+                VillageNo,
+                Age,
+                DisabilityType,
+                GPSLocation,
+                Consent,
+                CaregiverState,
+                CaregiverContactNo,
+                HealthStatus,
+                HealthDesc,
+                HealthGoal,
+                EducationStatus,
+                EducationDesc,
+                EducationGoal,
+                SocialStatus,
+                SocialDesc,
+                SocialGoal,
+                WorkerId
+            }, {transaction: t})
+    
+            if (typeof req.file !== 'undefined') {
+                await clientToEdit.update({
+                    Photo: req.file.buffer
+                }, {transaction: t})
+            }
+            else if (DeletePhoto === "Y") {
+                await clientToEdit.update({
+                    Photo: []
+                }, {transaction: t})
+            }
+            res.status(200).json("Client updated successfully")   
+        })
+    } 
+
+    catch (err) {
+        if (err.message === "Client not found")
+            res.status(404).json(err.message)
+        else
+            res.status(400).json(err.name + ": " + err.message)
+    }
+})
 
 module.exports = router

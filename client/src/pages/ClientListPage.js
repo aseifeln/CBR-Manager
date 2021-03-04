@@ -344,7 +344,7 @@ function ClientListPage() {
                     </Collapse>
                 </Container>
             </Form>
-            <Table>
+            <Table responsive>
                 <thead>
                     <tr>
                         <th>FirstName</th>
