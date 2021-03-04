@@ -6,7 +6,7 @@ const Referral = require('./referral');
 const PhysiotherapyService = db.define('PhysiotherapyService', {
     PhysiotherapyServiceId: {
         type: Sequelize.UUID,
-        defaultValue: UUIDV4,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
     Photo: {

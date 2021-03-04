@@ -6,7 +6,7 @@ const Referral = require('./referral');
 const WheelchairService = db.define('WheelchairService', {
     WheelchairServiceId: {
         type: Sequelize.UUID,
-        defaultValue: UUIDV4,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
     },
     Photo: {

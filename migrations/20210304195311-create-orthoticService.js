@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable('OrthoticService', { 
       OrthoticServiceId: {
         type: Sequelize.UUID,
-        defaultValue: UUIDV4,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
       },
       Photo: {

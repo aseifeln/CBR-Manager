@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable('PhysiotherapyService', { 
       PhysiotherapyServiceId: {
         type: Sequelize.UUID,
-        defaultValue: UUIDV4,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
       },
       Photo: {
