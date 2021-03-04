@@ -12,7 +12,6 @@ function VisitInfo(props) {
 
 
     useEffect(() => {
-        // Send request to backend to retrieve visit info data
 
         axios.get('/visits/' + props.match.params.id)
         .then(response => {
