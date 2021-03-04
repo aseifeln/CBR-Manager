@@ -12,22 +12,21 @@ function EditClient(props) {
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
-  const [ client, setClient ] = useState({});
-  const [ photo, setPhoto ] = useState("");
+  const [ client, setClient ] = useState({})
+  const [ photo, setPhoto ] = useState("")
 
   useEffect(() => {
 
     axios.get('/clients/' + props.match.params.id)
     .then(response => {
-        setClient(response.data);
-        setPhoto(response.data.Photo);
-        console.log(typeof [response.data.DisabilityType])
+        setClient(response.data)
+        setPhoto(response.data.Photo)
     })
     .catch(error => {
-        console.log(error);
-        document.title = "Client not found";
-        alert("Client not found");
-        history.push("/dashboard");
+        console.log(error)
+        document.title = "Client not found"
+        alert("Client not found")
+        history.push("/dashboard")
     })
 
     document.title="Edit Client"
@@ -36,12 +35,10 @@ function EditClient(props) {
   function formatSubmitData(data) {
     data['Consent'] = (data['Consent']) ? 'Y' : 'N'
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
-    data['DisabilityType'] = (data['DisabilityType'] || ['Don\'t Know'])[0]
+    console.log(data['CaregiverState'])
     data['Photo'] = (imagePreviewSrc) || null
-
-    if (photo.length < 100 && !imagePreviewSrc) {
-      data['DeletePhoto'] = "Y"
-    }
+    // postgres array uses '{}' instead of '[]'
+    data['DisabilityType'] = (data['DisabilityType']) ? `{${data['DisabilityType']}}` : "{Don't Know}" 
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
@@ -163,7 +160,6 @@ function EditClient(props) {
                 label="Contact Number (Optional)" 
                 type="text"
                 placeholder="e.g. 756-126-9380"
-                defaultValue={client.ContactNo}
                 validations={[
                   {
                     rule: isPattern(phoneNumberRegex),
@@ -171,7 +167,7 @@ function EditClient(props) {
                   }
                 ]}
               />
-            </Col>
+          </Col>
           </Row>
         </Step>
 
@@ -184,9 +180,9 @@ function EditClient(props) {
                 id="DisabilityType"
                 name="DisabilityType"
                 placeholder="Add a disability type... (e.g. Polio)"
-                required="One option must be chosen"
-                // TODO: Properly set this later
-                defaultSelected={["Polio"]}
+                required onChange={(e) => {console.log(e.length)}}
+                // Default selected doesn't work with validation
+                defaultValue={client.DisabilityType}
                 options={[
                   'Amputee', 'Polio', 
                   'Spinal Cord Injury', 'Cerebral Palsy', 
@@ -195,8 +191,16 @@ function EditClient(props) {
                   'Don\'t Know', 'Other'
                 ]}
                 onChange={(v) => {
-                  // should have max 1 item only
-                  if (v.length >= 2) v = v.slice(-1)
+                  //console.log(v)
+
+                  // hacky way of removing selections if user chooses
+                  // "Don't Know" or "Other" options but it works 👍
+                  if (v[v.length-1] === 'Don\'t Know' && v.length >= 1) return ['Don\'t Know']
+                  else if (v[v.length-2] === 'Don\'t Know' && v.length >= 1) return v.slice(1)
+  
+                  if (v[v.length-1] === 'Other' && v.length >= 1) return ['Other']
+                  else if (v[v.length-2] === 'Other' && v.length >= 1) return v.slice(1)
+                  
                   return v
                 }}
                 multiple
@@ -272,7 +276,7 @@ function EditClient(props) {
                 name="CaregiverState"
                 type="checkbox"
                 label="Caregiver present?"
-                defaultChecked={client.CaregiverState}
+                defaultChecked={client.CaregiverState === "Y"}
                 onChange={() => setCaregiverPresent(!caregiverPresent)}
               />
 
@@ -303,7 +307,7 @@ function EditClient(props) {
                 name="Consent"
                 type="checkbox"
                 label="Client consents to Interview"
-                defaultChecked={client.Consent}
+                defaultChecked={client.Consent === "Y"}
               />
             </Col>
           </Row>
