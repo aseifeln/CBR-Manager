@@ -66,7 +66,7 @@ function PriorityClients(){
                                 }>{client.SocialStatus} </span>
                             </ListGroupItemText>
                             <ListGroupItemText>
-                                Education Status: <span style={
+                                Education Status:<span style={
                                 (client.EducationStatus==="Critical Risk")?{color:"red"}:
                                 (client.EducationStatus==="High Risk")?{color:"orange"}:
                                 (client.EducationStatus==="Medium Risk")?{color:"black"}:
