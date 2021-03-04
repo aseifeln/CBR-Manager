@@ -67,7 +67,7 @@ as right now will still render this component briefly even for existing clients*
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
                     <Col>
-                        <Link to={"/client/" + props.match.params.id} className="float-right" style={{color:"#22a9ba"}}>Edit Client Info</Link>
+                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
                     </Col>
                 </Row>
             </Container>

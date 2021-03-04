@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
-import { Col, Row, FormText, CardBody, Card, Button } from 'reactstrap';
+import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
 
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
@@ -21,6 +21,7 @@ function EditClient(props) {
     .then(response => {
         setClient(response.data);
         setPhoto(response.data.Photo);
+        console.log(typeof [response.data.DisabilityType])
     })
     .catch(error => {
         console.log(error);
@@ -38,6 +39,10 @@ function EditClient(props) {
     data['DisabilityType'] = (data['DisabilityType'] || ['Don\'t Know'])[0]
     data['Photo'] = (imagePreviewSrc) || null
 
+    if (photo.length < 100 && !imagePreviewSrc) {
+      data['DeletePhoto'] = "Y"
+    }
+
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
       formData.append(key, (val != null) ? val : 'N/A')
@@ -48,21 +53,15 @@ function EditClient(props) {
   async function onValidSubmit(data) {
     data = formatSubmitData(data)
 
-    
-    try {
-      const results = await axios.post('/clients/add', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-
-      console.log(results)
-      alert('New client successfully added')
-      history.push('/dashboard')
-      
-    } catch(err) {
-      console.error(err.message)
-    }
+    axios.put('/clients/' + props.match.params.id + '/edit', data)
+    .then(response => {
+      alert("Client edit successful")
+      history.push("/client/" + props.match.params.id)
+    })
+    .catch (error => {
+      console.log(error)
+      alert("Something went wrong")
+    })
   }
 
   const formContainerSize = {
@@ -119,7 +118,6 @@ function EditClient(props) {
               <FieldInput 
                 name="Photo" 
                 label="Client Picture"
-                required="Client photo is required"
                 type="file"
                 onChange={(e) => {
                   if (e.target) {
@@ -187,6 +185,8 @@ function EditClient(props) {
                 name="DisabilityType"
                 placeholder="Add a disability type... (e.g. Polio)"
                 required="One option must be chosen"
+                // TODO: Properly set this later
+                defaultSelected={["Polio"]}
                 options={[
                   'Amputee', 'Polio', 
                   'Spinal Cord Injury', 'Cerebral Palsy', 
