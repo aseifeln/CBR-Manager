@@ -1,62 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 function VisitInfo(props) {
 
     const [ visit, setVisit ] = useState({});
+    const [ visitFound, setVisitFound ] = useState(false);
+    document.title = "Visit Details";
 
 
     useEffect(() => {
+        // Send request to backend to retrieve visit info data
 
-        //TODO: Send a request to retrieve the visit info from the database
-        setVisit({
-            "VisitId": 1,
-            "ClientId": 1,
-            "VisitPurpose": "CBR",
-            "Date": "2021/02/25",
-            "Location": "BidiBidi Zone 1",
-            "VillageNumber": 3,
-            "HealthForm": {
-                "Prosthetic": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Orthotic": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "WheelchairRepair": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "HealthCenterReferral": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Advice": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Advocacy": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Encouragement": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "GoalMet": "Ongoing",
-                "ConcludedOutcome": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-            },
-            "EducationForm":{
-                "Advice": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Advocacy": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "OrganizationReferral": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Encouragement": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "GoalMet": "Concluded",
-                "ConcludedOutcome": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-            },
-            "SocialForm":{
-                "Advice": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Advocacy": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "OrganizationReferral": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Encouragement": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "GoalMet": "Concluded",
-                "ConcludedOutcome": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-            },
-            "Client":{
-                "FirstName": "Joseph",
-                "LastName": "Ochaya"
-            },
-            "Worker":{
-                "FirstName": "Moses",
-                "LastName": "Waiswa"
-            }
+        axios.get('/visits/' + props.match.params.id)
+        .then(response => {
+            setVisit(response.data);
+            setVisitFound(true);
+            console.log(response.data);
         })
-    }, [])
+        .catch(error => {
+            console.log(error);
+            document.title = "Visit not found";
+        })
+    },[])
 
-    //{visit.Client.FirstName + ' ' + visit.Client.LastName}
+    if(!visitFound){
+
+        return(
+            <div>
+                <h1>Visit Not Found</h1>
+            </div>
+            
+        )
+    }
     return(
         <div>
             <Container>
@@ -72,12 +50,12 @@ function VisitInfo(props) {
                 </Row>
                 {visit.Client ? 
                 <Row>
-                    <Col><h5><b>Client Name: </b>{visit.Client.FirstName + ' ' + visit.Client.LastName}</h5></Col>
+                    <Col><h5><b>Client Name: </b>{visit.Client?.FirstName + ' ' + visit.Client?.LastName}</h5></Col>
                 </Row>
                   : ""}
                 {visit.Worker ?
                 <Row>
-                    <Col><h5><b>Worker Name: </b>{visit.Worker.FirstName + ' ' + visit.Worker.LastName}</h5></Col>
+                    <Col><h5><b>Worker Name: </b>{visit.Worker?.FirstName + ' ' + visit.Worker?.LastName}</h5></Col>
                 </Row>
                   : ""}
                 <Row>
