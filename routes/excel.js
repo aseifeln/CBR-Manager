@@ -4,6 +4,7 @@ const router = express.Router();
 const excel = require('excel4node');
 const client = require('../models/client');
 
+
 // @route   GET /excel
 // @desc    GET all filtered clients in an excel format
 router.get('/', async (req,res) => {
@@ -39,8 +40,16 @@ router.get('/', async (req,res) => {
 
     let clientSheet = wb.addWorksheet('Clients');
 
+    await generateGenericWorkSheet(wb, clientSheet, allClients)
+        .then(wb.write('excel.xlsx', res))
+        .catch(err => res.status(400).json(err));
+})
+
+// Takes an Excel workbook and sheet then adds the data to the sheet.
+// data must come from a database call
+async function generateGenericWorkSheet(workBook, workSheet, data) {
     // Excel Sheet Headers
-    let headerStyle = wb.createStyle({
+    let headerStyle = workBook.createStyle({
         font: {
             color: 'black',
             size: '14',
@@ -52,7 +61,7 @@ router.get('/', async (req,res) => {
         }
     })
 
-    let cellStyle = wb.createStyle({
+    let cellStyle = workBook.createStyle({
         font: {
             color: 'black',
             size: '14',
@@ -60,36 +69,35 @@ router.get('/', async (req,res) => {
         alignment: {
             wrapText: false,
             horizontal: 'left',
-    }
+        }
     })
-
-    const clientAttributes = allClients[0]._options.attributes;
-    for (let i = 0; i < clientAttributes.length - 1; i++) {
-        clientSheet.cell(1, i + 1)
-            .string(clientAttributes[i])
+    const attributes = data[0]._options.attributes;
+    for (let i = 0; i < attributes.length - 1; i++) {
+        workSheet.cell(1, i + 1)
+            .string(attributes[i])
             .style(headerStyle)
-        clientSheet.column(i + 1).setWidth(18);
+        workSheet.column(i + 1).setWidth(18);
     }
     // Fill cells with client data
-    for (let i = 0; i < allClients.length; i++) {
-        for (let j = 0; j < clientAttributes.length; j++) {
-            let currAttribute = clientAttributes[j]
-            let currValue = allClients[i].dataValues[currAttribute];
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < attributes.length; j++) {
+            let currAttribute = attributes[j]
+            let currValue = data[i].dataValues[currAttribute];
 
             switch (typeof(currValue)) {
                 case 'number':
-                    clientSheet.cell(i + 2, j + 1)
+                    workSheet.cell(i + 2, j + 1)
                         .number(currValue)
                         .style(cellStyle)
                     break;
                 case 'string':
-                    clientSheet.cell(i + 2, j + 1)
+                    workSheet.cell(i + 2, j + 1)
                         .string(currValue)
                         .style(cellStyle)
                     break;
                 case 'object':
                     if (currAttribute === 'DateCreated') {
-                        clientSheet.cell(i + 2, j + 1)
+                        workSheet.cell(i + 2, j + 1)
                             .date(currValue).style({numberFormat: 'dd-mm-yyyy'})
                             .style(cellStyle)
                     }
@@ -97,8 +105,6 @@ router.get('/', async (req,res) => {
             }
         }
     }
-    wb.write('excel.xlsx', res);
-})
-
+}
 
 module.exports = router;
