@@ -196,9 +196,8 @@ function ClientListPage() {
     }
 
     function convertFiltersToJSON() {
-        // TODO add the order by after filters
         let names = searchName.split(' ');
-        let filters = '{';
+        let filters = '{  "filters": {';
         for (let i = 0; i < names.length; i++) {
             names[i] = names[i].charAt(0).toUpperCase() + names[i].slice(1).toLowerCase();
             if (i > 1) {
@@ -232,7 +231,8 @@ function ClientListPage() {
             filters = filters.replace(',', '');
         }
 
-        filters = filters.concat('}');
+        filters = filters.concat(`}, "sortBy": "${radioFilter}"}`)
+
         filters = JSON.parse(filters);
 
         return filters;

@@ -1,5 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const router = express.Router();
 const excel = require('excel4node');
 const client = require('../models/client');
@@ -10,7 +11,9 @@ const client = require('../models/client');
 router.get('/', async (req,res) => {
 
     // Get all filtered clients
-    let filters = req.query;
+    let filters = JSON.parse(req.query.filters);
+    let sortBy = [req.query.sortBy, "DESC"];
+
     let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName')
     let selectionClause = {
         [Op.or]:
@@ -30,7 +33,8 @@ router.get('/', async (req,res) => {
     let allClients = await client.findAll(
         {
             // SELECT * FROM Clients WHERE FirstName IN filters.Name OR LastName IN filters.Name
-            where: selectionClause
+            where: selectionClause,
+            order: [sortBy],
         })
         .then()
         .catch(err => res.status(400).json(err));
