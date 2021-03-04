@@ -1,12 +1,13 @@
-import React from "react"
+import React from 'react';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardDeck } from 'reactstrap';
 import { Link } from 'react-router-dom';
+
 function Home(){
     const imgSize={
-        display: "block",
+        display:"block",
         margin:"auto",
         marginTop:"5%",
-        width: "40%"
+        width:"40%"
     }
     const cardSize={
         maxWidth:"80%",
