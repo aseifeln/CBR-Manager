@@ -17,7 +17,6 @@ function VisitInfo(props) {
         .then(response => {
             setVisit(response.data[0]);
             setVisitFound(true);
-            console.log(response.data);
         })
         .catch(error => {
             console.log(error);
