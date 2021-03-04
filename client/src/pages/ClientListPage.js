@@ -105,7 +105,7 @@ function ClientListPage() {
             numFilters++;
         }
         if (isOpenDisability) {
-            if (client.DisabilityType === searchDisability) {
+            if ((client.DisabilityType || []).includes(searchDisability)) {
                 numFiltersMatching++;
             }
             numFilters++;
