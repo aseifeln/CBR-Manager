@@ -228,11 +228,10 @@ function ClientListPage() {
             }
         }
         if (filters.endsWith(',')) {
-            filters = filters.replace(',', '');
+            filters = filters.slice(0, -1);
         }
 
         filters = filters.concat(`}, "sortBy": "${radioFilter}"}`)
-
         filters = JSON.parse(filters);
 
         return filters;

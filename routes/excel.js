@@ -12,7 +12,10 @@ router.get('/', async (req,res) => {
 
     // Get all filtered clients
     let filters = JSON.parse(req.query.filters);
-    let sortBy = [req.query.sortBy, "DESC"];
+    let sortBy = [[req.query.sortBy, "DESC"]];
+    if (sortBy[0][0] === '') {
+        sortBy = [];
+    }
 
     let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName')
     let selectionClause = {
@@ -34,7 +37,7 @@ router.get('/', async (req,res) => {
         {
             // SELECT * FROM Clients WHERE FirstName IN filters.Name OR LastName IN filters.Name
             where: selectionClause,
-            order: [sortBy],
+            order: sortBy,
         })
         .then()
         .catch(err => res.status(400).json(err));
