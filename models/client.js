@@ -46,10 +46,27 @@ const Client = db.define('Client', {
         allowNull: false
     },
     DisabilityType: {
-        type: Sequelize.ENUM,
-        values: ['Amputee', 'Polio', 'Spinal Cord Injury', 'Cerebral Palsy', 'Spina Bifida', 'Hydrocephalus', 'Visual Impairment',
-            'Hearing Impairment', 'Don\'t Know', 'Other'],
-        allowNull: false
+        type: Sequelize.ARRAY(Sequelize.ENUM({
+                values: [
+                    'Amputee', 'Polio',
+                    'Spinal Cord Injury',
+                    'Cerebral Palsy',
+                    'Spina Bifida',
+                    'Hydrocephalus',
+                    'Visual Impairment',
+                    'Hearing Impairment',
+                    'Don\'t Know', 'Other'
+                ]
+            })
+        ),
+        allowNull: true,
+        validate: {
+            nonNull(val) {
+                if (val == null) {
+                    throw new Error('Value must be non-null.')
+                }
+            }
+        }
     },
     Photo: {
         type: Sequelize.BLOB('long'),
