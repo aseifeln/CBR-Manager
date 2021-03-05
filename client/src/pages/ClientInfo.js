@@ -82,7 +82,7 @@ as right now will still render this component briefly even for existing clients*
                         <li>- Location: {client.Location}</li>
                         <li>- Age: {client.Age}</li>
                         <li>- Gender: {client.Gender}</li>
-                        <li>- Disability: {client.DisabilityType}</li>
+                        <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
                     </ul>
                 </Col>
             </Row>
@@ -99,8 +99,15 @@ as right now will still render this component briefly even for existing clients*
             <br/>
             <Container>
                 <Card>
-                    <CardHeader onClick={() => setShowHealthInfo((showHealthInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Health</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Health</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowHealthInfo(!showHealthInfo)}>
+                                    {(showHealthInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showHealthInfo}>
                         <CardBody>
@@ -114,8 +121,15 @@ as right now will still render this component briefly even for existing clients*
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowEducationInfo((showEducationInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Education</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Education</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowEducationInfo(!showEducationInfo)}>
+                                    {(showEducationInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showEducationInfo}>
                         <CardBody>
@@ -126,8 +140,15 @@ as right now will still render this component briefly even for existing clients*
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowSocialInfo((showSocialInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Social</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Social</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowSocialInfo(!showSocialInfo)}>
+                                    {(showSocialInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showSocialInfo}>
                         <CardBody>
@@ -139,8 +160,15 @@ as right now will still render this component briefly even for existing clients*
                 </Card>
                 {/* The remaining areas are for display purposes only and will be added later */}
                 <Card>
-                    <CardHeader onClick={() => setShowFoodNutritionInfo((showFoodNutritionInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Food/Nutrition</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Food / Nutrition</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowFoodNutritionInfo(!showFoodNutritionInfo)}>
+                                    {(showFoodNutritionInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showFoodNutritionInfo}>
                         <CardBody>
@@ -150,8 +178,15 @@ as right now will still render this component briefly even for existing clients*
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowShelterCareInfo((showShelterCareInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Shelter/Care</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Shelter / Care</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowShelterCareInfo(!showShelterCareInfo)}>
+                                    {(showShelterCareInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showShelterCareInfo}>
                         <CardBody>
@@ -161,8 +196,15 @@ as right now will still render this component briefly even for existing clients*
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowLivelihoodInfo((showLivelihoodInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Livelihood</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Livelihood</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowLivelihoodInfo(!showLivelihoodInfo)}>
+                                    {(showLivelihoodInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showLivelihoodInfo}>
                         <CardBody>
@@ -172,8 +214,15 @@ as right now will still render this component briefly even for existing clients*
                     </Collapse>
                 </Card>
                 <Card>
-                    <CardHeader onClick={() => setShowEmpowermentInfo((showEmpowermentInfo) ? false : true)} style={areaColor}>
-                        <h2 style={areaFontSize}>Empowerment</h2>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Empowerment</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowEmpowermentInfo(!showEmpowermentInfo)}>
+                                    {(showEmpowermentInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
                     </CardHeader>
                     <Collapse isOpen={showEmpowermentInfo}>
                         <CardBody>

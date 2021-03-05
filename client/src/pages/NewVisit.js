@@ -1,15 +1,172 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import NotFoundPage from './404';
 
 function NewVisit(props) {
 
+  const history = useHistory();
+  const [ client, setClient ] = useState({});
+  const [ CBRVisit, setCBRVisit ] = useState(false);
+  const [ clientFound, setClientFound ] = useState(false);
+
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
+
+    axios.get('/clients/' + props.match.params.id)
+    .then(response => {
+        setClient(response.data);
+        setClientFound(true)
+    })
+    .catch(error => {
+        console.log(error);
+        document.title = "Client not found";
+        alert("Client not found");
+        history.push('/dashboard')
+    })
+
     document.title="New Visit";
   }, [])
 
-  // May be needed for later
+  function prepareData(data) {
+
+    var newData = {}
+
+    // Prepare General info
+    newData['VisitPurpose'] = data.purposeOfVisit;
+    newData['Date'] = data.date;
+    newData['Location'] = data.location;
+    newData['VillageNumber'] = data.villageNum;
+    newData['ClientId'] = props.match.params.id;
+    
+    // TODO: Fill in workerId once there is an API to retrieve this for current user
+    // newData['WorkerId'] = "";
+
+    if (!hideHealthSection) {
+      // Prepare Health Form data
+      const healthform = {};
+
+      if (wheelchairProvided) {
+        healthform['Wheelchair'] = data.wheelchairDesc;
+      }
+
+      if (prostheticProvided) {
+        healthform['Prosthetic'] = data.prostheticDesc;
+      }
+
+      if (orthoticProvided) {
+        healthform['Orthotic'] = data.orthoticDesc;
+      }
+
+      if (wheelchairRepairProvided) {
+        healthform['WheelchairRepair'] = data.wheelchairRepairsDesc;
+      }
+
+      if (healthReferralProvided) {
+        healthform['HealthCenterReferral'] = data.healthReferralDesc;
+      }
+
+      if (healthAdviceProvided) {
+        healthform['Advice'] = data.healthAdviceDesc;
+      }
+
+      if (healthAdvocacyProvided) {
+        healthform['Advocacy'] = data.healthAdvocacyDesc;
+      }
+
+      if (healthEncouragementProvided) {
+        healthform['Encouragement'] = data.healthEncouragementDesc;
+      }
+
+      healthform['GoalMet'] = data.healthGoalMet;
+
+      if (data.healthGoalMet === "Concluded") {
+        healthform['ConcludedOutcome'] = data.healthOutcome;
+      }
+
+      newData['HealthForm'] = healthform;
+    }
+
+    if (!hideSocialSection) {
+      // Prepare Social Form data
+      const socialform = {};
+
+      if (socialAdviceProvided) {
+        socialform['Advice'] = data.socialAdviceDesc;
+      }
+
+      if (socialAdvocacyProvided) {
+        socialform['Advocacy'] = data.socialAdvocacyDesc;
+      }
+
+      if (socialReferralProvided) {
+        socialform['OrganizationReferral'] = data.socialReferralDesc;
+      }
+
+      if (socialEncouragementProvided) {
+        socialform['Encouragement'] = data.socialEncouragementDesc;
+      }
+
+      socialform['GoalMet'] = data.socialGoalMet;
+
+      if (data.socialGoalMet === "Concluded") {
+        socialform['ConcludedOutcome'] = data.socialOutcome;
+      }
+
+      newData['SocialForm'] = socialform;
+    }
+
+    if (!hideEducationSection) {
+      // Prepare Education Form data
+      const educationform = {};
+
+      if (educationAdviceProvided) {
+        educationform['Advice'] = data.educationAdviceDesc;
+      }
+
+      if (educationAdvocacyProvided) {
+        educationform['Advocacy'] = data.educationAdvocacyDesc;
+      }
+
+      if (educationReferralProvided) {
+        educationform['OrganizationReferral'] = data.educationReferralDesc;
+      }
+
+      if (educationEncouragementProvided) {
+        educationform['Encouragement'] = data.educationEncouragementDesc;
+      }
+
+      educationform['GoalMet'] = data.educationGoalMet;
+
+      if (data.educationGoalMet === "Concluded") {
+        educationform['ConcludedOutcome'] = data.educationOutcome;
+      }
+
+      newData['EducationForm'] = educationform;
+    }
+
+    return newData;
+  }
+
+  function onValidSubmit(data) {
+    data = prepareData(data);
+    console.log(data)
+
+    axios.post('/visits/add/', data)
+    // TODO: Redirect to visit page once that has been created
+    .then(response => {
+        alert("New visit added successfully");
+        history.push('/dashboard');
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  }
+
+  const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
+
   const [ healthChecked, setHealthChecked ] = useState(false);
   const [ socialChecked, setSocialChecked ] = useState(false);
   const [ educationChecked, setEducationChecked ] = useState(false);
@@ -53,12 +210,19 @@ function NewVisit(props) {
     }
   }
 
+  if (!clientFound)
+  {
+    return (
+        <NotFoundPage/>
+    )
+  }
+
   return (
     <div>
         <Container>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {props.match.params.id}
+                Client: {client.FirstName + ' ' + client.LastName}
               </Col>
               <Col>
                 <Button variant="primary" size="md" className="float-right">
@@ -67,12 +231,16 @@ function NewVisit(props) {
               </Col>
             </Row>
 
-            <MultiStepForm name="New Visit">
+            <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
               <Step name="General Info">
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" required="Purpose is required">
+                      <FieldInput type="select" name="purposeOfVisit" label="Purpose of visit" required="Purpose is required" onChange={(e) => {
+                        if (e.target) {
+                          (e.target.value === "CBR") ? setCBRVisit(true) : setCBRVisit(false)
+                        }
+                      }}>
                         <option selected hidden>Select Purpose</option>
                         <option>CBR</option>
                         <option>Disability centre referral</option>
@@ -86,7 +254,9 @@ function NewVisit(props) {
                   <Row>
                     <Col>
                       <Label>
-                        Tags (select all that apply)
+                        {(CBRVisit) ? (
+                          "CBR Category (select all that apply)"
+                        ) : ("Tags (select all that apply)")}
                       </Label>
                     </Col>
                   </Row>
@@ -160,6 +330,21 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Health" isEnabled={!hideHealthSection}>
+                <Row>
+                  <Col>
+                    <Card>
+                      <CardHeader className="font-weight-bold">
+                        Client Health Info
+                      </CardHeader>
+                        <CardBody>
+                          <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
+                          <div style={areaInfo}>Goal:</div> {client.HealthGoal} <br />
+                          <div style={areaInfo}>Description:</div> {client.HealthDesc}
+                        </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <br/>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -377,6 +562,22 @@ function NewVisit(props) {
               <Step name="Social" isEnabled={!hideSocialSection}>
                 <Row>
                   <Col>
+                    <Card>
+                      <CardHeader className="font-weight-bold">
+                        Client Social Info
+                      </CardHeader>
+                        <CardBody>
+                          <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
+                          <div style={areaInfo}>Goal:</div> {client.SocialGoal} <br />
+                          <div style={areaInfo}>Description:</div> {client.SocialDesc}
+                        </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <br/>
+                
+                <Row>
+                  <Col>
                     <FormGroup>
                       <Label className="font-weight-bold">
                         What was provided? (Select all that applies)
@@ -502,6 +703,22 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Education" isEnabled={!hideEducationSection}>
+                <Row>
+                  <Col>
+                    <Card>
+                      <CardHeader className="font-weight-bold">
+                        Client Education Info
+                      </CardHeader>
+                        <CardBody>
+                          <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
+                          <div style={areaInfo}>Goal:</div> {client.EducationGoal} <br />
+                          <div style={areaInfo}>Description:</div> {client.EducationDesc}
+                        </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                <br/>
+
                 <Row>
                   <Col>
                     <FormGroup>
