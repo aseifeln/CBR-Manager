@@ -49,29 +49,29 @@ function PriorityClients(){
                                 <p style={{margin:"0"}}>Gender: {client.Gender}</p>
                                 <p style={{margin:"0"}}>Disability Type: {(client.DisabilityType || []).join(', ')}</p>
                             </ListGroupItemText>
-                            <ListGroupItemText style={
+                            <ListGroupItemText>
+                                Health Status: <span style={
                                 (client.HealthStatus==="Critical Risk")?{color:"red"}:
                                 (client.HealthStatus==="High Risk")?{color:"orange"}:
-                                (client.HealthStatus==="Medium Risk")?{color:"black"}:
+                                (client.HealthStatus==="Medium Risk")?{color:"blue"}:
                                 {color:"green"}
-                                }>
-                                <span style={{color:"#9646b7"}}>Health Status: </span> {client.HealthStatus}
+                                }>{client.HealthStatus}</span>
                             </ListGroupItemText>
-                            <ListGroupItemText style={
+                            <ListGroupItemText>
+                                Social Status: <span style={
                                 (client.SocialStatus==="Critical Risk")?{color:"red"}:
                                 (client.SocialStatus==="High Risk")?{color:"orange"}:
-                                (client.SocialStatus==="Medium Risk")?{color:"black"}:
+                                (client.SocialStatus==="Medium Risk")?{color:"blue"}:
                                 {color:"green"}
-                                }>
-                                <span style={{color:"#9646b7"}}>Social Status: </span> {client.SocialStatus}
+                                }>{client.SocialStatus} </span>
                             </ListGroupItemText>
-                            <ListGroupItemText style={
+                            <ListGroupItemText>
+                                Education Status: <span style={
                                 (client.EducationStatus==="Critical Risk")?{color:"red"}:
                                 (client.EducationStatus==="High Risk")?{color:"orange"}:
-                                (client.EducationStatus==="Medium Risk")?{color:"black"}:
+                                (client.EducationStatus==="Medium Risk")?{color:"blue"}:
                                 {color:"green"}
-                                }>
-                                <span style={{color:"#9646b7"}}>Education Status: </span> {client.EducationStatus}
+                                }> {client.EducationStatus} </span>
                             </ListGroupItemText>
                         </ListGroupItem>
                         )
