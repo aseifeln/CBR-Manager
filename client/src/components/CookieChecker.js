@@ -25,7 +25,6 @@ function CookieChecker(props) {
         return decodeURI(dc.substring(begin + prefix.length, end));
     } 
     function logoutUser(){
-        console.log("nice")
         if(getCookie("cookiename") == null){
             history.push("/");
         }
