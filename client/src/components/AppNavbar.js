@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom';
 //https://reactstrap.github.io/components/navbar/
 
 function AppNavbar(props) {
-
     return(
         <div>
             <Navbar expand="lg" style={{backgroundColor:"#22a9ba",color:"inherit",marginBottom:"40px",padding:"15px"}}>

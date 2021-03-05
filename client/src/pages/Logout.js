@@ -6,6 +6,7 @@ function Logout(props) {
         axios.post('/users/logout')
             .then(res => {
                 console.log(res);
+                document.cookie="cookiename=cookievalue;max-age="+(0);
                 props.history.push("/");
             })
             .catch(err => {

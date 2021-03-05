@@ -42,6 +42,7 @@ function Login(props) {
                         alert("User is not registered");
                         props.history.push("/");
                     } else { 
+                        document.cookie="cookiename=cookievalue;max-age="+(60*15);
                         props.history.push("/dashboard");
                     }
                     
