@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
+import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
 
 function NewVisit(props) {
@@ -193,6 +194,7 @@ function NewVisit(props) {
 
   return (
     <div>
+      <CookieChecker></CookieChecker>
         <Container>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>

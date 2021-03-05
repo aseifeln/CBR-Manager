@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-
+import CookieChecker from '../components/CookieChecker';
 import { Form,
         FormGroup,
         Label,
@@ -197,6 +197,7 @@ function ClientListPage() {
 
     return (
         <>
+        <CookieChecker></CookieChecker>
         <Container className='ClientList'>
             <div className='Title'>
                 <h1 style={{color:"#9646b7f"}}>Client List</h1>

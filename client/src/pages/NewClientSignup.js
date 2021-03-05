@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
-
+import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
@@ -56,7 +56,7 @@ function NewClientSignup() {
 
   return (
     <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
-
+      <CookieChecker></CookieChecker>
       {/* 1. General Details */}
       <Step name='General'>
         <Row form>
