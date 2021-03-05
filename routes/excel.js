@@ -1,6 +1,5 @@
 const express = require('express');
 const { Op } = require('sequelize');
-const { Sequelize } = require('sequelize');
 const router = express.Router();
 const excel = require('excel4node');
 const client = require('../models/client');
@@ -17,19 +16,47 @@ router.get('/', async (req,res) => {
         sortBy = [];
     }
 
-    let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName')
-    let selectionClause = {
-        [Op.or]:
-            [
-                {FirstName: {[Op.in]: [filters.FirstName, filters.LastName]}},
-                {LastName: {[Op.in]: [filters.FirstName, filters.LastName]}},
-                delete filters['FirstName'],
-                delete filters['LastName'],
+    let disabilitiesInSearch = filters.hasOwnProperty('DisabilityType');
+    let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName');
+    let selectionClause;
+    if (nameInSearch && disabilitiesInSearch) {
+        selectionClause = {
+            [Op.or]:
+                [
+                    {FirstName: {[Op.in]: [filters.FirstName, filters.LastName]}},
+                    {LastName: {[Op.in]: [filters.FirstName, filters.LastName]}},
+                    delete filters['FirstName'],
+                    delete filters['LastName'],
+                ],
+            [Op.and]:
+                [
+                    {DisabilityType: {[Op.contains]: [filters.DisabilityType]}},
+                    delete filters['DisabilityType'],
+                    filters,
 
-            ],
-        [Op.and]: filters
-    }
-    if (!nameInSearch) {
+                ]
+        }
+    } else if (nameInSearch && !disabilitiesInSearch) {
+        selectionClause = {
+            [Op.or]:
+                [
+                    {FirstName: {[Op.in]: [filters.FirstName, filters.LastName]}},
+                    {LastName: {[Op.in]: [filters.FirstName, filters.LastName]}},
+                    delete filters['FirstName'],
+                    delete filters['LastName'],
+                ],
+            [Op.and]: filters
+        }
+    } else if (!nameInSearch && disabilitiesInSearch) {
+        selectionClause = {
+            [Op.and]:
+                [
+                    {DisabilityType: {[Op.contains]: [filters.DisabilityType]}},
+                    delete filters['DisabilityType'],
+                    filters,
+                ]
+        }
+    } else {
         selectionClause = filters;
     }
 
@@ -106,6 +133,10 @@ async function generateGenericWorkSheet(workBook, workSheet, data) {
                     if (currAttribute === 'DateCreated') {
                         workSheet.cell(i + 2, j + 1)
                             .date(currValue).style({numberFormat: 'dd-mm-yyyy'})
+                            .style(cellStyle)
+                    } else if (currAttribute === 'DisabilityType') {
+                        workSheet.cell(i + 2, j + 1)
+                            .string(currValue)
                             .style(cellStyle)
                     }
                     break;
