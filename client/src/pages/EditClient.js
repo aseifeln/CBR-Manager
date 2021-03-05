@@ -9,7 +9,7 @@ import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../
 function EditClient(props) {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
-  const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
+  const PHONE_NUMBER_REGEX = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
   const [ client, setClient ] = useState({})
@@ -56,12 +56,12 @@ function EditClient(props) {
 
     axios.put('/clients/' + props.match.params.id + '/edit', data)
     .then(response => {
-      alert("Client edit successful")
+      alert("Client edited successful")
       history.push("/client/" + props.match.params.id)
     })
     .catch (error => {
       console.log(error)
-      alert("Something went wrong")
+      alert("Something went wrong when trying to edit client")
     })
   }
 
@@ -74,7 +74,6 @@ function EditClient(props) {
     <div key={client.ClientId}>
       <MultiStepForm name='Edit Client' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
 
-        {/* 1. General Details */}
         <Step name='General'>
           <Row form>
             <Col xs={12}>
@@ -166,7 +165,7 @@ function EditClient(props) {
                 placeholder="e.g. 756-126-9380"
                 validations={[
                   {
-                    rule: isPattern(phoneNumberRegex),
+                    rule: isPattern(PHONE_NUMBER_REGEX),
                     message: 'Invalid contact number format'
                   }
                 ]}
@@ -175,7 +174,6 @@ function EditClient(props) {
           </Row>
         </Step>
 
-        {/* 2. Health Details */}
         <Step name='Health Details'>
           <Row form>
             <Col xs={12}>
@@ -194,16 +192,14 @@ function EditClient(props) {
                   'Visual Impairment','Hearing Impairment', 
                   'Don\'t Know', 'Other'
                 ]}
-                onChange={(v) => {
-                  // hacky way of removing selections if user chooses
-                  // "Don't Know" or "Other" options but it works 👍
-                  if (v[v.length-1] === 'Don\'t Know' && v.length >= 1) return ['Don\'t Know']
-                  else if (v[v.length-2] === 'Don\'t Know' && v.length >= 1) return v.slice(1)
+                onChange={(values) => {
+                  if (values[values.length-1] === 'Don\'t Know' && values.length >= 1) return ['Don\'t Know']
+                  else if (values[values.length-2] === 'Don\'t Know' && values.length >= 1) return values.slice(1)
   
-                  if (v[v.length-1] === 'Other' && v.length >= 1) return ['Other']
-                  else if (v[v.length-2] === 'Other' && v.length >= 1) return v.slice(1)
+                  if (values[values.length-1] === 'Other' && values.length >= 1) return ['Other']
+                  else if (values[values.length-2] === 'Other' && values.length >= 1) return values.slice(1)
                   
-                  return v
+                  return values
                 }}
                 multiple
               />
@@ -268,8 +264,7 @@ function EditClient(props) {
             </Col>
           </Row>
         </Step>
-
-        {/* 3. Misc Details */}
+        
         <Step name='Miscellaneous'>
           <Row form>
             <Col xs={12}>
@@ -292,7 +287,7 @@ function EditClient(props) {
                   defaultValue={client.CaregiverContactNo}
                   validations={[
                     {
-                      rule: isPattern(phoneNumberRegex),
+                      rule: isPattern(PHONE_NUMBER_REGEX),
                       message: 'Invalid contact number format'
                     }
                   ]}
