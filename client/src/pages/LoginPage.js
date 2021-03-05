@@ -1,9 +1,10 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
 import "../css/Login.css";
+import {UserContext} from "../components/UserContext";
 
 function Login(props) {
     const WRONGPASSWORD = '0'
@@ -13,6 +14,8 @@ function Login(props) {
 
     const[usernameErr, setUsernameErr] = useState(false);
     const[passwordErr, setPasswordErr] = useState(false);
+
+    const user = useContext(UserContext);
 
     useEffect(() => {
         document.title="Login"
