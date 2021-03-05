@@ -62,12 +62,13 @@ function authenticateToken(req, res, next){
 */
 
 function generateAccessToken(user){
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})//ideal 10m-30m
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
 }
 
-function generateCookie(res, accessToken){
+function setCookie(res, accessToken, expiryTime){
+    
     res.cookie('ACCESS_TOKEN', accessToken, {
-        maxAge : 1000 * 60 * 15, //(ms * s * mins) 15 mins
+        maxAge : expiryTime,
         httpOnly : true
     })
 }
@@ -133,9 +134,8 @@ app.post('/login', async (req, res) => {
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
-                    // TODO: Maybe needed in logout = const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-                    generateCookie(res, accessToken);
-                    res.json({ accessToken: accessToken }) // TODO: Maybe needed in logout = , refreshToken: refreshToken 
+                    expiryTime = 1000 * 60 * 15; //(ms * s * mins) 15 mins
+                    setCookie(res, accessToken, expiryTime);
                     return res.send(SUCCESS);
                 } else {
                     return res.send(WRONGPASSWORD);     
@@ -151,4 +151,13 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.post('/logout', async (req, res) => {
+    try {
+        res.clearCookie("ACCESS_TOKEN");
+        res.status(200).send("Cookie Deleted");
+        return;
+    } catch {
+        res.status(500).send("Deleting Cookie Fails");
+    }
+})
 module.exports = app;

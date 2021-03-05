@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
+import Logout from './pages/Logout';
 
 /**
 * Reference:
@@ -17,6 +18,7 @@ import SignUpPage from './pages/SignUpPage'
 */
 const ROUTES = [
   { path: '/', key: 'ROOT', exact: true, component: LoginPage },
+  { path: '/logout', key: 'LOGOUT', exact: true, component: Logout },
   {
     path: '/client',
     key: 'CLIENT',

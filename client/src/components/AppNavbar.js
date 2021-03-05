@@ -13,7 +13,6 @@ UncontrolledDropdown,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-
 // Dropdown functionality from:
 //https://reactstrap.github.io/components/navbar/
 
@@ -44,7 +43,7 @@ function AppNavbar(props) {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         <NavItem>
-                            <Link to="/" className="nav-link" style={{color:"#c7eabe"}}>
+                            <Link to="/logout" className="nav-link" style={{color:"#c7eabe"}}>
                                 Logout
                             </Link>
                         </NavItem>
