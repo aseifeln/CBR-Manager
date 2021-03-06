@@ -2,9 +2,8 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-
      await queryInterface.addColumn(
-        'Referral', 'ClientId', {type: Sequelize.INTEGER} );
+        'Referral', 'WorkerId', {type: Sequelize.UUID});
   },
 
   down: async (queryInterface, Sequelize) => {
