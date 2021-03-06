@@ -11,12 +11,8 @@ function App() {
 
     return (
         <Router>
-            {/*TODO: Change the first boolean statement when routes are finalized */}
-            {(document.location.pathname !== "/" && document.location.pathname !== "/signup") ? (
-                <AppNavbar style={{position:"sticky"}}/>
-            ): "" }
+            <AppNavbar style={{position:"sticky"}}/>
             <RenderRoutes routes={ROUTES}/>
-
         </Router>
     );
 }
