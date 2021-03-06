@@ -11,6 +11,7 @@ import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Logout from './pages/Logout';
+import Home from './pages/Home';
 
 /**
 * Reference:
@@ -59,6 +60,7 @@ const ROUTES = [
     ]
   },
   { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
+  { path: '/home', key:'HOME', exact: true, component: Home }
 ];
 
 export default ROUTES;

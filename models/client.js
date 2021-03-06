@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 const Visit = require('./visit');
+const Referral = require('./referral');
 
 const Client = db.define('Client', {
     ClientId: {
@@ -45,10 +46,27 @@ const Client = db.define('Client', {
         allowNull: false
     },
     DisabilityType: {
-        type: Sequelize.ENUM,
-        values: ['Amputee', 'Polio', 'Spinal Cord Injury', 'Cerebral Palsy', 'Spina Bifida', 'Hydrocephalus', 'Visual Impairment',
-            'Hearing Impairment', 'Don\'t Know', 'Other'],
-        allowNull: false
+        type: Sequelize.ARRAY(Sequelize.ENUM({
+                values: [
+                    'Amputee', 'Polio',
+                    'Spinal Cord Injury',
+                    'Cerebral Palsy',
+                    'Spina Bifida',
+                    'Hydrocephalus',
+                    'Visual Impairment',
+                    'Hearing Impairment',
+                    'Don\'t Know', 'Other'
+                ]
+            })
+        ),
+        allowNull: true,
+        validate: {
+            nonNull(val) {
+                if (val == null) {
+                    throw new Error('Value must be non-null.')
+                }
+            }
+        }
     },
     Photo: {
         type: Sequelize.BLOB('long'),
@@ -124,6 +142,13 @@ Client.hasMany(Visit, {
         type: Sequelize.INTEGER
     }
 })
+Client.hasMany(Referral, {
+    foreignKey:{
+        name: 'ClientId',
+        type: Sequelize.UUID
+    }
+})
 Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
+Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'})
 
 module.exports = Client;

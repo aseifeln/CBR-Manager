@@ -3,6 +3,7 @@ const db = require('../config/database');
 const Visit = require('./visit');
 const User = require('./user');
 const Client = require('./client');
+const Referral = require('./referral');
 
 
 const Worker = db.define('Worker', {
@@ -47,6 +48,12 @@ Worker.hasMany(Client, {
         type: Sequelize.UUID
     }
 })
+Worker.hasMany(Referral, {
+    foreignKey:{
+        name: 'WorkerId',
+        type: Sequelize.UUID
+    }
+})
 Worker.hasOne(User, {
     foreignKey:{
         name: 'WorkerId',
@@ -55,6 +62,7 @@ Worker.hasOne(User, {
 })
 Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 
 module.exports = Worker;
