@@ -8,9 +8,13 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import './css/App.css';
 
 function App() {
+
     return (
         <Router>
-            <AppNavbar style={{position:"sticky"}}/>
+            {/*TODO: Change the first boolean statement when routes are finalized */}
+            {(document.location.pathname !== "/" && document.location.pathname !== "/signup") ? (
+                <AppNavbar style={{position:"sticky"}}/>
+            ): "" }
             <RenderRoutes routes={ROUTES}/>
 
         </Router>
