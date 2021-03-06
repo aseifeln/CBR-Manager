@@ -12,6 +12,7 @@ import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
+import NewReferral from './pages/NewReferral';
 
 /**
 * Reference:
@@ -60,6 +61,19 @@ const ROUTES = [
         key: 'VISIT_INFO',
         exact: true,
         component: VisitInfoPage
+      }
+    ]
+  },
+  {
+    path: '/referral',
+    key: 'REFERRAL',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/referral/new/:id',
+        key: 'NEW_REFERRAL',
+        exact: true,
+        component: NewReferral
       }
     ]
   },

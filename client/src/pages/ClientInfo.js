@@ -92,8 +92,15 @@ as right now will still render this component briefly even for existing clients*
             <Row>
                 <Col align="center">
                     <Link to={"/visit/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
-                            New Visit +
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'right'}}>
+                            New Visit
+                        </Button>
+                    </Link>
+                </Col>
+                <Col align="center">
+                    <Link to={"/referral/new/" + props.match.params.id}>
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}}>
+                            New Referral
                         </Button>
                     </Link>
                 </Col>
