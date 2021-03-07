@@ -291,7 +291,7 @@ function NewReferral(props) {
                     
                     <Row>
                         <Col>
-                            <FieldInput type="select" name="prostheticLocation" label="Where is the injury?" required="Selection is required">
+                            <FieldInput type="select" name="prostheticInjuryPosition" label="Where is the injury?" required="Selection is required">
                                 <option selected hidden>Where is the injury?</option>
                                 <option>Below knee</option>
                                 <option>Above knee</option>
@@ -319,7 +319,7 @@ function NewReferral(props) {
                     
                     <Row>
                         <Col>
-                            <FieldInput type="select" name="orthoticLocation" label="Where is the injury?" required="Selection is required">
+                            <FieldInput type="select" name="orthoticInjuryPosition" label="Where is the injury?" required="Selection is required">
                                 <option selected hidden>Where is the injury?</option>
                                 <option>Below elbow</option>
                                 <option>Above elbow</option>
