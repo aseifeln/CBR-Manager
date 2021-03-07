@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import {
-  UncontrolledDropdown,
-  NavbarToggler,
   Collapse,
   Navbar,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
@@ -17,35 +14,40 @@ import { FaTachometerAlt, FaRegChartBar, FaBars, FaBriefcase, FaComment, FaUser 
 
 function AdminSideBar() {
 
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
     return (
         <div>
-        <Nav vertical className="SideNav">
-            <NavItem className="sidenav-item">
-            <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/dashboard">
-                <FaTachometerAlt className= "icon" size="25"/>Dashboard
-            </NavLink>
-            </NavItem>
-            <NavItem className="sidenav-item">
-            <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/insights">
-                <FaRegChartBar className= "icon" size="25"/>Insights
-            </NavLink>
-            </NavItem>
-            <NavItem className="sidenav-item">
-            <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/workers">
-                <FaBriefcase className= "icon" size="25"/>Workers
-            </NavLink>
-            </NavItem>
-            <NavItem className="sidenav-item">
-            <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/client-list">
-                <FaUser className= "icon" size="25"/>Clients
-            </NavLink>
-            </NavItem>
-            <NavItem className="sidenav-item">
-            <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/messaging">
-                <FaComment className= "icon" size="25"/>Messaging
-            </NavLink>
-            </NavItem>
-        </Nav>
+            <Nav vertical className={`SideNav ${isCollapsed ? "collapsed" : ""}`}>
+                <div className="sidenav-top-space">
+                    <FaBars className="hamburger-icon" onClick={()=> setIsCollapsed(!isCollapsed)} size="27"/>
+                </div>
+                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
+                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/dashboard">
+                    <FaTachometerAlt className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Dashboard"}
+                </NavLink>
+                </NavItem>
+                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
+                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/insights">
+                    <FaRegChartBar className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Insights"}
+                </NavLink>
+                </NavItem>
+                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
+                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/worker-list">
+                    <FaBriefcase className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Workers"}
+                </NavLink>
+                </NavItem>
+                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
+                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/client-list">
+                    <FaUser className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Clients"}
+                </NavLink>
+                </NavItem>
+                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
+                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/messaging">
+                    <FaComment className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Messaging"}
+                </NavLink>
+                </NavItem>
+            </Nav>
         </div>
     );
 }

@@ -12,6 +12,8 @@ import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminInsights from './pages/AdminInsights';
+import WorkerListPage from './pages/WorkerListPage';
 
 /**
 * Reference:
@@ -68,6 +70,18 @@ const ROUTES = [
         key: 'ADMIN_DASHBOARD',
         exact: true,
         component: AdminDashboard
+      },
+      {
+        path: '/admin/insights',
+        key: 'ADMIN_INSIGHTS',
+        exact: true,
+        component: AdminInsights
+      },
+      {
+        path: '/admin/worker-list',
+        key: 'WORKER_LIST',
+        exact: true,
+        component: WorkerListPage
       }
     ]
   },
