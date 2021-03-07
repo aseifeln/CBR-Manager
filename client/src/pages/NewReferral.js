@@ -58,11 +58,6 @@ function NewReferral(props) {
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
                 Client: {client.FirstName + ' ' + client.LastName}
               </Col>
-              <Col>
-                <Button variant="primary" size="md" className="float-right">
-                  Save Referral
-                </Button>
-              </Col>
             </Row>
 
             <MultiStepForm name="New Referral">
@@ -79,7 +74,8 @@ function NewReferral(props) {
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <FieldInput type="date" name="date" label="Date:" required="Date required" defaultValue={(new Date()).toLocaleDateString('en-CA')}/>
+                                <FieldInput type="date" name="date" label="Date:" required="Date required"
+                                 defaultValue={(new Date()).toLocaleDateString('en-CA')}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -123,7 +119,8 @@ function NewReferral(props) {
                         <Row form>
                             <Col>
                                 <FormGroup>
-                                    <FieldInput type="textarea" placeholder="Please describe" name="otherServiceDesc" label="Other Service" required="Other service description is required"/>
+                                    <FieldInput type="textarea" placeholder="Please describe" name="otherServiceDesc" label="Other Service"
+                                     required="Other service description is required"/>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -190,8 +187,10 @@ function NewReferral(props) {
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <FieldCheck name="hasWheelchair" type="radio" label="Yes" value="Yes" defaultChecked onChange={() => setHasWheelchair(true)}/>
-                                <FieldCheck name="hasWheelchair" type="radio" label="No" value="No" className='ml-4 pl-2' onChange={() => setHasWheelchair(false)}/>
+                                <FieldCheck name="hasWheelchair" type="radio" label="Yes" value="Yes" defaultChecked
+                                 onChange={() => setHasWheelchair(true)}/>
+                                <FieldCheck name="hasWheelchair" type="radio" label="No" value="No" className='ml-4 pl-2'
+                                 onChange={() => setHasWheelchair(false)}/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -266,7 +265,8 @@ function NewReferral(props) {
                     {(otherCondition) ? (
                         <Row form>
                             <Col>
-                                <FieldInput name="otherCondition" label="Other Condition" placeholder="Please describe the other condition" required="Description is required"/>
+                                <FieldInput name="otherCondition" label="Other Condition" placeholder="Please describe the other condition"
+                                 required="Description is required"/>
                             </Col>
                         </Row>
                     ) : ("")}
