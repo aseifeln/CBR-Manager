@@ -12,6 +12,7 @@ import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
+import ReferralInfo from './pages/ReferralInfo';
 
 /**
 * Reference:
@@ -64,7 +65,8 @@ const ROUTES = [
     ]
   },
   { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
-  { path: '/home', key:'HOME', exact: true, component: Home }
+  { path: '/home', key:'HOME', exact: true, component: Home },
+  {path: '/referral', key:'REFERRAL', exact: true, component: ReferralInfo}
 ];
 
 export default ROUTES;
