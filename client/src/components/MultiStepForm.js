@@ -110,7 +110,7 @@ function Step(props) {
 
 function FieldInput(props) {
   const [isFocused, setFocused] = useState(false)
-  const { className, label, onChange } = props
+  const { className, label, onChange, onFocus } = props
 	const { errorMessage, isValid, setValue, value, isPristine, isSubmitted } = useField(props)
 
 	const showError = !isValid && !isFocused && (!isPristine || isSubmitted)
@@ -124,7 +124,10 @@ function FieldInput(props) {
             {...props}
             value={value ?? ''}
             invalid={showError}
-            onFocus={() => setFocused(true)}
+            onFocus={(e) => {
+              setFocused(true)
+              if (onFocus) onFocus(e)
+            }}
             onBlur={() => setFocused(false)}
             onChange={(e) => {
               setValue(e.target.value)

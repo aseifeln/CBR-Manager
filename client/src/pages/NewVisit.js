@@ -4,6 +4,7 @@ import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import NotFoundPage from './404';
+import {getGPSLocation} from './Helpers';
 
 function NewVisit(props) {
 
@@ -298,7 +299,9 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput name="locationOfVisit" label="Location of visit"/>
+                      <FieldInput type="text" name="locationOfVisit" 
+                            label="Location of visit" 
+                            onFocus={(e) => getGPSLocation(e.target)}/>
                     </FormGroup>
                   </Col>
                 </Row>

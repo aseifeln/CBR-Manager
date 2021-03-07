@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
+import {getGPSLocation} from './Helpers';
 
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
@@ -112,6 +113,15 @@ function NewClientSignup() {
               label="New Client Date" 
               type="date" 
               defaultValue={(new Date()).toLocaleDateString('en-CA')}
+            />
+          </Col>
+
+          <Col xs={12}>
+            <FieldInput 
+            name="GPSLocation" 
+            label="GPS Location" 
+            type="text" 
+            onFocus={(e) => getGPSLocation(e.target) }
             />
           </Col>
 
