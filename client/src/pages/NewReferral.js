@@ -13,6 +13,11 @@ function NewReferral(props) {
     const [ clientFound, setClientFound ] = useState(false);
     const [ otherSelected, setOtherSelected ] = useState(false);
 
+    const [ wheelchairService, setWheelchairService ] = useState(false);
+    const [ physioService, setPhysioService ] = useState(false);
+    const [ prostheticService , setProstheticService ] = useState(false);
+    const [ orthoticService , setOrthoticService ] = useState(false);
+
     useEffect(() => {
 
         axios.get('/clients/' + props.match.params.id)
@@ -82,19 +87,19 @@ function NewReferral(props) {
                         <Row>
                             <Col>
                                 <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                                    <Input type="checkbox" name="wheelCheckBox"/>
+                                    <Input type="checkbox" name="wheelCheckBox" onChange={() => setWheelchairService(!wheelchairService)}/>
                                     Wheelchair
                                 </Label>
                                 <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                                    <Input type="checkbox" name="physioCheckBox"/>
+                                    <Input type="checkbox" name="physioCheckBox" onChange={() => setPhysioService(!physioService)}/>
                                     Physiotheraphy
                                 </Label>
                                 <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                                    <Input type="checkbox" name="prostheticCheckBox"/>
+                                    <Input type="checkbox" name="prostheticCheckBox" onChange={() => setProstheticService(!prostheticService)}/>
                                     Prosthetic
                                 </Label>
                                 <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                                    <Input type="checkbox" name="orthoticCheckBox"/>
+                                    <Input type="checkbox" name="orthoticCheckBox" onChange={() => setOrthoticService(!orthoticService)}/>
                                     Orthotic
                                 </Label>
                                 <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
@@ -123,6 +128,18 @@ function NewReferral(props) {
                         </Col>
                     </Row>
 
+                </Step>
+
+                <Step name="Wheelchair Service" isEnabled={wheelchairService}>
+                </Step>
+
+                <Step name="Physiotherapy Service" isEnabled={physioService}>
+                </Step>
+
+                <Step name="Prosthetic Service" isEnabled={prostheticService}>
+                </Step>
+
+                <Step name="Orthotic Service" isEnabled={orthoticService}>
                 </Step>
             </MultiStepForm>
         </Container>
