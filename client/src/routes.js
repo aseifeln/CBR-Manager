@@ -11,6 +11,7 @@ import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
+import AdminDashboard from './pages/AdminDashboard';
 
 /**
 * Reference:
@@ -54,6 +55,19 @@ const ROUTES = [
         key: 'VISIT_INFO',
         exact: true,
         component: VisitInfoPage
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    key: 'ADMIN',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/admin/dashboard',
+        key: 'ADMIN_DASHBOARD',
+        exact: true,
+        component: AdminDashboard
       }
     ]
   },
