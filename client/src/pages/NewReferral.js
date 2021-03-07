@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Container, Button, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput, FieldCheck } from "../components/MultiStepForm";
+import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import NotFoundPage from './404';
@@ -20,6 +20,9 @@ function NewReferral(props) {
 
     const [ wheelchairImgPreview, setWheelchairImgPreview ] = useState('');
     const [ hasWheelchair, setHasWheelchair ] = useState(true)
+
+    const [ physioImgPreview, setPhysioImgPreview ] = useState('');
+    const [ otherCondition, setOtherCondition ] = useState(false)
 
     useEffect(() => {
 
@@ -213,6 +216,57 @@ function NewReferral(props) {
                 </Step>
 
                 <Step name="Physiotherapy Service" isEnabled={physioService}>
+                    <Row form>
+                        <Col xs={12}>
+                            <img src={(physioImgPreview) && URL.createObjectURL(physioImgPreview)} style={{ width: '100%', maxWidth: 150 }}/>
+                            <FieldInput 
+                            name="physioPhoto" 
+                            label="Client Photo"
+                            required="Client photo is required"
+                            type="file"
+                            onChange={(e) => {
+                                if (e.target) {
+                                setPhysioImgPreview(e.target.files[0])
+                                }
+                            }}
+                            />
+                        </Col>
+                    </Row>
+
+                    <Row form>
+                        <Col xs={12}>
+                            <Label>Condition</Label>
+                            <FieldTypeahead
+                            id="clientCondition"
+                            name="clientCondition"
+                            placeholder="Select a condition"
+                            required="At least one option must be chosen"
+                            options={[
+                                'Amputee', 'Polio', 
+                                'Spinal Cord Injury', 'Cerebral Palsy', 
+                                'Spina Bifida', 'Hydrocephalus', 
+                                'Visual Impairment','Hearing Impairment', 
+                                'Other'
+                            ]}
+                            onChange={(v) => {
+                                setOtherCondition(v.includes('Other'))
+
+                                if (v[v.length-1] === 'Other' && v.length >= 1) return ['Other']
+                                else if (v[v.length-2] === 'Other' && v.length >= 1) return v.slice(1)
+                                return v
+                            }}
+                            multiple
+                            />
+                        </Col>
+                    </Row>
+
+                    {(otherCondition) ? (
+                        <Row form>
+                            <Col>
+                                <FieldInput name="otherCondition" label="Other Condition" placeholder="Please describe the other condition" required="Description is required"/>
+                            </Col>
+                        </Row>
+                    ) : ("")}
                 </Step>
 
                 <Step name="Prosthetic Service" isEnabled={prostheticService}>
