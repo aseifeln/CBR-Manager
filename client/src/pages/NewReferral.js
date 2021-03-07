@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
+import { Container, Button, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
+import { MultiStepForm, Step, FieldInput, FieldCheck } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import NotFoundPage from './404';
@@ -17,6 +17,9 @@ function NewReferral(props) {
     const [ physioService, setPhysioService ] = useState(false);
     const [ prostheticService , setProstheticService ] = useState(false);
     const [ orthoticService , setOrthoticService ] = useState(false);
+
+    const [ wheelchairImgPreview, setWheelchairImgPreview ] = useState('');
+    const [ hasWheelchair, setHasWheelchair ] = useState(true)
 
     useEffect(() => {
 
@@ -131,6 +134,82 @@ function NewReferral(props) {
                 </Step>
 
                 <Step name="Wheelchair Service" isEnabled={wheelchairService}>
+
+                    <Row form>
+                        <Col xs={12}>
+                            <img src={(wheelchairImgPreview) && URL.createObjectURL(wheelchairImgPreview)} style={{ width: '100%', maxWidth: 150 }}/>
+                            <FieldInput 
+                            name="wheelchairPhoto" 
+                            label="Client photo and any assistive devices"
+                            required="Client photo is required"
+                            type="file"
+                            onChange={(e) => {
+                                if (e.target) {
+                                setWheelchairImgPreview(e.target.files[0])
+                                }
+                            }}
+                            />
+                            <FormText className='mb-2 pb-1'>The picture should include both the client &amp; and any existing assistive devices (if any).</FormText>
+                        </Col>
+                    </Row>
+
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                                <FieldInput type="select" name="wheelchairProficiency" label="Client proficiency" required="Client proficiency is required">
+                                    <option selected hidden>What is the client's proficiency with a wheelchair?</option>
+                                    <option>Basic</option>
+                                    <option>Intermediate</option>
+                                </FieldInput>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                                <FieldInput type="number" name="hipWidth" label="Hip Width in Inches" min="1" required="Hip width is required"/>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <Label>
+                                Does the client have a wheelchair?
+                            </Label>
+                        </Col>
+                    </Row>
+
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                                <FieldCheck name="hasWheelchair" type="radio" label="Yes" value="Yes" defaultChecked onChange={() => setHasWheelchair(true)}/>
+                                <FieldCheck name="hasWheelchair" type="radio" label="No" value="No" className='ml-4 pl-2' onChange={() => setHasWheelchair(false)}/>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+
+                    {(hasWheelchair) ? (
+                        <div>
+                            <Row>
+                                <Col>
+                                    <Label>
+                                        Can the wheelchair be repaired?
+                                    </Label>
+                                </Col>
+                            </Row>
+
+                            <Row form>
+                                <Col>
+                                    <FormGroup>
+                                        <FieldCheck name="wheelchairRepairable" type="radio" label="Yes" value="Yes" defaultChecked/>
+                                        <FieldCheck name="wheelchairRepairable" type="radio" label="No" value="No" className='ml-4 pl-2'/>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                        </div>
+                    ) : ("")}
                 </Step>
 
                 <Step name="Physiotherapy Service" isEnabled={physioService}>
