@@ -240,6 +240,24 @@ as right now will still render this component briefly even for existing clients*
                         </CardBody>
                     </Collapse>
                 </Card>
+                <Card>
+                    <CardHeader style={areaColor}>
+                        <Row>
+                            <Col><h2 style={areaFontSize}>Referral Info</h2></Col>
+                            <Col>
+                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowEducationInfo(!showEducationInfo)}>
+                                    {(showEducationInfo) ? "Hide" : "Expand"}
+                                </Button>
+                            </Col>
+                        </Row>
+                    </CardHeader>
+                    <Collapse isOpen={showEducationInfo}>
+                        <CardBody>
+                            <div style={areaInfo}>Referral Status:</div> {/*TODO*/}<br/>
+                            <div style={areaInfo}>Outcome:</div> {/*TODO*/} <br />
+                        </CardBody>
+                    </Collapse>
+                </Card>
             </Container>
         </div>
     )
