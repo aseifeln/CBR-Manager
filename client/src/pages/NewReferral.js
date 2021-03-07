@@ -19,10 +19,13 @@ function NewReferral(props) {
     const [ orthoticService , setOrthoticService ] = useState(false);
 
     const [ wheelchairImgPreview, setWheelchairImgPreview ] = useState('');
-    const [ hasWheelchair, setHasWheelchair ] = useState(true)
+    const [ hasWheelchair, setHasWheelchair ] = useState(true);
 
     const [ physioImgPreview, setPhysioImgPreview ] = useState('');
-    const [ otherCondition, setOtherCondition ] = useState(false)
+    const [ otherCondition, setOtherCondition ] = useState(false);
+
+    const [ prostheticImgPreview, setProstheticImgPreview ] = useState('');
+    const [ orthoticImgPreview, setOrthoticImgPreview ] = useState('');
 
     useEffect(() => {
 
@@ -270,9 +273,59 @@ function NewReferral(props) {
                 </Step>
 
                 <Step name="Prosthetic Service" isEnabled={prostheticService}>
+                    <Row form>
+                        <Col xs={12}>
+                            <img src={(prostheticImgPreview) && URL.createObjectURL(prostheticImgPreview)} style={{ width: '100%', maxWidth: 150 }}/>
+                            <FieldInput 
+                            name="prostheticPhoto" 
+                            label="Photo (Optional)"
+                            type="file"
+                            onChange={(e) => {
+                                if (e.target) {
+                                setProstheticImgPreview(e.target.files[0])
+                                }
+                            }}
+                            />
+                        </Col>
+                    </Row>
+                    
+                    <Row>
+                        <Col>
+                            <FieldInput type="select" name="prostheticLocation" label="Where is the injury?" required="Selection is required">
+                                <option selected hidden>Where is the injury?</option>
+                                <option>Below knee</option>
+                                <option>Above knee</option>
+                            </FieldInput>
+                        </Col>
+                    </Row>
                 </Step>
 
                 <Step name="Orthotic Service" isEnabled={orthoticService}>
+                    <Row form>
+                        <Col xs={12}>
+                            <img src={(orthoticImgPreview) && URL.createObjectURL(orthoticImgPreview)} style={{ width: '100%', maxWidth: 150 }}/>
+                            <FieldInput 
+                            name="orthoticPhoto" 
+                            label="Photo (Optional)"
+                            type="file"
+                            onChange={(e) => {
+                                if (e.target) {
+                                setOrthoticImgPreview(e.target.files[0])
+                                }
+                            }}
+                            />
+                        </Col>
+                    </Row>
+                    
+                    <Row>
+                        <Col>
+                            <FieldInput type="select" name="orthoticLocation" label="Where is the injury?" required="Selection is required">
+                                <option selected hidden>Where is the injury?</option>
+                                <option>Below elbow</option>
+                                <option>Above elbow</option>
+                            </FieldInput>
+                        </Col>
+                    </Row>
                 </Step>
             </MultiStepForm>
         </Container>
