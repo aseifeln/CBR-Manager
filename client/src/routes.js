@@ -19,7 +19,8 @@ import NewReferral from './pages/NewReferral';
 * https://medium.com/better-programming/react-router-architecture-thats-simple-scalable-and-protected-da896827f946
 */
 const ROUTES = [
-  { path: '/', key: 'ROOT', exact: true, component: LoginPage },
+  { path: '/', key:'ROOT', exact: true, component: Home },
+  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
   {
     path: '/client',
     key: 'CLIENT',
@@ -77,8 +78,7 @@ const ROUTES = [
       }
     ]
   },
-  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
-  { path: '/home', key:'HOME', exact: true, component: Home }
+  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage }
 ];
 
 export default ROUTES;
