@@ -64,6 +64,7 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
+            alert("User is successfully registered");
             props.history.push("/");
             return;
         }
