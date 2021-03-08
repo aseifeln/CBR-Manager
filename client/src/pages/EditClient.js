@@ -37,8 +37,7 @@ function EditClient(props) {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     console.log(data['CaregiverState'])
     data['Photo'] = (imagePreviewSrc) || null
-    // postgres array uses '{}' instead of '[]'
-    data['DisabilityType'] = (data['DisabilityType']) ? `{${data['DisabilityType']}}` : "{Don't Know}" 
+    data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
 
     if (photo.length < 100 && !imagePreviewSrc) {
       data['DeletePhoto'] = "Y"
@@ -46,6 +45,9 @@ function EditClient(props) {
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
+      if (key === 'DisabilityType') {
+        val = val.split(',').join(", ")
+      }
       formData.append(key, (val != null) ? val : 'N/A')
     }
     return formData

@@ -6,8 +6,6 @@ import { Formiz, FormizStep, useField, useForm } from '@formiz/core';
 function MultiStepForm({ children, name, formContainerSize, onValidSubmit }) {
   let formState = useForm()
 
-  let [tooltipOpen, setTooltipOpen] = useState(false)
-  const tooltipToggle = () => setTooltipOpen(!tooltipOpen)
   const isInvalidSubmit = (formState.isLastStep && !formState.isValid)
 
   return (
@@ -88,8 +86,7 @@ function MultiStepForm({ children, name, formContainerSize, onValidSubmit }) {
                 <Tooltip 
                   target="form-button"
                   placement="auto" 
-                  isOpen={tooltipOpen && isInvalidSubmit} 
-                  toggle={tooltipToggle} 
+                  isOpen={isInvalidSubmit} 
                   autohide={true}>
                   Parts of the form are still incomplete or invalid
                 </Tooltip>
