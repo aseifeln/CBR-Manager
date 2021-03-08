@@ -92,10 +92,6 @@ function SignUpPage(props) {
             setConfirmPasswordErr(true)
             PASS = false
         }
-        if(photo === ""){
-            setPhotoErr(true)
-            PASS = false
-        }
         return PASS
     }
 
@@ -140,7 +136,7 @@ function SignUpPage(props) {
                         id="profilePhoto"
                         onChange={(event) => setPhoto(event.target.files[0])}
                          />
-                    <FormFeedback>Please upload a profile picture!</FormFeedback>
+                    <FormText><i>Optional</i></FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label for="location">Location</Label>
