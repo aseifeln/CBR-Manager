@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import NewClientSignup from './pages/NewClientSignup';
 import ClientListPage from './pages/ClientListPage';
 import ClientInfoPage from './pages/ClientInfo';
+import EditClientPage from './pages/EditClient';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
@@ -14,6 +15,7 @@ import Home from './pages/Home';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInsights from './pages/AdminInsights';
 import WorkerListPage from './pages/WorkerListPage';
+import NewReferral from './pages/NewReferral';
 
 /**
 * Reference:
@@ -36,6 +38,11 @@ const ROUTES = [
         key: 'CLIENT_INFO',
         exact: true,
         component: ClientInfoPage
+      }, {
+        path: '/client/:id/edit',
+        key: 'EDIT_CLIENT',
+        exact: true,
+        component: EditClientPage
       }
     ]
   },
@@ -82,6 +89,19 @@ const ROUTES = [
         key: 'WORKER_LIST',
         exact: true,
         component: WorkerListPage
+      }
+    ]
+  },
+  {
+    path: '/referral',
+    key: 'REFERRAL',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/referral/new/:id',
+        key: 'NEW_REFERRAL',
+        exact: true,
+        component: NewReferral
       }
     ]
   },
