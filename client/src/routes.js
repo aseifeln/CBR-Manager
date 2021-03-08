@@ -51,8 +51,14 @@ const ROUTES = [
     component: RenderRoutes,
     routes: [
       {
-        path: '/visit/new/:id',
+        path: '/visit/new',
         key: 'NEW_VISIT',
+        exact: true,
+        component: NewVisitPage
+      },
+      {
+        path: '/visit/new/:id',
+        key: 'NEW_VISIT_WITH_ID',
         exact: true,
         component: NewVisitPage
       },
