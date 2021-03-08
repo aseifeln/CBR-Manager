@@ -135,7 +135,7 @@ app.post('/login', async (req, res) => {
                     const accessToken = generateAccessToken(user)
                     // TODO: Maybe needed in logout = const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
                     generateCookie(res, accessToken);
-                    res.json({ accessToken: accessToken }) // TODO: Maybe needed in logout = , refreshToken: refreshToken 
+                    res.json({ accessToken: accessToken , workerID: "1",username: user.username, role: 'admin'}) // TODO: Maybe needed in logout = , refreshToken: refreshToken
                     return res.send(SUCCESS);
                 } else {
                     return res.send(WRONGPASSWORD);     

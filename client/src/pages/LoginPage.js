@@ -1,10 +1,10 @@
 import React, { useState , useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import { UserContext } from '../components/UserContext';
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
 import "../css/Login.css";
-import {UserContext} from "../components/UserContext";
 
 function Login(props) {
     const WRONGPASSWORD = '0'
@@ -15,7 +15,7 @@ function Login(props) {
     const[usernameErr, setUsernameErr] = useState(false);
     const[passwordErr, setPasswordErr] = useState(false);
 
-    const user = useContext(UserContext);
+    const context = useContext(UserContext);
 
     useEffect(() => {
         document.title="Login"
@@ -44,8 +44,14 @@ function Login(props) {
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
                         props.history.push("/");
-                    } else { 
-                        props.history.push("/dashboard");
+                    } else {
+                        // TODO updating context should be replaced with setting it from cookies once they are fully implemented
+                        context.accessToken = res.data.accessToken;
+                        context.username = res.data.username;
+                        context.workerID = res.data.workerID;
+                        context.role = res.data.role;
+                        console.log(context);
+                        props.history.push("/home");
                     }
                     
                     return;

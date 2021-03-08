@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { UserContext } from '../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 
@@ -43,6 +44,8 @@ function ClientListPage() {
 
    const history = useHistory();
    const clientsPerPage = 30;
+   const context = useContext(UserContext);
+   console.log(context);
 
     useEffect(() => {
         axios.get('/clients')
