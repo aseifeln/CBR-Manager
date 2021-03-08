@@ -66,7 +66,13 @@ const ROUTES = [
   },
   { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
   { path: '/home', key:'HOME', exact: true, component: Home },
-  {path: '/referral', key:'REFERRAL', exact: true, component: ReferralInfo}
+  { path: '/referral', 
+    key:'REFERRAL',
+    component: ReferralInfo,
+    routes:[
+      
+    ]
+}
 ];
 
 export default ROUTES;
