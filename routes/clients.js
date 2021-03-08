@@ -12,6 +12,37 @@ function ConvertImage(client){
     client['Photo'] = clientImage
 }
 
+// @route   GET /clients/priority(?loc=<location>?num=<Number of clients>)
+// @desc    GET all clients sorted by priority
+// Optional Parameters: location and num clients
+router.get('/priority/:loc&:num', async (req, res) => {
+    const location = req.params.loc;
+    console.log(req.params)
+    const numClients = req.params.num;
+
+    await client.findAll({
+        attributes: {
+            exclude: [
+                'HealthDesc',
+                'HealthGoal',
+                'EducationDesc',
+                'EducationGoal',
+                'SocialDesc',
+                'SocialGoal'
+            ]
+        },
+        where: {Location: location},
+        order: [['Priority', 'DESC']],
+        limit: numClients,
+    })
+        .then(clients => {
+            clients.map(client => ConvertImage(client))
+            return clients;
+        })
+        .then(clients => res.json(clients))
+        .catch(err => res.status(404).json(err))
+})
+
 // @route   GET /clients/id
 // @desc    GET Retrieve a client with a certain id from the database
 router.get('/:id', (req,res) => {
