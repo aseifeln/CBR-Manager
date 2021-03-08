@@ -39,7 +39,7 @@ function NewVisit(props) {
         setClients(response.data);
       })
       .catch(error => {
-        console.log(error)
+        console.log(error);
         alert("Something went wrong")
         history.push('/dashboard')
       })
