@@ -10,22 +10,27 @@ function NewVisit(props) {
   const history = useHistory();
   const [ client, setClient ] = useState({});
   const [ CBRVisit, setCBRVisit ] = useState(false);
+  const [ clientProvided, setClientProvided ] = useState(false);
   const [ clientFound, setClientFound ] = useState(false);
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
 
-    axios.get('/clients/' + props.match.params.id)
-    .then(response => {
-        setClient(response.data);
-        setClientFound(true)
-    })
-    .catch(error => {
-        console.log(error);
-        document.title = "Client not found";
-        alert("Client not found");
-        history.push('/dashboard')
-    })
+    if (typeof props.match.params.id !== 'undefined') {
+      axios.get('/clients/' + props.match.params.id)
+      .then(response => {
+          setClient(response.data);
+          setClientFound(true);
+          setClientProvided(true)
+      })
+      .catch(error => {
+          console.log(error);
+          setClientFound(false);
+          document.title = "Client not found";
+          alert("Client not found");
+          history.push('/dashboard')
+      })
+    }
 
     document.title="New Visit";
   }, [])
@@ -39,7 +44,10 @@ function NewVisit(props) {
     newData['Date'] = data.date;
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
-    newData['ClientId'] = props.match.params.id;
+
+    if (clientProvided) {
+      newData['ClientId'] = props.match.params.id;
+    }
     
     // TODO: Fill in workerId once there is an API to retrieve this for current user
     // newData['WorkerId'] = "";
@@ -220,19 +228,21 @@ function NewVisit(props) {
   return (
     <div>
         <Container>
-            <Row>
-              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {client.FirstName + ' ' + client.LastName}
-              </Col>
-              <Col>
-                <Button variant="primary" size="md" className="float-right">
-                  Save Visit
-                </Button>
-              </Col>
-            </Row>
 
             <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
               <Step name="General Info">
+
+                <Row form>
+                  <Col>
+                    <FormGroup>
+                      {(clientProvided) ? (
+                        <FieldInput label="Client" name="client" disabled 
+                         defaultValue={client.FirstName + ' ' + client.LastName}/>
+                      ) : ("")}
+                    </FormGroup>
+                  </Col>
+                </Row>
+
                 <Row form>
                   <Col>
                     <FormGroup>
