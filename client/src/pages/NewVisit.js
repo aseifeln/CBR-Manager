@@ -12,10 +12,14 @@ function NewVisit(props) {
   const [ client, setClient ] = useState({});
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientFound, setClientFound ] = useState(false);
+  const [ GPSLocation, setGPSLocation ] = useState('');
+
+  //let GPSLocation = getGPSLocation();
 
   useEffect(() => {
+    setGPSLocation(getGPSLocation());
+    console.log(GPSLocation);
     // TODO: Send GET request for client and worker to fill out some fields
-
     axios.get('/clients/' + props.match.params.id)
     .then(response => {
         setClient(response.data);
@@ -27,7 +31,6 @@ function NewVisit(props) {
         alert("Client not found");
         history.push('/dashboard')
     })
-
     document.title="New Visit";
   }, [])
 
@@ -38,6 +41,7 @@ function NewVisit(props) {
     // Prepare General info
     newData['VisitPurpose'] = data.purposeOfVisit;
     newData['Date'] = data.date;
+    newData['GPSLocation'] = data.locationOfVisit;
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
     newData['ClientId'] = props.match.params.id;
@@ -301,7 +305,8 @@ function NewVisit(props) {
                     <FormGroup>
                       <FieldInput type="text" name="locationOfVisit" 
                             label="Location of visit" 
-                            onFocus={(e) => getGPSLocation(e.target)}/>
+                            defaultValue={GPSLocation}
+                            />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -853,5 +858,4 @@ function NewVisit(props) {
     </div>
   )
 }
-
 export default NewVisit;

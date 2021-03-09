@@ -10,10 +10,13 @@ import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../
 function NewClientSignup() {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
+  const [ GPSLocation, setGPSLocation] = useState('');
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
   useEffect(() => {
+    setGPSLocation(getGPSLocation())
+    console.log(GPSLocation)
     document.title="New Client Registration"
   }, [])
 
@@ -123,7 +126,7 @@ function NewClientSignup() {
             name="GPSLocation" 
             label="GPS Location" 
             type="text" 
-            onFocus={(e) => getGPSLocation(e.target) }
+            defaultValue={GPSLocation}
             />
           </Col>
 

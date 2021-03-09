@@ -119,7 +119,7 @@ function FieldInput(props) {
         <InputGroup>
           <Input
             {...props}
-            value={value ?? ''}
+            value={value}
             invalid={showError}
             onFocus={(e) => {
               setFocused(true)
