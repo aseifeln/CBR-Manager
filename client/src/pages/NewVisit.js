@@ -62,10 +62,7 @@ function NewVisit(props) {
       newData['ClientId'] = props.match.params.id;
     }
     else {
-      const clientName = data['client'].split(" ");
-      // Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
-      let newVisitClient = clients.find(c => c.FirstName === clientName[0] && c.LastName === clientName[1]);
-      newData['ClientId'] = newVisitClient.ClientId;
+      newData['ClientId'] = data.client;
     }
     
     // TODO: Fill in workerId once there is an API to retrieve this for current user
@@ -179,7 +176,6 @@ function NewVisit(props) {
 
   function onValidSubmit(data) {
     data = prepareData(data);
-    console.log(data)
 
     axios.post('/visits/add/', data)
     // TODO: Redirect to visit page once that has been created
@@ -262,7 +258,7 @@ function NewVisit(props) {
                           <option hidden selected>Select a client</option>
                           {/* TODO: Make it so users can type out the name, which autofills */}
                           {clients.map(({FirstName, LastName, ClientId}) => (
-                            <option>{FirstName} {LastName}</option>
+                            <option value={ClientId}>{FirstName} {LastName}</option>
                           ))}
                         </FieldInput>
                       )}
