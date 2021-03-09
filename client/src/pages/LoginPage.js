@@ -42,7 +42,7 @@ function Login(props) {
                         alert("User is not registered");
                         props.history.push("/login");
                     } else { 
-                        props.history.push("/dashboard");
+                        props.history.push("/");
                     }
                     
                     return;
