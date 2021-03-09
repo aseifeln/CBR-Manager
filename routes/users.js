@@ -37,29 +37,6 @@ async function getUserPassword(username) {
 async function passwordIsTrue(loginPassword, databasePassword){
     return await bcrypt.compare(loginPassword, databasePassword)
 }
-//TODO: Maybe needed in logout
-/*
-function authenticateToken(req, res, next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1] //BEARER token
-    console.log(authHeader)
-    console.log(token)
-    if( token == null ){
-        console.log('oops')
-        return res.status(401).send("No access to token")
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
-        if(err){
-            console.log('ayaya')
-            return res.status(403).send("Token is no longer valid")
-        }
-        req.user = user
-        console.log('great')
-        console.log(user)
-        next()
-    })
-}
-*/
 
 function generateAccessToken(user){
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
