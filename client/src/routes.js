@@ -69,9 +69,7 @@ const ROUTES = [
   { path: '/referral', 
     key:'REFERRAL',
     component: ReferralInfo,
-    routes:[
-      
-    ]
+    exact: true
 }
 ];
 

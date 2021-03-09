@@ -71,6 +71,10 @@ function ReferralInfo(){
                     </Col>
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Conditions: </span>
+                        {referral.PhysiotherapyService.ClientCondition.join(', ')}
+                        <br/>
+                        <span className='font-weight-bold' style={{fontSize: '18px'}}>Other Conditions: </span>
+                        {referral.PhysiotherapyService.OtherClientCondition}
                     </Col>
                 </Row>
                 <hr/>
@@ -87,6 +91,10 @@ function ReferralInfo(){
                     </Col>
                 </Row>
                 <Row>
+                {referral.ProstheticService.Photo!==""?
+                    <Col>
+                        <Media>{/*TODO*/}</Media>
+                    </Col>:null}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
                         {referral.ProstheticService.InjuryPosition}
@@ -105,8 +113,12 @@ function ReferralInfo(){
                     </Col>
                 </Row>
                 <Row>
+                {referral.ProstheticService.Photo!==""?
                     <Col>
-                        <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: {/*TODO*/}</span>
+                        <Media>{/*TODO*/}</Media>
+                    </Col>:null}
+                    <Col>
+                        <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
                         {referral.OrthoticService.InjuryPosition}
                     </Col>
                 </Row>
@@ -127,12 +139,13 @@ function ReferralInfo(){
                     <Media>{/*TODO*/}</Media>
                 </Col>
                 <Col>
-                    <h3 className='font-weight-bold' style={{fontSize: '18px'}}>Details: {/*TODO*/}</h3>
+                    <h3 className='font-weight-bold' style={{fontSize: '18px'}}>Details: </h3>
                     <ul class='list-unstyled'>
-                        <li>- Basic/Intermediate User: {/*TODO*/}</li>
-                        <li>- Hip Width (Inches): {/*TODO*/}</li>
-                        <li>- Existing Wheelchair: {/*TODO*/}</li>
-                        {/* TODO: If yes to existing wheel chair, display more fields*/}
+                        <li>- Basic/Intermediate User: {referral.WheelchairService.ClientProficiency}</li>
+                        <li>- Hip Width (Inches): {referral.WheelchairService.ClientHipWidth}</li>
+                        <li>- Existing Wheelchair: {referral.WheelchairService.WheelchairExist}</li>
+                        {referral.WheelchairService.WheelchairExist==='Y'?
+                            <li>- Existing Wheelchair: {referral.WheelchairService.WheelchairRepairable}</li>:null}
                     </ul>
                 </Col>
             </Row>
@@ -150,7 +163,14 @@ function ReferralInfo(){
                 </Col>
             </Row>
             <Row>
-                <Col>Description: {/*TODO */}</Col>
+            {referral.ProstheticService.Photo!==""?
+                <Col>
+                    <Media>{/*TODO*/}</Media>
+                </Col>:null}
+                <Col>
+                    <span className='font-weight-bold' style={{fontSize: '18px'}}>Details: </span>
+                    {referral.OtherServices}
+                </Col>
             </Row>
             <hr/>
             </>
@@ -164,18 +184,13 @@ function ReferralInfo(){
                 <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
                 <Row>
                     <Col>
-                        Services: {/* TODO */}
+                        Services: {referral.ServiceRequired && referral.ServiceRequired.join(', ')}
                     </Col>
                 </Row>
                 {referral.ServiceRequired && (referral.ServiceRequired.map((service)=>{
                     return(
                         <ServiceHandler service={service}/>
-                    )}))}
-                <Row>
-                    <Col>
-                        <h3 className='font-weight-bold' style={{fontSize: '22px'}}>Refer To: {/*TODO*/}</h3>
-                    </Col>
-                </Row>
+                )}))}
             </div>
         </Container>
     );
