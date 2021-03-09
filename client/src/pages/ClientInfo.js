@@ -64,7 +64,7 @@ as right now will still render this component briefly even for existing clients*
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
                     <Col>
-                        <Link to={"/client/" + props.match.params.id} className="float-right" style={{color:"#22a9ba"}}>Edit Client Info</Link>
+                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
                     </Col>
                 </Row>
             </Container>
@@ -89,8 +89,15 @@ as right now will still render this component briefly even for existing clients*
             <Row>
                 <Col align="center">
                     <Link to={"/visit/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
-                            New Visit +
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'right'}}>
+                            New Visit
+                        </Button>
+                    </Link>
+                </Col>
+                <Col align="center">
+                    <Link to={"/referral/new/" + props.match.params.id}>
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}}>
+                            New Referral
                         </Button>
                     </Link>
                 </Col>

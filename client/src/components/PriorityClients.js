@@ -39,7 +39,7 @@ function PriorityClients(){
                     <DropdownItem onClick={()=>setLocation("Palorinya Zone 3")}> Palorinya Zone 3</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <div style={{maxHeight: "35em", overflowY: "auto",minWidth:"30em",border:"1px solid grey"}}>
+            <div style={{maxHeight: "35em", overflowY: "auto", maxWidth:"100%",border:"1px solid grey"}}>
                 <ListGroup>
                     {data.length>0?data.map((client)=>{
                         return(
