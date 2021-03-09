@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import {
-  Collapse,
-  Navbar,
   Nav,
   NavItem,
-  NavLink,
-  Container,
+  NavLink
 } from "reactstrap";
 import { NavLink as RRNavLink } from 'react-router-dom';
 import '../css/AdminSideBar.css';
