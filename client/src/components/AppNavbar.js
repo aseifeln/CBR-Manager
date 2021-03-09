@@ -42,7 +42,7 @@ function AppNavbar(props) {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         <NavItem>
-                            <Link to="/logout" className="nav-link" style={{color:"#c7eabe"}}>
+                            <Link to="/logout" className="nav-link" style={{color:"#000000"}}>
                                 Logout
                             </Link>
                         </NavItem>
