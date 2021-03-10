@@ -76,6 +76,12 @@ const ROUTES = [
         key: 'NEW_REFERRAL',
         exact: true,
         component: NewReferral
+      },
+      {
+        path:'/referral/:id',
+        key:'REFERRAL_INFO',
+        exact:true,
+        component: ReferralInfo
       }
     ]
   }
