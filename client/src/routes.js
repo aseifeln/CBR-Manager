@@ -12,6 +12,9 @@ import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminInsights from './pages/AdminInsights';
+import WorkerListPage from './pages/WorkerListPage';
 import NewReferral from './pages/NewReferral';
 
 /**
@@ -19,7 +22,8 @@ import NewReferral from './pages/NewReferral';
 * https://medium.com/better-programming/react-router-architecture-thats-simple-scalable-and-protected-da896827f946
 */
 const ROUTES = [
-  { path: '/', key: 'ROOT', exact: true, component: LoginPage },
+  { path: '/', key:'ROOT', exact: true, component: Home },
+  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
   {
     path: '/client',
     key: 'CLIENT',
@@ -65,6 +69,31 @@ const ROUTES = [
     ]
   },
   {
+    path: '/admin',
+    key: 'ADMIN',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/admin/dashboard',
+        key: 'ADMIN_DASHBOARD',
+        exact: true,
+        component: AdminDashboard
+      },
+      {
+        path: '/admin/insights',
+        key: 'ADMIN_INSIGHTS',
+        exact: true,
+        component: AdminInsights
+      },
+      {
+        path: '/admin/worker-list',
+        key: 'WORKER_LIST',
+        exact: true,
+        component: WorkerListPage
+      }
+    ]
+  },
+  {
     path: '/referral',
     key: 'REFERRAL',
     component: RenderRoutes,
@@ -77,8 +106,7 @@ const ROUTES = [
       }
     ]
   },
-  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
-  { path: '/home', key:'HOME', exact: true, component: Home }
+  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage }
 ];
 
 export default ROUTES;

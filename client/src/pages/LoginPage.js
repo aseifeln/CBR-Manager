@@ -36,13 +36,13 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/");
+                        props.history.push("/login");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/");
+                        props.history.push("/login");
                     } else { 
-                        props.history.push("/dashboard");
+                        props.history.push("/");
                     }
                     
                     return;
@@ -51,8 +51,6 @@ function Login(props) {
                     console.log(err);
                 })
         }
-
-        
     }
 
     function authPasses() {
