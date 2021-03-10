@@ -32,6 +32,9 @@ function NewReferral(props) {
         newData['ClientId'] = props.match.params.id;
         newData['ReferTo'] = data['referTo'];
         newData['Status'] = "Made";
+
+        // TODO: Put in the WorkerId field when we are able to identify current worker logged in
+        // newData['WorkerId']
         
         let services = []
 
