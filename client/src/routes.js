@@ -13,6 +13,7 @@ import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
 import ReferralInfo from './pages/ReferralInfo';
+import NewReferral from './pages/NewReferral';
 
 /**
 * Reference:
