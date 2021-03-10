@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
+import { Container, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
@@ -9,23 +9,41 @@ function NewVisit(props) {
 
   const history = useHistory();
   const [ client, setClient ] = useState({});
+  const [ clients, setClients ] = useState([]);
   const [ CBRVisit, setCBRVisit ] = useState(false);
+  const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
 
   useEffect(() => {
     // TODO: Send GET request for client and worker to fill out some fields
 
-    axios.get('/clients/' + props.match.params.id)
-    .then(response => {
-        setClient(response.data);
-        setClientFound(true)
-    })
-    .catch(error => {
+    if (typeof props.match.params.id !== 'undefined') {
+      axios.get('/clients/' + props.match.params.id)
+      .then(response => {
+          setClient(response.data);
+          setClientFound(true);
+          setClientProvided(true);
+      })
+      .catch(error => {
+          console.log(error);
+          setClientFound(false);
+          document.title = "Client not found";
+          alert("Client not found");
+          history.push('/dashboard')
+      })
+    }
+    else {
+      setClientProvided(false)
+      axios.get('/clients')
+      .then(response => {
+        setClients(response.data);
+      })
+      .catch(error => {
         console.log(error);
-        document.title = "Client not found";
-        alert("Client not found");
+        alert("Something went wrong")
         history.push('/dashboard')
-    })
+      })
+    }
 
     document.title="New Visit";
   }, [])
@@ -39,7 +57,13 @@ function NewVisit(props) {
     newData['Date'] = data.date;
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
-    newData['ClientId'] = props.match.params.id;
+
+    if (clientProvided) {
+      newData['ClientId'] = props.match.params.id;
+    }
+    else {
+      newData['ClientId'] = data.client;
+    }
     
     // TODO: Fill in workerId once there is an API to retrieve this for current user
     // newData['WorkerId'] = "";
@@ -152,7 +176,6 @@ function NewVisit(props) {
 
   function onValidSubmit(data) {
     data = prepareData(data);
-    console.log(data)
 
     axios.post('/visits/add/', data)
     // TODO: Redirect to visit page once that has been created
@@ -210,7 +233,7 @@ function NewVisit(props) {
     }
   }
 
-  if (!clientFound)
+  if (!clientFound && clientProvided)
   {
     return (
         <NotFoundPage/>
@@ -220,19 +243,29 @@ function NewVisit(props) {
   return (
     <div>
         <Container>
-            <Row>
-              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {client.FirstName + ' ' + client.LastName}
-              </Col>
-              <Col>
-                <Button variant="primary" size="md" className="float-right">
-                  Save Visit
-                </Button>
-              </Col>
-            </Row>
 
             <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
               <Step name="General Info">
+
+                <Row form>
+                  <Col>
+                    <FormGroup>
+                      {(clientProvided) ? (
+                        <FieldInput label="Client" name="client" disabled required="Client is required"
+                         defaultValue={client.FirstName + ' ' + client.LastName}/>
+                      ) : (
+                        <FieldInput type="select" label="Client" name="client" required="Client is required">
+                          <option hidden selected>Select a client</option>
+                          {/* TODO: Make it so users can type out the name, which autofills */}
+                          {clients.map(({FirstName, LastName, ClientId}) => (
+                            <option value={ClientId}>{FirstName} {LastName}</option>
+                          ))}
+                        </FieldInput>
+                      )}
+                    </FormGroup>
+                  </Col>
+                </Row>
+
                 <Row form>
                   <Col>
                     <FormGroup>
