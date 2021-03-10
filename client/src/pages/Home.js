@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardDeck } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 function Home(){
+
+    useEffect(() => {
+        document.title = "CBR Manager"
+    }, [])
+
     const imgSize={
         display:"block",
         margin:"auto",

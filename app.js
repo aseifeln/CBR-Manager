@@ -7,6 +7,7 @@ const users = require('./routes/users');
 const clients = require('./routes/clients');
 const excel = require('./routes/excel');
 const visits = require('./routes/visits');
+const referrals = require('./routes/referrals');
 
 const app = express();
 const path = require('path')
@@ -20,6 +21,7 @@ app.use('/users', users);
 app.use('/clients', clients);
 app.use('/excel', excel);
 app.use('/visits', visits);
+app.use('/referrals', referrals);
 
 // Running in production
 
