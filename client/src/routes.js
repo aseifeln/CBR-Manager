@@ -70,7 +70,6 @@ const ROUTES = [
     ]
   },
   { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
-  { path: '/home', key:'HOME', exact: true, component: Home },
   {
     path: '/admin',
     key: 'ADMIN',
