@@ -7,7 +7,7 @@ function Logout(props) {
             .then(res => {
                 console.log(res);
                 document.cookie="cookiename=cookievalue;max-age="+(0);
-                props.history.push("/");
+                props.history.push("/login");
             })
             .catch(err => {
                 console.log(err);

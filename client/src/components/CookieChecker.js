@@ -26,7 +26,7 @@ function CookieChecker(props) {
     } 
     function logoutUser(){
         if(getCookie("cookiename") == null){
-            history.push("/");
+            history.push("/login");
         }
     }
     return(
