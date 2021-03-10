@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const referral = require('../models/referral')
+const client = require('../models/client')
 const { sequelize } = require('../models/referral');
 
 const wheelchairService = require('../models/wheelchairService')
@@ -9,6 +10,42 @@ const prostheticService = require('../models/prostheticService')
 const orthoticService = require('../models/orthoticService')
 
 const { v4: uuidv4 } = require('uuid');
+
+// @route   GET /referrals/outstanding
+// @desc    GET all outstanding referrals (status === "Made") ordered by date
+router.get('/outstanding', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        let referrals = await referral.findAll({
+            where: {
+                Status: "Made"
+            },
+            attributes: [
+                "ReferralId", "Date"
+            ],
+            order: [
+                ['Date', 'ASC']
+            ],
+            include: [{
+                model: client,
+                required: true,
+                attributes: [
+                  'ClientId', 'FirstName', 'LastName'
+                ]
+            }]
+        }, { transaction })
+        
+        await transaction.commit();
+        res.status(200).json(referrals);
+    }
+    catch (error) {
+        await transaction.rollback();
+        res.status(500).json(error);
+    }
+})
 
 // @route   POST /referrals/add
 // @desc    POST Add a new visit to the database
