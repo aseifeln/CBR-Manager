@@ -12,12 +12,16 @@ function NewVisit(props) {
   const [ client, setClient ] = useState({});
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientFound, setClientFound ] = useState(false);
-  const [ GPSLocation, setGPSLocation ] = useState('');
+  const [ GPSLocation, setGPSLocation ] = useState("null");
+  const [ locationFound, setLocationFound ] = useState(false);
 
-  //let GPSLocation = getGPSLocation();
-
+  console.log(GPSLocation);
   useEffect(() => {
-    setGPSLocation(getGPSLocation());
+    navigator.geolocation.getCurrentPosition((data) => {
+      setGPSLocation(data.coords.longitude + ", " + data.coords.latitude);
+      setLocationFound(true)
+   }, (err) => console.log(err), {enableHighAccuracy:false, timeout: 5000, maximumAge: Infinity});
+  
     console.log(GPSLocation);
     // TODO: Send GET request for client and worker to fill out some fields
     axios.get('/clients/' + props.match.params.id)
@@ -215,7 +219,7 @@ function NewVisit(props) {
     }
   }
 
-  if (!clientFound)
+  if (!clientFound && !locationFound)
   {
     return (
         <NotFoundPage/>
