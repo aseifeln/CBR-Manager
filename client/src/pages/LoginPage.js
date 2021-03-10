@@ -36,14 +36,14 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/");
+                        props.history.push("/login");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/");
+                        props.history.push("/login");
                     } else { 
                         document.cookie="cookiename=cookievalue;max-age="+(60 * 15); //15 mins
-                        props.history.push("/dashboard");
+                        props.history.push("/");
                     }
                     
                     return;
@@ -52,8 +52,6 @@ function Login(props) {
                     console.log(err);
                 })
         }
-
-        
     }
 
     function authPasses() {

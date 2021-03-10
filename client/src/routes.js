@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import NewClientSignup from './pages/NewClientSignup';
 import ClientListPage from './pages/ClientListPage';
 import ClientInfoPage from './pages/ClientInfo';
+import EditClientPage from './pages/EditClient';
 import NotFoundPage from './pages/404';
 import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
@@ -12,13 +13,18 @@ import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Logout from './pages/Logout';
 import Home from './pages/Home';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminInsights from './pages/AdminInsights';
+import WorkerListPage from './pages/WorkerListPage';
+import NewReferral from './pages/NewReferral';
 
 /**
 * Reference:
 * https://medium.com/better-programming/react-router-architecture-thats-simple-scalable-and-protected-da896827f946
 */
 const ROUTES = [
-  { path: '/', key: 'ROOT', exact: true, component: LoginPage },
+  { path: '/', key:'ROOT', exact: true, component: Home },
+  { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
   { path: '/logout', key: 'LOGOUT', exact: true, component: Logout },
   {
     path: '/client',
@@ -35,6 +41,11 @@ const ROUTES = [
         key: 'CLIENT_INFO',
         exact: true,
         component: ClientInfoPage
+      }, {
+        path: '/client/:id/edit',
+        key: 'EDIT_CLIENT',
+        exact: true,
+        component: EditClientPage
       }
     ]
   },
@@ -46,8 +57,14 @@ const ROUTES = [
     component: RenderRoutes,
     routes: [
       {
-        path: '/visit/new/:id',
+        path: '/visit/new',
         key: 'NEW_VISIT',
+        exact: true,
+        component: NewVisitPage
+      },
+      {
+        path: '/visit/new/:id',
+        key: 'NEW_VISIT_WITH_ID',
         exact: true,
         component: NewVisitPage
       },
@@ -59,8 +76,45 @@ const ROUTES = [
       }
     ]
   },
-  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
-  { path: '/home', key:'HOME', exact: true, component: Home }
+  {
+    path: '/admin',
+    key: 'ADMIN',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/admin/dashboard',
+        key: 'ADMIN_DASHBOARD',
+        exact: true,
+        component: AdminDashboard
+      },
+      {
+        path: '/admin/insights',
+        key: 'ADMIN_INSIGHTS',
+        exact: true,
+        component: AdminInsights
+      },
+      {
+        path: '/admin/worker-list',
+        key: 'WORKER_LIST',
+        exact: true,
+        component: WorkerListPage
+      }
+    ]
+  },
+  {
+    path: '/referral',
+    key: 'REFERRAL',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/referral/new/:id',
+        key: 'NEW_REFERRAL',
+        exact: true,
+        component: NewReferral
+      }
+    ]
+  },
+  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage }
 ];
 
 export default ROUTES;
