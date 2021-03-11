@@ -1,6 +1,7 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import { UserContext } from '../components/UserContext';
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
 import "../css/Login.css";
@@ -13,6 +14,8 @@ function Login(props) {
 
     const[usernameErr, setUsernameErr] = useState(false);
     const[passwordErr, setPasswordErr] = useState(false);
+
+    const context = useContext(UserContext);
 
     useEffect(() => {
         document.title="Login"
@@ -41,8 +44,19 @@ function Login(props) {
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
                         props.history.push("/login");
+<<<<<<< HEAD
                     } else { 
                         document.cookie="cookiename=cookievalue;max-age="+(60 * 60); //60 mins
+=======
+                    } else {
+                        document.cookie="cookiename=cookievalue;max-age="+(60 * 15); // 15 mins
+                        axios.get('users/session', {params: {username: user.username}})
+                            .then(res => {
+                                document.cookie=`Role=${res.data[0].Role};max-age=`+(60 * 15); // 15 mins
+                                document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(60 * 15); // 15 mins
+                            })
+                            .catch(err => console.log(err))
+>>>>>>> origin/master
                         props.history.push("/");
                     }
                     return;
