@@ -44,10 +44,6 @@ function Login(props) {
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
                         props.history.push("/login");
-<<<<<<< HEAD
-                    } else { 
-                        document.cookie="cookiename=cookievalue;max-age="+(60 * 60); //60 mins
-=======
                     } else {
                         document.cookie="cookiename=cookievalue;max-age="+(60 * 15); // 15 mins
                         axios.get('users/session', {params: {username: user.username}})
@@ -56,7 +52,6 @@ function Login(props) {
                                 document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(60 * 15); // 15 mins
                             })
                             .catch(err => console.log(err))
->>>>>>> origin/master
                         props.history.push("/");
                     }
                     return;
