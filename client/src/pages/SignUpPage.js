@@ -59,13 +59,14 @@ function SignUpPage(props) {
                     alert("Username is already taken");
                     await props.history.push("/signup");
                     return;
+                } else {
+                    alert("User is successfully registered");
+                    login(user);
                 }
             })
             .catch( err => {
                 console.log(err);
             })
-            await props.history.push("/signup");
-            login(user);
             return;
         }
         props.history.push("/signup");
@@ -81,7 +82,6 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
-        alert("User is successfully registered");
     }
 
     function authPasses() { 
