@@ -44,7 +44,7 @@ function generateAccessToken(user){
 }
 
 function setCookie(res, accessToken, expiryTime){
-    
+
     res.cookie('ACCESS_TOKEN', accessToken, {
         maxAge : expiryTime,
         httpOnly : true
@@ -173,5 +173,16 @@ app.get('/worker/:id', async (req, res) => {
         res.status(400).json(error);
     }
 })
+
+app.get('/session', async (req, res) => {
+    await users.findAll({
+        attributes: ['Role', 'WorkerId'],
+        where: {
+            Username: req.query.username,
+        }
+        })
+        .then(userData => res.status(200).json(userData))
+        .catch(err => res.status(500).json(err))
+});
 
 module.exports = app;

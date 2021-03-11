@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Container, Button, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
+import { Container, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
@@ -26,6 +26,83 @@ function NewReferral(props) {
 
     const [ prostheticImgPreview, setProstheticImgPreview ] = useState('');
     const [ orthoticImgPreview, setOrthoticImgPreview ] = useState('');
+
+    function prepareData(data) {
+        let newData = {};
+        newData['ClientId'] = props.match.params.id;
+        newData['ReferTo'] = data['referTo'];
+        newData['Status'] = "Made";
+
+        // TODO: Put in the WorkerId field when we are able to identify current worker logged in
+        // newData['WorkerId']
+        
+        let services = []
+
+        if (wheelchairService) {
+            let wheelchairForm = {};
+
+            wheelchairForm['Photo'] = wheelchairImgPreview;
+            wheelchairForm['ClientProficiency'] = data['wheelchairProficiency'];
+            wheelchairForm['ClientHipWidth'] = data['hipWidth'];
+            wheelchairForm['WheelchairExist'] = (data['hasWheelchair'] === "Yes") ? "Y" : "N";
+            wheelchairForm['WheelchairRepairable'] = (data['wheelchairRepairable'] === "Yes") ? "Y" : "N";
+
+            services.push("Wheelchair");
+            newData['WheelchairService'] = wheelchairForm;
+        }
+
+        if (physioService) {
+            let physioForm = {};
+
+            physioForm['Photo'] = physioImgPreview;
+            physioForm['ClientCondition'] = data['clientCondition'];
+            physioForm['OtherClientCondition'] = data['otherCondition'];
+
+            services.push("Physiotherapy");
+            newData['PhysiotherapyService'] = physioForm;
+        }
+
+        if (prostheticService) {
+            let prostheticForm = {};
+
+            prostheticForm['Photo'] = prostheticImgPreview;
+            prostheticForm['InjuryPosition'] = data['prostheticInjuryPosition'];
+
+            services.push("Prosthetic");
+            newData['ProstheticService'] = prostheticForm;
+        }
+
+        if (orthoticService) {
+            let orthoticForm = {};
+
+            orthoticForm['Photo'] = orthoticImgPreview;
+            orthoticForm['InjuryPosition'] = data['orthoticInjuryPosition'];
+
+            services.push("Orthotic");
+            newData['OrthoticService'] = orthoticForm;
+        }
+
+        newData['ServiceRequired'] = services;
+        newData['OtherService'] = data['otherServiceDesc'];
+
+        return newData;
+    }
+
+    function onValidSubmit(data) {
+        data = prepareData(data);
+        console.log(data);
+
+        axios.post('/referrals/add', data)
+        .then(() => {
+            alert("Referral was added successfully.");
+            // TODO: Should redirect to referral page when that is implemented
+            history.push("/dashboard");
+        })
+        .catch((error) => {
+            alert("Something went wrong when trying to add referral.");
+            console.log(error);
+        })
+    }
 
     useEffect(() => {
 
@@ -60,7 +137,7 @@ function NewReferral(props) {
               </Col>
             </Row>
 
-            <MultiStepForm name="New Referral">
+            <MultiStepForm name="New Referral" onValidSubmit={onValidSubmit}>
                 <Step name="General Info">
 
                     <Row form>
