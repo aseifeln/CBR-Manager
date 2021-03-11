@@ -23,7 +23,7 @@ function Dashboard() {
         </Row>
         <Row>
             <Col sm={{size:"auto", offset:1}}>
-              <div className="priorityClient" style={{float: 'right'}}>
+              <div className="priorityClient">
                 <PriorityClients></PriorityClients>
               </div>
             </Col>
