@@ -97,8 +97,8 @@ router.get('/:id', (req,res) => {
         res.json(referralsFound);
     })
     .catch(err => {
-        res.status(404).json(err))
-    }
+        res.status(404).json(err);
+    })
 
 })
 
@@ -129,8 +129,8 @@ router.get('/client/:id', (req, res) => {
         res.json(referralsFound);
     })
     .catch(err => {
-        res.status(404).json(err))
-    }
+        res.status(404).json(err);
+    })
 
 })
 
