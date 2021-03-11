@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
+import Logout from './pages/Logout';
 import Home from './pages/Home';
 import ReferralInfo from './pages/ReferralInfo';
 import AdminDashboard from './pages/AdminDashboard';
@@ -25,6 +26,7 @@ import NewReferral from './pages/NewReferral';
 const ROUTES = [
   { path: '/', key:'ROOT', exact: true, component: Home },
   { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
+  { path: '/logout', key: 'LOGOUT', exact: true, component: Logout },
   {
     path: '/client',
     key: 'CLIENT',

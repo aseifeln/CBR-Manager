@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardDeck } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import CookieChecker from '../components/CookieChecker';
 
 function Home(){
 
@@ -20,9 +21,9 @@ function Home(){
         textDecoration:"inherit"
     }
 
-
     return(
         <Container>
+            <CookieChecker></CookieChecker>
             <Row className="mt-5">
                 <Col>
                     <CardDeck className="d-flex justify-content-center">
