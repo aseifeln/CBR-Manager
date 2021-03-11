@@ -26,7 +26,7 @@ router.get('/outstanding', async (req, res) => {
                 Status: "Made"
             },
             attributes: [
-                "ReferralId", "Date"
+                "ReferralId", "Date", "ServiceRequired"
             ],
             order: [
                 ['Date', 'ASC']
