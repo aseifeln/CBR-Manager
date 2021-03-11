@@ -115,7 +115,7 @@ app.post('/login', async (req, res) => {
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
-                    expiryTime = 1000 * 60 * 15; //(ms * s * mins) 15 mins
+                    expiryTime = 1000 * 60 * 60; //(ms * s * mins) 60 mins
                     setCookie(res, accessToken, expiryTime);
                     return res.send(SUCCESS);
                 } else {

@@ -75,7 +75,7 @@ function SignUpPage(props) {
     async function login(user){
         axios.post('/users/login',{user})
             .then(res => {
-                document.cookie="cookiename=cookievalue;max-age="+(60 * 15); //15 mins
+                document.cookie="cookiename=cookievalue;max-age="+(60 * 60); //60 mins
                 props.history.push("/");
                 console.log(res.data)
             })
