@@ -8,6 +8,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import './css/App.css';
 
 function App() {
+
     return (
         <Router>
             <AppNavbar style={{position:"sticky"}}/>
