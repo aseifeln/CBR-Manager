@@ -13,6 +13,42 @@ const orthoticService = require('../models/orthoticService')
 
 const { v4: uuidv4 } = require('uuid');
 
+// @route   GET /referrals/outstanding
+// @desc    GET all outstanding referrals (status === "Made") ordered by date
+router.get('/outstanding', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        let referrals = await referral.findAll({
+            where: {
+                Status: "Made"
+            },
+            attributes: [
+                "ReferralId", "Date"
+            ],
+            order: [
+                ['Date', 'ASC']
+            ],
+            include: [{
+                model: client,
+                required: true,
+                attributes: [
+                  'ClientId', 'FirstName', 'LastName'
+                ]
+            }]
+        }, { transaction })
+
+        await transaction.commit();
+        res.status(200).json(referrals);
+    }
+    catch (error) {
+        await transaction.rollback();
+        res.status(500).json(error);
+    }
+})
+
 // @route   GET /referrals/id
 // @desc    GET Retrieve a referral with a certain id from the database
 router.get('/:id', (req,res) => {
