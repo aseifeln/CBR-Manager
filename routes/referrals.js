@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const referral = require('../models/referral')
 const client = require('../models/client')
-const { sequelize } = require('../models/referral');
+const { sequelize } = require('../models/referral')
 
 const wheelchairService = require('../models/wheelchairService')
 const physiotherapyService = require('../models/physiotherapyService')
@@ -127,6 +127,102 @@ router.post('/add', async (req,res) => {
         res.status(400).json(error);
     }
 
+})
+
+// @route   PUT /referrals/id/edit
+// @desc    PUT newly update entries for referral with id in the database
+router.put('/:id/edit', async (req,res) => {
+    let {Date, ServiceRequired, OtherServices,
+        ReferTo, Status, Outcome, ClientId, WorkerId,
+        WheelchairService, PhysiotherapyService,
+        ProstheticService, OrthoticService} = req.body;
+
+    let transaction;
+    const referralId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+        const referralToEdit = await referral.findByPk(referralId, { transaction });
+
+        if (referralToEdit === null) {
+            throw new Error("Referral not found")
+        }
+
+        if (WheelchairService != null) {
+            await wheelchairService.update(referralToEdit.WheelchairServiceId, {
+                ClientProficiency: WheelchairService.ClientProficiency,
+                ClientHipWidth: WheelchairService.ClientHipWidth,
+                WheelchairExist: WheelchairService.WheelchairExist,
+                WheelchairRepairable: WheelchairService.WheelchairRepairable
+            }, { transaction });
+
+            if (typeof WheelchairService.Photo !== "undefined") {
+                await wheelchairService.update(referralToEdit.WheelchairServiceId, {
+                    Photo: WheelchairService.Photo.toString('base64')
+                }, { transaction });
+            }
+        }
+
+        if (PhysiotherapyService != null) {
+            await physiotherapyService.update(referralToEdit.PhysiotherapyServiceId, {
+                ClientCondition: PhysiotherapyService.ClientCondition,
+                OtherClientCondition: PhysiotherapyService.OtherClientCondition
+            }, { transaction });
+
+            if (typeof PhysiotherapyService.Photo !== "undefined") {
+                await physiotherapyService.update(referralToEdit.PhysiotherapyServiceId, {
+                    Photo: PhysiotherapyService.Photo.toString('base64'),
+                }, { transaction });
+            }
+        }
+
+        if (ProstheticService != null) {
+            await prostheticService.update(referralToEdit.ProstheticServiceId, {
+                InjuryPosition: ProstheticService.InjuryPosition
+            }, { transaction });
+
+            if (typeof ProstheticService.Photo !== "undefined") {
+                await prostheticService.update(referralToEdit.ProstheticServiceId, {
+                    Photo: ProstheticService.Photo.toString('base64')
+                }, { transaction });
+            }
+        }
+
+        if (OrthoticService != null) {
+            await orthoticService.update(referralToEdit.OrthoticServiceId, {
+                InjuryPosition: OrthoticService.InjuryPosition
+            }, { transaction });
+
+            if (typeof WheelchairService.Photo !== "undefined") {
+                await wheelchairService.update(referralToEdit.OrthoticServiceId, {
+                    Photo: WheelchairService.Photo.toString('base64')
+                }, { transaction });
+            }
+        }
+
+        await referralToEdit.update({
+            Date,
+            ServiceRequired,
+            OtherServices,
+            ReferTo,
+            Status,
+            Outcome,
+            ClientId,
+            WorkerId
+        }, { transaction });
+
+        await transaction.commit();
+        res.status(200).json("Referral updated Successfully");
+    }
+    catch (error) {
+        if (transaction) {
+            await transaction.rollback();
+        }
+        if (error.message === "Referral not found")
+            res.status(404).json(error.message)
+        else
+            res.status(400).json(error);
+    }
 })
 
 module.exports = router
