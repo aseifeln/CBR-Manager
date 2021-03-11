@@ -105,13 +105,9 @@ app.post('/login', async (req, res) => {
     const UNREGISTERED = '2'
     const loginUsername = req.body.user.username
     const loginPassword = req.body.user.password
-    console.log(loginUsername)
-    console.log(loginPassword)
     if(await userIsExist(loginUsername) == true){
-        console.log('a')
         try{
             await getUserPassword(loginUsername).then(async function(result){
-                console.log('b')
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
@@ -122,9 +118,7 @@ app.post('/login', async (req, res) => {
                     return res.send(WRONGPASSWORD);     
                 }
             });
-            
         }catch{
-            console.log("Error")
             res.status(500).send();
         }
     } else {
