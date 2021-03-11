@@ -1,6 +1,7 @@
 'use strict';
 const faker = require('faker');
 const fs = require('fs');
+const uuid = require('uuid');
 
 const disabilities = ['Amputee', 'Polio', 'Spinal Cord Injury', 'Cerebral Palsy', 'Spina Bifida', 'Hydrocephalus', 'Visual Impairment',
   'Hearing Impairment', 'Don\'t Know', 'Other'];
@@ -69,7 +70,7 @@ module.exports = {
       },
     ]);
 
-    await queryInterface.bulkInsert('Client', [
+    const clients = await queryInterface.bulkInsert('Client', [
       {
         FirstName: 'Filbert',
         LastName:  'Olayinka',
@@ -79,7 +80,7 @@ module.exports = {
         ContactNo: faker.phone.phoneNumberFormat(),
         VillageNo: randomInt(1, num_villages),
         Age: 28,
-        DisabilityType: disabilities[0],
+        DisabilityType: `{${disabilities[0]}}`,
         GPSLocation: '',
         Consent: 'Y',
         CaregiverState: 'Y',
@@ -96,7 +97,50 @@ module.exports = {
         SocialGoal: 'Maintain status.',
         Priority: randomInt(0, 10)
       },
-    ]);
+    ], { returning: true });
+
+    const healthForms = await queryInterface.bulkInsert('HealthForm', [
+      {
+        HealthFormId: uuid.v4(),
+        Wheelchair: 'Wheelchair was provided.',
+        Advice: 'Focus on getting around on your own.',
+        Encouragement: 'He is excited to get comfortable with his wheelchair',
+        GoalMet: 'Concluded',
+        ConcludedOutcome: 'Acquired Wheelchair',
+      },
+    ], { returning: true });
+
+    const educationForms = await queryInterface.bulkInsert('EducationForm', [
+      {
+        EducationFormId: uuid.v4(),
+        OrganizationReferral: 'Created a referral to a local adult eduction centre.',
+        GoalMet: 'Ongoing',
+      },
+    ], { returning: true });
+
+    const socialForms = await queryInterface.bulkInsert('SocialForm', [
+      {
+        SocialFormId: uuid.v4(),
+        Advice: 'Keep up the good work!',
+        GoalMet: 'Ongoing',
+      },
+    ], { returning: true });
+
+    const visits = await queryInterface.bulkInsert('Visit', [
+      {
+        ClientId: clients[0].ClientId,
+        WorkerId: worker1_uuidv4,
+        VisitId: uuid.v4(),
+        HealthFormId: healthForms[0].HealthFormId,
+        EducationFormId: educationForms[0].EducationFormId,
+        SocialFormId: socialForms[0].SocialFormId,
+        VisitPurpose: 'CBR',
+        GPSLocation: 0,
+        Date: faker.date.recent(),
+        Location: clients[0].Location,
+        VillageNumber: Number(clients[0].VillageNo),
+      },
+    ], { returning: true });
   },
 
   down: async (queryInterface, Sequelize) => {
