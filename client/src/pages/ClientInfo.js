@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import NotFoundPage from './404';
+import CookieChecker from '../components/CookieChecker';
 
 function ClientInfo(props) {
 
@@ -58,6 +59,7 @@ as right now will still render this component briefly even for existing clients*
     
     return(
         <div>
+            <CookieChecker></CookieChecker>
             <Container>
                 <Row>
                     <Col>
@@ -122,8 +124,8 @@ as right now will still render this component briefly even for existing clients*
                             <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
                             <div style={areaInfo}>Related Visits:</div> <br/>
                             <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
-                            {/* Unsure if this is required */}
-                            {/* Referral Details: {client.healthReferral}<br/> */}
+                            <div style={areaInfo}>Referral Status:</div> {/*TODO*/}<br/>
+                            <div style={areaInfo}>Referral Outcome:</div> {/*TODO*/} <br />
                         </CardBody>
                     </Collapse>
                 </Card>

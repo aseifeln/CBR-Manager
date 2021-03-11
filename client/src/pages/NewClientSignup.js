@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card, FormGroup, Label } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker';
-
+import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
@@ -24,8 +24,6 @@ function NewClientSignup() {
     data['Photo'] = (imagePreviewSrc) || null
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
     data['Date'] = clientDate
-
-    console.log(data)
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
@@ -63,7 +61,7 @@ function NewClientSignup() {
 
   return (
     <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
-
+      <CookieChecker></CookieChecker>
       {/* 1. General Details */}
       <Step name='General'>
         <Row form>

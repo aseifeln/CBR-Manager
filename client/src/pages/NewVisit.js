@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
+import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
 import NotFoundPage from './404';
 
@@ -242,6 +243,7 @@ function NewVisit(props) {
 
   return (
     <div>
+      <CookieChecker></CookieChecker>
         <Container>
 
             <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
