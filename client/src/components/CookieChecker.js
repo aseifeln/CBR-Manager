@@ -1,9 +1,13 @@
-import React, { useEffect }from 'react';
+import React, { useEffect, useContext }from 'react';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from './UserContext';
 
 function CookieChecker(props) {
     const history = useHistory();
-    useEffect(logoutUser, []);
+    const context = useContext(UserContext);
+    useEffect(() => {
+        logoutUser()
+        setContext()}, []);
 
     //Reference: https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists#:~:text=You%20can%20call%20the%20function,see%20if%20it%20is%20%3D%20null.&text=Put%20your%20cookie%20name%20in%20in%20place%20of%20MyCookie%20.
     function getCookie(name) {
@@ -24,10 +28,15 @@ function CookieChecker(props) {
         }
         return decodeURI(dc.substring(begin + prefix.length, end));
     } 
-    function logoutUser(){
+    function logoutUser() {
         if(getCookie("cookiename") == null){
             history.push("/login");
         }
+    }
+
+    function setContext() {
+        context.Role = getCookie("Role");
+        context.WorkerId = getCookie("WorkerId");
     }
     return(
         <div>
