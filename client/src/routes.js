@@ -12,6 +12,7 @@ import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
 import Home from './pages/Home';
+import ReferralInfo from './pages/ReferralInfo';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInsights from './pages/AdminInsights';
 import WorkerListPage from './pages/WorkerListPage';
@@ -74,6 +75,7 @@ const ROUTES = [
       }
     ]
   },
+  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
   {
     path: '/admin',
     key: 'ADMIN',
@@ -109,10 +111,15 @@ const ROUTES = [
         key: 'NEW_REFERRAL',
         exact: true,
         component: NewReferral
+      },
+      {
+        path:'/referral/:id',
+        key:'REFERRAL_INFO',
+        exact:true,
+        component: ReferralInfo
       }
     ]
   },
-  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage }
 ];
 
 export default ROUTES;
