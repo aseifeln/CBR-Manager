@@ -234,8 +234,8 @@ function NewClientSignup() {
         </Row>
       </Step>
 
-      {/* 3. Other Details */}
-      <Step name='Other'>
+      {/* 3. Caregiver Details */}
+      <Step name='Caregiver'>
         <Row form>
           <Col xs={12}>
             <h4>Caregiver Details</h4>
