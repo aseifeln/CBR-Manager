@@ -39,29 +39,27 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/");
+                        props.history.push("/login");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/");
+                        props.history.push("/login");
                     } else {
+                        document.cookie="cookiename=cookievalue;max-age="+(60 * 15); //15 mins
                         // TODO updating context should be replaced with setting it from cookies once they are fully implemented
                         context.accessToken = res.data.accessToken;
                         context.username = res.data.username;
                         context.workerID = res.data.workerID;
                         context.role = res.data.role;
                         console.log(context);
-                        props.history.push("/home");
+                        props.history.push("/");
                     }
-                    
                     return;
                   })
                 .catch( err => {
                     console.log(err);
                 })
         }
-
-        
     }
 
     function authPasses() {

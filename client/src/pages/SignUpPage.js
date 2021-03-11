@@ -64,7 +64,7 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
-            props.history.push("/");
+            props.history.push("/login");
             return;
         }
         props.history.push("/signup");
@@ -180,7 +180,7 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/" style={{color:"#22a9ba"}}>Login instead</Link>
+                <Link to="/login" style={{color:"#22a9ba"}}>Login instead</Link>
             </Form>
         </div>
     )

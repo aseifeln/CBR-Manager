@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardDeck } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import CookieChecker from '../components/CookieChecker';
 
 function Home(){
+
+    useEffect(() => {
+        document.title = "CBR Manager"
+    }, [])
+
     const imgSize={
         display:"block",
         margin:"auto",
@@ -15,9 +21,9 @@ function Home(){
         textDecoration:"inherit"
     }
 
-
     return(
         <Container>
+            <CookieChecker></CookieChecker>
             <Row className="mt-5">
                 <Col>
                     <CardDeck className="d-flex justify-content-center">
@@ -39,7 +45,7 @@ function Home(){
             <Row className="mt-5">
                 <Col>
                     <CardDeck className="d-flex justify-content-center">
-                        <Card style={cardSize} color="info" className="mr-2">
+                        <Card style={cardSize} color="info" className="mr-2" tag={Link} to="/visit/new">
                             <CardImg top maxWidth="80%" src="/newvisit.png" style={imgSize}/>
                             <CardBody>
                                 <CardTitle tag="h4">New Visit</CardTitle>

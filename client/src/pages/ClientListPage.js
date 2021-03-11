@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { UserContext } from '../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-
+import CookieChecker from '../components/CookieChecker';
 import { Form,
         FormGroup,
         Label,
@@ -30,10 +30,10 @@ function ClientListPage() {
 
    const [ radioFilter, setRadioFilter ] = useState('');
    const [ searchName, setSearchName ] = useState('');
-   const [ searchAge, setSearchAge ] = useState(0);
+   const [ searchAge, setSearchAge ] = useState('');
    const [ searchGender, setSearchGender ] = useState('');
    const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
-   const [ searchVillageNo, setSearchVillageNo ] = useState(0);
+   const [ searchVillageNo, setSearchVillageNo ] = useState('');
    const [ searchDisability, setSearchDisability ] = useState('Amputee');
 
    const [isOpenAge, setIsOpenAge] = useState(false);
@@ -84,7 +84,7 @@ function ClientListPage() {
         let numFiltersMatching = 0;
 
         if (isOpenAge) {
-            if (client.Age === searchAge) {
+            if (client.Age === Number(searchAge)) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -160,9 +160,9 @@ function ClientListPage() {
         setSearchName('');
         setSearchGender('');
         setRadioFilter('');
-        setSearchAge(0);
+        setSearchAge('');
         setSearchLocation('BidiBidi Zone 1');
-        setSearchVillageNo(0);
+        setSearchVillageNo('');
         setSearchDisability('Amputee');
 
 
@@ -198,13 +198,85 @@ function ClientListPage() {
         setOffset(event.selected * clientsPerPage);
     }
 
+    function convertFiltersToJSON() {
+        let names = searchName.split(' ');
+        let filters = '{  "filters": {';
+        for (let i = 0; i < names.length; i++) {
+            names[i] = names[i].charAt(0).toUpperCase() + names[i].slice(1).toLowerCase();
+            if (i > 1) {
+                names.splice(i);
+            }
+        }
+
+        if(isOpenAge) {
+            filters = filters.concat(`"Age": ${Number(searchAge)},`);
+        }
+        if(isOpenGender) {
+            filters = filters.concat(`"Gender": "${searchGender}",`);
+        }
+        if(isOpenLocation) {
+            filters = filters.concat(`"Location": "${searchLocation}",`);
+        }
+        if(isOpenVillageNo) {
+            filters = filters.concat(`"VillageNo": "${searchVillageNo}",`);
+        }
+        if(isOpenDisability) {
+            filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
+        }
+        if (names.length === 2) {
+            filters = filters.concat(`"FirstName": "${names[0]}", "LastName": "${names[1]}"`);
+        } else {
+            if (!(names[0] === '')) {
+                filters = filters.concat(`"FirstName": "${names[0]}"`);
+            }
+        }
+        if (filters.endsWith(',')) {
+            filters = filters.slice(0, -1);
+        }
+
+        filters = filters.concat(`}, "sortBy": "${radioFilter}"}`)
+        filters = JSON.parse(filters);
+
+        return filters;
+    }
+
+    // Download excel file
+    // Modified from Reference: https://stackoverflow.com/questions/41938718/how-to-download-files-using-axios
+    function downloadExcelWorkbook() {
+        // Not allowed to create an empty workbook
+        if (filteredClients.length === 0) {
+            alert("Cannot export an empty list");
+            return;
+        }
+
+        let filters = convertFiltersToJSON();
+
+        axios.request({url: '/excel',
+                             method: 'GET',
+                             params: filters,
+                             responseType: 'blob',
+            })
+            .then(function (res) {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'clients.xlsx'); // TODO create modal that gets the name for the file
+                document.body.appendChild(link);
+                link.click();
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+
     return (
         <>
+        <CookieChecker></CookieChecker>
         <Container className='ClientList'>
-            <div className='Title'>
+            <Container className='Title'>
                 <h1 style={{color:"#9646b7f"}}>Client List</h1>
                 <Link to="/client/new" style={{color:"#22a9ba"}}>+ Create new client</Link>
-            </div>
+            </Container>
             <Form onSubmit={filterList}>
                 <FormGroup className="SearchName">
                     <Input type="text" id="searchName"
@@ -217,8 +289,6 @@ function ClientListPage() {
                     {setSearchName('');
                     e.preventDefault();
                     }} >X</button>
-
-
 
                 </FormGroup>
                 <Container className='SortSection'>
@@ -243,6 +313,8 @@ function ClientListPage() {
                 </Container>
                 <Container className='ChooseFilters'>
                     <Label>Filters</Label>
+                    <Button style={{color:"white", backgroundColor:"red"}}
+                            onClick={downloadExcelWorkbook}>Export</Button>
                     <Button onClick={filterList} style={buttonColor}>Apply Filters</Button>
                     <Button onClick={resetFilters} style={buttonColor}>Reset</Button>
                     <FormGroup onChange={setFilters}>
@@ -274,8 +346,9 @@ function ClientListPage() {
                             <Label>Age</Label>
                             <Input type="number"
                                    value={searchAge}
-                                   onChange={(event) => setSearchAge(
-                                       Number(event.target.value))}
+                                   min="1"
+                                   onChange={(event) =>
+                                        setSearchAge(event.target.value)}
                                    placeholder="Age" />
                         </FormGroup>
                     </Collapse>
@@ -319,10 +392,10 @@ function ClientListPage() {
                     <Collapse isOpen={isOpenVillageNo}>
                         <FormGroup>
                             <Label>Village No</Label>
-                            <Input type="number"
+                            <Input type="text"
                                    value={searchVillageNo}
                                    onChange={(event) => setSearchVillageNo(
-                                       Number(event.target.value))}
+                                       event.target.value)}
                                    placeholder="Village Number" />
                         </FormGroup>
                     </Collapse>
@@ -363,7 +436,7 @@ function ClientListPage() {
                         {currentPageClients.map(({FirstName, LastName, Age, Gender,
                                           Location, VillageNo,
                                           DisabilityType, ClientId}) => (
-                                    <tr>
+                            <tr>
                                         <td>{FirstName}</td>
                                         <td>{LastName}</td>
                                         <td>{Age}</td>

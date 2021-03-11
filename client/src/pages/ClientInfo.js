@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import NotFoundPage from './404';
+import CookieChecker from '../components/CookieChecker';
 
 function ClientInfo(props) {
 
@@ -22,6 +23,7 @@ function ClientInfo(props) {
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
+    const areaColor2={backgroundColor:"#22a9ba"};
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
@@ -37,17 +39,13 @@ function ClientInfo(props) {
                 document.title = "Client not found"
             })
 
-        // TODO: Send GET Request to backend to retrieve all visits associated with this client
-        // Mock visit data
-        setVisits(
-            [{
-                "id": 1
-            }, {
-                "id": 2
-            }, {
-                "id": 3
-            }]
-        )
+        axios.get('/visits/client/' + props.match.params.id)
+            .then(response => {
+                setVisits(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }, [])
 
     {/* TODO: Will need to figure out a better way to tell users a client isn't found,
@@ -61,13 +59,14 @@ as right now will still render this component briefly even for existing clients*
     
     return(
         <div>
+            <CookieChecker></CookieChecker>
             <Container>
                 <Row>
                     <Col>
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
                     <Col>
-                        <Link to={"/client/" + props.match.params.id} className="float-right" style={{color:"#22a9ba"}}>Edit Client Info</Link>
+                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
                     </Col>
                 </Row>
             </Container>
@@ -92,8 +91,15 @@ as right now will still render this component briefly even for existing clients*
             <Row>
                 <Col align="center">
                     <Link to={"/visit/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
-                            New Visit +
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'right'}}>
+                            New Visit
+                        </Button>
+                    </Link>
+                </Col>
+                <Col align="center">
+                    <Link to={"/referral/new/" + props.match.params.id}>
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}}>
+                            New Referral
                         </Button>
                     </Link>
                 </Col>
@@ -117,15 +123,9 @@ as right now will still render this component briefly even for existing clients*
                             <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
                             <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
                             <div style={areaInfo}>Related Visits:</div> <br/>
-                            &nbsp; Click on a date to view more info or edit: <br/>
-                            <ul>
-                                {visits.map(({id}) => (
-                                    <li><Link to={"/"}>Visit {id}</Link></li>
-                                ))}
-                            </ul>
                             <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
-                            {/* Unsure if this is required */}
-                            {/* Referral Details: {client.healthReferral}<br/> */}
+                            <div style={areaInfo}>Referral Status:</div> {/*TODO*/}<br/>
+                            <div style={areaInfo}>Referral Outcome:</div> {/*TODO*/} <br />
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -239,6 +239,19 @@ as right now will still render this component briefly even for existing clients*
                             <div style={areaInfo}>Goal:</div> {client.empowermentGoal}
                         </CardBody>
                     </Collapse>
+                </Card>
+                <Card>
+                    <CardHeader style={areaColor2}>
+                        <h2 style={areaFontSize}>All Visits</h2>
+                    </CardHeader>
+                    <CardBody>
+                        &nbsp; Click on a date to view more info or edit: <br/>
+                        <ul>
+                            {visits.map(({VisitId, Date}) => (
+                                <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
+                            ))}
+                        </ul>
+                    </CardBody>
                 </Card>
             </Container>
         </div>
