@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
-
+import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
@@ -20,11 +20,13 @@ function NewClientSignup() {
     data['Consent'] = (data['Consent']) ? 'Y' : 'N'
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['Photo'] = (imagePreviewSrc) || null
-    // postgres array uses '{}' instead of '[]'
-    data['DisabilityType'] = (data['DisabilityType']) ? `{${data['DisabilityType']}}` : "{Don't Know}" 
+    data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
+      if (key === 'DisabilityType') {
+        val = val.split(',').join(", ")
+      }
       formData.append(key, (val != null) ? val : 'N/A')
     }
     return formData
@@ -56,7 +58,7 @@ function NewClientSignup() {
 
   return (
     <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
-
+      <CookieChecker></CookieChecker>
       {/* 1. General Details */}
       <Step name='General'>
         <Row form>

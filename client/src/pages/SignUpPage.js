@@ -38,7 +38,7 @@ function SignUpPage(props) {
         setConfirmPasswordErr(false)
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
 
@@ -64,11 +64,24 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
-            alert("User is successfully registered");
-            props.history.push("/");
+            await props.history.push("/signup");
+            login(user);
             return;
         }
         props.history.push("/signup");
+    }
+
+    async function login(user){
+        axios.post('/users/login',{user})
+            .then(res => {
+                document.cookie="cookiename=cookievalue;max-age="+(60 * 15); //15 mins
+                props.history.push("/");
+                console.log(res.data)
+            })
+            .catch( err => {
+                console.log(err);
+            })
+        alert("User is successfully registered");
     }
 
     function authPasses() { 
@@ -177,7 +190,7 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/" style={{color:"#22a9ba"}}>Login instead</Link>
+                <Link to="/login" style={{color:"#22a9ba"}}>Login instead</Link>
             </Form>
         </div>
     )
