@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
 
 
@@ -35,6 +36,7 @@ function VisitInfo(props) {
     }
     return(
         <div>
+            <CookieChecker></CookieChecker>
             <Container>
                 <Row>
                     <Col>
