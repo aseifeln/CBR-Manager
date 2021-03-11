@@ -137,4 +137,16 @@ app.post('/logout', async (req, res) => {
         res.status(500).send("Deleting Cookie Fails");
     }
 })
+
+app.get('/session', async (req, res) => {
+    await users.findAll({
+        attributes: ['Role', 'WorkerId'],
+        where: {
+            Username: req.query.username,
+        }
+        })
+        .then(userData => res.status(200).json(userData))
+        .catch(err => res.status(500).json(err))
+});
+
 module.exports = app;
