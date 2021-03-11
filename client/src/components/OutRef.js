@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
+import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 function OutRef(){
 
@@ -24,14 +25,13 @@ function OutRef(){
             <ListGroup>
             {outstandingRefs.length>0?outstandingRefs.map((referral)=>{
                         return(
-                        // TODO: Add link to referral page when that code is merged
-                        <ListGroupItem>
-                            <ListGroupItemHeading> {referral.Client.FirstName} {referral.Client.LastName} </ListGroupItemHeading>
-                            <ListGroupItemText>
-                                <p style={{margin:"0"}}>Date: {referral.Date}</p>
-                                <p style={{margin:"0"}}>Services: {(referral.ServiceRequired || []).join(', ')}</p>
-                            </ListGroupItemText>
-                        </ListGroupItem>
+                            <ListGroupItem key={referral.ReferralId} tag={Link} to={`/referral/${referral.ReferralId}`} action>
+                                <ListGroupItemHeading> {referral.Client.FirstName} {referral.Client.LastName} </ListGroupItemHeading>
+                                <ListGroupItemText>
+                                    <p style={{margin:"0"}}>Date: {referral.Date}</p>
+                                    <p style={{margin:"0"}}>Services: {(referral.ServiceRequired || []).join(', ')}</p>
+                                </ListGroupItemText>
+                            </ListGroupItem>
                         )
                     })
                     :<ListGroupItem>Empty</ListGroupItem>}
