@@ -82,7 +82,6 @@ function MultiStepForm({ children, name, formContainerSize, onValidSubmit }) {
                   </Button>
                 ))}
 
-
                 <Tooltip 
                   target="form-button"
                   placement="auto" 
@@ -138,13 +137,13 @@ function FieldInput(props) {
 function FieldCheck(props) {
   // <FieldCheck/> for checkboxes and radios
   const { className, value: propValue, defaultChecked, label, type, onChange } = props
-	const { errorMessage, isValid, setValue, value, isPristine, isSubmitted } = useField(props)
+	const { errorMessage, setValue, value, isSubmitted } = useField(props)
+
+  const showError = isSubmitted
 
   useEffect(() => {
     if (defaultChecked) setValue(propValue || true)
   }, [])
-
-	const showError = !isValid && (!isPristine || isSubmitted)
 
   return (
     <div className={`d-inline-block ml-3 pl-1 ${className || ''}`}>
@@ -163,7 +162,9 @@ function FieldCheck(props) {
               }}
             />{' ' + label}
           </Label>
-          <FormFeedback>{showError && errorMessage}</FormFeedback>
+          <FormFeedback className={(showError) && 'd-block'}>
+            {errorMessage}
+          </FormFeedback>
         </InputGroup>
       </FormGroup>
     </div>
