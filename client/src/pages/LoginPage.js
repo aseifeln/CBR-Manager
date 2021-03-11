@@ -45,11 +45,11 @@ function Login(props) {
                         alert("User is not registered");
                         props.history.push("/login");
                     } else {
-                        document.cookie="cookiename=cookievalue;max-age="+(60 * 15); //15 mins
+                        document.cookie="cookiename=cookievalue;max-age="+(60 * 15); // 15 mins
                         axios.get('users/session', {params: {username: user.username}})
                             .then(res => {
-                                let roleCookie = document.cookie=`Role=${res.data[0].Role};max-age=`+(60 * 15); //15 mins
-                                let workerCookie =  document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(60 * 15); //15 mins
+                                document.cookie=`Role=${res.data[0].Role};max-age=`+(60 * 15); // 15 mins
+                                document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(60 * 15); // 15 mins
                             })
                             .catch(err => console.log(err))
                         props.history.push("/");

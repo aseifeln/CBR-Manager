@@ -44,7 +44,6 @@ function ClientListPage() {
 
    const history = useHistory();
    const clientsPerPage = 30;
-   const context = useContext(UserContext);
 
     useEffect(() => {
         axios.get('/clients')
