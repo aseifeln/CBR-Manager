@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+// TODO: May need to add a function to display only outstanding referrals by location in the future
+
 function OutRef(){
 
     const [ outstandingRefs, setOutstandingRefs ] = useState([]);
