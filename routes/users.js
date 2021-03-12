@@ -7,7 +7,8 @@ const multer = require('multer')
 const upload = multer({});
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { sequelize } = require('../models/user');
 
 app.use(cors())
 app.use(cookieParser());
@@ -133,6 +134,41 @@ app.post('/logout', async (req, res) => {
         return;
     } catch {
         res.status(500).send("Deleting Cookie Fails");
+    }
+})
+
+app.get('/worker/:id', async (req, res) => {
+
+    let transaction;
+    const workerId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+        let worker = await users.findAll({
+            where: {
+                WorkerId: workerId
+            },
+            attributes: [], // Only want worker info
+            include: [{
+                model: workers,
+                required: true,
+                attributes: [
+                    'FirstName', 'LastName', 'Location'
+                ]
+            }]
+        }, { transaction })
+        
+        await transaction.commit();
+        if (worker.length === 1) {
+            res.json(worker);
+        }
+        else {
+            res.status(404).json(worker);
+        }
+    }
+    catch (error) {
+        await transaction.rollback();
+        res.status(400).json(error);
     }
 })
 
