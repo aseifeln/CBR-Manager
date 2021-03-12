@@ -9,7 +9,7 @@ function Logout(props) {
                 document.cookie="cookiename=cookievalue;max-age="+(0);
                 document.cookie="Role=;max-age="+(0);
                 document.cookie="WorkerId=;max-age="+(0);
-                props.history.push("/login");
+                window.location.replace("/login");
             })
             .catch(err => {
                 console.log(err);

@@ -13,7 +13,9 @@ function App() {
     return (
         <UserContext.Provider value={DefaultContext}>
             <Router>
-                <AppNavbar style={{position:"sticky"}}/>
+                {(document.location.pathname !== '/login' && document.location.pathname !== '/signup') ? (
+                    <AppNavbar style={{position:"sticky"}}/>
+                ):""}
                 <RenderRoutes routes={ROUTES}/>
             </Router>
         </UserContext.Provider>

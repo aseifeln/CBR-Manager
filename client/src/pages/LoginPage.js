@@ -39,11 +39,11 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/login");
+                        window.location.replace("/login");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/login");
+                        window.location.replace("/login");
                     } else {
                         document.cookie="cookiename=cookievalue;max-age="+(60 * 15); // 15 mins
                         axios.get('users/session', {params: {username: user.username}})
@@ -52,7 +52,8 @@ function Login(props) {
                                 document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(60 * 15); // 15 mins
                             })
                             .catch(err => console.log(err))
-                        props.history.push("/");
+                        window.location.replace('/');
+                            //props.history.push("/");
                     }
                     return;
                   })
