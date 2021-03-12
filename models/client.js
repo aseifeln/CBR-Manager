@@ -152,6 +152,7 @@ Client.hasMany(Referral, {
 Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
 Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'})
 
+
 // Define Hooks here
 
 function calculatePriority(client) {
@@ -185,5 +186,13 @@ function calculatePriority(client) {
 
     return priorities.reduce((a, b) => a + b, 0);
 }
+
+Client.beforeCreate(client => {
+    client.Priority = calculatePriority(client);
+});
+
+Client.beforeUpdate(client => {
+    client.Priority = calculatePriority(client);
+});
 
 module.exports = Client;
