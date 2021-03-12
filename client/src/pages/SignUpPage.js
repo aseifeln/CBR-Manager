@@ -38,7 +38,7 @@ function SignUpPage(props) {
         setConfirmPasswordErr(false)
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
 
@@ -59,15 +59,36 @@ function SignUpPage(props) {
                     alert("Username is already taken");
                     await props.history.push("/signup");
                     return;
+                } else {
+                    alert("User is successfully registered");
+                    login(user);
                 }
             })
             .catch( err => {
                 console.log(err);
             })
-            props.history.push("/");
             return;
         }
         props.history.push("/signup");
+    }
+
+    async function login(user){
+        axios.post('/users/login',{user})
+            .then(res => {
+                const maxAge = 60*60; // 60 mins
+                document.cookie="cookiename=cookievalue;max-age="+(maxAge); 
+                axios.get('users/session', {params: {username: user.username}})
+                    .then(res => {
+                        document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge); 
+                        document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
+                    })
+                    .catch(err => console.log(err))
+                props.history.push("/");
+                console.log(res.data)
+            })
+            .catch( err => {
+                console.log(err);
+            })
     }
 
     function authPasses() { 
@@ -90,10 +111,6 @@ function SignUpPage(props) {
         }
         if(confirmPassword !== password){
             setConfirmPasswordErr(true)
-            PASS = false
-        }
-        if(photo === ""){
-            setPhotoErr(true)
             PASS = false
         }
         return PASS
@@ -140,7 +157,7 @@ function SignUpPage(props) {
                         id="profilePhoto"
                         onChange={(event) => setPhoto(event.target.files[0])}
                          />
-                    <FormFeedback>Please upload a profile picture!</FormFeedback>
+                    <FormText><i>Optional</i></FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label for="location">Location</Label>
@@ -180,7 +197,7 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/" style={{color:"#22a9ba"}}>Login instead</Link>
+                <Link to="/login" style={{color:"#22a9ba"}}>Login instead</Link>
             </Form>
         </div>
     )

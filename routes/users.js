@@ -7,7 +7,8 @@ const multer = require('multer')
 const upload = multer({});
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { sequelize } = require('../models/user');
 
 app.use(cors())
 app.use(cookieParser());
@@ -37,37 +38,15 @@ async function getUserPassword(username) {
 async function passwordIsTrue(loginPassword, databasePassword){
     return await bcrypt.compare(loginPassword, databasePassword)
 }
-//TODO: Maybe needed in logout
-/*
-function authenticateToken(req, res, next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1] //BEARER token
-    console.log(authHeader)
-    console.log(token)
-    if( token == null ){
-        console.log('oops')
-        return res.status(401).send("No access to token")
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
-        if(err){
-            console.log('ayaya')
-            return res.status(403).send("Token is no longer valid")
-        }
-        req.user = user
-        console.log('great')
-        console.log(user)
-        next()
-    })
-}
-*/
 
 function generateAccessToken(user){
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})//ideal 10m-30m
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
 }
 
-function generateCookie(res, accessToken){
+function setCookie(res, accessToken, expiryTime){
+
     res.cookie('ACCESS_TOKEN', accessToken, {
-        maxAge : 1000 * 60 * 15, //(ms * s * mins) 15 mins
+        maxAge : expiryTime,
         httpOnly : true
     })
 }
@@ -133,22 +112,75 @@ app.post('/login', async (req, res) => {
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
-                    // TODO: Maybe needed in logout = const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-                    generateCookie(res, accessToken);
-                    res.json({ accessToken: accessToken }) // TODO: Maybe needed in logout = , refreshToken: refreshToken 
+                    expiryTime = 1000 * 60 * 60; //(ms * s * mins) 60 mins
+                    setCookie(res, accessToken, expiryTime);
                     return res.send(SUCCESS);
                 } else {
                     return res.send(WRONGPASSWORD);     
                 }
             });
-            
         }catch{
-            console.log("Error")
             res.status(500).send();
         }
     } else {
         res.send(UNREGISTERED);
     }
+});
+
+app.post('/logout', async (req, res) => {
+    try {
+        res.clearCookie("ACCESS_TOKEN");
+        res.status(200).send("Cookie Deleted");
+        return;
+    } catch {
+        res.status(500).send("Deleting Cookie Fails");
+    }
+})
+
+app.get('/worker/:id', async (req, res) => {
+
+    let transaction;
+    const workerId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+        let worker = await users.findAll({
+            where: {
+                WorkerId: workerId
+            },
+            attributes: [], // Only want worker info
+            include: [{
+                model: workers,
+                required: true,
+                attributes: [
+                    'FirstName', 'LastName', 'Location'
+                ]
+            }]
+        }, { transaction })
+        
+        await transaction.commit();
+        if (worker.length === 1) {
+            res.json(worker);
+        }
+        else {
+            res.status(404).json(worker);
+        }
+    }
+    catch (error) {
+        await transaction.rollback();
+        res.status(400).json(error);
+    }
+})
+
+app.get('/session', async (req, res) => {
+    await users.findAll({
+        attributes: ['Role', 'WorkerId'],
+        where: {
+            Username: req.query.username,
+        }
+        })
+        .then(userData => res.status(200).json(userData))
+        .catch(err => res.status(500).json(err))
 });
 
 module.exports = app;

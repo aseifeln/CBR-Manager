@@ -21,8 +21,7 @@ const Worker = db.define('Worker', {
         allowNull: false
     },
     Photo: {
-        type: Sequelize.BLOB('long'),
-        allowNull: false
+        type: Sequelize.BLOB('long')
     },
     Location: {
         type: Sequelize.ENUM,

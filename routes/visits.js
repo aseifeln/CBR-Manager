@@ -29,7 +29,7 @@ router.get('/:id', (req,res) => {
         },
         {
             model: worker,
-            required: true,
+            required: false,
             attributes: [
                 'WorkerId', 'FirstName', 'LastName'
             ]
@@ -72,7 +72,7 @@ router.get('/client/:id', (req, res) => {
         ],
         include: [{
             model: worker,
-            required: true,
+            required: false,
             attributes: [
                 'FirstName', 'LastName'
             ]

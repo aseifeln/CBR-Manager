@@ -3,6 +3,7 @@ import React,{useEffect} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import OutRefs from '../components/OutRef';
 import PriorityClients from '../components/PriorityClients';
+import CookieChecker from '../components/CookieChecker';
 import '../css/Dashboard.css';
 
 function Dashboard() {
@@ -11,7 +12,9 @@ function Dashboard() {
     document.title="CBR Dashboard"
   }, [])
   return (
+    
     <div id="dashboard">
+      <CookieChecker></CookieChecker>
       <Container>
         <Row>
           <Col>
@@ -19,12 +22,12 @@ function Dashboard() {
           </Col>
         </Row>
         <Row>
-            <Col sm={{size:"auto",offset:1}}>
+            <Col sm={{size:"auto", offset:1}}>
               <div className="priorityClient">
                 <PriorityClients></PriorityClients>
               </div>
             </Col>
-            <Col sm={{size:"auto" ,offset:1}}>
+            <Col sm={{size:"auto"}}>
               <div className="outRefs">
                 <OutRefs></OutRefs>
               </div>
@@ -32,6 +35,7 @@ function Dashboard() {
         </Row>
       </Container>
     </div>
+    
   )
 }
 
