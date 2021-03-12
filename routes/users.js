@@ -7,7 +7,8 @@ const multer = require('multer')
 const upload = multer({});
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { sequelize } = require('../models/user');
 
 app.use(cors())
 app.use(cookieParser());
@@ -43,7 +44,7 @@ function generateAccessToken(user){
 }
 
 function setCookie(res, accessToken, expiryTime){
-    
+
     res.cookie('ACCESS_TOKEN', accessToken, {
         maxAge : expiryTime,
         httpOnly : true
@@ -111,16 +112,14 @@ app.post('/login', async (req, res) => {
                 if(await passwordIsTrue(loginPassword, result.Password)){
                     const user = { username: loginUsername }
                     const accessToken = generateAccessToken(user)
-                    expiryTime = 1000 * 60 * 15; //(ms * s * mins) 15 mins
+                    expiryTime = 1000 * 60 * 60; //(ms * s * mins) 60 mins
                     setCookie(res, accessToken, expiryTime);
                     return res.send(SUCCESS);
                 } else {
                     return res.send(WRONGPASSWORD);     
                 }
             });
-            
         }catch{
-            console.log("Error")
             res.status(500).send();
         }
     } else {
@@ -137,4 +136,51 @@ app.post('/logout', async (req, res) => {
         res.status(500).send("Deleting Cookie Fails");
     }
 })
+
+app.get('/worker/:id', async (req, res) => {
+
+    let transaction;
+    const workerId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+        let worker = await users.findAll({
+            where: {
+                WorkerId: workerId
+            },
+            attributes: [], // Only want worker info
+            include: [{
+                model: workers,
+                required: true,
+                attributes: [
+                    'FirstName', 'LastName', 'Location'
+                ]
+            }]
+        }, { transaction })
+        
+        await transaction.commit();
+        if (worker.length === 1) {
+            res.json(worker);
+        }
+        else {
+            res.status(404).json(worker);
+        }
+    }
+    catch (error) {
+        await transaction.rollback();
+        res.status(400).json(error);
+    }
+})
+
+app.get('/session', async (req, res) => {
+    await users.findAll({
+        attributes: ['Role', 'WorkerId'],
+        where: {
+            Username: req.query.username,
+        }
+        })
+        .then(userData => res.status(200).json(userData))
+        .catch(err => res.status(500).json(err))
+});
+
 module.exports = app;
