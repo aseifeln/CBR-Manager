@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Media, Button} from 'reactstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function ReferralInfo(props){
 
@@ -151,7 +152,13 @@ function ReferralInfo(props){
     return(
         <Container>
             <div style={formContainerSize}>
-                <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
+                <Row>
+                    <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
+                </Row>
+                <br/>
+                <Row>
+                    <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
+                </Row>
                 <Row>
                     <Col>
                         Services: {referral.ServiceRequired && referral.ServiceRequired.join(', ')}
