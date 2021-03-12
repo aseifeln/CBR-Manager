@@ -21,7 +21,6 @@ function NewVisit(props) {
   const [ workerInfoFound, setWorkerInfoFound ] = useState(false);
 
   useEffect(() => {
-    // TODO: Send GET request for client and worker to fill out some fields
 
     axios.get('/users/worker/' + context.WorkerId)
     .then(response => {
