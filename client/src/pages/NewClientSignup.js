@@ -10,15 +10,18 @@ import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../
 function NewClientSignup() {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
-  const [ GPSLocation, setGPSLocation] = useState('');
+  const [GPSLocation, setGPSLocation] = useState('');
+  const [gpsFound, setGPSFound] = useState(false);
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
   useEffect(() => {
-    setGPSLocation(getGPSLocation())
-    console.log(GPSLocation)
+    getGPSLocation(setGPSLocation);
+    if(GPSLocation !== ''){
+      setGPSFound(true);
+    }
     document.title="New Client Registration"
-  }, [])
+  }, [GPSLocation])
 
   function formatSubmitData(data) {
     data['Consent'] = (data['Consent']) ? 'Y' : 'N'
@@ -58,6 +61,14 @@ function NewClientSignup() {
   const formContainerSize = {
     margin: 'auto',
     maxWidth: 600,
+  }
+
+  if(!gpsFound) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    )
   }
 
   return (
