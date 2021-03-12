@@ -75,7 +75,14 @@ function SignUpPage(props) {
     async function login(user){
         axios.post('/users/login',{user})
             .then(res => {
-                document.cookie="cookiename=cookievalue;max-age="+(60 * 60); //60 mins
+                const maxAge = 60*60; // 60 mins
+                document.cookie="cookiename=cookievalue;max-age="+(maxAge); 
+                axios.get('users/session', {params: {username: user.username}})
+                    .then(res => {
+                        document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge); 
+                        document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
+                    })
+                    .catch(err => console.log(err))
                 props.history.push("/");
                 console.log(res.data)
             })
