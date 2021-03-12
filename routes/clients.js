@@ -124,6 +124,7 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
     const clientId = req.params.id
 
     try {
+        // Reference: https://sequelize.org/master/manual/transactions.html
         await sequelize.transaction( async (t) => {
             const clientToEdit = await client.findByPk(clientId, {transaction: t})
 

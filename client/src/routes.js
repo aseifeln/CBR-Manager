@@ -11,7 +11,9 @@ import LoginPage from './pages/LoginPage'
 import NewVisitPage from './pages/NewVisit'
 import VisitInfoPage from './pages/VisitInfo'
 import SignUpPage from './pages/SignUpPage'
+import Logout from './pages/Logout';
 import Home from './pages/Home';
+import ReferralInfo from './pages/ReferralInfo';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInsights from './pages/AdminInsights';
 import WorkerListPage from './pages/WorkerListPage';
@@ -24,6 +26,7 @@ import NewReferral from './pages/NewReferral';
 const ROUTES = [
   { path: '/', key:'ROOT', exact: true, component: Home },
   { path: '/login', key: 'LOGIN', exact: true, component: LoginPage },
+  { path: '/logout', key: 'LOGOUT', exact: true, component: Logout },
   {
     path: '/client',
     key: 'CLIENT',
@@ -55,8 +58,14 @@ const ROUTES = [
     component: RenderRoutes,
     routes: [
       {
-        path: '/visit/new/:id',
+        path: '/visit/new',
         key: 'NEW_VISIT',
+        exact: true,
+        component: NewVisitPage
+      },
+      {
+        path: '/visit/new/:id',
+        key: 'NEW_VISIT_WITH_ID',
         exact: true,
         component: NewVisitPage
       },
@@ -68,6 +77,7 @@ const ROUTES = [
       }
     ]
   },
+  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage },
   {
     path: '/admin',
     key: 'ADMIN',
@@ -103,10 +113,15 @@ const ROUTES = [
         key: 'NEW_REFERRAL',
         exact: true,
         component: NewReferral
+      },
+      {
+        path:'/referral/:id',
+        key:'REFERRAL_INFO',
+        exact:true,
+        component: ReferralInfo
       }
     ]
   },
-  { path: '/signup', key: 'SIGNUP', exact: true, component: SignUpPage }
 ];
 
 export default ROUTES;
