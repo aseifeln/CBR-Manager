@@ -210,7 +210,7 @@ function EditClient(props) {
                 <CardBody>
                   <h5>Health</h5>
 
-                  <FieldInput name="Health Status" label="Current Rating" type="select" required="Rating is required" defaultValue={client.HealthStatus}>
+                  <FieldInput name="HealthStatus" label="Current Rating" type="select" required="Rating is required" defaultValue={client.HealthStatus}>
                     <option selected hidden>Choose a rating</option>
                     <option value='Critical Risk'>4 — Critical Risk</option>
                     <option value='High Risk'>3 — High Risk</option>
@@ -218,8 +218,8 @@ function EditClient(props) {
                     <option value='Low Risk'>1 — Low Risk</option>
                   </FieldInput>
 
-                  <FieldInput name="Health Goal" label="Goals to achieve" type="textarea" defaultValue={client.HealthGoal}/>
-                  <FieldInput name="Health Description" label="Required resources for area" type="textarea" defaultValue={client.HealthDesc}/>
+                  <FieldInput name="HealthGoal" label="Goals to achieve" type="textarea" defaultValue={client.HealthGoal}/>
+                  <FieldInput name="HealthDesc" label="Required resources for area" type="textarea" defaultValue={client.HealthDesc}/>
                 </CardBody>
               </Card>
 
@@ -227,7 +227,7 @@ function EditClient(props) {
                 <CardBody>
                   <h5>Social</h5>
 
-                  <FieldInput name="Social Status" label="Current Rating" type="select" required="Rating is required" defaultValue={client.SocialStatus}>
+                  <FieldInput name="SocialStatus" label="Current Rating" type="select" required="Rating is required" defaultValue={client.SocialStatus}>
                     <option selected hidden>Choose a rating</option>
                     <option value='Critical Risk'>4 — Critical Risk</option>
                     <option value='High Risk'>3 — High Risk</option>
@@ -235,8 +235,8 @@ function EditClient(props) {
                     <option value='Low Risk'>1 — Low Risk</option>
                   </FieldInput>
 
-                  <FieldInput name="Social Goal" label="Goals to achieve" type="textarea" defaultValue={client.SocialGoal}/>
-                  <FieldInput name="Social Description" label="Required resources for area" type="textarea" defaultValue={client.SocialDesc}/>
+                  <FieldInput name="SocialGoal" label="Goals to achieve" type="textarea" defaultValue={client.SocialGoal}/>
+                  <FieldInput name="SocialDesc" label="Required resources for area" type="textarea" defaultValue={client.SocialDesc}/>
                 </CardBody>
               </Card>
 
@@ -244,7 +244,7 @@ function EditClient(props) {
                 <CardBody>
                   <h5>Education</h5>
 
-                  <FieldInput name="Education Status" label="Current Rating" type="select" required="Rating is required" defaultValue={client.EducationStatus}>
+                  <FieldInput name="EducationStatus" label="Current Rating" type="select" required="Rating is required" defaultValue={client.EducationStatus}>
                     <option selected hidden>Choose a rating</option>
                     <option value='Critical Risk'>4 — Critical Risk</option>
                     <option value='High Risk'>3 — High Risk</option>
@@ -252,8 +252,8 @@ function EditClient(props) {
                     <option value='Low Risk'>1 — Low Risk</option>
                   </FieldInput>
 
-                  <FieldInput name="Education Goal" label="Goals to achieve" type="textarea" defaultValue={client.EducationGoal}/>
-                  <FieldInput name="Education Description" label="Required resources for area" type="textarea" defaultValue={client.EducationDesc}/>
+                  <FieldInput name="EducationGoal" label="Goals to achieve" type="textarea" defaultValue={client.EducationGoal}/>
+                  <FieldInput name="EducationDesc" label="Required resources for area" type="textarea" defaultValue={client.EducationDesc}/>
                 </CardBody>
               </Card>
             </Col>
