@@ -267,8 +267,8 @@ as right now will still render this component briefly even for existing clients*
                     <CardBody>
                         &nbsp; Click on a date to view more info or edit: <br/>
                         <ul>
-                            {referrals.map(({ReferralId, Date}) => (
-                                <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
+                            {referrals.map(({ReferralId, Date,Status,Outcome}) => (
+                                <li><Link to={`/referral/${ReferralId}`}>Status: {(Status!="")?Status:"N/A"} || Outcome: {(Outcome!="")?Outcome:"N/A"} || Date: {Date}</Link></li>
                             ))}
                         </ul>
                     </CardBody>

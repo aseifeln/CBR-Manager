@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Media, Button} from 'reactstrap';
 import axios from 'axios';
+
 function ReferralInfo(props){
 
     const [referral, setReferral]= useState({});
@@ -36,7 +37,7 @@ function ReferralInfo(props){
                 </Row>
                 <Row>
                     <Col>
-                        <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.PhysiotherapyService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </Col>
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Conditions: </span>
@@ -62,7 +63,7 @@ function ReferralInfo(props){
                 <Row>
                 {referral.ProstheticService.Photo!==""?
                     <Col>
-                        <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.ProstheticService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </Col>:null}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
@@ -82,9 +83,9 @@ function ReferralInfo(props){
                     </Col>
                 </Row>
                 <Row>
-                {referral.ProstheticService.Photo!==""?
+                {referral.OrthoticService.Photo!==""?
                     <Col>
-                        <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.OrthoticService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </Col>:null}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
@@ -105,7 +106,7 @@ function ReferralInfo(props){
             </Row>
             <Row>
                 <Col>
-                    <Media>{/*TODO*/}</Media>
+                <Media src={`data:image/jpeg;base64,${referral.WheelchairService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                 </Col>
                 <Col>
                     <h3 className='font-weight-bold' style={{fontSize: '18px'}}>Details: </h3>
@@ -132,9 +133,9 @@ function ReferralInfo(props){
                 </Col>
             </Row>
             <Row>
-            {referral.ProstheticService.Photo!==""?
+            {referral.OtherServices.Photo!==""?
                 <Col>
-                    <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.OtherServices.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                 </Col>:null}
                 <Col>
                     <span className='font-weight-bold' style={{fontSize: '18px'}}>Details: </span>
@@ -154,8 +155,6 @@ function ReferralInfo(props){
                 <Row>
                     <Col>
                         Services: {referral.ServiceRequired && referral.ServiceRequired.join(', ')}
-                    </Col>
-                    <Col>
                     </Col>
                 </Row>
                 {referral.ServiceRequired && (referral.ServiceRequired.map((service)=>{
