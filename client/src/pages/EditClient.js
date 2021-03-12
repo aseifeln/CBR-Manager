@@ -72,17 +72,14 @@ function EditClient(props) {
     maxWidth: 600,
   }
 
+  // TODO: Apply changes from new client page feedback to this page
+
   return (
     <div key={client.ClientId}>
       <MultiStepForm name='Edit Client' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
 
         <Step name='General'>
           <Row form>
-            <Col xs={12}>
-              <h4></h4>
-              <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
-            </Col>
-
             <Col xs={6}>
               <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required" defaultValue={client.FirstName}/>
             </Col>
@@ -121,17 +118,13 @@ function EditClient(props) {
                 name="Photo" 
                 label="Client Picture"
                 type="file"
+                required={photo.length < 100 && "Client photo is required"}
                 onChange={(e) => {
                   if (e.target) {
                     setImagePreviewSrc(e.target.files[0])
                   }
                 }}
               />
-              <button onClick={(e) => {
-                e.preventDefault();
-                setPhoto("");
-                setImagePreviewSrc('')
-                }}>Clear photo</button>
               <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
             </Col>
           </Row>
