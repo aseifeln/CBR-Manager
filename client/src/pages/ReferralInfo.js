@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Media} from 'reactstrap';
-
-function ReferralInfo(){
+import { Container, Row, Col, Media, Button} from 'reactstrap';
+import axios from 'axios';
+function ReferralInfo(props){
 
     const [referral, setReferral]= useState({});
 
@@ -12,45 +12,14 @@ function ReferralInfo(){
 
     useEffect(() => {
         document.title='Referral Info' 
-        setReferral({
-            Date: '2020-01-01',
-            ServiceRequired:[
-                'Physiotherapy',
-                'Prosthetic',
-                'Orthotic',
-                'Wheelchair',
-                'Other'
-            ],
-            OtherServices: 'No other services required',
-            ReferTo: 'Centre Services',
-            Status: 'Made',
-            Outcome: 'Ongoing',
-            ClientId: 1,
-            WorkerId: "c345718b-2d63-48e8-8e30-a9dd195ef4bc",
-            WheelchairService: {
-                Photo: "",
-                ClientProficiency: "Intermediate",
-                ClientHipWidth: 33,
-                WheelchairExist: "Y",
-                WheelchairRepairable: "Y"
-            },
-            PhysiotherapyService: {
-                Photo: "",
-                ClientCondition: [
-                    "Amputee",
-                    "Polio"
-                ],
-                OtherClientCondition: ""
-            },
-            ProstheticService: {
-                Photo: "",
-                InjuryPosition: "Above knee"
-            },
-            OrthoticService: {
-                Photo: "",
-                InjuryPosition: "Above elbow"
-            }
-        });
+        axios.get('/referrals/' + props.match.params.id)
+        .then(response => {
+            setReferral(response.data[0]);
+        })
+        .catch(error => {
+            console.log(error);
+            document.title = "Referral not found";
+        })
       }, [])
 
 
@@ -185,6 +154,8 @@ function ReferralInfo(){
                 <Row>
                     <Col>
                         Services: {referral.ServiceRequired && referral.ServiceRequired.join(', ')}
+                    </Col>
+                    <Col>
                     </Col>
                 </Row>
                 {referral.ServiceRequired && (referral.ServiceRequired.map((service)=>{
