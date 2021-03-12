@@ -16,11 +16,17 @@ function NewVisit(props) {
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
   const [ GPSLocation, setGPSLocation ] = useState('');
+  const [gpsFound, setGPSFound] = useState(false);
 
-  
   useEffect(() => {
     //Get the current GPS Location
     getGPSLocation(setGPSLocation);
+    if(GPSLocation !== ''){
+      setGPSFound(true);
+    }
+  },[GPSLocation])
+  
+  useEffect(() => {
 
     if (typeof props.match.params.id !== 'undefined') {
       axios.get('/clients/' + props.match.params.id)
@@ -244,6 +250,14 @@ function NewVisit(props) {
   {
     return (
         <NotFoundPage/>
+    )
+  }
+
+  if(!gpsFound){
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
     )
   }
 
