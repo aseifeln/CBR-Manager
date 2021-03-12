@@ -25,7 +25,6 @@ function NewVisit(props) {
     axios.get('/users/worker/' + context.WorkerId)
     .then(response => {
       setWorker(response.data[0].Worker);
-      console.log(response.data[0].Worker);
       setWorkerInfoFound(true);
     })
     .catch(error => {
@@ -190,7 +189,6 @@ function NewVisit(props) {
 
   function onValidSubmit(data) {
     data = prepareData(data);
-    console.log(data);
 
     axios.post('/visits/add/', data)
     // TODO: Redirect to visit page once that has been created
@@ -339,7 +337,8 @@ function NewVisit(props) {
                   <Col>
                     <FormGroup>
                       {(workerInfoFound) ? (
-                        <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker" defaultValue={worker.FirstName + ' ' + worker.FirstName} disabled/>
+                        <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"
+                         defaultValue={worker.FirstName + ' ' + worker.FirstName} disabled/>
                       ): ""}
                     </FormGroup>
                   </Col>

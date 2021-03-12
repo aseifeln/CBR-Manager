@@ -113,7 +113,6 @@ function NewReferral(props) {
         axios.get('/users/worker/' + context.WorkerId)
         .then(response => {
           setWorker(response.data[0].Worker);
-          console.log(response.data[0].Worker);
           setWorkerInfoFound(true);
         })
         .catch(error => {
