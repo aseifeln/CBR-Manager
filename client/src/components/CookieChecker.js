@@ -11,6 +11,7 @@ function CookieChecker(props) {
 
     //Reference: https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists#:~:text=You%20can%20call%20the%20function,see%20if%20it%20is%20%3D%20null.&text=Put%20your%20cookie%20name%20in%20in%20place%20of%20MyCookie%20.
     function getCookie(name) {
+        console.log('a')
         let dc = document.cookie;
         let prefix = name + "=";
         let begin = dc.indexOf("; " + prefix);
@@ -30,6 +31,7 @@ function CookieChecker(props) {
     } 
     function logoutUser() {
         if(getCookie("cookiename") == null){
+            console.log('b')
             history.push("/login");
         }
     }

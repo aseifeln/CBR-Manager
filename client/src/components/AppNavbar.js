@@ -12,7 +12,6 @@ UncontrolledDropdown,
     Container
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
 // Dropdown functionality from:
 //https://reactstrap.github.io/components/navbar/
 
