@@ -175,7 +175,7 @@ function calculatePriority(client) {
             case 'Medium Risk':
                 priorities[i] = 2;
                 break;
-            case 'Lwo Risk':
+            case 'Low Risk':
                 priorities[i] = 1;
                 break;
         }
