@@ -12,7 +12,11 @@ import { Form,
         Container,
         Button,
         Table,
-        Collapse } from 'reactstrap';
+        Collapse,
+        ListGroup,
+        ListGroupItem,
+        ListGroupItemHeading,
+        ListGroupItemText } from 'reactstrap';
 
 import "../css/ClientList.css";
 
@@ -417,36 +421,10 @@ function ClientListPage() {
                     </Collapse>
                 </Container>
             </Form>
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Location</th>
-                        <th>VillageNo</th>
-                        <th>DisabilityType</th>
-                    </tr>
-                </thead>
-                <tbody>
-                        {currentPageClients.map(({FirstName, LastName, Age, Gender,
-                                          Location, VillageNo,
-                                          DisabilityType, ClientId}) => (
-                            <tr>
-                                        <td>{FirstName}</td>
-                                        <td>{LastName}</td>
-                                        <td>{Age}</td>
-                                        <td>{Gender}</td>
-                                        <td>{Location}</td>
-                                        <td>{VillageNo}</td>
-                                        <td>{(DisabilityType || []).join(', ')}</td>
-                                        <Button onClick={() => history.push(`/client/${ClientId}`)}
-                                                style={{'float': 'right' ,color:"white",backgroundColor:"#46ad2f"}}>View</Button>
-                                    </tr>
-                        ))}
-                </tbody>
-            </Table>
+            <ListGroup flush className="clientList">
+                {filteredClients.length > 0 ? filteredClients.map(renderRow) :
+                    <ListGroupItem>No clients to show</ListGroupItem>}
+            </ListGroup>
 
             <ReactPaginate previousLabel={'Previous'}
                            nextLabel={'Next'}
@@ -463,6 +441,23 @@ function ClientListPage() {
         </Container>
         </>
     )
+
+    function renderRow(client) {
+        return (
+            <ListGroupItem className="clientRow"
+            key={client.ClientId} tag={Link} to={`/client/${client.ClientId}`} action>
+                <ListGroupItemHeading className="listHeader">
+                    <b>{client.FirstName} {client.LastName} </b>
+                </ListGroupItemHeading>
+                <ListGroupItemText>
+                    <p><b>Age:</b> {client.Age}
+                    <br/><b>Gender:</b> {client.Gender}
+                    <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
+                    <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}</p>
+                </ListGroupItemText>
+            </ListGroupItem>
+        );
+    }
 }
 
 export default ClientListPage;
