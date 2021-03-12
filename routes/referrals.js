@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const referral = require('../models/referral')
-const client = require('../models/client')
 const { sequelize } = require('../models/referral')
+
+const worker = require('../models/worker')
+const client = require('../models/client')
 
 const wheelchairService = require('../models/wheelchairService')
 const physiotherapyService = require('../models/physiotherapyService')
@@ -24,7 +26,7 @@ router.get('/outstanding', async (req, res) => {
                 Status: "Made"
             },
             attributes: [
-                "ReferralId", "Date"
+                "ReferralId", "Date", "ServiceRequired"
             ],
             order: [
                 ['Date', 'ASC']
@@ -46,6 +48,93 @@ router.get('/outstanding', async (req, res) => {
         res.status(500).json(error);
     }
 })
+
+// @route   GET /referrals/id
+// @desc    GET Retrieve a referral with a certain id from the database
+router.get('/:id', (req,res) => {
+    const referralId = req.params.id;
+    referral.findAll({
+        where: {
+            ReferralId: referralId
+        },
+        attributes: [
+            'Date', 'ServiceRequired', 'OtherServices',
+            'ReferTo', 'Status', 'Outcome'
+        ],
+        include: [{
+            model: client,
+            required: true,
+            attributes: [
+              'ClientId', 'FirstName', 'LastName'
+            ]
+        },
+        {
+            model: worker,
+            required: false,
+            attributes: [
+                'WorkerId', 'FirstName', 'LastName'
+            ]
+        },
+        {
+            model: wheelchairService,
+            required: false
+
+        },
+        {
+            model: physiotherapyService,
+            required: false
+        },
+        {
+            model: prostheticService,
+            required: false
+        },
+        {
+            model: orthoticService,
+            required: false
+        }]
+    })
+    .then(referralsFound => {
+        res.json(referralsFound);
+    })
+    .catch(err => {
+        res.status(404).json(err);
+    })
+
+})
+
+// @route   GET /referrals/client/id
+// @desc    GET Retrieve all referrals for a specific client from the database ordered by date
+router.get('/client/:id', (req, res) => {
+    const clientId = req.params.id;
+    referral.findAll({
+        where: {
+            ClientId: clientId
+        },
+        attributes: [
+            'ReferralId', 'Date', 'ServiceRequired', 'OtherServices',
+            'ReferTo', 'Status', 'Outcome'
+        ],
+        order: [
+            ['Date', 'DESC']
+        ],
+        include: [{
+            model: worker,
+            required: false,
+            attributes: [
+                'FirstName', 'LastName'
+            ]
+        }]
+    })
+    .then(referralsFound => {
+        res.json(referralsFound);
+    })
+    .catch(err => {
+        res.status(404).json(err);
+    })
+
+})
+
+
 
 // @route   POST /referrals/add
 // @desc    POST Add a new visit to the database

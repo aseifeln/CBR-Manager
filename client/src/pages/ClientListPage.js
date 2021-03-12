@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { UserContext } from '../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import CookieChecker from '../components/CookieChecker';
