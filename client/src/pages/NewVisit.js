@@ -16,15 +16,12 @@ function NewVisit(props) {
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
   const [ GPSLocation, setGPSLocation ] = useState('');
-  const [gpsFound, setGPSFound] = useState(false);
 
   useEffect(() => {
+
     //Get the current GPS Location
     getGPSLocation(setGPSLocation);
-    if(GPSLocation !== ''){
-      setGPSFound(true);
-    }
-  },[GPSLocation])
+  },[])
   
   useEffect(() => {
 
@@ -253,14 +250,6 @@ function NewVisit(props) {
     )
   }
 
-  if(!gpsFound){
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    )
-  }
-
   return (
     <div>
       <CookieChecker></CookieChecker>
@@ -353,7 +342,8 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput type="text" name="locationOfVisit" 
+                      <FieldInput type="text" name="locationOfVisit"
+                            key={GPSLocation} 
                             label="Location of visit" 
                             defaultValue={GPSLocation}
                             />
