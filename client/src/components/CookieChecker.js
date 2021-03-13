@@ -30,7 +30,7 @@ function CookieChecker(props) {
     } 
     function logoutUser() {
         if(getCookie("cookiename") == null){
-            history.push("/login");
+            window.location.replace("/login");
         }
     }
 

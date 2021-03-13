@@ -13,7 +13,11 @@ import { Form,
         Container,
         Button,
         Table,
-        Collapse } from 'reactstrap';
+        Collapse,
+        ListGroup,
+        ListGroupItem,
+        ListGroupItemHeading,
+        ListGroupItemText } from 'reactstrap';
 
 import "../css/ClientList.css";
 
@@ -25,7 +29,7 @@ const formatDateStr = (dateStr) => {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
     const dd = String(date.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
+    return `${dd}-${mm}-${yyyy}`;
 }
 
 
@@ -77,7 +81,7 @@ function ClientListPage() {
         const dateFrom = new Date(searchDateFrom)
         const dateTo = new Date(searchDateTo)
         if (dateFrom > dateTo) setSearchDateTo(searchDateFrom)
-    }, [searchDateFrom, searchDateTo]) 
+    }, [searchDateFrom, searchDateTo])
 
     useEffect(() => {
         setClientPages(filteredClients);
@@ -467,19 +471,19 @@ function ClientListPage() {
                     <Collapse isOpen={isOpenDate}>
                         <div style={{ 'columnCount': 2, 'maxWidth': '500px' }}>
                             <Label>From</Label>
-                            <Input 
-                                name="Date" 
-                                label="From" 
-                                type="date" 
-                                value={searchDateFrom} 
+                            <Input
+                                name="Date"
+                                label="From"
+                                type="date"
+                                value={searchDateFrom}
                                 onChange={(event) => setSearchDateFrom(event.target.value)}
                             />
 
                             <Label>To</Label>
-                            <Input 
-                                name="Date" 
-                                label="To" 
-                                type="date" 
+                            <Input
+                                name="Date"
+                                label="To"
+                                type="date"
                                 value={searchDateTo}
                                 onChange={(event) => setSearchDateTo(event.target.value)}
                             />
@@ -487,46 +491,10 @@ function ClientListPage() {
                     </Collapse>
                 </Container>
             </Form>
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Location</th>
-                        <th>Village No.</th>
-                        <th>Disability Type</th>
-                        <th>New Client Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                        {currentPageClients.map((client) => {
-                            const {
-                                FirstName, LastName, 
-                                Age, Gender,
-                                Location, VillageNo,
-                                DisabilityType, ClientId,
-                                DateCreated
-                            } = client
-
-                            return (
-                                <tr>
-                                    <td>{FirstName}</td>
-                                    <td>{LastName}</td>
-                                    <td>{Age}</td>
-                                    <td>{Gender}</td>
-                                    <td>{Location}</td>
-                                    <td>{VillageNo}</td>
-                                    <td>{(DisabilityType || []).join(', ')}</td>
-                                    <td>{formatDateStr(DateCreated)}</td>
-                                    <Button onClick={() => history.push(`/client/${ClientId}`)}
-                                            style={{'float': 'right' ,color:"white",backgroundColor:"#46ad2f"}}>View</Button>
-                                </tr>
-                            )
-                        })}
-                </tbody>
-            </Table>
+            <ListGroup flush className="clientList">
+                {filteredClients.length > 0 ? filteredClients.map(renderRow) :
+                    <ListGroupItem>No clients to show</ListGroupItem>}
+            </ListGroup>
 
             <ReactPaginate previousLabel={'Previous'}
                            nextLabel={'Next'}
@@ -543,6 +511,26 @@ function ClientListPage() {
         </Container>
         </>
     )
+
+    function renderRow(client) {
+        return (
+            <ListGroupItem className="clientRow"
+            key={client.ClientId} tag={Link} to={`/client/${client.ClientId}`} action>
+                <ListGroupItemHeading className="listHeader">
+                    <b>{client.FirstName} {client.LastName} </b>
+                </ListGroupItemHeading>
+                <ListGroupItemText>
+                    <p className="clientRowText">
+                        <b>Age:</b> {client.Age}
+                        <br/><b>Gender:</b> {client.Gender}
+                        <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
+                        <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}
+                    </p>
+                    <p className="dateText"><i>Created {formatDateStr(client.DateCreated)}</i></p>
+                </ListGroupItemText>
+            </ListGroupItem>
+        );
+    }
 }
 
 export default ClientListPage;
