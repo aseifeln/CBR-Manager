@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
@@ -6,6 +6,7 @@ import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
 import NotFoundPage from './404';
 import {getGPSLocation} from './Helpers';
+import { UserContext } from '../components/UserContext';
 
 function NewVisit(props) {
 
@@ -16,14 +17,27 @@ function NewVisit(props) {
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
   const [ GPSLocation, setGPSLocation ] = useState('');
+  const [ worker, setWorker ] = useState({});
+  const context = useContext(UserContext);
+
+  const [ workerInfoFound, setWorkerInfoFound ] = useState(false);
 
   useEffect(() => {
 
     //Get the current GPS Location
     getGPSLocation(setGPSLocation);
   },[])
-  
+
   useEffect(() => {
+
+    axios.get('/users/worker/' + context.WorkerId)
+    .then(response => {
+      setWorker(response.data[0].Worker);
+      setWorkerInfoFound(true);
+    })
+    .catch(error => {
+      console.log(error);
+    })
 
     if (typeof props.match.params.id !== 'undefined') {
       axios.get('/clients/' + props.match.params.id)
@@ -75,8 +89,7 @@ function NewVisit(props) {
       newData['ClientId'] = data.client;
     }
     
-    // TODO: Fill in workerId once there is an API to retrieve this for current user
-    // newData['WorkerId'] = "";
+    newData['WorkerId'] = context.WorkerId;
 
     if (!hideHealthSection) {
       // Prepare Health Form data
@@ -254,7 +267,6 @@ function NewVisit(props) {
     <div>
       <CookieChecker></CookieChecker>
         <Container>
-
             <MultiStepForm name="New Visit" onValidSubmit={onValidSubmit}>
               <Step name="General Info">
 
@@ -334,7 +346,10 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"/>
+                      {(workerInfoFound) ? (
+                        <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"
+                         defaultValue={worker.FirstName + ' ' + worker.FirstName} disabled/>
+                      ): ""}
                     </FormGroup>
                   </Col>
                 </Row>
