@@ -17,7 +17,6 @@ function ConvertImage(client){
 // Optional Parameters: location and num clients
 router.get('/priority/:loc&:num', async (req, res) => {
     const location = req.params.loc;
-    console.log(req.params)
     const numClients = req.params.num;
 
     await client.findAll({
