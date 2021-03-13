@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Container, Row, Col, Button, Table, Form, FormGroup, Input, Label} from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import AdminSideBar from '../components/AdminSideBar';
+import CookieChecker from '../components/CookieChecker';
 import '../css/WorkerList.css';
 
 function WorkerListPage() {
@@ -41,6 +42,7 @@ function WorkerListPage() {
 
     return(
         <>
+        <CookieChecker/>
         <AdminSideBar/>
         <Container className="main-content">
             <h1>Worker List</h1>
