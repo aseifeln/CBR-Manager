@@ -3,16 +3,19 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
+import {getGPSLocation} from './Helpers';
 import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
 function NewClientSignup() {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
+  const [GPSLocation, setGPSLocation] = useState('');
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
   useEffect(() => {
+    getGPSLocation(setGPSLocation);
     document.title="New Client Registration"
   }, [])
 
@@ -114,6 +117,16 @@ function NewClientSignup() {
               label="New Client Date" 
               type="date" 
               defaultValue={(new Date()).toLocaleDateString('en-CA')}
+            />
+          </Col>
+
+          <Col xs={12}>
+            <FieldInput 
+            key={GPSLocation} 
+            name="GPSLocation" 
+            label="GPS Location" 
+            type="text" 
+            defaultValue={GPSLocation}
             />
           </Col>
 
