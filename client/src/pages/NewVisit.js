@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
 import NotFoundPage from './404';
+import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
 
 function NewVisit(props) {
@@ -15,10 +16,17 @@ function NewVisit(props) {
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
+  const [ GPSLocation, setGPSLocation ] = useState('');
   const [ worker, setWorker ] = useState({});
   const context = useContext(UserContext);
 
   const [ workerInfoFound, setWorkerInfoFound ] = useState(false);
+
+  useEffect(() => {
+
+    //Get the current GPS Location
+    getGPSLocation(setGPSLocation);
+  },[])
 
   useEffect(() => {
 
@@ -62,6 +70,7 @@ function NewVisit(props) {
     document.title="New Visit";
   }, [])
 
+
   function prepareData(data) {
 
     var newData = {}
@@ -69,6 +78,7 @@ function NewVisit(props) {
     // Prepare General info
     newData['VisitPurpose'] = data.purposeOfVisit;
     newData['Date'] = data.date;
+    newData['GPSLocation'] = data.locationOfVisit;
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
 
@@ -347,7 +357,11 @@ function NewVisit(props) {
                 <Row form>
                   <Col>
                     <FormGroup>
-                      <FieldInput name="locationOfVisit" label="Location of visit"/>
+                      <FieldInput type="text" name="locationOfVisit"
+                            key={GPSLocation} 
+                            label="Location of visit" 
+                            defaultValue={GPSLocation}
+                            />
                     </FormGroup>
                   </Col>
                 </Row>
@@ -899,5 +913,4 @@ function NewVisit(props) {
     </div>
   )
 }
-
 export default NewVisit;
