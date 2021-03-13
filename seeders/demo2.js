@@ -2,6 +2,8 @@
 const faker = require('faker');
 const fs = require('fs');
 const uuid = require('uuid');
+const bcrypt = require('bcrypt');
+const SeedInterface = require('./utils/SeedInterface');
 
 const locations = ['BidiBidi Zone 1', 'BidiBidi Zone 2', 'BidiBidi Zone 3', 'BidiBidi Zone 4', 'BidiBidi Zone 5', 'Palorinya Basecamp',
   'Palorinya Zone 1', 'Palorinya Zone 2', 'Palorinya Zone 3'];
@@ -11,61 +13,60 @@ const default_profile = fs.readFileSync('./image/default-profile.jpg');
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-
-// These are set instead of generated for easy Postman Testing
 const worker1_uuidv4 = '7b2aff58-60fb-4f42-aa3b-21760ed4c134';
 const worker2_uuidv4 = '53e996ff-6c85-4e3e-b7c8-ff31edd93239';
 const admin_uuidv4 = 'd6ef8378-3956-403a-ac4b-50a714c742a0';
 
-const SeedInterface = require('./utils/SeedInterface')
+const defaultPassword = bcrypt.hashSync('123456', 10);
 
-let seedWorkers = [
-  {
-    Worker: {
-      WorkerId: worker1_uuidv4,
-      FirstName: 'Worker1',
-      LastName: 'One',
-      Photo: '',
-      Location: locations[0],
+  let seedWorkers = [
+    {
+      Worker: {
+        WorkerId: worker1_uuidv4,
+        FirstName: 'Diantha',
+        LastName: 'Wilkerson',
+        Photo: '',
+        Location: locations[0],
+      },
+      User: {
+        WorkerId: worker1_uuidv4,
+        Username: 'worker1',
+        Password: defaultPassword,
+        Role: 'Worker'
+      }
     },
-    User:{
-      WorkerId: worker1_uuidv4,
-      Username: 'worker1',
-      Password: 123456,
-      Role: 'Worker'
-    }
-  },
-  {
-    Worker: {
-      WorkerId: worker2_uuidv4,
-      FirstName: 'Worker2',
-      LastName: 'Two',
-      Photo: '',
-      Location: locations[6],},
-    User: {
-      WorkerId: worker2_uuidv4,
-      Username: 'worker2',
-      Password: 123456,
-      Role: 'Worker'
-    }
-  },
-  {
-    Worker: {
-      WorkerId: admin_uuidv4,
-      FirstName: 'Admin',
-      LastName: 'One',
-      Photo: '',
-      Location: locations[5],
+    {
+      Worker: {
+        WorkerId: worker2_uuidv4,
+        FirstName: 'Teagan',
+        LastName: 'Gabriels',
+        Photo: '',
+        Location: locations[6],
+      },
+      User: {
+        WorkerId: worker2_uuidv4,
+        Username: 'worker2',
+        Password: defaultPassword,
+        Role: 'Worker'
+      }
     },
-    User: {
-      WorkerId: admin_uuidv4,
-      Username: 'admin',
-      Password: 123456,
-      Role: 'Admin'
-    }
-  },
-  // Add new Workers here
-]
+    {
+      Worker: {
+        WorkerId: admin_uuidv4,
+        FirstName: 'Admin',
+        LastName: 'One',
+        Photo: '',
+        Location: locations[5],
+      },
+      User: {
+        WorkerId: admin_uuidv4,
+        Username: 'admin',
+        Password: defaultPassword,
+        Role: 'Admin'
+      }
+    },
+    // Add new Workers here
+  ]
 
 let seedClients = [
   {
@@ -150,15 +151,15 @@ let seedClients = [
           WheelchairServiceId: uuid.v4(),
           Photo: default_profile,
           ClientProficiency: 'Basic',
-          ClientHipWidth: 10,
+          ClientHipWidth: 33,
           WheelchairExist: 'Y',
         },
         ReferralId: uuid.v4(),
         Date: faker.date.recent(),
         ServiceRequired: `{${['Wheelchair']}}`,
         ReferTo: 'Disability Center',
-        Status: 'Resolved',
-        Outcome: 'They got the wheelchair',
+        Status: 'Made',
+        Outcome: 'Still waiting for the wheelchair',
       },
     ],
   },

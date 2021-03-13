@@ -2,6 +2,8 @@
 const faker = require('faker');
 const fs = require('fs');
 const uuid = require('uuid');
+const bcrypt = require('bcrypt');
+const SeedInterface = require('./utils/SeedInterface')
 
 const disabilities = ['Amputee', 'Polio', 'Spinal Cord Injury', 'Cerebral Palsy', 'Spina Bifida', 'Hydrocephalus', 'Visual Impairment',
   'Hearing Impairment', 'Don\'t Know', 'Other'];
@@ -28,6 +30,8 @@ const worker1_uuidv4 = '7b2aff58-60fb-4f42-aa3b-21760ed4c134';
 const worker2_uuidv4 = '53e996ff-6c85-4e3e-b7c8-ff31edd93239';
 const admin_uuidv4 = 'd6ef8378-3956-403a-ac4b-50a714c742a0';
 
+const defaultPassword = bcrypt.hashSync('123456', 10);
+
 let seedWorkers = [
   {
     Worker: {
@@ -40,7 +44,7 @@ let seedWorkers = [
     User:{
       WorkerId: worker1_uuidv4,
       Username: 'worker1',
-      Password: 123456,
+      Password: defaultPassword,
       Role: 'Worker'
     }
   },
@@ -54,7 +58,7 @@ let seedWorkers = [
     User: {
       WorkerId: worker2_uuidv4,
       Username: 'worker2',
-      Password: 123456,
+      Password: defaultPassword,
       Role: 'Worker'
     }
   },
@@ -69,7 +73,7 @@ let seedWorkers = [
     User: {
       WorkerId: admin_uuidv4,
       Username: 'admin',
-      Password: 123456,
+      Password: defaultPassword,
       Role: 'Admin'
     }
   },
@@ -563,8 +567,6 @@ let seedClients = [
 
   // Add new Clients Here
 ];
-
-const SeedInterface = require('./utils/SeedInterface')
 
 const results = SeedInterface(seedWorkers, seedClients);
 module.exports = results;
