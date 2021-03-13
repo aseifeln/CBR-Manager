@@ -1,9 +1,10 @@
-import React, {useEffect,useState} from 'react';
+import React, {useContext, useEffect,useState} from 'react';
 import {ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import "../css/Login.css";
 import axios from 'axios';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { UserContext } from './UserContext';
 
 function PriorityClients(){
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -12,13 +13,20 @@ function PriorityClients(){
     const [location, setLocation] = useState("BidiBidi Zone 1");
     const [data, setData]= useState(['']);
 
+    const context = useContext(UserContext);
+    const [initialLoad, setInitialLoad] = useState(true);
+
     useEffect(()=>{
+        if (initialLoad) {
+            axios.get('/users/worker/' + context.WorkerId)
+            .then(res => setLocation(res.data[0].Worker.Location))
+            .catch(err => console.log(err))
+            setInitialLoad(false);
+        }
+        
         axios.get(`/clients/location/${location}`)
         .then(res =>{setData(res.data)});
       },[location]);
-
-    
-
 
     return(
         <div>
