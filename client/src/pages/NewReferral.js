@@ -1,13 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import { Container, Button, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
+import React, {useContext, useEffect, useState} from 'react';
+import { Container, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import NotFoundPage from './404';
+import CookieChecker from '../components/CookieChecker';
+import { UserContext } from '../components/UserContext';
 
 function NewReferral(props) {
 
+    const context = useContext(UserContext);
     const history = useHistory();
+    
+    const [ worker, setWorker ] = useState({});
+    const [ workerInfoFound, setWorkerInfoFound ] = useState(false);
 
     const [ client, setClient ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
@@ -27,7 +33,92 @@ function NewReferral(props) {
     const [ prostheticImgPreview, setProstheticImgPreview ] = useState('');
     const [ orthoticImgPreview, setOrthoticImgPreview ] = useState('');
 
+    function prepareData(data) {
+        let newData = {};
+        newData['ClientId'] = props.match.params.id;
+        newData['ReferTo'] = data['referTo'];
+        newData['Status'] = "Made";
+
+        newData['WorkerId'] = context.WorkerId;
+        
+        let services = []
+
+        if (wheelchairService) {
+            let wheelchairForm = {};
+
+            wheelchairForm['Photo'] = wheelchairImgPreview;
+            wheelchairForm['ClientProficiency'] = data['wheelchairProficiency'];
+            wheelchairForm['ClientHipWidth'] = data['hipWidth'];
+            wheelchairForm['WheelchairExist'] = (data['hasWheelchair'] === "Yes") ? "Y" : "N";
+            wheelchairForm['WheelchairRepairable'] = (data['wheelchairRepairable'] === "Yes") ? "Y" : "N";
+
+            services.push("Wheelchair");
+            newData['WheelchairService'] = wheelchairForm;
+        }
+
+        if (physioService) {
+            let physioForm = {};
+
+            physioForm['Photo'] = physioImgPreview;
+            physioForm['ClientCondition'] = data['clientCondition'];
+            physioForm['OtherClientCondition'] = data['otherCondition'];
+
+            services.push("Physiotherapy");
+            newData['PhysiotherapyService'] = physioForm;
+        }
+
+        if (prostheticService) {
+            let prostheticForm = {};
+
+            prostheticForm['Photo'] = prostheticImgPreview;
+            prostheticForm['InjuryPosition'] = data['prostheticInjuryPosition'];
+
+            services.push("Prosthetic");
+            newData['ProstheticService'] = prostheticForm;
+        }
+
+        if (orthoticService) {
+            let orthoticForm = {};
+
+            orthoticForm['Photo'] = orthoticImgPreview;
+            orthoticForm['InjuryPosition'] = data['orthoticInjuryPosition'];
+
+            services.push("Orthotic");
+            newData['OrthoticService'] = orthoticForm;
+        }
+
+        newData['ServiceRequired'] = services;
+        newData['OtherService'] = data['otherServiceDesc'];
+
+        return newData;
+    }
+
+    function onValidSubmit(data) {
+        data = prepareData(data);
+        console.log(data);
+
+        axios.post('/referrals/add', data)
+        .then(() => {
+            alert("Referral was added successfully.");
+            // TODO: Should redirect to referral page when that is implemented
+            history.push("/dashboard");
+        })
+        .catch((error) => {
+            alert("Something went wrong when trying to add referral.");
+            console.log(error);
+        })
+    }
+
     useEffect(() => {
+
+        axios.get('/users/worker/' + context.WorkerId)
+        .then(response => {
+          setWorker(response.data[0].Worker);
+          setWorkerInfoFound(true);
+        })
+        .catch(error => {
+          console.log(error);
+        })
 
         axios.get('/clients/' + props.match.params.id)
         .then(response => {
@@ -54,19 +145,23 @@ function NewReferral(props) {
     
     return (
         <Container>
+            <CookieChecker></CookieChecker>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
                 Client: {client.FirstName + ' ' + client.LastName}
               </Col>
             </Row>
 
-            <MultiStepForm name="New Referral">
+            <MultiStepForm name="New Referral" onValidSubmit={onValidSubmit}>
                 <Step name="General Info">
 
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"/>
+                            {(workerInfoFound) ? (
+                                <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"
+                                 defaultValue={worker.FirstName + ' ' + worker.FirstName} disabled/>
+                            ): ""}
                             </FormGroup>
                         </Col>
                     </Row>

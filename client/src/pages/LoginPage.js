@@ -1,6 +1,7 @@
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import { UserContext } from '../components/UserContext';
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
 import "../css/Login.css";
@@ -13,6 +14,8 @@ function Login(props) {
 
     const[usernameErr, setUsernameErr] = useState(false);
     const[passwordErr, setPasswordErr] = useState(false);
+
+    const context = useContext(UserContext);
 
     useEffect(() => {
         document.title="Login"
@@ -36,16 +39,22 @@ function Login(props) {
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
-                        props.history.push("/login");
+                        window.location.replace("/login");
                     } 
                     else if(res.data == UNREGISTERED) {
                         alert("User is not registered");
-                        props.history.push("/login");
-                    } else { 
-                        document.cookie="cookiename=cookievalue;max-age="+(60 * 15); //15 mins
-                        props.history.push("/");
+                        window.location.replace("/login");
+                    } else {
+                        const maxAge = 60*60; // 60 mins
+                        document.cookie="cookiename=cookievalue;max-age="+(maxAge); 
+                        axios.get('users/session', {params: {username: user.username}})
+                            .then(res => {
+                                document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge); 
+                                document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
+                            })
+                            .catch(err => console.log(err))
+                        window.location.replace('/');
                     }
-                    
                     return;
                   })
                 .catch( err => {

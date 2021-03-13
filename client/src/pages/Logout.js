@@ -7,11 +7,13 @@ function Logout(props) {
             .then(res => {
                 console.log(res);
                 document.cookie="cookiename=cookievalue;max-age="+(0);
-                props.history.push("/login");
+                document.cookie="Role=;max-age="+(0);
+                document.cookie="WorkerId=;max-age="+(0);
             })
             .catch(err => {
                 console.log(err);
             })
+      window.location.replace("/login");
     }
     logout();
 
