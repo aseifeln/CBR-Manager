@@ -4,6 +4,7 @@ import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import NotFoundPage from './404';
+import CookieChecker from '../components/CookieChecker';
 
 function NewReferral(props) {
 
@@ -131,6 +132,7 @@ function NewReferral(props) {
     
     return (
         <Container>
+            <CookieChecker></CookieChecker>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
                 Client: {client.FirstName + ' ' + client.LastName}

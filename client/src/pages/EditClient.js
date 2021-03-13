@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
+import CookieChecker from '../components/CookieChecker';
 
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
@@ -74,6 +75,7 @@ function EditClient(props) {
 
   return (
     <div key={client.ClientId}>
+      <CookieChecker></CookieChecker>
       <MultiStepForm name='Edit Client' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
 
         <Step name='General'>
