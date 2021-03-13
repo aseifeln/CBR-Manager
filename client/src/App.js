@@ -9,7 +9,6 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import './css/App.css';
 
 function App() {
-    console.log('app')
     return (
         <UserContext.Provider value={DefaultContext}>
             <Router>
