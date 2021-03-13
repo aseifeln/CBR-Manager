@@ -36,7 +36,7 @@ router.get('/:id/referrals', (req,res) => {
         ]
     })
     .then(referrals => res.json(referrals))
-    .catch(err => res.status(404).json(err))
+    .catch(err => res.status(400).json(err))
 })
 
 
