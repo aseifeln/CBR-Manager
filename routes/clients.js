@@ -35,7 +35,7 @@ router.get('/priority/:loc&:num', async (req, res) => {
         limit: numClients,
     })
         .then(clients => {
-            clients.map(client => ConvertImage(client))
+            clients.map(ConvertImage)
             return clients;
         })
         .then(clients => res.json(clients))
