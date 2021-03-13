@@ -130,6 +130,8 @@ app.post('/login', async (req, res) => {
 app.post('/logout', async (req, res) => {
     try {
         res.clearCookie("ACCESS_TOKEN");
+        res.clearCookie("Role");
+        res.clearCookie("WorkerId");
         res.status(200).send("Cookie Deleted");
         return;
     } catch {

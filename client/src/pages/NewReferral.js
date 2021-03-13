@@ -1,13 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import NotFoundPage from './404';
+import CookieChecker from '../components/CookieChecker';
+import { UserContext } from '../components/UserContext';
 
 function NewReferral(props) {
 
+    const context = useContext(UserContext);
     const history = useHistory();
+    
+    const [ worker, setWorker ] = useState({});
+    const [ workerInfoFound, setWorkerInfoFound ] = useState(false);
 
     const [ client, setClient ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
@@ -32,9 +38,8 @@ function NewReferral(props) {
         newData['ClientId'] = props.match.params.id;
         newData['ReferTo'] = data['referTo'];
         newData['Status'] = "Made";
-
-        // TODO: Put in the WorkerId field when we are able to identify current worker logged in
-        // newData['WorkerId']
+        newData['Date'] = data['date'];
+        newData['WorkerId'] = context.WorkerId;
         
         let services = []
 
@@ -82,6 +87,10 @@ function NewReferral(props) {
             newData['OrthoticService'] = orthoticForm;
         }
 
+        if (otherSelected) {
+            services.push("Other");
+        }
+
         newData['ServiceRequired'] = services;
         newData['OtherService'] = data['otherServiceDesc'];
 
@@ -105,6 +114,15 @@ function NewReferral(props) {
     }
 
     useEffect(() => {
+
+        axios.get('/users/worker/' + context.WorkerId)
+        .then(response => {
+          setWorker(response.data[0].Worker);
+          setWorkerInfoFound(true);
+        })
+        .catch(error => {
+          console.log(error);
+        })
 
         axios.get('/clients/' + props.match.params.id)
         .then(response => {
@@ -131,6 +149,7 @@ function NewReferral(props) {
     
     return (
         <Container>
+            <CookieChecker></CookieChecker>
             <Row>
               <Col className="font-weight-bold" style={{fontSize: "30px"}}>
                 Client: {client.FirstName + ' ' + client.LastName}
@@ -143,7 +162,10 @@ function NewReferral(props) {
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"/>
+                            {(workerInfoFound) ? (
+                                <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"
+                                 defaultValue={worker.FirstName + ' ' + worker.FirstName} disabled/>
+                            ): ""}
                             </FormGroup>
                         </Col>
                     </Row>

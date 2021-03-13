@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card, FormGroup, Label } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker';
+import {getGPSLocation} from './Helpers';
 import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
@@ -11,10 +12,12 @@ function NewClientSignup() {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
   const [clientDate, setClientDate] = useState((new Date()).toISOString())
+  const [GPSLocation, setGPSLocation] = useState('');
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
   useEffect(() => {
+    getGPSLocation(setGPSLocation);
     document.title="New Client Registration"
   }, [])
 
@@ -137,6 +140,16 @@ function NewClientSignup() {
                 }}
               />
             </FormGroup>
+          </Col>
+
+          <Col xs={12}>
+            <FieldInput 
+            key={GPSLocation} 
+            name="GPSLocation" 
+            label="GPS Location" 
+            type="text" 
+            defaultValue={GPSLocation}
+            />
           </Col>
 
           <Col xs={9} md={10}>
