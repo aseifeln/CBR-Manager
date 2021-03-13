@@ -29,7 +29,7 @@ const formatDateStr = (dateStr) => {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
     const dd = String(date.getDate()).padStart(2, "0");
-    return `${mm}-${dd}-${yyyy}`;
+    return `${dd}-${mm}-${yyyy}`;
 }
 
 
