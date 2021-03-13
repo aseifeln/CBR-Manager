@@ -12,7 +12,6 @@ function Dashboard() {
     document.title="CBR Dashboard"
   }, [])
   return (
-    
     <div id="dashboard">
       <CookieChecker></CookieChecker>
       <Container>

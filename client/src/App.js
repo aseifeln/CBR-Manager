@@ -9,11 +9,14 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import './css/App.css';
 
 function App() {
-
     return (
         <UserContext.Provider value={DefaultContext}>
             <Router>
-                <AppNavbar style={{position:"sticky"}}/>
+                {(document.location.pathname !== '/login' && document.location.pathname !== '/signup') ? (
+                    <div>
+                        <AppNavbar style={{position:"sticky"}}/>
+                    </div>
+                ):""}
                 <RenderRoutes routes={ROUTES}/>
             </Router>
         </UserContext.Provider>

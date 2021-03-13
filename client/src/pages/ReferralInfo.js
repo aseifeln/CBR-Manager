@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Media} from 'reactstrap';
+import CookieChecker from '../components/CookieChecker';
 
 function ReferralInfo(){
 
@@ -181,6 +182,7 @@ function ReferralInfo(){
     return(
         <Container>
             <div style={formContainerSize}>
+                <CookieChecker></CookieChecker>
                 <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
                 <Row>
                     <Col>
