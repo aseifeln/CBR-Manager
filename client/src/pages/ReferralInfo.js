@@ -38,7 +38,9 @@ function ReferralInfo(props){
                 </Row>
                 <Row>
                     <Col>
-                        <Media src={`data:image/jpeg;base64,${referral.PhysiotherapyService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
+                        <div className="text-center">
+                            <Media src={`data:image/jpeg;base64,${referral.PhysiotherapyService.Photo}`} object alt="Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
+                        </div>
                     </Col>
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Conditions: </span>
@@ -116,7 +118,7 @@ function ReferralInfo(props){
                         <li>- Hip Width (Inches): {referral.WheelchairService.ClientHipWidth}</li>
                         <li>- Existing Wheelchair: {referral.WheelchairService.WheelchairExist}</li>
                         {referral.WheelchairService.WheelchairExist==='Y'?
-                            <li>- Existing Wheelchair: {referral.WheelchairService.WheelchairRepairable}</li>:null}
+                            <li>- Wheelchair Repairable: {referral.WheelchairService.WheelchairRepairable}</li>:null}
                     </ul>
                 </Col>
             </Row>
