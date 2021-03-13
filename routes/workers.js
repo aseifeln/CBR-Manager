@@ -22,7 +22,10 @@ router.get('/:id/visits', (req,res) => {
 
     visit.findAll({
         attributes: [
-            'ClientId', 'VisitId', 'VisitPurpose', 'Date'
+            'ClientId',
+            'VisitId', 
+            'VisitPurpose', 
+            'Date'
         ],
         where: {
             WorkerId: workerId
@@ -32,7 +35,7 @@ router.get('/:id/visits', (req,res) => {
         ]
     })
     .then(visits => res.json(visits))
-    .catch(err => res.status(404).json(err))
+    .catch(err => res.status(400).json(err))
 })
 
 
