@@ -51,6 +51,7 @@ function WorkerListPage() {
                 <Row form>
                     <Col md={6}>
                         <FormGroup className="searchName">
+                            <Label>Name</Label>
                             <Input type="text" id="searchName"
                                     value={searchName}
                                     onChange={(e) => setSearchName(
