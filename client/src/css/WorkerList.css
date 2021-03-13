@@ -4,7 +4,7 @@
 
 .searchName button{
     position: absolute;
-    top: 1px;
+    bottom: 18px;
     right: 10px;
     border:none;
     color: black;
