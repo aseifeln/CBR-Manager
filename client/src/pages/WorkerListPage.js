@@ -23,6 +23,7 @@ function WorkerListPage() {
         setOffset(event.selected * workersPerPage);
     }
 
+    //TODO: Use this function when filtering the workers list
     function setWorkerPages(relevantWorkers) {
         setPageCount(Math.ceil(relevantWorkers.length / workersPerPage));
         let currentPage = relevantWorkers.slice(offset, offset + workersPerPage);
