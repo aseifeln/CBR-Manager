@@ -46,14 +46,15 @@ function Login(props) {
                         window.location.replace("/login");
                     } else {
                         const maxAge = 60*60; // 60 mins
-                        document.cookie="cookiename=cookievalue;max-age="+(maxAge); 
+                        document.cookie="cookiename=cookievalue;max-age="+(maxAge);
                         axios.get('users/session', {params: {username: user.username}})
                             .then(res => {
-                                document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge); 
-                                document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
+                                document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge);
+                                document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge);
+                                window.location.replace('/');
                             })
                             .catch(err => console.log(err))
-                        window.location.replace('/');
+
                     }
                     return;
                   })
@@ -75,7 +76,6 @@ function Login(props) {
         }
         return pass
     }
-
 
     return (
         

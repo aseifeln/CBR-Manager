@@ -148,7 +148,47 @@ Client.hasMany(Referral, {
         type: Sequelize.UUID
     }
 })
+
 Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
 Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'})
+
+
+// Define Hooks here
+
+function calculatePriority(client) {
+    const statusLevelWeights = {
+        'HealthStatus': 5,
+        'EducationStatus': 3,
+        'SocialStatus': 1
+    }
+
+    const riskLevelWeights = {
+        'Critical Risk': 4,
+        'High Risk': 3,
+        'Medium Risk': 2,
+        'Low Risk': 1
+    }
+
+    const clientRiskLevels = Object.entries(client.dataValues)
+        .filter((entry) => {
+            const [key, val] = entry;
+            return statusLevelWeights.hasOwnProperty(key);
+    });
+
+    const mappedPriorities = clientRiskLevels.map((entry) => {
+        const [key, val] = entry;
+        return riskLevelWeights[val] * statusLevelWeights[key];
+    });
+
+    return mappedPriorities.reduce((a, b) => a + b, 0);
+}
+
+Client.beforeCreate(client => {
+    client.Priority = calculatePriority(client);
+});
+
+Client.beforeUpdate(client => {
+    client.Priority = calculatePriority(client);
+});
 
 module.exports = Client;
