@@ -12,8 +12,12 @@ function Dashboard() {
     document.title="CBR Dashboard"
   }, [])
   return (
+<<<<<<< HEAD
     
     <div id="container">
+=======
+    <div id="dashboard">
+>>>>>>> 821df5c57a821260883c90b94af3a6ff81af7ab1
       <CookieChecker></CookieChecker>
       <Container>
         <Row>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Media, Button} from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import CookieChecker from '../components/CookieChecker';
 
 function ReferralInfo(props){
 
@@ -154,6 +155,7 @@ function ReferralInfo(props){
     return(
         <Container>
             <div style={formContainerSize}>
+                <CookieChecker></CookieChecker>
                 <Row>
                     <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
                 </Row>
