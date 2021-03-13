@@ -89,6 +89,15 @@
     align-items: center;
 }
 
+.clientRowText{
+    margin: 0px;
+}
+
+.dateText {
+    text-align: right;
+    color: #8c8c8c;
+}
+
 
 
 

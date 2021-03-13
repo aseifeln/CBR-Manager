@@ -29,7 +29,7 @@ const formatDateStr = (dateStr) => {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
     const dd = String(date.getDate()).padStart(2, "0");
-    return `${yyyy}-${mm}-${dd}`;
+    return `${mm}-${dd}-${yyyy}`;
 }
 
 
@@ -520,10 +520,13 @@ function ClientListPage() {
                     <b>{client.FirstName} {client.LastName} </b>
                 </ListGroupItemHeading>
                 <ListGroupItemText>
-                    <p><b>Age:</b> {client.Age}
-                    <br/><b>Gender:</b> {client.Gender}
-                    <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
-                    <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}</p>
+                    <p className="clientRowText">
+                        <b>Age:</b> {client.Age}
+                        <br/><b>Gender:</b> {client.Gender}
+                        <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
+                        <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}
+                    </p>
+                    <p className="dateText"><i>Created {formatDateStr(client.DateCreated)}</i></p>
                 </ListGroupItemText>
             </ListGroupItem>
         );
