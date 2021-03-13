@@ -38,7 +38,7 @@ function NewReferral(props) {
         newData['ClientId'] = props.match.params.id;
         newData['ReferTo'] = data['referTo'];
         newData['Status'] = "Made";
-
+        newData['Date'] = data['date'];
         newData['WorkerId'] = context.WorkerId;
         
         let services = []
@@ -85,6 +85,10 @@ function NewReferral(props) {
 
             services.push("Orthotic");
             newData['OrthoticService'] = orthoticForm;
+        }
+
+        if (otherSelected) {
+            services.push("Other");
         }
 
         newData['ServiceRequired'] = services;
