@@ -19,6 +19,11 @@ router.get('/', async (req,res) => {
     let disabilitiesInSearch = filters.hasOwnProperty('DisabilityType');
     let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName');
     let selectionClause;
+
+    let dateBounds = filters.DateCreated;
+    // Will add DateCreated to selectionClause later, therefore we don't need it in filters
+    delete filters['DateCreated'];
+
     if (nameInSearch && disabilitiesInSearch) {
         selectionClause = {
             [Op.or]:
@@ -60,6 +65,11 @@ router.get('/', async (req,res) => {
         selectionClause = filters;
     }
 
+    if (dateBounds) {
+        correctedBounds = correctDateFormat(dateBounds);
+        selectionClause.DateCreated = {[Op.between]: [correctedBounds[0], correctedBounds[1]] };
+    }
+
     let allClients = await client.findAll(
         {
             // SELECT * FROM Clients WHERE FirstName IN filters.Name OR LastName IN filters.Name
@@ -78,6 +88,17 @@ router.get('/', async (req,res) => {
         .then(wb.write('excel.xlsx', res))
         .catch(err => res.status(400).json(err));
 })
+
+// Bounds for the between operator in sequelize are inclusive for the first bound
+// and exclusive for the second bound so the dateTo bound must be increased by 1
+function correctDateFormat(dateBounds) {
+    const dateFrom = new Date(dateBounds[0]);
+
+    const dateTo = new Date(dateBounds[1]);
+    dateTo.setDate(dateTo.getDate() + 1);
+
+    return [dateFrom, dateTo];
+}
 
 // Takes an Excel workbook and sheet then adds the data to the sheet.
 // data must come from a database call
