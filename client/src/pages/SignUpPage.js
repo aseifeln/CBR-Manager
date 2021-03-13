@@ -57,7 +57,7 @@ function SignUpPage(props) {
                 const REGISTERED = '3'
                 if(res.data == REGISTERED){
                     alert("Username is already taken");
-                    await props.history.push("/signup");
+                    await window.location.replace("/signup");
                     return;
                 } else {
                     alert("User is successfully registered");
@@ -67,9 +67,10 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
+            window.location.replace("/login");
             return;
         }
-        props.history.push("/signup");
+        window.location.replace("/signup");
     }
 
     async function login(user){
