@@ -23,6 +23,16 @@ import "../css/ClientList.css";
 
 const buttonColor={color:"white",backgroundColor:"#46ad2f"}
 
+const formatDateStr = (dateStr) => {
+    // reference: https://stackoverflow.com/a/66409911
+    const date = new Date(dateStr)
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
+    const dd = String(date.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+
 function ClientListPage() {
 
    const [ refresh, setRefresh ] = useState(0);
@@ -39,12 +49,15 @@ function ClientListPage() {
    const [ searchLocation, setSearchLocation ] = useState('BidiBidi Zone 1');
    const [ searchVillageNo, setSearchVillageNo ] = useState('');
    const [ searchDisability, setSearchDisability ] = useState('Amputee');
+   const [ searchDateFrom, setSearchDateFrom ] = useState((new Date()).toLocaleDateString('en-CA'));
+   const [ searchDateTo, setSearchDateTo ] = useState((new Date()).toLocaleDateString('en-CA'));
 
    const [isOpenAge, setIsOpenAge] = useState(false);
    const [isOpenGender, setIsOpenGender] = useState(false);
    const [isOpenLocation, setIsOpenLocation] = useState(false);
    const [isOpenVillageNo, setIsOpenVillageNo] = useState(false);
    const [isOpenDisability, setIsOpenDisability] = useState(false);
+   const [isOpenDate, setIsOpenDate] = useState(false);
 
    const history = useHistory();
    const clientsPerPage = 30;
@@ -63,6 +76,12 @@ function ClientListPage() {
             });
     }, [refresh]);
 
+    useEffect(() => {
+        // date filter to have valid range
+        const dateFrom = new Date(searchDateFrom)
+        const dateTo = new Date(searchDateTo)
+        if (dateFrom > dateTo) setSearchDateTo(searchDateFrom)
+    }, [searchDateFrom, searchDateTo])
 
     useEffect(() => {
         setClientPages(filteredClients);
@@ -115,6 +134,22 @@ function ClientListPage() {
             }
             numFilters++;
         }
+        if (isOpenDate) {
+            const dateFrom = new Date(searchDateFrom)
+            const dateTo = new Date(searchDateTo)
+            const dateCreated = new Date(client.DateCreated)
+            dateFrom.setDate(dateFrom.getDate() + 1)
+            dateTo.setDate(dateTo.getDate() + 1)
+            dateFrom.setHours(0,0,0,0)
+            dateTo.setHours(0,0,0,0)
+            dateCreated.setHours(0,0,0,0)
+
+            if (dateCreated >= dateFrom && dateCreated <= dateTo) {
+                numFiltersMatching++;
+            }
+            numFilters++;
+        }
+
         lowerSearchName.forEach(name => {
             if (name === lowerClientFirstName || name === lowerClientLastName || name === '') {
                 numFilters++;
@@ -159,6 +194,7 @@ function ClientListPage() {
         setIsOpenLocation(false);
         setIsOpenVillageNo(false);
         setIsOpenDisability(false);
+        setIsOpenDate(false);
         setSearchName('');
         setSearchGender('');
         setRadioFilter('');
@@ -166,7 +202,8 @@ function ClientListPage() {
         setSearchLocation('BidiBidi Zone 1');
         setSearchVillageNo('');
         setSearchDisability('Amputee');
-
+        setSearchDateFrom((new Date()).toLocaleDateString('en-CA'));
+        setSearchDateTo((new Date()).toLocaleDateString('en-CA'));
 
         setOffset(0);
         setFilteredClients(clients);
@@ -191,6 +228,9 @@ function ClientListPage() {
                 break
             case 'DisabilityType':
                 setIsOpenDisability(!isOpenDisability);
+                break;
+            case 'Date':
+                setIsOpenDate(!isOpenDate);
                 break;
             default:
         }
@@ -225,6 +265,10 @@ function ClientListPage() {
         if(isOpenDisability) {
             filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
         }
+        if(isOpenDate) {
+            filters = filters.concat(`"DateCreated: { $between: ["${searchDateFrom}", ${searchDateTo}] }"`)
+        }
+
         if (names.length === 2) {
             filters = filters.concat(`"FirstName": "${names[0]}", "LastName": "${names[1]}"`);
         } else {
@@ -341,6 +385,10 @@ function ClientListPage() {
                                 <Input checked={isOpenDisability} type="checkbox" value="DisabilityType"/>
                                 Type of Disability
                             </Col>
+                            <Col xs="auto">
+                                <Input checked={isOpenDate} type="checkbox" value="Date"/>
+                                New client date
+                            </Col>
                         </Row>
                     </FormGroup>
                     <Collapse isOpen={isOpenAge}>
@@ -419,6 +467,27 @@ function ClientListPage() {
                                 <option value="Other">Other</option>
                             </Input>
                         </FormGroup>
+                    </Collapse>
+                    <Collapse isOpen={isOpenDate}>
+                        <div style={{ 'columnCount': 2, 'maxWidth': '500px' }}>
+                            <Label>From</Label>
+                            <Input
+                                name="Date"
+                                label="From"
+                                type="date"
+                                value={searchDateFrom}
+                                onChange={(event) => setSearchDateFrom(event.target.value)}
+                            />
+
+                            <Label>To</Label>
+                            <Input
+                                name="Date"
+                                label="To"
+                                type="date"
+                                value={searchDateTo}
+                                onChange={(event) => setSearchDateTo(event.target.value)}
+                            />
+                        </div>
                     </Collapse>
                 </Container>
             </Form>
