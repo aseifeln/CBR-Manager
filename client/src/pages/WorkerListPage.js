@@ -4,11 +4,13 @@ import ReactPaginate from 'react-paginate';
 import AdminSideBar from '../components/AdminSideBar';
 import CookieChecker from '../components/CookieChecker';
 import '../css/WorkerList.css';
+import axios from 'axios';
 
 function WorkerListPage() {
     const [offset, setOffset] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     const [currentPageWorkers, setCurrentPageWorkers] = useState([]);
+    const [workers, setWorkers] = useState([]);
 
 
     const [searchName, setSearchName] = useState('')
@@ -17,6 +19,10 @@ function WorkerListPage() {
     const workersPerPage = 15;
 
     useEffect(() => {
+        axios.get('/workers')
+            .then(res => setWorkers(res.data))
+            .catch(err => console.log(err))
+
         document.title = 'Workers List'
     },[])
 
@@ -108,24 +114,14 @@ function WorkerListPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>First Name 1</td>
-                        <td>Last Name 1</td>
-                        <td>BidiBidi Zone 1</td>
-                        <td><Button color="success">View</Button></td>
-                    </tr>
-                    <tr>
-                        <td>First Name 2</td>
-                        <td>Last Name 2</td>
-                        <td>BidiBidi Zone 1</td>
-                        <td><Button color="success">View</Button></td>
-                    </tr>  
-                    <tr>
-                        <td>First Name 3</td>
-                        <td>Last Name 3</td>
-                        <td>BidiBidi Zone 1</td>
-                        <td><Button color="success">View</Button></td>
-                    </tr>  
+                    {workers.map(({FirstName, LastName, Location}) => (
+                        <tr>
+                            <td>{FirstName}</td>
+                            <td>{LastName}</td>
+                            <td>{Location}</td>
+                            <td><Button color="success">View</Button></td>
+                        </tr>
+                    ))} 
                 </tbody>
             </Table>
             
