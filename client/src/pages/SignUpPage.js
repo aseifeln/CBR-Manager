@@ -67,7 +67,6 @@ function SignUpPage(props) {
             .catch( err => {
                 console.log(err);
             })
-            window.location.replace("/login");
             return;
         }
         window.location.replace("/signup");
@@ -84,7 +83,7 @@ function SignUpPage(props) {
                         document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
                     })
                     .catch(err => console.log(err))
-                props.history.push("/");
+                    window.location.replace("/");
                 console.log(res.data)
             })
             .catch( err => {
