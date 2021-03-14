@@ -164,7 +164,7 @@ function NewReferral(props) {
                             <FormGroup>
                             {(workerInfoFound) ? (
                                 <FieldInput placeholder="Autofill CBR worker Name" name="worker" label="CBR Worker"
-                                 defaultValue={worker.FirstName + ' ' + worker.FirstName} disabled/>
+                                 defaultValue={worker.FirstName + ' ' + worker.LastName} disabled/>
                             ): ""}
                             </FormGroup>
                         </Col>
