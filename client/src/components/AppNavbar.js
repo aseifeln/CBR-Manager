@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
 UncontrolledDropdown,
     DropdownMenu,
@@ -12,23 +12,39 @@ UncontrolledDropdown,
     Container
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../components/UserContext';
+
 // Dropdown functionality from:
 //https://reactstrap.github.io/components/navbar/
 
 function AppNavbar(props) {
+    const context = useContext(UserContext);
+    const [isAdmin, setIsAdmin] = useState(false)
+    const [refresh, setRefresh] = useState(0)
+
+    useEffect(() => {
+        if(context.Role === 'Admin'){
+            setIsAdmin(true)
+            setRefresh(refresh + 1)
+        }
+    }, [refresh])
     return(
         <div>
             <Navbar expand="lg" style={{backgroundColor:"#22a9ba",color:"inherit",marginBottom:"40px",padding:"15px"}}>
             <Container>
-                    <Link to="/">
+                    <Link to={isAdmin ? '/admin/dashboard' : '/'}>
                         <NavbarBrand style={{color:"white"}}>CBR Manager</NavbarBrand>
                     </Link>
+
                     <Nav className="ml-auto" navbar>
+                        {!isAdmin ?
                         <NavItem>
                             <Link to="/dashboard" className="nav-link" style={{color:"#c7eabe"}}>
                                 Dashboard
                             </Link>
                         </NavItem>
+                        :""}
+                        {!isAdmin ?
                         <UncontrolledDropdown nav inNavbar>
                             <DropdownToggle nav caret style={{color:"#c7eabe"}}>Clients</DropdownToggle>
                             <DropdownMenu>
@@ -40,6 +56,7 @@ function AppNavbar(props) {
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
+                        : ""}
                         <NavItem>
                             <Link to="/logout" className="nav-link" style={{color:"#000000"}}>
                                 Logout
