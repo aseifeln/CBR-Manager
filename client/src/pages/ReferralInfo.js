@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Media} from 'reactstrap';
+import { Container, Row, Col, Media, Button} from 'reactstrap';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import CookieChecker from '../components/CookieChecker';
 
-function ReferralInfo(){
+function ReferralInfo(props){
 
     const [referral, setReferral]= useState({});
 
@@ -13,45 +15,14 @@ function ReferralInfo(){
 
     useEffect(() => {
         document.title='Referral Info' 
-        setReferral({
-            Date: '2020-01-01',
-            ServiceRequired:[
-                'Physiotherapy',
-                'Prosthetic',
-                'Orthotic',
-                'Wheelchair',
-                'Other'
-            ],
-            OtherServices: 'No other services required',
-            ReferTo: 'Centre Services',
-            Status: 'Made',
-            Outcome: 'Ongoing',
-            ClientId: 1,
-            WorkerId: "c345718b-2d63-48e8-8e30-a9dd195ef4bc",
-            WheelchairService: {
-                Photo: "",
-                ClientProficiency: "Intermediate",
-                ClientHipWidth: 33,
-                WheelchairExist: "Y",
-                WheelchairRepairable: "Y"
-            },
-            PhysiotherapyService: {
-                Photo: "",
-                ClientCondition: [
-                    "Amputee",
-                    "Polio"
-                ],
-                OtherClientCondition: ""
-            },
-            ProstheticService: {
-                Photo: "",
-                InjuryPosition: "Above knee"
-            },
-            OrthoticService: {
-                Photo: "",
-                InjuryPosition: "Above elbow"
-            }
-        });
+        axios.get('/referrals/' + props.match.params.id)
+        .then(response => {
+            setReferral(response.data[0]);
+        })
+        .catch(error => {
+            console.log(error);
+            document.title = "Referral not found";
+        })
       }, [])
 
 
@@ -68,7 +39,9 @@ function ReferralInfo(){
                 </Row>
                 <Row>
                     <Col>
-                        <Media>{/*TODO*/}</Media>
+                        <div className="text-center">
+                            <Media src={`data:image/jpeg;base64,${referral.PhysiotherapyService.Photo}`} object alt="Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
+                        </div>
                     </Col>
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Conditions: </span>
@@ -94,7 +67,7 @@ function ReferralInfo(){
                 <Row>
                 {referral.ProstheticService.Photo!==""?
                     <Col>
-                        <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.ProstheticService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </Col>:null}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
@@ -114,9 +87,9 @@ function ReferralInfo(){
                     </Col>
                 </Row>
                 <Row>
-                {referral.ProstheticService.Photo!==""?
+                {referral.OrthoticService.Photo!==""?
                     <Col>
-                        <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.OrthoticService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                     </Col>:null}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
@@ -137,7 +110,7 @@ function ReferralInfo(){
             </Row>
             <Row>
                 <Col>
-                    <Media>{/*TODO*/}</Media>
+                <Media src={`data:image/jpeg;base64,${referral.WheelchairService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                 </Col>
                 <Col>
                     <h3 className='font-weight-bold' style={{fontSize: '18px'}}>Details: </h3>
@@ -146,7 +119,7 @@ function ReferralInfo(){
                         <li>- Hip Width (Inches): {referral.WheelchairService.ClientHipWidth}</li>
                         <li>- Existing Wheelchair: {referral.WheelchairService.WheelchairExist}</li>
                         {referral.WheelchairService.WheelchairExist==='Y'?
-                            <li>- Existing Wheelchair: {referral.WheelchairService.WheelchairRepairable}</li>:null}
+                            <li>- Wheelchair Repairable: {referral.WheelchairService.WheelchairRepairable}</li>:null}
                     </ul>
                 </Col>
             </Row>
@@ -164,9 +137,9 @@ function ReferralInfo(){
                 </Col>
             </Row>
             <Row>
-            {referral.ProstheticService.Photo!==""?
+            {referral.OtherServices.Photo!==""?
                 <Col>
-                    <Media>{/*TODO*/}</Media>
+                        <Media src={`data:image/jpeg;base64,${referral.OtherServices.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                 </Col>:null}
                 <Col>
                     <span className='font-weight-bold' style={{fontSize: '18px'}}>Details: </span>
@@ -183,7 +156,13 @@ function ReferralInfo(){
         <Container>
             <div style={formContainerSize}>
                 <CookieChecker></CookieChecker>
-                <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
+                <Row>
+                    <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
+                </Row>
+                <br/>
+                <Row>
+                    <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
+                </Row>
                 <Row>
                     <Col>
                         Services: {referral.ServiceRequired && referral.ServiceRequired.join(', ')}

@@ -10,6 +10,7 @@ function ClientInfo(props) {
 
     const [ client, setClient ] = useState({});
     const [ visits, setVisits ] = useState([]);
+    const [ referrals,setReferrals] = useState([]);
     const [ clientFound, setClientFound ] = useState(false);
 
     const [showHealthInfo, setShowHealthInfo] = useState(true);
@@ -42,6 +43,14 @@ function ClientInfo(props) {
         axios.get('/visits/client/' + props.match.params.id)
             .then(response => {
                 setVisits(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        axios.get('/referrals/client/' + props.match.params.id)
+            .then(response => {
+                setReferrals(response.data);
             })
             .catch(error => {
                 console.log(error);
@@ -124,8 +133,6 @@ as right now will still render this component briefly even for existing clients*
                             <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
                             <div style={areaInfo}>Related Visits:</div> <br/>
                             <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
-                            <div style={areaInfo}>Referral Status:</div> {/*TODO*/}<br/>
-                            <div style={areaInfo}>Referral Outcome:</div> {/*TODO*/} <br />
                         </CardBody>
                     </Collapse>
                 </Card>
@@ -249,6 +256,19 @@ as right now will still render this component briefly even for existing clients*
                         <ul>
                             {visits.map(({VisitId, Date}) => (
                                 <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
+                            ))}
+                        </ul>
+                    </CardBody>
+                </Card>
+                <Card>
+                    <CardHeader style={areaColor2}>
+                        <h2 style={areaFontSize}>All Referrals</h2>
+                    </CardHeader>
+                    <CardBody>
+                        &nbsp; Click on a date to view more info or edit: <br/>
+                        <ul>
+                            {referrals.map(({ReferralId, Date,Status,Outcome}) => (
+                                <li><Link to={`/referral/${ReferralId}`}>Status: {(Status!="")?Status:"N/A"} || Outcome: {(Outcome!="")?Outcome:"N/A"} || Date: {Date}</Link></li>
                             ))}
                         </ul>
                     </CardBody>
