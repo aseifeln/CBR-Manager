@@ -13,9 +13,9 @@ const default_profile = fs.readFileSync('./image/default-profile.jpg');
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
 const worker1_uuidv4 = '7b2aff58-60fb-4f42-aa3b-21760ed4c134';
 const worker2_uuidv4 = '53e996ff-6c85-4e3e-b7c8-ff31edd93239';
-const admin_uuidv4 = 'd6ef8378-3956-403a-ac4b-50a714c742a0';
 
 const defaultPassword = bcrypt.hashSync('123456', 10);
 
@@ -51,15 +51,9 @@ const defaultPassword = bcrypt.hashSync('123456', 10);
       }
     },
     {
-      Worker: {
-        WorkerId: admin_uuidv4,
-        FirstName: 'Admin',
-        LastName: 'One',
-        Photo: '',
-        Location: locations[5],
-      },
+      Worker: null,
       User: {
-        WorkerId: admin_uuidv4,
+        WorkerId: null,
         Username: 'admin',
         Password: defaultPassword,
         Role: 'Admin'

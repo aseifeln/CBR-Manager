@@ -4,9 +4,12 @@ module.exports = function SeedInterface(seedWorkers, seedClients) {
 
             for (let i = 0; i < seedWorkers.length; i++) {
                 // Create Workers and associated User accounts
-                await queryInterface.bulkInsert('Worker', [
-                    seedWorkers[i].Worker,
-                ]);
+
+                if (seedWorkers[i].Worker !== null) {
+                    await queryInterface.bulkInsert('Worker', [
+                    seedWorkers[i].Worker
+                    ]);
+                }
 
                 await queryInterface.bulkInsert('User', [
                     seedWorkers[i].User,

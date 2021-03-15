@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "cbr_manager": "file:..",
+    "install": "^0.13.0",
     "react": "^17.0.1",
     "react-bootstrap-typeahead": "^5.1.4",
     "react-dom": "^17.0.1",
