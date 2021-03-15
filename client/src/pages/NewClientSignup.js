@@ -27,6 +27,7 @@ function NewClientSignup() {
     data['Photo'] = (imagePreviewSrc) || null
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
     data['Date'] = clientDate
+    data['Gender'] = (data['Gender'] || 'Male')
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
