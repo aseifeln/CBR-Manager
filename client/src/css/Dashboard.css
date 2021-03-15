@@ -18,3 +18,8 @@ h1 {
 .priorityClient{
     margin: 3em;
 }
+
+.container{
+    margin: 'auto';
+    max-width: 800
+}

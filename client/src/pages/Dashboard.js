@@ -12,7 +12,8 @@ function Dashboard() {
     document.title="CBR Dashboard"
   }, [])
   return (
-    <div id="dashboard">
+    
+    <div id="container">
       <CookieChecker></CookieChecker>
       <Container>
         <Row>
@@ -21,12 +22,12 @@ function Dashboard() {
           </Col>
         </Row>
         <Row>
-            <Col sm={{size:"auto", offset:1}}>
+            <Col>
               <div className="priorityClient">
                 <PriorityClients></PriorityClients>
               </div>
             </Col>
-            <Col sm={{size:"auto"}}>
+            <Col>
               <div className="outRefs">
                 <OutRefs></OutRefs>
               </div>
