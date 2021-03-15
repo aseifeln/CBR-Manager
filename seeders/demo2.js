@@ -129,7 +129,7 @@ let seedClients = [
         PhysiotherapyService: {
           PhysiotherapyServiceId: uuid.v4(),
           Photo: default_profile,
-          ClientCondition: null,
+          ClientCondition: 'Amputee',
         },
         ProstheticService: {
           ProstheticServiceId: uuid.v4(),
