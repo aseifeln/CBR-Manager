@@ -20,14 +20,12 @@ import { UserContext } from '../components/UserContext';
 function AppNavbar(props) {
     const context = useContext(UserContext);
     const [isAdmin, setIsAdmin] = useState(false)
-    const [refresh, setRefresh] = useState(0)
 
     useEffect(() => {
         if(context.Role === 'Admin'){
             setIsAdmin(true)
-            setRefresh(refresh + 1)
         }
-    }, [refresh])
+    }, [])
     return(
         <div>
             <Navbar expand="lg" style={{backgroundColor:"#22a9ba",color:"inherit",marginBottom:"40px",padding:"15px"}}>
