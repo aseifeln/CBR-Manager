@@ -12,7 +12,8 @@ UncontrolledDropdown,
     Container
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../components/UserContext';
+import { UserContext } from './UserContext';
+
 
 // Dropdown functionality from:
 //https://reactstrap.github.io/components/navbar/
@@ -25,7 +26,7 @@ function AppNavbar(props) {
         if(context.Role === 'Admin'){
             setIsAdmin(true)
         }
-    }, [])
+    }, [context])
     return(
         <div>
             <Navbar expand="lg" style={{backgroundColor:"#585858",color:"inherit",marginBottom:"40px",padding:"15px"}}>

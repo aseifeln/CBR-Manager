@@ -15,8 +15,8 @@ function App() {
             <Router>
                 {(document.location.pathname !== '/login' && document.location.pathname !== '/signup') ? (
                     <div>
-                        <AppNavbar style={{position:"sticky"}}/>
                         <CookieChecker></CookieChecker>
+                        <AppNavbar style={{position:"sticky"}}/>
                     </div>
                 ):""}
                 <RenderRoutes routes={ROUTES}/>
