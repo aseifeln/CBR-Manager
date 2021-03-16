@@ -51,7 +51,13 @@ function Login(props) {
                             .then(res => {
                                 document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge);
                                 document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge);
-                                window.location.replace('/');
+                                if(res.data[0].Role === 'Worker'){
+                                    window.location.replace('/');
+                                }
+                                else{
+                                    window.location.replace('/admin/dashboard');
+                                }
+                                
                             })
                             .catch(err => console.log(err))
 

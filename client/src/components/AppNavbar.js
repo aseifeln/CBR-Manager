@@ -28,10 +28,10 @@ function AppNavbar(props) {
     }, [])
     return(
         <div>
-            <Navbar expand="lg" style={{backgroundColor:"#22a9ba",color:"inherit",marginBottom:"40px",padding:"15px"}}>
+            <Navbar expand="lg" style={{backgroundColor:"#585858",color:"inherit",marginBottom:"40px",padding:"15px"}}>
             <Container>
                     <Link to={isAdmin ? '/admin/dashboard' : '/'}>
-                        <NavbarBrand style={{color:"white"}}>CBR Manager</NavbarBrand>
+                        <NavbarBrand style={{color:"white"}}> <img src="favicon.ico" style={{display:"inline"}}/>CBR Manager</NavbarBrand>
                     </Link>
 
                     <Nav className="ml-auto" navbar>
@@ -56,7 +56,7 @@ function AppNavbar(props) {
                         </UncontrolledDropdown>
                         : ""}
                         <NavItem>
-                            <Link to="/logout" className="nav-link" style={{color:"#000000"}}>
+                            <Link to="/logout" className="nav-link" style={{color:"#c7eabe"}}>
                                 Logout
                             </Link>
                         </NavItem>

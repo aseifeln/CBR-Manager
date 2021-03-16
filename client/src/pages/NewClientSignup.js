@@ -2,7 +2,8 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
-import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
+import { Col, Row, FormText, CardBody, Card, FormGroup, Label } from 'reactstrap';
+import DatePicker from 'reactstrap-date-picker';
 import {getGPSLocation} from './Helpers';
 import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
@@ -10,6 +11,7 @@ import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../
 function NewClientSignup() {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
   const [caregiverPresent, setCaregiverPresent] = useState(false)
+  const [clientDate, setClientDate] = useState((new Date()).toISOString())
   const [GPSLocation, setGPSLocation] = useState('');
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
@@ -24,6 +26,7 @@ function NewClientSignup() {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['Photo'] = (imagePreviewSrc) || null
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
+    data['Date'] = clientDate
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
@@ -66,6 +69,19 @@ function NewClientSignup() {
       <Step name='General'>
         <Row form>
           <Col xs={12}>
+            <h4>Interviews</h4>
+            <FormText className='mb-2 pb-1'>Consent will allow HHA to conduct interviews for research and educational purposes. It is required for future visits and referals.</FormText>
+            <FieldCheck
+              name="Consent"
+              type="checkbox"
+              label="Client consents to Interview"
+              required="Client's consent is required"
+            />
+
+            <hr/>
+          </Col>
+
+          <Col xs={12}>
             <h4>General Details</h4>
             <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
           </Col>
@@ -98,6 +114,7 @@ function NewClientSignup() {
               label="Client Picture"
               required="Client photo is required"
               type="file"
+              accept="image/*" 
               onChange={(e) => {
                 if (e.target) {
                   setImagePreviewSrc(e.target.files[0])
@@ -112,12 +129,17 @@ function NewClientSignup() {
 
         <Row form>
           <Col xs={12}>
-            <FieldInput 
-              name="Date" 
-              label="New Client Date" 
-              type="date" 
-              defaultValue={(new Date()).toLocaleDateString('en-CA')}
-            />
+            <FormGroup>
+              <Label>New Client On</Label>
+              <DatePicker
+                showClearButton={false}
+                value={clientDate}
+                onChange={(v) => {
+                  console.log(v)
+                  setClientDate(v)
+                }}
+              />
+            </FormGroup>
           </Col>
 
           <Col xs={12}>
@@ -225,8 +247,8 @@ function NewClientSignup() {
         </Row>
       </Step>
 
-      {/* 3. Misc Details */}
-      <Step name='Miscellaneous'>
+      {/* 3. Caregiver Details */}
+      <Step name='Caregiver'>
         <Row form>
           <Col xs={12}>
             <h4>Caregiver Details</h4>
@@ -238,32 +260,28 @@ function NewClientSignup() {
             />
 
             {(caregiverPresent) ? (
-              <FieldInput 
-                name="CaregiverContactNo" 
-                label="Caregiver Contact Number" 
-                type="text"
-                placeholder="e.g. 756-126-9380"
-                required={(caregiverPresent) && 'Contact No. is required'}
-                validations={[
-                  {
-                    rule: isPattern(phoneNumberRegex),
-                    message: 'Invalid contact number format'
-                  }
-                ]}
-              />
+              <>
+                <FieldInput
+                  name="CaregiverName"
+                  label="Caregiver Name"
+                  required={(caregiverPresent) && 'Caregiver\'s name is required' }
+                />
+
+                <FieldInput 
+                  name="CaregiverContactNo" 
+                  label="Caregiver Contact Number" 
+                  type="text"
+                  placeholder="e.g. 756-126-9380"
+                  required={(caregiverPresent) && 'Contact No. is required'}
+                  validations={[
+                    {
+                      rule: isPattern(phoneNumberRegex),
+                      message: 'Invalid contact number format'
+                    }
+                  ]}
+                />
+              </>
             ) : ''}
-
-            <hr/>
-          </Col>
-
-          <Col xs={12}>
-            <h4>Interviews</h4>
-            <FormText className='mb-2 pb-1'>Consent will allow HHA to conduct interviews for research and educational purposes.</FormText>
-            <FieldCheck
-              name="Consent"
-              type="checkbox"
-              label="Client consents to Interview"
-            />
           </Col>
         </Row>
       </Step>
