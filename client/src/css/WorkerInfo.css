@@ -1,0 +1,27 @@
+.summary-stats {
+    height: 180px;
+    margin-bottom: 60px;
+}
+
+.visit-count {
+    background-color: teal;
+    margin-right: 60px;
+}
+
+.visit-count h5 {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.referral-count {
+    background-color: tomato;
+}
+
+.referral-count h5 {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 60px;
+}
