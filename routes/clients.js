@@ -74,7 +74,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         VillageNo, Age, DisabilityType, GPSLocation, Consent,
         CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
         HealthGoal, EducationStatus, EducationDesc, EducationGoal,
-        SocialStatus, SocialDesc, SocialGoal, WorkerId} = req.body;
+        SocialStatus, SocialDesc, SocialGoal, CaregiverName, WorkerId} = req.body;
 
     client.create({
         FirstName,
@@ -88,6 +88,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         Photo: req.file.buffer,
         GPSLocation,
         Consent,
+        CaregiverName,
         CaregiverState,
         CaregiverContactNo,
         HealthStatus,
