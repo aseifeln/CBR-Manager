@@ -3,13 +3,18 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 import classnames from 'classnames';
 import CookieChecker from '../components/CookieChecker';
 import AdminSideBar from '../components/AdminSideBar';
+import {Link} from 'react-router-dom';
 import '../css/WorkerInfo.css'
 
 function WorkerInfo(props){
 
     const [activeTab, setActiveTab] = useState('1');
+    const [activeSubTab, setActiveSubTab] = useState('1');
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
+    }
+    const toggleSubTab = subTab => {
+        if(activeSubTab !== subTab) setActiveSubTab(subTab);
     }
 
     return (
@@ -39,7 +44,7 @@ function WorkerInfo(props){
             <Nav tabs>
                 <NavItem>
                 <NavLink
-                    className={classnames({ active: activeTab === '1' })}
+                    className={classnames({ active: activeTab === '1' }, 'tab-link')}
                     onClick={() => { toggle('1'); }}
                 >
                     Visits
@@ -47,7 +52,7 @@ function WorkerInfo(props){
                 </NavItem>
                 <NavItem>
                 <NavLink
-                    className={classnames({ active: activeTab === '2' })}
+                    className={classnames({ active: activeTab === '2' }, 'tab-link')}
                     onClick={() => { toggle('2'); }}
                 >
                     Referrals
@@ -55,7 +60,7 @@ function WorkerInfo(props){
                 </NavItem>
                 <NavItem>
                 <NavLink
-                    className={classnames({ active: activeTab === '3' })}
+                    className={classnames({ active: activeTab === '3' }, 'tab-link')}
                     onClick={() => { toggle('3'); }}
                 >
                     Stats
@@ -63,24 +68,73 @@ function WorkerInfo(props){
                 </NavItem>
             </Nav>
             <TabContent activeTab={activeTab}>
-                <TabPane tabId="1">
+                <TabPane className="tab-content" tabId="1">
+                <ul>
+                    <li><Link>17-03-2021</Link></li>
+                    <li><Link>16-03-2021</Link></li>
+                    <li><Link>15-03-2021</Link></li>
+                    <li><Link>14-03-2021</Link></li>
+                    <li><Link>13-03-2021</Link></li>
+                </ul>
+                </TabPane>
+                <TabPane className="tab-content" tabId="2">
+                    <Nav tabs>
+                        <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeSubTab === '1' }, 'tab-link')}
+                            onClick={() => { toggleSubTab('1'); }}
+                        >
+                            All
+                        </NavLink>
+                        </NavItem>
+                        <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeSubTab === '2' }, 'tab-link')}
+                            onClick={() => { toggleSubTab('2'); }}
+                        >
+                            Made
+                        </NavLink>
+                        </NavItem>
+                        <NavItem>
+                        <NavLink
+                            className={classnames({ active: activeSubTab === '3' }, 'tab-link')}
+                            onClick={() => { toggleSubTab('3'); }}
+                        >
+                            Resolved
+                        </NavLink>
+                        </NavItem>
+                    </Nav>
+                    <TabContent activeTab={activeSubTab}>
+                        <TabPane className="tab-content" tabId="1">
+                        <ul>
+                            <li><Link>17-03-2021</Link></li>
+                            <li><Link>16-03-2021</Link></li>
+                            <li><Link>15-03-2021</Link></li>
+                            <li><Link>14-03-2021</Link></li>
+                            <li><Link>13-03-2021</Link></li>
+                        </ul>
+                        </TabPane>
+                        <TabPane className="tab-content" tabId="2">
+                        <ul>
+                            <li><Link>17-03-2021</Link></li>
+                            <li><Link>16-03-2021</Link></li>
+                            <li><Link>15-03-2021</Link></li>
+                            <li><Link>14-03-2021</Link></li>
+                        </ul>
+                        </TabPane>
+                        <TabPane className="tab-content" tabId="3">
+                        <ul>
+                            <li><Link>17-03-2021</Link></li>
+                            <li><Link>16-03-2021</Link></li>
+                            <li><Link>15-03-2021</Link></li>
+                        </ul>
+                        </TabPane>
+                    </TabContent>
+                </TabPane>
+                <TabPane className="tab-content" tabId="3">
                 <Row>
                     <Col sm="12">
-                    <h4>Tab 1 Contents</h4>
-                    </Col>
-                </Row>
-                </TabPane>
-                <TabPane tabId="2">
-                <Row>
-                    <Col sm="6">
-                    <h4>Tab 2 Contents</h4>
-                    </Col>
-                </Row>
-                </TabPane>
-                <TabPane tabId="3">
-                <Row>
-                    <Col sm="12">
-                    <h4>Insert some stats here</h4>
+                    <h4>Insert some charts and stats here</h4>
                     </Col>
                 </Row>
                 </TabPane>

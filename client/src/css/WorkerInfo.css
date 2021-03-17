@@ -25,3 +25,13 @@
     text-align: center;
     margin-top: 60px;
 }
+
+.tab-content {
+    background-color:white;
+    color: black;
+    border-width: 0px;
+}
+
+.tab-link {
+    cursor: pointer;
+}
