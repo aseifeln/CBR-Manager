@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const worker = require('../models/worker')
+const visit = require('../models/visit')
 const referral = require('../models/referral')
 
 // @route   GET /workers
@@ -13,6 +14,29 @@ router.get('/', (req,res) => {
     })
     .then(workers => res.json(workers))
     .catch(err => res.status(404).json(err))
+})
+
+// @route   GET /workers/id/visits
+// @desc    GET Retrieve all visits done by a worker from the database
+router.get('/:id/visits', (req,res) => {
+    const workerId = req.params.id;
+
+    visit.findAll({
+        attributes: [
+            'ClientId',
+            'VisitId', 
+            'VisitPurpose', 
+            'Date'
+        ],
+        where: {
+            WorkerId: workerId
+        },
+        order: [
+            ['Date', 'DESC']
+        ]
+    })
+    .then(visits => res.json(visits))
+    .catch(err => res.status(400).json(err))
 })
 
 // @route   GET /workers/id/referrals
