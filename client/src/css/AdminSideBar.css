@@ -1,9 +1,3 @@
-@media (min-width: 1205px) {
-    .container-fluid {
-      margin-left: 500px;
-    }
-  }
-
 .SideNav{
     height: 100vh;
     width: 250px;
