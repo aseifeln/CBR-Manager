@@ -79,6 +79,10 @@ const Client = db.define('Client', {
         type: Sequelize.ENUM('Y', 'N'),
         allowNull: false
     },
+    CaregiverName: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     CaregiverState: {
         type: Sequelize.ENUM('Y', 'N'),
         allowNull: false

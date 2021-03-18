@@ -139,10 +139,11 @@ function FieldInput(props) {
 
 function FieldCheck(props) {
   // <FieldCheck/> for checkboxes and radios
-  const { className, value: propValue, defaultChecked, label, type, onChange } = props
-	const { errorMessage, setValue, value, isSubmitted } = useField(props)
+  const { className, value: propValue, defaultChecked, label, type, required, onChange } = props
+	const { errorMessage, setValue, value, isPristine, isSubmitted } = useField(props)
 
-  const showError = isSubmitted
+  const typeCheckReq = (type === 'checkbox' && required && !value && (!isPristine || isSubmitted))
+  const showError = typeCheckReq || isSubmitted
 
   useEffect(() => {
     if (defaultChecked) setValue(propValue || true)
@@ -160,7 +161,7 @@ function FieldCheck(props) {
               invalid={showError}
               onChange={(e) => {
                 if (type === 'radio') setValue(propValue)
-                else if (type === 'checkbox') setValue(!e.target.value)
+                else if (type === 'checkbox') setValue(e.target.checked)
                 if (onChange) onChange(e)
               }}
             />{' ' + label}
