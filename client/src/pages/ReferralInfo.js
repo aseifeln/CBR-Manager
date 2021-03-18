@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Media, Button, Input, FormGroup, Label, Form} from 'reactstrap';
+import { Container, Row, Col, Media, Button } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CookieChecker from '../components/CookieChecker';
 import Modal from 'react-modal';
-import { Step, FieldInput, MultiStepForm } from "../components/MultiStepForm";
+import { FieldInput,} from "../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
 
 function ReferralInfo(props){
