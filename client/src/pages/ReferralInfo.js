@@ -1,17 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Media, Button} from 'reactstrap';
+import { Container, Row, Col, Media, Button, Input, FormGroup, Label, Form} from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import CookieChecker from '../components/CookieChecker';
+import Modal from 'react-modal';
+import { Step, FieldInput, MultiStepForm } from "../components/MultiStepForm";
+import { Formiz, useForm } from '@formiz/core';
 
 function ReferralInfo(props){
 
+    let formState = useForm();
+
     const [referral, setReferral]= useState({});
+    const [ modelOpen, setModalOpen ] = useState(false);
 
     const formContainerSize={
         margin: 'auto',
         maxWidth: 800
     }
+
+    const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)'
+        }
+      };
 
     useEffect(() => {
         document.title='Referral Info' 
@@ -24,7 +41,28 @@ function ReferralInfo(props){
             document.title = "Referral not found";
         })
       }, [])
+    
+    function openModal() {
+        setModalOpen(true);
+    }
 
+    function closeModal() {
+        setModalOpen(false);
+    }
+
+    function resolveReferral(data) {
+        axios.put('/referrals/' + props.match.params.id + '/edit', data)
+        .then((response => {
+            closeModal();
+            alert("Referral has been resolved")
+            window.location.reload()
+        }))
+        .catch(err => {
+            console.log(err);
+            closeModal();
+            alert("Something went wrong when trying to resolve the referral");
+        })
+    }
 
     function ServiceHandler( props ){
         switch(props.service){
@@ -157,7 +195,28 @@ function ReferralInfo(props){
             <div style={formContainerSize}>
                 <CookieChecker></CookieChecker>
                 <Row>
-                    <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
+                    <Col>
+                        <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
+                    </Col>
+                    <Col>
+                        <Button onClick={openModal} style={{float: 'right'}}>Resolve</Button>
+                        <Modal
+                         isOpen={modelOpen}
+                         onRequestClose={closeModal}
+                         style={customStyles}>
+                            <Formiz connect={formState} onValidSubmit={resolveReferral}>
+                                <form onSubmit={formState.submit}>
+                                    <FieldInput label="Status" type="select" name="Status" required="A selection is required">
+                                        <option hidden selected>Choose a status</option>
+                                        <option>Made</option>
+                                        <option>Resolved</option>
+                                    </FieldInput>
+                                    <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required"/>
+                                    <Button type="submit">Submit</Button>
+                                </form>
+                            </Formiz>
+                        </Modal>
+                    </Col>
                 </Row>
                 <br/>
                 <Row>
