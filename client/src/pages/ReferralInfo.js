@@ -19,6 +19,7 @@ function ReferralInfo(props){
         maxWidth: 800
     }
 
+    // Reference: https://www.npmjs.com/package/react-modal (Is temporary)
     const customStyles = {
         content : {
           top                   : '50%',
