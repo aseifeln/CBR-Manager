@@ -57,10 +57,10 @@ function ClientInfo(props) {
             })
     }, [])
 
-    function ClientAreaHandler(props) {
+    function ClientAreaAccordian(props) {
 
-        const { Area, Status, Goal, Desc, defaultCardState } = props;
-        const [ toggle, setToggle ] = useState(defaultCardState);
+        const { Area, Status, Goal, Desc, DefaultState } = props;
+        const [ toggle, setToggle ] = useState(DefaultState);
 
         return (
             <Card>
@@ -144,136 +144,15 @@ as right now will still render this component briefly even for existing clients*
             </Container>
             <br/>
             <Container>
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Health</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowHealthInfo(!showHealthInfo)}>
-                                    {(showHealthInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showHealthInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
-                            <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
-                        </CardBody>
-                    </Collapse>
-                </Card>
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Education</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowEducationInfo(!showEducationInfo)}>
-                                    {(showEducationInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showEducationInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.EducationGoal} <br />
-                            <div style={areaInfo}>Description:</div> {client.EducationDesc}
-                        </CardBody>
-                    </Collapse>
-                </Card>
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Social</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowSocialInfo(!showSocialInfo)}>
-                                    {(showSocialInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showSocialInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.SocialGoal}<br />
-                            <div style={areaInfo}>Description:</div> {client.SocialDesc}
-                        </CardBody> 
-                    </Collapse>
-                </Card>
+                <ClientAreaAccordian Area="Health" Status={client.HealthStatus} Goal={client.HealthGoal} Desc={client.HealthDesc} DefaultState={true}/>
+                <ClientAreaAccordian Area="Social" Status={client.SocialStatus} Goal={client.SocialGoal} Desc={client.SocialDesc} DefaultState={false}/>
+                <ClientAreaAccordian Area="Health" Status={client.EducationStatus} Goal={client.EducationGoal} Desc={client.EducationDesc} DefaultState={false}/>
                 {/* The remaining areas are for display purposes only and will be added later */}
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Food / Nutrition</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowFoodNutritionInfo(!showFoodNutritionInfo)}>
-                                    {(showFoodNutritionInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showFoodNutritionInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.foodNutritionRisk}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.foodNutritionGoal}
-                        </CardBody> 
-                    </Collapse>
-                </Card>
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Shelter / Care</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowShelterCareInfo(!showShelterCareInfo)}>
-                                    {(showShelterCareInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showShelterCareInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.shelterCareRisk}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.shelterCareGoal}
-                        </CardBody>
-                    </Collapse>
-                </Card>
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Livelihood</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowLivelihoodInfo(!showLivelihoodInfo)}>
-                                    {(showLivelihoodInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showLivelihoodInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.livelihoodRisk}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.livelihoodGoal}
-                        </CardBody>
-                    </Collapse>
-                </Card>
-                <Card>
-                    <CardHeader style={areaColor}>
-                        <Row>
-                            <Col><h2 style={areaFontSize}>Empowerment</h2></Col>
-                            <Col>
-                                <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setShowEmpowermentInfo(!showEmpowermentInfo)}>
-                                    {(showEmpowermentInfo) ? "Hide" : "Expand"}
-                                </Button>
-                            </Col>
-                        </Row>
-                    </CardHeader>
-                    <Collapse isOpen={showEmpowermentInfo}>
-                        <CardBody>
-                            <div style={areaInfo}>Risk Level:</div> {client.empowermentRisk}<br/>
-                            <div style={areaInfo}>Goal:</div> {client.empowermentGoal}
-                        </CardBody>
-                    </Collapse>
-                </Card>
+                <ClientAreaAccordian Area="Food / Nutrition" DefaultState={false}/>
+                <ClientAreaAccordian Area="Shelter / Care" DefaultState={false}/>
+                <ClientAreaAccordian Area="Food / Nutrition" DefaultState={false}/>
+                <ClientAreaAccordian Area="Livelihood" DefaultState={false}/>
+                <ClientAreaAccordian Area="Empowerment" DefaultState={false}/>
                 <Card>
                     <CardHeader style={areaColor2}>
                         <h2 style={areaFontSize}>All Visits</h2>
