@@ -17,6 +17,8 @@ function NewReferral(props) {
 
     const [ client, setClient ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
+    const [ clients, setClients ] = useState([]);
+    const [ clientProvided, setClientProvided ] = useState(false);
     const [ otherSelected, setOtherSelected ] = useState(false);
 
     const [ wheelchairService, setWheelchairService ] = useState(false);
@@ -35,7 +37,14 @@ function NewReferral(props) {
 
     function prepareData(data) {
         let newData = {};
-        newData['ClientId'] = props.match.params.id;
+        
+        if (clientProvided) {
+            newData['ClientId'] = props.match.params.id;
+        }
+        else {
+            newData['ClientId'] = data.client;
+        }
+
         newData['ReferTo'] = data['referTo'];
         newData['Status'] = "Made";
         newData['Date'] = data['date'];
@@ -124,22 +133,37 @@ function NewReferral(props) {
           console.log(error);
         })
 
-        axios.get('/clients/' + props.match.params.id)
-        .then(response => {
-            setClient(response.data);
-            setClientFound(true)
-        })
-        .catch(error => {
-            console.log(error);
-            document.title = "Client not found";
-            alert("Client not found");
-            history.push('/dashboard')
-        })
+        if (typeof props.match.params.id !== 'undefined') {
+            axios.get('/clients/' + props.match.params.id)
+            .then(response => {
+                setClient(response.data);
+                setClientFound(true);
+                setClientProvided(true);
+            })
+            .catch(error => {
+                console.log(error);
+                document.title = "Client not found";
+                alert("Client not found");
+                history.push('/dashboard')
+            })
+        }
+        else {
+            setClientProvided(false);
+            axios.get('/clients')
+            .then(response => {
+                setClients(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Something went wrong")
+                history.push('/dashboard')
+            })
+        }
     
         document.title="New Referral";
     }, [])
 
-    if (!clientFound) {
+    if (!clientFound && clientProvided) {
         return (
             <div>
                 <NotFoundPage/>
@@ -150,14 +174,35 @@ function NewReferral(props) {
     return (
         <Container>
             <CookieChecker></CookieChecker>
-            <Row>
-              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {client.FirstName + ' ' + client.LastName}
-              </Col>
-            </Row>
+            {(clientProvided) ? (
+                <Row>
+                    <Col className="font-weight-bold" style={{fontSize: "30px"}}>
+                        Client: {client.FirstName + ' ' + client.LastName}
+                    </Col>
+                </Row>
+            ) : ("")}
 
             <MultiStepForm name="New Referral" onValidSubmit={onValidSubmit}>
                 <Step name="General Info">
+
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                            {(clientProvided) ? (
+                                <FieldInput label="Client" name="client" disabled
+                                defaultValue={client.FirstName + ' ' + client.LastName}/>
+                            ) : (
+                                <FieldInput type="select" label="Client" name="client" required="Client is required">
+                                <option hidden selected>Select a client</option>
+                                {/* TODO: Make it so users can type out the name, which autofills */}
+                                {clients.map(({FirstName, LastName, ClientId}) => (
+                                    <option value={ClientId}>{FirstName} {LastName}</option>
+                                ))}
+                                </FieldInput>
+                            )}
+                            </FormGroup>
+                        </Col>
+                    </Row>
 
                     <Row form>
                         <Col>
