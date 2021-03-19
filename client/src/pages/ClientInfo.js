@@ -99,8 +99,8 @@ function ClientInfo(props) {
                             </div>
                         ) : (
                             <div>
-                                {mappings.map(({ReferralId, Date,Status,Outcome}) => (
-                                    <li><Link to={`/referral/${ReferralId}`}>Status: {(Status!="")?Status:"N/A"} || Outcome: {(Outcome!="")?Outcome:"N/A"} || Date: {Date}</Link></li>
+                                {mappings.map(({ReferralId, Date, Status, Outcome}) => (
+                                    <li><Link to={`/referral/${ReferralId}`}>Status: {Status || "N/A"} || Outcome: {Outcome || "N/A"} || Date: {Date}</Link></li>
                                 ))}
                             </div>
                         )}
