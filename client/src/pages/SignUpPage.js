@@ -67,28 +67,28 @@ function SignUpPage(props) {
     }
 
     function authPasses() {
-        var PASS = true
+        var isPass = true
         if (!firstName.length > 0) {
             setFirstNameErr(true)
-            PASS = false
+            isPass = false
         }
         if (!lastName.length > 0) {
             setLastNameErr(true)
-            PASS = false
+            isPass = false
         }
         if (!username.length > 0) {
             setUsernameErr(true)
-            PASS = false
+            isPass = false
         }
         if (password.length <= 5) {
             setPasswordErr(true)
-            PASS = false
+            isPass = false
         }
         if (confirmPassword !== password) {
             setConfirmPasswordErr(true)
-            PASS = false
+            isPass = false
         }
-        return PASS
+        return isPass
     }
 
     async function handleSubmit(event) {
