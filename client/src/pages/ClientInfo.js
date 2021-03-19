@@ -51,14 +51,14 @@ function ClientInfo(props) {
 
     function ClientAreaAccordian(props) {
 
-        const { Area, Status, Goal, Desc, DefaultState } = props;
-        const [ toggle, setToggle ] = useState(DefaultState);
+        const { area, status, goal, desc, defaultState } = props;
+        const [ toggle, setToggle ] = useState(defaultState);
 
         return (
             <Card>
                 <CardHeader style={areaColor}>
                     <Row>
-                        <Col><h2 style={areaFontSize}>{Area}</h2></Col>
+                        <Col><h2 style={areaFontSize}>{area}</h2></Col>
                         <Col>
                             <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setToggle(!toggle)}>
                                 {(toggle) ? "Hide" : "Expand"}
@@ -68,9 +68,9 @@ function ClientInfo(props) {
                 </CardHeader>
                 <Collapse isOpen={toggle}>
                     <CardBody>
-                        <div style={areaInfo}>Risk Level:</div> {Status}<br/>
-                        <div style={areaInfo}>Goal:</div> {Goal}<br/>
-                        <div style={areaInfo}>More Details:</div> {Desc}<br/>
+                        <div style={areaInfo}>Risk Level:</div> {status}<br/>
+                        <div style={areaInfo}>Goal:</div> {goal}<br/>
+                        <div style={areaInfo}>More Details:</div> {desc}<br/>
                     </CardBody>
                 </Collapse>
             </Card>
@@ -169,15 +169,15 @@ as right now will still render this component briefly even for existing clients*
             </Container>
             <br/>
             <Container>
-                <ClientAreaAccordian Area="Health" Status={client.HealthStatus} Goal={client.HealthGoal} Desc={client.HealthDesc} DefaultState={true}/>
-                <ClientAreaAccordian Area="Social" Status={client.SocialStatus} Goal={client.SocialGoal} Desc={client.SocialDesc} DefaultState={false}/>
-                <ClientAreaAccordian Area="Health" Status={client.EducationStatus} Goal={client.EducationGoal} Desc={client.EducationDesc} DefaultState={false}/>
+                <ClientAreaAccordian area="Health" status={client.HealthStatus} goal={client.HealthGoal} desc={client.HealthDesc} defaultState={true}/>
+                <ClientAreaAccordian area="Social" status={client.SocialStatus} goal={client.SocialGoal} desc={client.SocialDesc} defaultState={false}/>
+                <ClientAreaAccordian area="Health" status={client.EducationStatus} goal={client.EducationGoal} desc={client.EducationDesc} defaultState={false}/>
                 {/* The remaining areas are for display purposes only and will be added later */}
-                <ClientAreaAccordian Area="Food / Nutrition" DefaultState={false}/>
-                <ClientAreaAccordian Area="Shelter / Care" DefaultState={false}/>
-                <ClientAreaAccordian Area="Food / Nutrition" DefaultState={false}/>
-                <ClientAreaAccordian Area="Livelihood" DefaultState={false}/>
-                <ClientAreaAccordian Area="Empowerment" DefaultState={false}/>
+                <ClientAreaAccordian area="Food / Nutrition" defaultState={false}/>
+                <ClientAreaAccordian area="Shelter / Care" defaultState={false}/>
+                <ClientAreaAccordian area="Food / Nutrition" defaultState={false}/>
+                <ClientAreaAccordian area="Livelihood" defaultState={false}/>
+                <ClientAreaAccordian area="Empowerment" defaultState={false}/>
 
                 <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
                 <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>
