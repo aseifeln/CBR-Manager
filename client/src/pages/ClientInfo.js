@@ -171,7 +171,7 @@ as right now will still render this component briefly even for existing clients*
             <Container>
                 <ClientAreaAccordian area="Health" status={client.HealthStatus} goal={client.HealthGoal} desc={client.HealthDesc} defaultState={true}/>
                 <ClientAreaAccordian area="Social" status={client.SocialStatus} goal={client.SocialGoal} desc={client.SocialDesc} defaultState={false}/>
-                <ClientAreaAccordian area="Health" status={client.EducationStatus} goal={client.EducationGoal} desc={client.EducationDesc} defaultState={false}/>
+                <ClientAreaAccordian area="Education" status={client.EducationStatus} goal={client.EducationGoal} desc={client.EducationDesc} defaultState={false}/>
                 {/* The remaining areas are for display purposes only and will be added later */}
                 <ClientAreaAccordian area="Food / Nutrition" defaultState={false}/>
                 <ClientAreaAccordian area="Shelter / Care" defaultState={false}/>
