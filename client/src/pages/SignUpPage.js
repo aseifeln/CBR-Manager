@@ -91,31 +91,31 @@ function SignUpPage(props) {
         return isPass
     }
 
-    async function apiCallRegister(user){
+    async function registerApiCall(user) {
         axios.post('/users/register', { user })
-                .then(async res => {
-                    const REGISTERED = '3'
-                    if (res.data == REGISTERED) {
-                        alert("Username is already taken");
-                        await window.location.replace("/signup");
-                        return;
-                    } else {
-                        alert("User is successfully registered");
-                        login(user);
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+            .then(async res => {
+                const REGISTERED = '3'
+                if (res.data == REGISTERED) {
+                    alert("Username is already taken");
+                    await window.location.replace("/signup");
+                    return;
+                } else {
+                    alert("User is successfully registered");
+                    login(user);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
-    
+
 
     async function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
         if (authPasses()) {
             const user = createUser();
-            apiCallRegister(user);
+            registerApiCall(user);
             return;
         }
     }
