@@ -5,7 +5,6 @@ import axios from 'axios'
 import "../css/SignUp.css";
 
 function SignUpPage(props) {
-
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -34,20 +33,24 @@ function SignUpPage(props) {
         setConfirmPasswordErr(false)
     }
 
+    function createUser(){
+        const user = {
+            firstname: firstName,
+            lastname: lastName,
+            username: username,
+            location: document.getElementById('location').value,
+            photo: document.getElementById('profilePhoto').value,
+            password: password,
+            confirm_password: confirmPassword
+        }
+        return user;
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
-
         if (authPasses()) {
-            const user = {
-                firstname: firstName,
-                lastname: lastName,
-                username: username,
-                location: document.getElementById('location').value,
-                photo: document.getElementById('profilePhoto').value,
-                password: password,
-                confirm_password: confirmPassword
-            }
+            const user = createUser();
             axios.post('/users/register', {user})
             .then(async res => {
                 const REGISTERED = '3'
