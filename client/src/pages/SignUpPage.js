@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'r
 import axios from 'axios'
 import "../css/SignUp.css";
 
-function SignUpPage(props) {
+function SignUpPage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
