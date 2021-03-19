@@ -90,14 +90,9 @@ function SignUpPage(props) {
         }
         return isPass
     }
-    
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-        initialErrState();
-        if (authPasses()) {
-            const user = createUser();
-            axios.post('/users/register', { user })
+    async function apiCallRegister(user){
+        axios.post('/users/register', { user })
                 .then(async res => {
                     const REGISTERED = '3'
                     if (res.data == REGISTERED) {
@@ -112,6 +107,15 @@ function SignUpPage(props) {
                 .catch(err => {
                     console.log(err);
                 })
+    }
+    
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        initialErrState();
+        if (authPasses()) {
+            const user = createUser();
+            apiCallRegister(user);
             return;
         }
     }
