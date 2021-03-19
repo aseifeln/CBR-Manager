@@ -57,6 +57,34 @@ function ClientInfo(props) {
             })
     }, [])
 
+    function ClientAreaHandler(props) {
+
+        const { Area, Status, Goal, Desc, defaultCardState } = props;
+        const [ toggle, setToggle ] = useState(defaultCardState);
+
+        return (
+            <Card>
+                <CardHeader style={areaColor}>
+                    <Row>
+                        <Col><h2 style={areaFontSize}>{Area}</h2></Col>
+                        <Col>
+                            <Button variant="primary" size="md" className="float-right" style={{backgroundColor:"#22a9ba"}} onClick={() => setToggle(!toggle)}>
+                                {(toggle) ? "Hide" : "Expand"}
+                            </Button>
+                        </Col>
+                    </Row>
+                </CardHeader>
+                <Collapse isOpen={toggle}>
+                    <CardBody>
+                        <div style={areaInfo}>Risk Level:</div> {Status}<br/>
+                        <div style={areaInfo}>Goal:</div> {Goal}<br/>
+                        <div style={areaInfo}>More Details:</div> {Desc}<br/>
+                    </CardBody>
+                </Collapse>
+            </Card>
+        )
+    }
+
     {/* TODO: Will need to figure out a better way to tell users a client isn't found,
 as right now will still render this component briefly even for existing clients*/}
     if (!clientFound)
@@ -131,7 +159,6 @@ as right now will still render this component briefly even for existing clients*
                         <CardBody>
                             <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
                             <div style={areaInfo}>Goal:</div> {client.HealthGoal}<br/>
-                            <div style={areaInfo}>Related Visits:</div> <br/>
                             <div style={areaInfo}>More Details:</div> {client.HealthDesc}<br/>
                         </CardBody>
                     </Collapse>
