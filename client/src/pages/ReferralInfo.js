@@ -215,7 +215,8 @@ function ReferralInfo(props){
                                             <option>Made</option>
                                             <option>Resolved</option>
                                         </FieldInput>
-                                        <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required"/>
+                                        <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required" 
+                                         defaultValue={referral.Outcome || ""}/>
                                         <Button type="submit">Submit</Button>
                                         <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
                                     </form>
@@ -227,6 +228,11 @@ function ReferralInfo(props){
                 <br/>
                 <Row>
                     <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
+                </Row>
+                <Row>
+                    <Col>
+                        Status: <div style={{display: 'inline', color: (referral.Status === 'Made') ? ('red') : ('green')}}>{referral.Status}</div>
+                    </Col>
                 </Row>
                 <Row>
                     <Col>
