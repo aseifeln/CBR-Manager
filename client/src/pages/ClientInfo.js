@@ -12,14 +12,6 @@ function ClientInfo(props) {
     const [ visits, setVisits ] = useState([]);
     const [ referrals,setReferrals] = useState([]);
     const [ clientFound, setClientFound ] = useState(false);
-
-    const [showHealthInfo, setShowHealthInfo] = useState(true);
-    const [showEmpowermentInfo, setShowEmpowermentInfo] = useState(false);
-    const [showEducationInfo, setShowEducationInfo] = useState(false);
-    const [showFoodNutritionInfo, setShowFoodNutritionInfo] = useState(false);
-    const [showLivelihoodInfo, setShowLivelihoodInfo] = useState(false);
-    const [showShelterCareInfo, setShowShelterCareInfo] = useState(false);
-    const [showSocialInfo, setShowSocialInfo] = useState(false);
     
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
