@@ -90,6 +90,7 @@ function SignUpPage(props) {
         }
         return isPass
     }
+    
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -113,7 +114,6 @@ function SignUpPage(props) {
                 })
             return;
         }
-        window.location.replace("/signup");
     }
 
     return (
