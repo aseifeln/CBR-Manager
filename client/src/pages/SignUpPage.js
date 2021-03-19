@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
 import axios from 'axios'
@@ -21,10 +21,10 @@ function SignUpPage(props) {
     const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
 
     useEffect(() => {
-        document.title="Create CBR Account"
-      }, [])
-    
-    function initialErrState(){
+        document.title = "Create CBR Account"
+    }, [])
+
+    function initialErrState() {
         setFirstNameErr(false)
         setLastNameErr(false)
         setUsernameErr(false)
@@ -33,7 +33,7 @@ function SignUpPage(props) {
         setConfirmPasswordErr(false)
     }
 
-    function createUser(){
+    function createUser() {
         const user = {
             firstname: firstName,
             lastname: lastName,
@@ -46,77 +46,78 @@ function SignUpPage(props) {
         return user;
     }
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-        initialErrState();
-        if (authPasses()) {
-            const user = createUser();
-            axios.post('/users/register', {user})
-            .then(async res => {
-                const REGISTERED = '3'
-                if(res.data == REGISTERED){
-                    alert("Username is already taken");
-                    await window.location.replace("/signup");
-                    return;
-                } else {
-                    alert("User is successfully registered");
-                    login(user);
-                }
-            })
-            .catch( err => {
-                console.log(err);
-            })
-            return;
-        }
-        window.location.replace("/signup");
-    }
 
-    async function login(user){
-        axios.post('/users/login',{user})
+    async function login(user) {
+        axios.post('/users/login', { user })
             .then(res => {
-                const maxAge = 60*60; // 60 mins
-                document.cookie="cookiename=cookievalue;max-age="+(maxAge); 
-                axios.get('users/session', {params: {username: user.username}})
+                const maxAge = 60 * 60; // 60 mins
+                document.cookie = "cookiename=cookievalue;max-age=" + (maxAge);
+                axios.get('users/session', { params: { username: user.username } })
                     .then(res => {
-                        document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge); 
-                        document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
+                        document.cookie = `Role=${res.data[0].Role};max-age=` + (maxAge);
+                        document.cookie = `WorkerId=${res.data[0].WorkerId};max-age=` + (maxAge);
                     })
                     .catch(err => console.log(err))
-                    window.location.replace("/");
+                window.location.replace("/");
                 console.log(res.data)
             })
-            .catch( err => {
+            .catch(err => {
                 console.log(err);
             })
     }
 
-    function authPasses() { 
+    function authPasses() {
         var PASS = true
-        if(!firstName.length > 0){
+        if (!firstName.length > 0) {
             setFirstNameErr(true)
             PASS = false
         }
-        if(!lastName.length > 0){
+        if (!lastName.length > 0) {
             setLastNameErr(true)
             PASS = false
         }
-        if(!username.length > 0){
+        if (!username.length > 0) {
             setUsernameErr(true)
             PASS = false
         }
-        if(password.length <= 5){
+        if (password.length <= 5) {
             setPasswordErr(true)
             PASS = false
         }
-        if(confirmPassword !== password){
+        if (confirmPassword !== password) {
             setConfirmPasswordErr(true)
             PASS = false
         }
         return PASS
     }
 
+    async function handleSubmit(event) {
+        event.preventDefault();
+        initialErrState();
+        if (authPasses()) {
+            const user = createUser();
+            axios.post('/users/register', { user })
+                .then(async res => {
+                    const REGISTERED = '3'
+                    if (res.data == REGISTERED) {
+                        alert("Username is already taken");
+                        await window.location.replace("/signup");
+                        return;
+                    } else {
+                        alert("User is successfully registered");
+                        login(user);
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            return;
+        }
+        window.location.replace("/signup");
+    }
+
     return (
-        
+
         <div className='SignUp'>
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CBR Account</b></h2>
@@ -126,7 +127,7 @@ function SignUpPage(props) {
                         id="firstName"
                         value={firstName}
                         onChange={(event) => setFirstName(event.target.value)}
-                        placeholder="First name"/>
+                        placeholder="First name" />
                     <FormFeedback>Please enter your first name!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
@@ -135,7 +136,7 @@ function SignUpPage(props) {
                         id="lastName"
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
-                        placeholder="Last name"/>
+                        placeholder="Last name" />
                     <FormFeedback>Please enter your last name!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
@@ -150,12 +151,12 @@ function SignUpPage(props) {
                 </FormGroup>
                 <FormGroup>
                     <Label for="profilePhoto">Profile Picture</Label>
-                    <Input invalid={photoErr} 
-                        type="file" 
-                        name="profilePhoto" 
+                    <Input invalid={photoErr}
+                        type="file"
+                        name="profilePhoto"
                         id="profilePhoto"
                         onChange={(event) => setPhoto(event.target.files[0])}
-                         />
+                    />
                     <FormText><i>Optional</i></FormText>
                 </FormGroup>
                 <FormGroup>
@@ -177,7 +178,7 @@ function SignUpPage(props) {
                     <FormText><i>Choose your assigned zone.</i></FormText>
                 </FormGroup>
                 <FormGroup>
-                    <Label  for="password">Password</Label>
+                    <Label for="password">Password</Label>
                     <Input invalid={passwordErr} type="password"
                         id="password"
                         value={password}
@@ -186,7 +187,7 @@ function SignUpPage(props) {
                     <FormFeedback>Password must be more than 5 characters</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                    <Label  for="confirmPassword">Confirm Password</Label>
+                    <Label for="confirmPassword">Confirm Password</Label>
                     <Input invalid={confirmPasswordErr} type="password"
                         id="confirmPassword"
                         value={confirmPassword}
@@ -196,7 +197,7 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/login" style={{color:"#22a9ba"}}>Login instead</Link>
+                <Link to="/login" style={{ color: "#22a9ba" }}>Login instead</Link>
             </Form>
         </div>
     )
