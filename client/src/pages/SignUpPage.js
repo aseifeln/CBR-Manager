@@ -1,12 +1,8 @@
 import React, { useState,useEffect } from "react";
 import { Link } from 'react-router-dom';
-import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
-
-
+import axios from 'axios'
 import "../css/SignUp.css";
-
-
 
 function SignUpPage(props) {
 
