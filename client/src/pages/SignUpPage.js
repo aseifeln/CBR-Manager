@@ -68,15 +68,15 @@ function SignUpPage(props) {
 
     function authPasses() {
         var isPass = true
-        if (!firstName.length > 0) {
+        if (firstName.length <= 0) {
             setFirstNameErr(true)
             isPass = false
         }
-        if (!lastName.length > 0) {
+        if (lastName.length <= 0) {
             setLastNameErr(true)
             isPass = false
         }
-        if (!username.length > 0) {
+        if (username.length <= 0) {
             setUsernameErr(true)
             isPass = false
         }
@@ -117,7 +117,6 @@ function SignUpPage(props) {
     }
 
     return (
-
         <div className='SignUp'>
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CBR Account</b></h2>
@@ -201,7 +200,6 @@ function SignUpPage(props) {
             </Form>
         </div>
     )
-
 }
 
 export default SignUpPage;
