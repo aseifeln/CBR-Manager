@@ -85,6 +85,39 @@ function ClientInfo(props) {
         )
     }
 
+    // TODO: May want to rename this
+    // Functional component to provide links to related visits or referrals
+    function ClientLinks(props) {
+
+        const { title, mappings, type } = props;
+
+        return (
+            <Card>
+                <CardHeader style={areaColor2}>
+                    <h2 style={areaFontSize}>{title}</h2>
+                </CardHeader>
+                <CardBody>
+                    &nbsp; Click on a date to view more info or edit: <br/>
+                    <ul>
+                        {(type === "Visits") ? (
+                            <div>
+                                {mappings.map(({VisitId, Date}) => (
+                                    <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
+                                ))}
+                            </div>
+                        ) : (
+                            <div>
+                                {mappings.map(({ReferralId, Date,Status,Outcome}) => (
+                                    <li><Link to={`/referral/${ReferralId}`}>Status: {(Status!="")?Status:"N/A"} || Outcome: {(Outcome!="")?Outcome:"N/A"} || Date: {Date}</Link></li>
+                                ))}
+                            </div>
+                        )}
+                    </ul>
+                </CardBody>
+            </Card>
+        )
+    } 
+
     {/* TODO: Will need to figure out a better way to tell users a client isn't found,
 as right now will still render this component briefly even for existing clients*/}
     if (!clientFound)
@@ -153,32 +186,9 @@ as right now will still render this component briefly even for existing clients*
                 <ClientAreaAccordian Area="Food / Nutrition" DefaultState={false}/>
                 <ClientAreaAccordian Area="Livelihood" DefaultState={false}/>
                 <ClientAreaAccordian Area="Empowerment" DefaultState={false}/>
-                <Card>
-                    <CardHeader style={areaColor2}>
-                        <h2 style={areaFontSize}>All Visits</h2>
-                    </CardHeader>
-                    <CardBody>
-                        &nbsp; Click on a date to view more info or edit: <br/>
-                        <ul>
-                            {visits.map(({VisitId, Date}) => (
-                                <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
-                            ))}
-                        </ul>
-                    </CardBody>
-                </Card>
-                <Card>
-                    <CardHeader style={areaColor2}>
-                        <h2 style={areaFontSize}>All Referrals</h2>
-                    </CardHeader>
-                    <CardBody>
-                        &nbsp; Click on a date to view more info or edit: <br/>
-                        <ul>
-                            {referrals.map(({ReferralId, Date,Status,Outcome}) => (
-                                <li><Link to={`/referral/${ReferralId}`}>Status: {(Status!="")?Status:"N/A"} || Outcome: {(Outcome!="")?Outcome:"N/A"} || Date: {Date}</Link></li>
-                            ))}
-                        </ul>
-                    </CardBody>
-                </Card>
+
+                <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
+                <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>
             </Container>
         </div>
     )
