@@ -22,12 +22,12 @@ function ReferralInfo(props){
     // Reference: https://www.npmjs.com/package/react-modal (Is temporary)
     const customStyles = {
         content : {
-          top                   : '50%',
-          left                  : '50%',
-          right                 : 'auto',
-          bottom                : 'auto',
-          marginRight           : '-50%',
-          transform             : 'translate(-50%, -50%)'
+          position: 'relative',
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, -50%)'
         }
       };
 
@@ -53,11 +53,11 @@ function ReferralInfo(props){
 
     function resolveReferral(data) {
         axios.put('/referrals/' + props.match.params.id + '/edit', data)
-        .then((response => {
+        .then(response => {
             closeModal();
             alert("Referral has been resolved")
             window.location.reload()
-        }))
+        })
         .catch(err => {
             console.log(err);
             closeModal();
@@ -205,17 +205,21 @@ function ReferralInfo(props){
                          isOpen={modelOpen}
                          onRequestClose={closeModal}
                          style={customStyles}>
-                            <Formiz connect={formState} onValidSubmit={resolveReferral}>
-                                <form onSubmit={formState.submit}>
-                                    <FieldInput label="Status" type="select" name="Status" required="A selection is required">
-                                        <option hidden selected>Choose a status</option>
-                                        <option>Made</option>
-                                        <option>Resolved</option>
-                                    </FieldInput>
-                                    <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required"/>
-                                    <Button type="submit">Submit</Button>
-                                </form>
-                            </Formiz>
+                            <Container>
+                                <Formiz connect={formState} onValidSubmit={resolveReferral}>
+                                    <form onSubmit={formState.submit}>
+                                        <h4>Resolve Referral</h4>
+                                        {/* Might change this to an edit function, so leaving this here */}
+                                        <FieldInput label="Status" type="select" name="Status" required="A selection is required" defaultValue={"Resolved"} disabled>
+                                            <option hidden selected>Choose a status</option>
+                                            <option>Made</option>
+                                            <option>Resolved</option>
+                                        </FieldInput>
+                                        <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required"/>
+                                        <Button type="submit">Submit</Button>
+                                    </form>
+                                </Formiz>
+                            </Container>
                         </Modal>
                     </Col>
                 </Row>
