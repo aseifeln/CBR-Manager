@@ -217,6 +217,7 @@ function ReferralInfo(props){
                                         </FieldInput>
                                         <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required"/>
                                         <Button type="submit">Submit</Button>
+                                        <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
                                     </form>
                                 </Formiz>
                             </Container>
