@@ -209,7 +209,6 @@ function ReferralInfo(props){
                                 <Formiz connect={formState} onValidSubmit={resolveReferral}>
                                     <form onSubmit={formState.submit}>
                                         <h4>Resolve Referral</h4>
-                                        {/* Might change this to an edit function, so leaving this here */}
                                         <FieldInput label="Status" type="select" name="Status" required="A selection is required" defaultValue={"Resolved"} disabled>
                                             <option hidden selected>Choose a status</option>
                                             <option>Made</option>
