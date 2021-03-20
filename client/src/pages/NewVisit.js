@@ -59,6 +59,7 @@ function NewVisit(props) {
       axios.get('/clients')
       .then(response => {
         const clientArr = [];
+        // FieldTypeahead options must be an array
         Object.keys(response.data).forEach(key => clientArr.push({value: response.data[key].ClientId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
         setClients(clientArr);
       })
@@ -283,9 +284,9 @@ function NewVisit(props) {
                         <div>
                           <Label>Client</Label>
                           <FieldTypeahead
-                          name="client"
-                          required="Client is required"
-                          options={clients}/>
+                            name="client"
+                            required="Client is required"
+                            options={clients}/>
                         </div>
                       )}
                     </FormGroup>
