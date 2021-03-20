@@ -59,6 +59,7 @@ function NewVisit(props) {
       axios.get('/clients')
       .then(response => {
         const clientArr = [];
+        // Reference: https://stackoverflow.com/a/57008713
         // FieldTypeahead options must be an array
         Object.keys(response.data).forEach(key => clientArr.push({value: response.data[key].ClientId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
         setClients(clientArr);
