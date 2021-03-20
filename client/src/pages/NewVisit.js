@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
+import { MultiStepForm, Step, FieldInput, FieldTypeahead } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
@@ -58,7 +58,9 @@ function NewVisit(props) {
       setClientProvided(false)
       axios.get('/clients')
       .then(response => {
-        setClients(response.data);
+        const clientArr = [];
+        Object.keys(response.data).forEach(key => clientArr.push({value: response.data[key].ClientId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
+        setClients(clientArr);
       })
       .catch(error => {
         console.log(error);
@@ -86,7 +88,7 @@ function NewVisit(props) {
       newData['ClientId'] = props.match.params.id;
     }
     else {
-      newData['ClientId'] = data.client;
+      newData['ClientId'] = data.client[0].value;
     }
     
     newData['WorkerId'] = context.WorkerId;
@@ -198,6 +200,7 @@ function NewVisit(props) {
   }
 
   function onValidSubmit(data) {
+
     data = prepareData(data);
 
     axios.post('/visits/add/', data)
@@ -277,13 +280,13 @@ function NewVisit(props) {
                         <FieldInput label="Client" name="client" disabled required="Client is required"
                          defaultValue={client.FirstName + ' ' + client.LastName}/>
                       ) : (
-                        <FieldInput type="select" label="Client" name="client" required="Client is required">
-                          <option hidden selected>Select a client</option>
-                          {/* TODO: Make it so users can type out the name, which autofills */}
-                          {clients.map(({FirstName, LastName, ClientId}) => (
-                            <option value={ClientId}>{FirstName} {LastName}</option>
-                          ))}
-                        </FieldInput>
+                        <div>
+                          <Label>Client</Label>
+                          <FieldTypeahead
+                          name="client"
+                          required="Client is required"
+                          options={clients}/>
+                        </div>
                       )}
                     </FormGroup>
                   </Col>
