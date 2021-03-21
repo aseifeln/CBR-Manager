@@ -7,7 +7,7 @@ const client = require('../models/client');
 
 // @route   GET /excel
 // @desc    GET all filtered clients in an excel format
-router.get('/', async (req,res) => {
+router.get('/', async (req, res) => {
 
     // Get all filtered clients
     let filters = JSON.parse(req.query.filters);
@@ -18,6 +18,15 @@ router.get('/', async (req,res) => {
 
     let disabilitiesInSearch = filters.hasOwnProperty('DisabilityType');
     let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName');
+    let dateInSearch = filters.hasOwnProperty('DateCreated')
+
+    if (dateInSearch) {
+        let [dateFrom, dateTo] = filters['DateCreated']
+        filters['DateCreated'] = {
+            [Op.between]: [dateFrom, dateTo]
+        }
+    }
+
     let selectionClause;
     if (nameInSearch && disabilitiesInSearch) {
         selectionClause = {
@@ -60,28 +69,31 @@ router.get('/', async (req,res) => {
         selectionClause = filters;
     }
 
-    let allClients = await client.findAll(
-        {
+    try {
+        let allClients = await client.findAll({
             // SELECT * FROM Clients WHERE FirstName IN filters.Name OR LastName IN filters.Name
             where: selectionClause,
             order: sortBy,
-        })
-        .then()
-        .catch(err => res.status(400).json(err));
+        });
 
-    // Create Excel Workbook
-    const wb = new excel.Workbook();
+        // Create Excel Workbook
+        const wb = new excel.Workbook();
+        let clientSheet = wb.addWorksheet('Clients');
 
-    let clientSheet = wb.addWorksheet('Clients');
+        generateGenericWorkSheet(wb, clientSheet, allClients);
+        wb.write('excel.xlsx', res);
 
-    await generateGenericWorkSheet(wb, clientSheet, allClients)
-        .then(wb.write('excel.xlsx', res))
-        .catch(err => res.status(400).json(err));
+    } catch(err) {
+        console.error('[Error]: Could not generate client sheet successfully\n', err);
+        res.status(400).json(err);
+    }
 })
 
 // Takes an Excel workbook and sheet then adds the data to the sheet.
 // data must come from a database call
-async function generateGenericWorkSheet(workBook, workSheet, data) {
+function generateGenericWorkSheet(workBook, workSheet, data) {
+    if (data.length < 1) throw new Error('cannot generate worksheet from empty dataset.')
+
     // Excel Sheet Headers
     let headerStyle = workBook.createStyle({
         font: {
@@ -105,6 +117,7 @@ async function generateGenericWorkSheet(workBook, workSheet, data) {
             horizontal: 'left',
         }
     })
+
     const attributes = data[0]._options.attributes;
     for (let i = 0; i < attributes.length - 1; i++) {
         workSheet.cell(1, i + 1)
@@ -112,6 +125,7 @@ async function generateGenericWorkSheet(workBook, workSheet, data) {
             .style(headerStyle)
         workSheet.column(i + 1).setWidth(18);
     }
+
     // Fill cells with client data
     for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < attributes.length; j++) {
