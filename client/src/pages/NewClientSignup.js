@@ -26,7 +26,7 @@ function NewClientSignup() {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['Photo'] = (imagePreviewSrc) || null
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
-    data['Date'] = clientDate
+    data['DateCreated'] = clientDate
     data['Gender'] = (data['Gender'] || 'Male')
 
     const formData = new FormData()
@@ -145,11 +145,11 @@ function NewClientSignup() {
 
           <Col xs={12}>
             <FieldInput 
-            key={GPSLocation} 
-            name="GPSLocation" 
-            label="GPS Location" 
-            type="text" 
-            defaultValue={GPSLocation}
+              key={GPSLocation} 
+              name="GPSLocation" 
+              label="GPS Location" 
+              type="text" 
+              defaultValue={GPSLocation}
             />
           </Col>
 
