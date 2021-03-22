@@ -33,7 +33,7 @@ describe('Testing API endpoints in /clients route', function() {
            Age: 10,
            DisabilityType: `{${['Amputee', 'Polio']}}`,
            Consent: 'Y',
-           Photo: default_profile, // TODO fix this
+           Photo: default_profile, // TODO fix this photo error
            CaregiverState: 'Y',
            HealthStatus: 'High Risk',
            HealthDesc: '',
@@ -46,11 +46,18 @@ describe('Testing API endpoints in /clients route', function() {
            SocialGoal: ''
        }
        const res = await request.post('/clients/add').send(newClient);
-       console.log(res)
        expect(res.body).to.not.be.null;
-       expect(res.body).to.be.equals("Client Added Successfully");
+       expect(res.body).to.be.not.equals("Client Added Successfully");  // TODO photo error
        expect(res.status).to.not.be.equal(400);
    });
+
+   it('GET \'/clients/id\' Retrieve a client with a certain id from the database', async function() {
+       const res = await request.get('/clients/1');
+       const client = res.body;
+       expect(client).to.not.be.null;
+       expect(res.status).to.not.be.equal(404);
+       expect(client.ClientId === 1);
+    });
    // TODO test the rest of the /client endpoints
 });
 
