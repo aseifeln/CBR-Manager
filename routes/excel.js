@@ -8,7 +8,6 @@ const client = require('../models/client');
 // @route   GET /excel
 // @desc    GET all filtered clients in an excel format
 router.get('/', async (req, res) => {
-
     // Get all filtered clients
     let filters = JSON.parse(req.query.filters);
     let sortBy = [[req.query.sortBy, "DESC"]];
@@ -18,8 +17,9 @@ router.get('/', async (req, res) => {
 
     let disabilitiesInSearch = filters.hasOwnProperty('DisabilityType');
     let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName');
+    
+    // date search filter
     let dateInSearch = filters.hasOwnProperty('DateCreated')
-
     if (dateInSearch) {
         let [dateFrom, dateTo] = filters['DateCreated']
         filters['DateCreated'] = {
@@ -28,6 +28,7 @@ router.get('/', async (req, res) => {
     }
 
     let selectionClause;
+
     if (nameInSearch && disabilitiesInSearch) {
         selectionClause = {
             [Op.or]:

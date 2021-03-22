@@ -8,8 +8,14 @@ import {getGPSLocation} from './Helpers';
 import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
 
+const formContainerSize = {
+  margin: 'auto',
+  maxWidth: 600,
+}
+
 function NewClientSignup() {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
+  const [consentGiven, setConsentGiven] = useState(false)
   const [caregiverPresent, setCaregiverPresent] = useState(false)
   const [clientDate, setClientDate] = useState((new Date()).toISOString())
   const [GPSLocation, setGPSLocation] = useState('');
@@ -43,10 +49,8 @@ function NewClientSignup() {
     data = formatSubmitData(data)
     
     try {
-      const results = await axios.post('/clients/add', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      await axios.post('/clients/add', data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       })
 
       // console.log(results)
@@ -58,11 +62,6 @@ function NewClientSignup() {
     }
   }
 
-  const formContainerSize = {
-    margin: 'auto',
-    maxWidth: 600,
-  }
-
   return (
     <MultiStepForm name='New Client Registration' formContainerSize={formContainerSize} onValidSubmit={onValidSubmit}>
       <CookieChecker></CookieChecker>
@@ -71,122 +70,122 @@ function NewClientSignup() {
         <Row form>
           <Col xs={12}>
             <h4>Interviews</h4>
-            <FormText className='mb-2 pb-1'>Consent will allow HHA to conduct interviews for research and educational purposes. It is required for future visits and referals.</FormText>
+            <FormText className='mb-2 pb-1'>Consent will allow HHA to conduct interviews for research and educational purposes. It will be required for future visits and referals.</FormText>
             <FieldCheck
               name="Consent"
               type="checkbox"
               label="Client consents to Interview"
               required="Client's consent is required"
+              onChange={() => setConsentGiven(!consentGiven)}
             />
 
-            <hr/>
-          </Col>
-
-          <Col xs={12}>
-            <h4>General Details</h4>
-            <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
-          </Col>
-
-          <Col xs={6}>
-            <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required"/>
-          </Col>
-
-          <Col xs={6}>
-            <FieldInput name="LastName" label="Last Name" type="text" required="Last Name is required"/>
+            <hr class='invisible'/>
           </Col>
         </Row>
 
-        <Row form>
-          <Col xs={2}>
-            <FieldInput name="Age" label="Age" type="number" min="1" required="Age is required"/>
-          </Col>
+        <div class={(consentGiven) ? 'fade-to-out' : 'fade-to-in'}>
+          <Row form>
+            <Col xs={12}>
+              <h4>General Details</h4>
+              <FormText className='mb-2 pb-1'>Basic Information about the new client.</FormText>
+            </Col>
 
-          <Col xs={10}>
-            <div className='mt-3 pt-3'>
-              <FieldCheck name="Gender" type="radio" label="Male" value="Male" defaultChecked/>
-              <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2'/>
-            </div>
-          </Col>
+            <Col xs={6}>
+              <FieldInput name="FirstName" label="First Name" type="text" required="First Name is required"/>
+            </Col>
 
-          <Col xs={12}>
-            <img src={(imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc)} style={{ width: '100%', maxWidth: 150 }}/>
-            <FieldInput 
-              name="Photo" 
-              label="Client Picture"
-              required="Client photo is required"
-              type="file"
-              accept="image/*" 
-              onChange={(e) => {
-                if (e.target) {
-                  setImagePreviewSrc(e.target.files[0])
-                }
-              }}
-            />
-            <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
-          </Col>
-        </Row>
+            <Col xs={6}>
+              <FieldInput name="LastName" label="Last Name" type="text" required="Last Name is required"/>
+            </Col>
+          </Row>
 
-        <hr/>
+          <Row form>
+            <Col xs={2}>
+              <FieldInput name="Age" label="Age" type="number" min="1" required="Age is required"/>
+            </Col>
 
-        <Row form>
-          <Col xs={12}>
-            <FormGroup>
-              <Label>New Client On</Label>
-              <DatePicker
-                showClearButton={false}
-                value={clientDate}
-                onChange={(v) => {
-                  console.log(v)
-                  setClientDate(v)
+            <Col xs={10}>
+              <div className='mt-3 pt-3'>
+                <FieldCheck name="Gender" type="radio" label="Male" value="Male" defaultChecked/>
+                <FieldCheck name="Gender" type="radio" label="Female" value="Female" className='ml-4 pl-2'/>
+              </div>
+            </Col>
+
+            <Col xs={12}>
+              <img src={(imagePreviewSrc) && URL.createObjectURL(imagePreviewSrc)} style={{ width: '100%', maxWidth: 150 }}/>
+              <FieldInput 
+                name="Photo" 
+                label="Client Picture"
+                required="Client photo is required"
+                type="file"
+                accept="image/*" 
+                onChange={(e) => {
+                  if (e.target) setImagePreviewSrc(e.target.files[0])
                 }}
               />
-            </FormGroup>
-          </Col>
+              <FormText className='mb-2 pb-1'>The picture should include both the client &amp; the caregiver (if available)</FormText>
+            </Col>
+          </Row>
 
-          <Col xs={12}>
-            <FieldInput 
+          <hr/>
+
+          <Row form>
+            <Col xs={12}>
+              <FormGroup>
+                <Label>New Client On</Label>
+                <DatePicker
+                  showClearButton={false}
+                  value={clientDate}
+                  onChange={(v) => setClientDate(v)}
+                />
+              </FormGroup>
+            </Col>
+
+            <Col xs={12}>
+              <FieldInput 
               key={GPSLocation} 
-              name="GPSLocation" 
-              label="GPS Location" 
-              type="text" 
-              defaultValue={GPSLocation}
-            />
-          </Col>
+                name="GPSLocation" 
+                label="GPS Location" 
+                type="text" 
+                defaultValue={GPSLocation}
+              />
+            </Col>
 
-          <Col xs={9} md={10}>
-            <FieldInput name="Location" label="Location" type="select" required="Location is required">
-              <option selected hidden>Choose a location</option>
-              <option>BidiBidi Zone 1</option>
-              <option>BidiBidi Zone 2</option>
-              <option>BidiBidi Zone 3</option>
-              <option>BidiBidi Zone 4</option>
-              <option>BidiBidi Zone 5</option>
-              <option>Palorinya Basecamp</option>
-              <option>Palorinya Zone 1</option>
-              <option>Palorinya Zone 2</option>
-              <option>Palorinya Zone 3</option>
-            </FieldInput>
-          </Col>
+            <Col xs={9} md={10}>
+              <FieldInput name="Location" label="Location" type="select" required="Location is required">
+                <option selected hidden>Choose a location</option>
+                <option>BidiBidi Zone 1</option>
+                <option>BidiBidi Zone 2</option>
+                <option>BidiBidi Zone 3</option>
+                <option>BidiBidi Zone 4</option>
+                <option>BidiBidi Zone 5</option>
+                <option>Palorinya Basecamp</option>
+                <option>Palorinya Zone 1</option>
+                <option>Palorinya Zone 2</option>
+                <option>Palorinya Zone 3</option>
+              </FieldInput>
+            </Col>
 
-          <Col xs={3} md={2}>
-            <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required"/>
-          </Col>
+            <Col xs={3} md={2}>
+              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required"/>
+            </Col>
 
-          <Col xs={12}>
-            <FieldInput 
-              name="ContactNo" 
-              label="Contact Number (Optional)" 
-              type="text"
-              placeholder="e.g. 756-126-9380"
-              validations={[
-                {
-                  rule: isPattern(phoneNumberRegex),
-                  message: 'Invalid contact number format'
-                }
-              ]}
-            />
-          </Col>
-        </Row>
+            <Col xs={12}>
+              <FieldInput 
+                name="ContactNo" 
+                label="Contact Number (Optional)" 
+                type="text"
+                placeholder="e.g. 756-126-9380"
+                validations={[
+                  {
+                    rule: isPattern(phoneNumberRegex),
+                    message: 'Invalid contact number format'
+                  }
+                ]}
+              />
+            </Col>
+          </Row>
+        </div>
       </Step>
 
       {/* 2. Health Details */}

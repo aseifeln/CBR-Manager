@@ -253,7 +253,7 @@ function ClientListPage() {
             filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
         }
         if(isOpenDate) {
-            filters = filters.concat(`"DateCreated": ["${searchDateFrom}", "${searchDateTo}"]`)
+            filters = filters.concat(`"DateCreated": ["${searchDateFrom}", "${searchDateTo}"],`)
         }
 
         if (names.length === 2) {
