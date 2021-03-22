@@ -24,16 +24,16 @@ function Login() {
     }
 
     function authPasses() {
-        let pass = true
+        let isPass = true
         if(!username.length > 0){
             setUsernameErr(true)
-            pass = false
+            isPass = false
         }
         if(!password.length > 0){
             setPasswordErr(true)
-            pass = false
+            isPass = false
         }
-        return pass
+        return isPass
     }
 
     function handleSubmit(event) {
