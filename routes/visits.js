@@ -6,6 +6,8 @@ const client = require('../models/client')
 const healthForm = require('../models/healthForm')
 const educationForm = require('../models/educationForm')
 const socialForm = require('../models/socialForm')
+
+const { sequelize } = require('../models/visit')
 const { v4: uuidv4 } = require('uuid');
 
 // @route   GET /visits/id
@@ -91,29 +93,55 @@ router.post('/add', async (req,res) => {
         Location, VillageNumber, WorkerId, ClientId,
         HealthForm, EducationForm, SocialForm} = req.body;
 
+    let transaction;
+
     try {
-        [HealthFormId, healthErr] = await createHealthForm(HealthForm);
-        if (healthErr) {
-            throw healthErr;
-        }
-        [EducationFormId, educationErr] = await createEducationForm(EducationForm);
-        if (educationErr) {
-            throw educationErr;
-        }
-        [SocialFormId, socialErr] = await createSocialForm(SocialForm);
-        if (socialErr) {
-            throw socialErr;
+        transaction = await sequelize.transaction();
+
+        if (HealthForm != null) {
+            var HealthFormId = uuidv4();
+            await healthForm.create({
+                HealthFormId,
+                Wheelchair: HealthForm.Wheelchair,
+                Prosthetic: HealthForm.Prosthetic,
+                Orthotic: HealthForm.Orthotic,
+                WheelchairRepair: HealthForm.WheelchairRepair,
+                HealthCenterReferral: HealthForm.HealthCenterReferral,
+                Advice: HealthForm.Advice,
+                Advocacy: HealthForm.Advocacy,
+                Encouragement: HealthForm.Encouragement,
+                GoalMet: HealthForm.GoalMet,
+                ConcludedOutcome: HealthForm.ConcludedOutcome
+            }, { transaction });
         }
 
-        allFormsSaved = true;
+        if (EducationForm != null) {
+            var EducationFormId = uuidv4();
+            await educationForm.create({
+                EducationFormId,
+                Advice: EducationForm.Advice,
+                Advocacy: EducationForm.Advocacy,
+                OrganizationReferral: EducationForm.OrganizationReferral,
+                Encouragement: EducationForm.Encouragement,
+                GoalMet: EducationForm.GoalMet,
+                ConcludedOutcome: EducationForm.ConcludedOutcome
+            }, { transaction });
+        }
 
-    } catch (err) {
-        allFormsSaved = false;
-        res.status(400).json(err);
-    }
+        if (SocialForm != null) {
+            var SocialFormId = uuidv4();
+            await socialForm.create({
+                SocialFormId,
+                Advice: SocialForm.Advice,
+                Advocacy: SocialForm.Advocacy,
+                OrganizationReferral: SocialForm.OrganizationReferral,
+                Encouragement: SocialForm.Encouragement,
+                GoalMet: SocialForm.GoalMet,
+                ConcludedOutcome: SocialForm.ConcludedOutcome
+            }, { transaction })
+        }
 
-    if (allFormsSaved) {
-        visit.create({
+        await visit.create({
             VisitPurpose,
             GPSLocation,
             Date,
@@ -124,74 +152,18 @@ router.post('/add', async (req,res) => {
             HealthFormId,
             EducationFormId,
             SocialFormId
-        })
-        .then(result => res.send("Visit Added Successfully"))
-        .catch(err => {
-            console.log(err)
-            res.status(400).json(err)
-        })
+        }, { transaction });
+
+        await transaction.commit();
+        res.status(200).json("Visit Added Successfully")
+
+    } catch (err) {
+        if (transaction) {
+            await transaction.rollback();
+        }
+        res.status(400).json(err);
     }
+
 })
-
-function createHealthForm(HealthForm) {
-    if (HealthForm == null) {
-        return [id, undefined];
-    }
-
-    var id = uuidv4();
-    return healthForm.create({
-        HealthFormId: id,
-        Wheelchair: HealthForm.Wheelchair,
-        Prosthetic: HealthForm.Prosthetic,
-        Orthotic: HealthForm.Orthotic,
-        WheelchairRepair: HealthForm.WheelchairRepair,
-        HealthCenterReferral: HealthForm.HealthCenterReferral,
-        Advice: HealthForm.Advice,
-        Advocacy: HealthForm.Advocacy,
-        Encouragement: HealthForm.Encouragement,
-        GoalMet: HealthForm.GoalMet,
-        ConcludedOutcome: HealthForm.ConcludedOutcome
-    })
-    .then(data => ([id, undefined]))
-    .catch(error => ([undefined, error]));
-}
-
-function createEducationForm(EducationForm) {
-    if (EducationForm == null) {
-        return [id, undefined];
-    }
-
-    var id = uuidv4();
-    return educationForm.create({
-        EducationFormId: id,
-        Advice: EducationForm.Advice,
-        Advocacy: EducationForm.Advocacy,
-        OrganizationReferral: EducationForm.OrganizationReferral,
-        Encouragement: EducationForm.Encouragement,
-        GoalMet: EducationForm.GoalMet,
-        ConcludedOutcome: EducationForm.ConcludedOutcome
-    })
-    .then(data => ([id, undefined]))
-    .catch(error => ([undefined, error]));
-}
-
-function createSocialForm(SocialForm) {
-    if (SocialForm == null) {
-        return [id, undefined];
-    }
-
-    var id = uuidv4();
-    return socialForm.create({
-        SocialFormId: id,
-        Advice: SocialForm.Advice,
-        Advocacy: SocialForm.Advocacy,
-        OrganizationReferral: SocialForm.OrganizationReferral,
-        Encouragement: SocialForm.Encouragement,
-        GoalMet: SocialForm.GoalMet,
-        ConcludedOutcome: SocialForm.ConcludedOutcome
-    })
-    .then(data => ([id, undefined]))
-    .catch(error => ([undefined, error]));
-}
 
 module.exports = router

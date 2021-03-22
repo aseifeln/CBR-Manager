@@ -50,92 +50,94 @@ function WorkerListPage() {
         <>
         <CookieChecker/>
         <AdminSideBar/>
-        <Container className="main-content">
-            <h1>Worker List</h1>
-            <br/>
-            <Form>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup className="searchName">
-                            <Label>Name</Label>
-                            <Input type="text" id="searchName"
-                                    value={searchName}
-                                    onChange={(e) => setSearchName(
-                                        e.target.value)}
-                                    placeholder="Search by name" />
-                            <button onClick={(e) =>
-                            {setSearchName('');
-                            e.preventDefault();
-                            }} >X</button>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row form>
-                    <Col md={6}>
-                        <FormGroup>
-                            <Label>Location</Label>
-                            <Input type="select"
-                                    value={searchLocation}
-                                    onChange={(e) => setSearchLocation(e.target.value)}>
-                                <option value="Choose Location">Choose Location</option>
-                                <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
-                                <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
-                                <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
-                                <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
-                                <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
-                                <option value="Palorinya Basecamp">Palorinya Basecamp</option>
-                                <option value="Palorinya Zone 1">Palorinya Zone 1</option>
-                                <option value="Palorinya Zone 2">Palorinya Zone 2</option>
-                                <option value="Palorinya Zone 3">Palorinya Zone 3</option>
-                            </Input>
-                        </FormGroup>
-                    </Col>
-                </Row>
-                
-                <FormGroup>
-                    <Row>
-                        <Col xs="auto">
-                            <Button color="success" onClick={filterList}>Search</Button>
-                        </Col>
-                        <Col xs="auto">
-                            <Button onClick={resetFilters}>Reset</Button>
+        <Container>
+            <div className="main-content">
+                <h1>Worker List</h1>
+                <br/>
+                <Form>
+                    <Row form>
+                        <Col md={6}>
+                            <FormGroup className="searchName">
+                                <Label>Name</Label>
+                                <Input type="text" id="searchName"
+                                        value={searchName}
+                                        onChange={(e) => setSearchName(
+                                            e.target.value)}
+                                        placeholder="Search by name" />
+                                <button onClick={(e) =>
+                                {setSearchName('');
+                                e.preventDefault();
+                                }} >X</button>
+                            </FormGroup>
                         </Col>
                     </Row>
-                </FormGroup>
-            </Form>
+                    <Row form>
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label>Location</Label>
+                                <Input type="select"
+                                        value={searchLocation}
+                                        onChange={(e) => setSearchLocation(e.target.value)}>
+                                    <option value="Choose Location">Choose Location</option>
+                                    <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
+                                    <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
+                                    <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
+                                    <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
+                                    <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
+                                    <option value="Palorinya Basecamp">Palorinya Basecamp</option>
+                                    <option value="Palorinya Zone 1">Palorinya Zone 1</option>
+                                    <option value="Palorinya Zone 2">Palorinya Zone 2</option>
+                                    <option value="Palorinya Zone 3">Palorinya Zone 3</option>
+                                </Input>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    
+                    <FormGroup>
+                        <Row>
+                            <Col xs="auto">
+                                <Button color="success" onClick={filterList}>Search</Button>
+                            </Col>
+                            <Col xs="auto">
+                                <Button onClick={resetFilters}>Reset</Button>
+                            </Col>
+                        </Row>
+                    </FormGroup>
+                </Form>
 
-            <Table responsive className="workers-table">
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Location</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {workers.map(({FirstName, LastName, Location}) => (
+                <Table responsive className="workers-table">
+                    <thead>
                         <tr>
-                            <td>{FirstName}</td>
-                            <td>{LastName}</td>
-                            <td>{Location}</td>
-                            <td><Button color="success">View</Button></td>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Location</th>
+                            <th></th>
                         </tr>
-                    ))} 
-                </tbody>
-            </Table>
-            
-            <ReactPaginate previousLabel={'Previous'}
-                           nextLabel={'Next'}
-                           breakLabel={'...'}
-                           pageCount={pageCount}
-                           pageRangeDisplayed={5}
-                           marginPagesDisplayed={2}
-                           onPageChange={handlePageClick}
-                           forcePage={offset / workersPerPage}
-                           containerClassName={'pagination'}
-                           subContainerClassName={'pages pagination'}
-                           activeClassName={'pagination_active'}/>
+                    </thead>
+                    <tbody>
+                        {workers.map(({FirstName, LastName, Location}) => (
+                            <tr>
+                                <td>{FirstName}</td>
+                                <td>{LastName}</td>
+                                <td>{Location}</td>
+                                <td><Button color="success">View</Button></td>
+                            </tr>
+                        ))} 
+                    </tbody>
+                </Table>
+                
+                <ReactPaginate previousLabel={'Previous'}
+                            nextLabel={'Next'}
+                            breakLabel={'...'}
+                            pageCount={pageCount}
+                            pageRangeDisplayed={5}
+                            marginPagesDisplayed={2}
+                            onPageChange={handlePageClick}
+                            forcePage={offset / workersPerPage}
+                            containerClassName={'pagination'}
+                            subContainerClassName={'pages pagination'}
+                            activeClassName={'pagination_active'}/>
+            </div>
         </Container>
         </>
     )

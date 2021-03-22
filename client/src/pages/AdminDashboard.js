@@ -9,8 +9,10 @@ function AdminDashboard() {
         <>
         <CookieChecker></CookieChecker>
         <AdminSideBar/>
-        <Container className="main-content">
-            <h1>Dashboard</h1>
+        <Container>
+            <div className="main-content">
+                <h1>Dashboard</h1>
+            </div>
         </Container>
         </>
     )

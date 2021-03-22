@@ -3,32 +3,38 @@ import { Container, Form, FormGroup, FormFeedback, InputGroup, Input, Label, But
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Formiz, FormizStep, useField, useForm } from '@formiz/core';
 
+const buttonStyles = {
+  color:"white",
+  backgroundColor:"#46ad2f"
+}
+
 function MultiStepForm({ children, name, formContainerSize, onValidSubmit }) {
   let formState = useForm()
-
   const isInvalidSubmit = (formState.isLastStep && !formState.isValid)
 
   return (
     <Formiz connect={formState} onValidSubmit={onValidSubmit}>
       <Container>
         <div style={formContainerSize}>
-          <Badge pill style={{backgroundColor:"#46ad2f"}}>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
+          <Badge pill>Step {formState.currentStep?.index + 1} of {formState.steps.length}</Badge>
 
-          {(name) && <h2 style={{color:"#9646b7", textAlign:"left"}}>{name}</h2>}
+          {(name) && <h2 style={{ textAlign: "left" }}>{name}</h2>}
           <hr/>
 
           {/* step navigation buttons */}
-          <ButtonGroup style={{'width':'100%'}}>
-            {formState.steps.map((step, i) => {
-							const { name } = step
-              const goToStep = () => formState.goToStep(name)
-							return (
-								<Button onClick={goToStep} outline={(formState.currentStep?.index !== i)}>
-									<strong>{`${i+1}. ${name || 'Form'}`}</strong>
-								</Button>
-							)
-						})}
-          </ButtonGroup>
+          <div class='multistep-form-btns'>
+            <ButtonGroup>
+              {formState.steps.map((step, i) => {
+                const { name } = step
+                const goToStep = () => formState.goToStep(name)
+                return (
+                  <Button onClick={goToStep} outline={(formState.currentStep?.index !== i)}>
+                    <strong>{`${i+1}. ${name || 'Form'}`}</strong>
+                  </Button>
+                )
+              })}
+            </ButtonGroup>
+          </div>
 
           {/* the sub-forms */}
           <div className='mt-4'>
@@ -70,14 +76,14 @@ function MultiStepForm({ children, name, formContainerSize, onValidSubmit }) {
                     type="submit" 
                     form="multi-form"
                     disabled={isInvalidSubmit}
-                    style={(isInvalidSubmit) ? { pointerEvents: 'none' , color:"white",backgroundColor:"#46ad2f"} : {color:"white",backgroundColor:"#46ad2f"}}>
+                    style={(isInvalidSubmit) ? { pointerEvents: 'none', ...buttonStyles } : buttonStyles}>
                     Submit
                   </Button>
                 ) : (
                   <Button
                     color="primary"
                     onClick={formState.submitStep}
-                    style={{color:"white",backgroundColor:"#46ad2f"}}>
+                    style={buttonStyles}>
                     Next
                   </Button>
                 ))}
@@ -139,10 +145,11 @@ function FieldInput(props) {
 
 function FieldCheck(props) {
   // <FieldCheck/> for checkboxes and radios
-  const { className, value: propValue, defaultChecked, label, type, onChange } = props
-	const { errorMessage, setValue, value, isSubmitted } = useField(props)
+  const { className, value: propValue, defaultChecked, label, type, required, onChange } = props
+	const { errorMessage, setValue, value, isPristine, isSubmitted } = useField(props)
 
-  const showError = isSubmitted
+  const typeCheckReq = (type === 'checkbox' && required && !value && (!isPristine || isSubmitted))
+  const showError = typeCheckReq || isSubmitted
 
   useEffect(() => {
     if (defaultChecked) setValue(propValue || true)
@@ -160,7 +167,7 @@ function FieldCheck(props) {
               invalid={showError}
               onChange={(e) => {
                 if (type === 'radio') setValue(propValue)
-                else if (type === 'checkbox') setValue(!e.target.value)
+                else if (type === 'checkbox') setValue(e.target.checked)
                 if (onChange) onChange(e)
               }}
             />{' ' + label}

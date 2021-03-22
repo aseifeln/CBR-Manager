@@ -9,8 +9,10 @@ function AdminInsights() {
         <>
         <CookieChecker></CookieChecker>
         <AdminSideBar/>
-        <Container className="main-content">
-            <h1>Insights</h1>
+        <Container>
+            <div className="main-content">
+                <h1>Insights</h1>
+            </div>
         </Container>
         </>
     )

@@ -17,6 +17,7 @@ import ReferralInfo from './pages/ReferralInfo';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminInsights from './pages/AdminInsights';
 import WorkerListPage from './pages/WorkerListPage';
+import WorkerInfo from './pages/WorkerInfo';
 import NewReferral from './pages/NewReferral';
 
 /**
@@ -100,6 +101,12 @@ const ROUTES = [
         key: 'WORKER_LIST',
         exact: true,
         component: WorkerListPage
+      },
+      {
+        path: '/admin/worker/:id',
+        key: 'WORKER_INFO',
+        exact: true,
+        component: WorkerInfo
       }
     ]
   },
@@ -109,8 +116,14 @@ const ROUTES = [
     component: RenderRoutes,
     routes: [
       {
-        path: '/referral/new/:id',
+        path: '/referral/new/',
         key: 'NEW_REFERRAL',
+        exact: true,
+        component: NewReferral
+      },
+      {
+        path: '/referral/new/:id',
+        key: 'NEW_REFERRAL_WITH_ID',
         exact: true,
         component: NewReferral
       },
