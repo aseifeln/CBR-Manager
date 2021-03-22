@@ -513,7 +513,7 @@ function ClientListPage() {
                         <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
                         <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}
                     </p>
-                    <p className="dateText"><i>Created {moment(client.DateCreated).format('MM-DD-YYYY')}</i></p>
+                    <p className="dateText"><i>Created {moment(client.DateCreated).format('DD-MM-YYYY')}</i></p>
                 </ListGroupItemText>
             </ListGroupItem>
         );
