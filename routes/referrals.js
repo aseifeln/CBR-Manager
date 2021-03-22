@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const referral = require('../models/referral')
 const { sequelize } = require('../models/referral')
+const multer = require('multer');
+const upload = multer({});
 
 const worker = require('../models/worker')
 const client = require('../models/client')
@@ -138,7 +140,7 @@ router.get('/client/:id', (req, res) => {
 
 // @route   POST /referrals/add
 // @desc    POST Add a new visit to the database
-router.post('/add', async (req,res) => {
+router.post('/add', upload.array('Photos', 4), async (req,res) => {
     let {Date, ServiceRequired, OtherServices,
         ReferTo, Status, Outcome, ClientId, WorkerId,
         WheelchairService, PhysiotherapyService,
@@ -152,10 +154,11 @@ router.post('/add', async (req,res) => {
 
 
         if (WheelchairService != null) {
+            WheelchairService = JSON.parse(WheelchairService)
             var WheelchairServiceId = uuidv4();
             await wheelchairService.create({
                 WheelchairServiceId,
-                Photo: WheelchairService.Photo.toString('base64'),
+                Photo: req.files[0].buffer,
                 ClientProficiency: WheelchairService.ClientProficiency,
                 ClientHipWidth: WheelchairService.ClientHipWidth,
                 WheelchairExist: WheelchairService.WheelchairExist,
@@ -164,29 +167,32 @@ router.post('/add', async (req,res) => {
         }
 
         if (PhysiotherapyService != null) {
+            PhysiotherapyService = JSON.parse(PhysiotherapyService)
             var PhysiotherapyServiceId = uuidv4();
             await physiotherapyService.create({
                 PhysiotherapyServiceId,
-                Photo: PhysiotherapyService.Photo.toString('base64'),
+                Photo: req.files[1].buffer,
                 ClientCondition: PhysiotherapyService.ClientCondition,
                 OtherClientCondition: PhysiotherapyService.OtherClientCondition
             }, { transaction });
         }
 
         if (ProstheticService != null) {
+            ProstheticService = JSON.parse(ProstheticService)
             var ProstheticServiceId = uuidv4();
             await prostheticService.create({
                 ProstheticServiceId,
-                Photo: ProstheticService.Photo.toString('base64'),
+                Photo: req.files[2].buffer,
                 InjuryPosition: ProstheticService.InjuryPosition
             }, { transaction });
         }
 
         if (OrthoticService != null) {
+            OrthoticService = JSON.parse(OrthoticService)
             var OrthoticServiceId = uuidv4();
             await orthoticService.create({
                 OrthoticServiceId,
-                Photo: OrthoticService.Photo.toString('base64'),
+                Photo: req.files[3].buffer,
                 InjuryPosition: OrthoticService.InjuryPosition
             }, { transaction });
         }

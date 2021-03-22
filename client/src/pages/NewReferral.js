@@ -42,66 +42,82 @@ function NewReferral(props) {
         newData['WorkerId'] = context.WorkerId;
         
         let services = []
+        let photos = []
+        const formData = new FormData()
 
         if (wheelchairService) {
             let wheelchairForm = {};
 
-            wheelchairForm['Photo'] = wheelchairImgPreview;
+            photos.push((wheelchairImgPreview) || null)
             wheelchairForm['ClientProficiency'] = data['wheelchairProficiency'];
             wheelchairForm['ClientHipWidth'] = data['hipWidth'];
             wheelchairForm['WheelchairExist'] = (data['hasWheelchair'] === "Yes") ? "Y" : "N";
             wheelchairForm['WheelchairRepairable'] = (data['wheelchairRepairable'] === "Yes") ? "Y" : "N";
 
             services.push("Wheelchair");
-            newData['WheelchairService'] = wheelchairForm;
+            formData.append('WheelchairService', JSON.stringify(wheelchairForm))
         }
 
         if (physioService) {
             let physioForm = {};
 
-            physioForm['Photo'] = physioImgPreview;
+            photos.push((physioImgPreview) || null)
             physioForm['ClientCondition'] = data['clientCondition'];
             physioForm['OtherClientCondition'] = data['otherCondition'];
 
             services.push("Physiotherapy");
-            newData['PhysiotherapyService'] = physioForm;
+            formData.append('PhysiotherapyService', JSON.stringify(physioForm))
         }
 
         if (prostheticService) {
             let prostheticForm = {};
 
-            prostheticForm['Photo'] = prostheticImgPreview;
+            photos.push((prostheticImgPreview) || null)
             prostheticForm['InjuryPosition'] = data['prostheticInjuryPosition'];
 
             services.push("Prosthetic");
-            newData['ProstheticService'] = prostheticForm;
+            formData.append('ProstheticService', JSON.stringify(prostheticForm))
         }
 
         if (orthoticService) {
             let orthoticForm = {};
 
-            orthoticForm['Photo'] = orthoticImgPreview;
+            photos.push((orthoticImgPreview) || null)
             orthoticForm['InjuryPosition'] = data['orthoticInjuryPosition'];
 
             services.push("Orthotic");
-            newData['OrthoticService'] = orthoticForm;
+            formData.append('OrthoticService', JSON.stringify(orthoticForm))
         }
 
         if (otherSelected) {
             services.push("Other");
         }
 
-        newData['ServiceRequired'] = services;
         newData['OtherService'] = data['otherServiceDesc'];
 
-        return newData;
+        for (let [key, val] of Object.entries(newData)) {
+            formData.append(key, val)
+        }
+
+        for(let i = 0; i < services.length; i++){
+            formData.append('ServiceRequired', services[i])
+        }  
+
+        for(let i = 0; i < photos.length; i++){
+            formData.append('Photos', photos[i])
+        }      
+        
+        return formData
     }
 
     function onValidSubmit(data) {
         data = prepareData(data);
-        console.log(data);
 
-        axios.post('/referrals/add', data)
+        axios.post('/referrals/add', data, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
         .then(() => {
             alert("Referral was added successfully.");
             // TODO: Should redirect to referral page when that is implemented
