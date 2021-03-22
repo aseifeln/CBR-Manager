@@ -6,16 +6,13 @@ import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap'
 
 import "../css/Login.css";
 
-function Login(props) {
+function Login() {
     const WRONGPASSWORD = '0'
     const UNREGISTERED = '2'
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
-    const[usernameErr, setUsernameErr] = useState(false);
-    const[passwordErr, setPasswordErr] = useState(false);
-
-    const context = useContext(UserContext);
+    const [usernameErr, setUsernameErr] = useState(false);
+    const [passwordErr, setPasswordErr] = useState(false);
 
     useEffect(() => {
         document.title="Login"
@@ -24,6 +21,19 @@ function Login(props) {
     function initialErrState(){
         setUsernameErr(false)
         setPasswordErr(false)
+    }
+
+    function authPasses() {
+        let pass = true
+        if(!username.length > 0){
+            setUsernameErr(true)
+            pass = false
+        }
+        if(!password.length > 0){
+            setPasswordErr(true)
+            pass = false
+        }
+        return pass
     }
 
     function handleSubmit(event) {
@@ -60,7 +70,6 @@ function Login(props) {
                                 
                             })
                             .catch(err => console.log(err))
-
                     }
                     return;
                   })
@@ -68,19 +77,6 @@ function Login(props) {
                     console.log(err);
                 })
         }
-    }
-
-    function authPasses() {
-        let pass = true
-        if(!username.length > 0){
-            setUsernameErr(true)
-            pass = false
-        }
-        if(!password.length > 0){
-            setPasswordErr(true)
-            pass = false
-        }
-        return pass
     }
 
     return (
@@ -114,7 +110,6 @@ function Login(props) {
             </Form>
         </div>
     )
-
 }
 
 export default Login;
