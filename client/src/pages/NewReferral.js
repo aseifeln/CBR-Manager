@@ -42,7 +42,7 @@ function NewReferral(props) {
             newData['ClientId'] = props.match.params.id;
         }
         else {
-            newData['ClientId'] = data.client;
+            newData['ClientId'] = data.client[0].value;
         }
 
         newData['ReferTo'] = data['referTo'];
@@ -50,7 +50,7 @@ function NewReferral(props) {
         newData['Date'] = data['date'];
         newData['WorkerId'] = context.WorkerId;
         
-        let services = []
+        let services = [];
 
         if (wheelchairService) {
             let wheelchairForm = {};
@@ -151,7 +151,11 @@ function NewReferral(props) {
             setClientProvided(false);
             axios.get('/clients')
             .then(response => {
-                setClients(response.data);
+                const clientArr = [];
+                // Reference: https://stackoverflow.com/a/57008713
+                // FieldTypeahead options must be an array
+                Object.keys(response.data).forEach(key => clientArr.push({value: response.data[key].ClientId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
+                setClients(clientArr);
             })
             .catch(error => {
                 console.log(error);
@@ -192,13 +196,13 @@ function NewReferral(props) {
                                 <FieldInput label="Client" name="client" disabled
                                 defaultValue={client.FirstName + ' ' + client.LastName}/>
                             ) : (
-                                <FieldInput type="select" label="Client" name="client" required="Client is required">
-                                <option hidden selected>Select a client</option>
-                                {/* TODO: Make it so users can type out the name, which autofills */}
-                                {clients.map(({FirstName, LastName, ClientId}) => (
-                                    <option value={ClientId}>{FirstName} {LastName}</option>
-                                ))}
-                                </FieldInput>
+                                <div>
+                                    <Label>Client</Label>
+                                    <FieldTypeahead
+                                        name="client"
+                                        required="Client is required"
+                                        options={clients}/>
+                                </div>
                             )}
                             </FormGroup>
                         </Col>
