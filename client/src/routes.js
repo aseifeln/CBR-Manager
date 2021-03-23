@@ -116,8 +116,14 @@ const ROUTES = [
     component: RenderRoutes,
     routes: [
       {
-        path: '/referral/new/:id',
+        path: '/referral/new/',
         key: 'NEW_REFERRAL',
+        exact: true,
+        component: NewReferral
+      },
+      {
+        path: '/referral/new/:id',
+        key: 'NEW_REFERRAL_WITH_ID',
         exact: true,
         component: NewReferral
       },
