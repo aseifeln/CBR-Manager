@@ -7,8 +7,25 @@ import axios from 'axios';
 import NotFoundPage from './404';
 import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 function NewVisit(props) {
+
+  // Reference: https://tomchentw.github.io/react-google-maps/#usage--configuration
+  // Usage of this component also retrieved from reference
+  const MapWithMarker = withScriptjs(withGoogleMap((props) => {
+
+    let { location } = props;
+ 
+    return (
+      <GoogleMap
+        defaultZoom={11}
+        defaultCenter={ location }
+      >
+        <Marker position={ location } />
+      </GoogleMap>
+    )
+  }))
 
   const history = useHistory();
   const [ client, setClient ] = useState({});
@@ -16,7 +33,7 @@ function NewVisit(props) {
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
-  const [ GPSLocation, setGPSLocation ] = useState('');
+  const [ GPSLocation, setGPSLocation ] = useState({});
   const [ worker, setWorker ] = useState({});
   const context = useContext(UserContext);
 
@@ -361,13 +378,15 @@ function NewVisit(props) {
 
                 <Row form>
                   <Col>
-                    <FormGroup>
-                      <FieldInput type="text" name="locationOfVisit"
-                            key={GPSLocation} 
-                            label="Location of visit" 
-                            defaultValue={GPSLocation}
-                            />
-                    </FormGroup>
+                    <Label>Location of Visit</Label>
+                    <MapWithMarker
+                      // Will need to enter API key to remove the "For development purposes only" watermark
+                      googleMapURL="https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
+                      loadingElement={<div style={{ height: '75%' }} />}
+                      containerElement={<div style={{ height: '400px', width: '500px' }} />}
+                      mapElement={<div style={{ height: '75%' }} />}
+                      location={GPSLocation}
+                    />
                   </Col>
                 </Row>
 
