@@ -140,11 +140,18 @@ router.get('/client/:id', (req, res) => {
 
 // @route   POST /referrals/add
 // @desc    POST Add a new visit to the database
-router.post('/add', upload.array('Photos', 4), async (req,res) => {
+router.post('/add', upload.fields([{name: 'wheelchairPhoto', maxCount: 1}, 
+{name: 'physioPhoto', maxCount: 1}, {name: 'prostheticPhoto', maxCount: 1}, 
+{name: 'orthoticPhoto', maxCount: 1}]), async (req,res) => {
     let {Date, ServiceRequired, OtherServices,
         ReferTo, Status, Outcome, ClientId, WorkerId,
         WheelchairService, PhysiotherapyService,
         ProstheticService, OrthoticService} = req.body;
+
+    // React formData sends a string instead of an array if only one service is selected
+    if(typeof(ServiceRequired) === 'string'){
+        ServiceRequired = [ServiceRequired]
+    }
 
     // transaction functionality from
     // https://stackoverflow.com/questions/42870374/node-js-7-how-to-use-sequelize-transaction-with-async-await/49162797
@@ -158,7 +165,7 @@ router.post('/add', upload.array('Photos', 4), async (req,res) => {
             var WheelchairServiceId = uuidv4();
             await wheelchairService.create({
                 WheelchairServiceId,
-                Photo: req.files[0].buffer,
+                Photo: req.files['wheelchairPhoto'][0].buffer,
                 ClientProficiency: WheelchairService.ClientProficiency,
                 ClientHipWidth: WheelchairService.ClientHipWidth,
                 WheelchairExist: WheelchairService.WheelchairExist,
@@ -171,7 +178,7 @@ router.post('/add', upload.array('Photos', 4), async (req,res) => {
             var PhysiotherapyServiceId = uuidv4();
             await physiotherapyService.create({
                 PhysiotherapyServiceId,
-                Photo: req.files[1].buffer,
+                Photo: req.files['physioPhoto'][0].buffer,
                 ClientCondition: PhysiotherapyService.ClientCondition,
                 OtherClientCondition: PhysiotherapyService.OtherClientCondition
             }, { transaction });
@@ -182,7 +189,7 @@ router.post('/add', upload.array('Photos', 4), async (req,res) => {
             var ProstheticServiceId = uuidv4();
             await prostheticService.create({
                 ProstheticServiceId,
-                Photo: req.files[2].buffer,
+                Photo: req.files['prostheticPhoto'] ? req.files['prostheticPhoto'][0].buffer : null,
                 InjuryPosition: ProstheticService.InjuryPosition
             }, { transaction });
         }
@@ -192,7 +199,7 @@ router.post('/add', upload.array('Photos', 4), async (req,res) => {
             var OrthoticServiceId = uuidv4();
             await orthoticService.create({
                 OrthoticServiceId,
-                Photo: req.files[3].buffer,
+                Photo: req.files['orthoticPhoto'] ? req.files['orthoticPhoto'][0].buffer : null,
                 InjuryPosition: OrthoticService.InjuryPosition
             }, { transaction });
         }

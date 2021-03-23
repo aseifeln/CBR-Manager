@@ -42,13 +42,12 @@ function NewReferral(props) {
         newData['WorkerId'] = context.WorkerId;
         
         let services = []
-        let photos = []
         const formData = new FormData()
 
         if (wheelchairService) {
             let wheelchairForm = {};
 
-            photos.push((wheelchairImgPreview) || null)
+            formData.append('wheelchairPhoto', wheelchairImgPreview)
             wheelchairForm['ClientProficiency'] = data['wheelchairProficiency'];
             wheelchairForm['ClientHipWidth'] = data['hipWidth'];
             wheelchairForm['WheelchairExist'] = (data['hasWheelchair'] === "Yes") ? "Y" : "N";
@@ -61,7 +60,7 @@ function NewReferral(props) {
         if (physioService) {
             let physioForm = {};
 
-            photos.push((physioImgPreview) || null)
+            formData.append('physioPhoto', physioImgPreview)
             physioForm['ClientCondition'] = data['clientCondition'];
             physioForm['OtherClientCondition'] = data['otherCondition'];
 
@@ -72,7 +71,7 @@ function NewReferral(props) {
         if (prostheticService) {
             let prostheticForm = {};
 
-            photos.push((prostheticImgPreview) || null)
+            formData.append('prostheticPhoto', (prostheticImgPreview) || null)
             prostheticForm['InjuryPosition'] = data['prostheticInjuryPosition'];
 
             services.push("Prosthetic");
@@ -82,7 +81,7 @@ function NewReferral(props) {
         if (orthoticService) {
             let orthoticForm = {};
 
-            photos.push((orthoticImgPreview) || null)
+            formData.append('orthoticPhoto', (orthoticImgPreview) || null)
             orthoticForm['InjuryPosition'] = data['orthoticInjuryPosition'];
 
             services.push("Orthotic");
@@ -101,10 +100,6 @@ function NewReferral(props) {
 
         for(let i = 0; i < services.length; i++){
             formData.append('ServiceRequired', services[i])
-        }  
-
-        for(let i = 0; i < photos.length; i++){
-            formData.append('Photos', photos[i])
         }      
         
         return formData
