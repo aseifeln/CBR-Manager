@@ -12,7 +12,7 @@ const Visit = db.define('Visit', {
       allowNull: false
     },
     GPSLocation: {
-      type: Sequelize.STRING,
+      type: Sequelize.JSONB,
       allowNull: true
     },
     Date: {

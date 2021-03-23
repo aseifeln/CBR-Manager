@@ -99,7 +99,7 @@ function NewVisit(props) {
     // Prepare General info
     newData['VisitPurpose'] = data.purposeOfVisit;
     newData['Date'] = data.date;
-    newData['GPSLocation'] = data.locationOfVisit;
+    newData['GPSLocation'] = GPSLocation;
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
 
