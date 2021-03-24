@@ -103,7 +103,7 @@ function SignUpPage() {
           })
             .then(async res => {
                 const REGISTERED = '3'
-                if (res.data == REGISTERED) {
+                if (res.data === REGISTERED) {
                     alert("Username is already taken");
                     await window.location.replace("/signup");
                     return;
@@ -177,6 +177,7 @@ function SignUpPage() {
                         id="location"
                         value={location}
                         onChange={(event) => setLocation(event.target.value)}>
+                        <option hidden>Choose a location </option>    
                         <option>BidiBidi Zone 1</option>
                         <option>BidiBidi Zone 2</option>
                         <option>BidiBidi Zone 3</option>
