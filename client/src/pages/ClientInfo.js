@@ -20,8 +20,13 @@ function ClientInfo(props) {
     const areaColor2={backgroundColor:"#22a9ba"};
 
     useEffect(() => {
-        // Send request to backend to retrieve client info data
+        const formatDate = (arr) => {
+            arr.forEach((v) => {
+                v['Date'] = moment(v['Date']).format('DD-MM-YYYY')
+            })
+        }
 
+        // Send request to backend to retrieve client info data
         axios.get('/clients/' + props.match.params.id)
             .then(response => {
                 setClient(response.data);
@@ -35,10 +40,7 @@ function ClientInfo(props) {
 
         axios.get('/visits/client/' + props.match.params.id)
             .then(response => {
-                response.data.forEach((v) => {
-                    v['Date'] = moment(v['Date']).format('DD-MM-YYYY')
-                })
-
+                formatDate(response.data);
                 setVisits(response.data);
             })
             .catch(error => {
@@ -47,6 +49,7 @@ function ClientInfo(props) {
 
         axios.get('/referrals/client/' + props.match.params.id)
             .then(response => {
+                formatDate(response.data);
                 setReferrals(response.data);
             })
             .catch(error => {
