@@ -24,7 +24,11 @@ function MapWithMarker(props) {
     return (
         <MapWithMarker
             // Will need to enter API key to remove the "For development purposes only" watermark
-            googleMapURL="https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
+            googleMapURL={(typeof process.env.REACT_APP_GOOGLE_MAPS_API_KEY === 'undefined') ? (
+                "https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
+            ): (
+                "https://maps.googleapis.com/maps/api/js?key=" + process.env.REACT_APP_GOOGLE_MAPS_API_KEY + "&v=3.exp&libraries=geometry,drawing,places"
+            )}
             loadingElement={loadingElement}
             containerElement={containerElement}
             mapElement={mapElement}
