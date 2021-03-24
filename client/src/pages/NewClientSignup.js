@@ -7,7 +7,7 @@ import DatePicker from 'reactstrap-date-picker';
 import {getGPSLocation} from './Helpers';
 import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import MapWithMarker from '../components/MapWithMarker';
 
 const formContainerSize = {
   margin: 'auto',
@@ -22,22 +22,6 @@ function NewClientSignup() {
   const [GPSLocation, setGPSLocation] = useState('');
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
-
-  // Reference: https://tomchentw.github.io/react-google-maps/#usage--configuration
-  // Usage of this component also retrieved from reference
-  const MapWithMarker = withScriptjs(withGoogleMap((props) => {
-
-    let { location } = props;
- 
-    return (
-      <GoogleMap
-        defaultZoom={11}
-        defaultCenter={ location }
-      >
-        <Marker position={ location } />
-      </GoogleMap>
-    )
-  }))
 
   useEffect(() => {
     getGPSLocation(setGPSLocation);
@@ -166,7 +150,6 @@ function NewClientSignup() {
               <Label>GPS Location</Label>
               <MapWithMarker
                 // Will need to enter API key to remove the "For development purposes only" watermark
-                googleMapURL="https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={<div style={{ height: '75%' }} />}
                 containerElement={<div style={{ height: '400px', width: '500px' }} />}
                 mapElement={<div style={{ height: '95%' }} />}

@@ -3,29 +3,13 @@ import { Container, Button, Row, Col, ListGroup, ListGroupItem, Label } from 're
 import { Link } from 'react-router-dom';
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import MapWithMarker  from '../components/MapWithMarker';
 
 function VisitInfo(props) {
 
     const [ visit, setVisit ] = useState({});
     const [ visitFound, setVisitFound ] = useState(false);
     document.title = "Visit Details";
-
-    // Reference: https://tomchentw.github.io/react-google-maps/#usage--configuration
-    // Usage of this component also retrieved from reference
-    const MapWithMarker = withScriptjs(withGoogleMap((props) => {
-
-        let { location } = props;
-    
-        return (
-        <GoogleMap
-            defaultZoom={11}
-            defaultCenter={ location }
-        >
-            <Marker position={ location } />
-        </GoogleMap>
-        )
-    }))
 
     useEffect(() => {
 
@@ -80,8 +64,6 @@ function VisitInfo(props) {
                     <Col>
                         <h5><b>GPS Location</b></h5>
                         <MapWithMarker
-                            // Will need to enter API key to remove the "For development purposes only" watermark
-                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
                             loadingElement={<div style={{ height: '75%' }} />}
                             containerElement={<div style={{ height: '250px', width: '300px' }} />}
                             mapElement={<div style={{ height: '90%' }} />}
