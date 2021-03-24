@@ -7,6 +7,7 @@ import DatePicker from 'reactstrap-date-picker';
 import {getGPSLocation} from './Helpers';
 import CookieChecker from '../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 const formContainerSize = {
   margin: 'auto',
@@ -22,6 +23,22 @@ function NewClientSignup() {
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
+  // Reference: https://tomchentw.github.io/react-google-maps/#usage--configuration
+  // Usage of this component also retrieved from reference
+  const MapWithMarker = withScriptjs(withGoogleMap((props) => {
+
+    let { location } = props;
+ 
+    return (
+      <GoogleMap
+        defaultZoom={11}
+        defaultCenter={ location }
+      >
+        <Marker position={ location } />
+      </GoogleMap>
+    )
+  }))
+
   useEffect(() => {
     getGPSLocation(setGPSLocation);
     document.title="New Client Registration"
@@ -34,26 +51,30 @@ function NewClientSignup() {
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
     data['Date'] = clientDate
     data['Gender'] = (data['Gender'] || 'Male')
+    data['GPSLocation'] = GPSLocation;
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
       if (key === 'DisabilityType') {
         val = val.split(',').join(", ")
       }
+      else if (key === 'GPSLocation') {
+        val = JSON.stringify(val);
+      }
       formData.append(key, (val != null) ? val : 'N/A')
     }
+
     return formData
   }
 
   async function onValidSubmit(data) {
     data = formatSubmitData(data)
-    
+
     try {
       await axios.post('/clients/add', data, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
 
-      // console.log(results)
       alert('New client successfully added')
       history.push('/dashboard') 
       
@@ -142,12 +163,14 @@ function NewClientSignup() {
             </Col>
 
             <Col xs={12}>
-              <FieldInput 
-              key={GPSLocation} 
-              name="GPSLocation" 
-              label="GPS Location" 
-              type="text" 
-              defaultValue={GPSLocation}
+              <Label>GPS Location</Label>
+              <MapWithMarker
+                // Will need to enter API key to remove the "For development purposes only" watermark
+                googleMapURL="https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
+                loadingElement={<div style={{ height: '75%' }} />}
+                containerElement={<div style={{ height: '400px', width: '500px' }} />}
+                mapElement={<div style={{ height: '95%' }} />}
+                location={GPSLocation}
               />
             </Col>
 

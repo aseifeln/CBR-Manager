@@ -7,7 +7,7 @@ import axios from 'axios';
 import NotFoundPage from './404';
 import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 function NewVisit(props) {
 

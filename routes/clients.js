@@ -86,7 +86,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         Age,
         DisabilityType: DisabilityType.split(", "),
         Photo: req.file.buffer,
-        GPSLocation,
+        GPSLocation: JSON.parse(GPSLocation),
         Consent,
         CaregiverName,
         CaregiverState,
