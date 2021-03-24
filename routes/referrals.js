@@ -15,6 +15,13 @@ const orthoticService = require('../models/orthoticService')
 
 const { v4: uuidv4 } = require('uuid');
 
+//Function that converts an image byte array into a base64 string
+//Reference: https://robert-keller22.medium.com/upload-and-download-images-to-a-postgres-db-node-js-92e43f232ae4
+function ConvertImage(referral){
+    const targetImage = referral.Photo.toString('base64')
+    referral['Photo'] = targetImage
+}
+
 // @route   GET /referrals/outstanding
 // @desc    GET all outstanding referrals (status === "Made") ordered by date
 router.get('/outstanding', async (req, res) => {
@@ -96,6 +103,18 @@ router.get('/:id', (req,res) => {
         }]
     })
     .then(referralsFound => {
+        if(referralsFound[0].WheelchairService){
+            ConvertImage(referralsFound[0].WheelchairService)
+        }
+        if(referralsFound[0].PhysiotherapyService){
+            ConvertImage(referralsFound[0].PhysiotherapyService)
+        }
+        if(referralsFound[0].ProstheticService && referralsFound[0].ProstheticService.Photo){
+            ConvertImage(referralsFound[0].ProstheticService)
+        }
+        if(referralsFound[0].OrthoticService && referralsFound[0].OrthoticService.Photo){
+            ConvertImage(referralsFound[0].OrthoticService)
+        }
         res.json(referralsFound);
     })
     .catch(err => {
