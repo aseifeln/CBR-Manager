@@ -83,7 +83,7 @@ function NewVisit(props) {
     // Prepare General info
     newData['VisitPurpose'] = data.purposeOfVisit;
     newData['Date'] = data.date;
-    newData['GPSLocation'] = GPSLocation;
+    newData['GPSLocation'] = JSON.stringify(GPSLocation);
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
 

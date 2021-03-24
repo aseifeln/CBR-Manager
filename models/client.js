@@ -73,7 +73,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     GPSLocation: {
-        type: Sequelize.JSONB
+        type: Sequelize.STRING
     },
     Consent: {
         type: Sequelize.ENUM('Y', 'N'),
