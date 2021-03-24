@@ -5,6 +5,7 @@ import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBod
 import { Link } from 'react-router-dom';
 import NotFoundPage from './404';
 import CookieChecker from '../components/CookieChecker';
+import moment from 'moment';
 
 function ClientInfo(props) {
 
@@ -34,6 +35,10 @@ function ClientInfo(props) {
 
         axios.get('/visits/client/' + props.match.params.id)
             .then(response => {
+                response.data.forEach((v) => {
+                    v['Date'] = moment(v['Date']).format('DD-MM-YYYY')
+                })
+
                 setVisits(response.data);
             })
             .catch(error => {

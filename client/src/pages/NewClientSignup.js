@@ -134,6 +134,7 @@ function NewClientSignup() {
               <FormGroup>
                 <Label>New Client On</Label>
                 <DatePicker
+                  dateFormat='DD-MM-YYYY'
                   showClearButton={false}
                   value={clientDate}
                   onChange={(v) => setClientDate(v)}
