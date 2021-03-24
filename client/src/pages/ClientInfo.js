@@ -1,10 +1,11 @@
 /* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
+import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import NotFoundPage from './404';
 import CookieChecker from '../components/CookieChecker';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 function ClientInfo(props) {
 
@@ -17,6 +18,22 @@ function ClientInfo(props) {
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
     const areaColor2={backgroundColor:"#22a9ba"};
+
+    // Reference: https://tomchentw.github.io/react-google-maps/#usage--configuration
+    // Usage of this component also retrieved from reference
+    const MapWithMarker = withScriptjs(withGoogleMap((props) => {
+
+        let { location } = props;
+    
+        return (
+        <GoogleMap
+            defaultZoom={11}
+            defaultCenter={ location }
+        >
+            <Marker position={ location } />
+        </GoogleMap>
+        )
+    }))
 
     useEffect(() => {
         // Send request to backend to retrieve client info data
@@ -148,6 +165,17 @@ as right now will still render this component briefly even for existing clients*
                         <li>- Gender: {client.Gender}</li>
                         <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
                     </ul>
+                </Col>
+                <Col>
+                    <Label>GPS Location</Label>
+                    <MapWithMarker
+                        // Will need to enter API key to remove the "For development purposes only" watermark
+                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=&v=3.exp&libraries=geometry,drawing,places"
+                        loadingElement={<div style={{ height: '75%' }} />}
+                        containerElement={<div style={{ height: '250px', width: '300px' }} />}
+                        mapElement={<div style={{ height: '90%' }} />}
+                        location={JSON.parse(client.GPSLocation)}
+                    />
                 </Col>
             </Row>
             <Row>
