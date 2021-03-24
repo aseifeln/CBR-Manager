@@ -19,27 +19,36 @@ router.get('/priority/:loc&:num', async (req, res) => {
     const location = req.params.loc;
     const numClients = req.params.num;
 
-    await client.findAll({
-        attributes: {
-            exclude: [
-                'HealthDesc',
-                'HealthGoal',
-                'EducationDesc',
-                'EducationGoal',
-                'SocialDesc',
-                'SocialGoal'
-            ]
-        },
-        where: {Location: location},
-        order: [['Priority', 'DESC']],
-        limit: numClients,
-    })
-        .then(clients => {
-            clients.map(ConvertImage)
-            return clients;
+    try {
+        await sequelize.transaction(async (transaction) => {
+
+            await client.findAll({
+                attributes: {
+                    exclude: [
+                        'HealthDesc',
+                        'HealthGoal',
+                        'EducationDesc',
+                        'EducationGoal',
+                        'SocialDesc',
+                        'SocialGoal'
+                    ]
+                },
+                where: {Location: location},
+                order: [['Priority', 'DESC']],
+                limit: numClients,
+            }, {transaction})
+                .then(clients => {
+                    clients.map(ConvertImage)
+                    return clients;
+                })
+                .then(clients => {
+                    res.json(clients)
+                })
+                .catch(err => res.status(404).json(err))
         })
-        .then(clients => res.json(clients))
-        .catch(err => res.status(404).json(err))
+    } catch(error) {
+        res.status(500).json(err);
+    }
 })
 
 // @route   GET /clients/id
@@ -74,7 +83,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         VillageNo, Age, DisabilityType, GPSLocation, Consent,
         CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
         HealthGoal, EducationStatus, EducationDesc, EducationGoal,
-        SocialStatus, SocialDesc, SocialGoal, CaregiverName, WorkerId} = req.body;
+        SocialStatus, SocialDesc, SocialGoal, CaregiverName, WorkerId, DateCreated} = req.body;
 
     client.create({
         FirstName,
@@ -84,6 +93,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         ContactNo,
         VillageNo,
         Age,
+        DateCreated,
         DisabilityType: DisabilityType.split(", "),
         Photo: req.file.buffer,
         GPSLocation,
