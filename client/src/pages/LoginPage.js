@@ -31,11 +31,10 @@ function Login(props) {
         initialErrState();
 
         if (authPasses()) {
-            const user = {
-                username: username, 
-                password: password,
-            }
-            axios.post('/users/login',{user})
+            let user = {}
+            user['Username'] = username
+            user['Password'] = password
+            axios.post('/users/login', user)
                 .then(res => {
                     if(res.data == WRONGPASSWORD){
                         alert("Wrong Password");
@@ -47,7 +46,7 @@ function Login(props) {
                     } else {
                         const maxAge = 60*60; // 60 mins
                         document.cookie="cookiename=cookievalue;max-age="+(maxAge);
-                        axios.get('users/session', {params: {username: user.username}})
+                        axios.get('users/session', {params: {username: user['Username']}})
                             .then(res => {
                                 document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge);
                                 document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge);
