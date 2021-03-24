@@ -61,15 +61,17 @@ function VisitInfo(props) {
                         <h5><b>Location: </b>{visit.Location}</h5>
                         <h5><b>Village Number: </b>{visit.VillageNumber}</h5>
                     </Col>
-                    <Col>
-                        <h5><b>GPS Location</b></h5>
-                        <MapWithMarker
-                            loadingElement={<div style={{ height: '75%' }} />}
-                            containerElement={<div style={{ height: '250px', width: '300px' }} />}
-                            mapElement={<div style={{ height: '90%' }} />}
-                            location={JSON.parse(visit.GPSLocation)}
-                        />
-                    </Col>
+                    {(visit.GPSLocation) ? (
+                        <Col>
+                            <h5><b>GPS Location</b></h5>
+                            <MapWithMarker
+                                loadingElement={<div style={{ height: '75%' }} />}
+                                containerElement={<div style={{ height: '250px', width: '300px' }} />}
+                                mapElement={<div style={{ height: '90%' }} />}
+                                location={JSON.parse(visit.GPSLocation)}
+                            />
+                        </Col>
+                    ) : ("")}
                 </Row>
             </Container>
             <Container>

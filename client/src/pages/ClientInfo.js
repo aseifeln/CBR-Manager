@@ -150,15 +150,17 @@ as right now will still render this component briefly even for existing clients*
                         <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
                     </ul>
                 </Col>
-                <Col>
-                    <Label>GPS Location</Label>
-                    <MapWithMarker
-                        loadingElement={<div style={{ height: '75%' }} />}
-                        containerElement={<div style={{ height: '250px', width: '300px' }} />}
-                        mapElement={<div style={{ height: '90%' }} />}
-                        location={JSON.parse(client.GPSLocation)}
-                    />
-                </Col>
+                {(client.GPSLocation) ? (
+                    <Col>
+                        <Label>GPS Location</Label>
+                        <MapWithMarker
+                            loadingElement={<div style={{ height: '75%' }} />}
+                            containerElement={<div style={{ height: '250px', width: '300px' }} />}
+                            mapElement={<div style={{ height: '90%' }} />}
+                            location={JSON.parse(client.GPSLocation)}
+                        />
+                    </Col>
+                ) : ("")}
             </Row>
             <Row>
                 <Col align="center">

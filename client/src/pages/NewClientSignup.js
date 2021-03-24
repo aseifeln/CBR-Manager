@@ -19,7 +19,7 @@ function NewClientSignup() {
   const [consentGiven, setConsentGiven] = useState(false)
   const [caregiverPresent, setCaregiverPresent] = useState(false)
   const [clientDate, setClientDate] = useState((new Date()).toISOString())
-  const [GPSLocation, setGPSLocation] = useState('');
+  const [GPSLocation, setGPSLocation] = useState();
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
   const history = useHistory()
 
@@ -146,16 +146,17 @@ function NewClientSignup() {
               </FormGroup>
             </Col>
 
-            <Col xs={12}>
-              <Label>GPS Location</Label>
-              <MapWithMarker
-                // Will need to enter API key to remove the "For development purposes only" watermark
-                loadingElement={<div style={{ height: '75%' }} />}
-                containerElement={<div style={{ height: '400px', width: '500px' }} />}
-                mapElement={<div style={{ height: '95%' }} />}
-                location={GPSLocation}
-              />
+            {(GPSLocation) ? (
+              <Col xs={12}>
+                <Label>GPS Location</Label>
+                <MapWithMarker
+                  loadingElement={<div style={{ height: '75%' }} />}
+                  containerElement={<div style={{ height: '400px', width: '500px' }} />}
+                  mapElement={<div style={{ height: '95%' }} />}
+                  location={GPSLocation}
+                />
             </Col>
+            ) : ("")}
 
             <Col xs={9} md={10}>
               <FieldInput name="Location" label="Location" type="select" required="Location is required">
