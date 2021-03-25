@@ -6,6 +6,7 @@ import CookieChecker from '../components/CookieChecker';
 import Modal from 'react-modal';
 import { FieldInput } from "../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
+import moment from 'moment';
 
 function ReferralInfo(props){
 
@@ -226,17 +227,29 @@ function ReferralInfo(props){
                 </Row>
                 <br/>
                 <Row>
-                    <h2 style={{alignText:'left',color:'#9646b7'}}>Client Referral</h2>
+                    <Col><h1>Referral</h1></Col>
+                </Row>
+                <Row>
+                    <Col><h5><b>Client Name: </b>{referral.Client?.FirstName + ' ' + referral.Client?.LastName}</h5></Col>
+                </Row>
+                <Row>
+                    <Col><h5><b>Date: </b>{moment(referral.Date).format('DD-MM-YYYY')}</h5></Col>
                 </Row>
                 <Row>
                     <Col>
-                        Status: <div style={{display: 'inline', color: (referral.Status === 'Made') ? ('red') : ('green')}}>{referral.Status}</div>
+                        <h5><b>Status: </b>
+                        <div style={{display: 'inline', color: (referral.Status === 'Made') ? ('red') : ('green')}}>{referral.Status}</div>
+                        </h5>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        Services: {referral.ServiceRequired && referral.ServiceRequired.join(', ')}
+                        <h5><b>Services: </b>{referral.ServiceRequired && referral.ServiceRequired.join(', ')}</h5>
                     </Col>
+                </Row>
+                <br/>
+                <Row>
+                    <Col><h1>Details</h1></Col>
                 </Row>
                 {referral.ServiceRequired && (referral.ServiceRequired.map((service)=>{
                     return(
