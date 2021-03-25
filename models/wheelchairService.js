@@ -45,6 +45,6 @@ WheelchairService.hasOne(Referral, {
     }
 })
 
-Referral.belongsTo(WheelchairService, {foreignKey: 'WheelchairServiceId', targetKey: 'WheelchairServiceId'})
+Referral.belongsTo(WheelchairService, {foreignKey: 'WheelchairServiceId', targetKey: 'WheelchairServiceId', onDelete: 'cascade'})
 
 module.exports = WheelchairService;
