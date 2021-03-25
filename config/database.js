@@ -15,6 +15,11 @@ if (process.env.NODE_ENV === 'production')
             }
         }
     })
+} else if (process.env.NODE_ENV === 'test')
+{
+    module.exports = new Sequelize('postgres://' + process.env.DB_URL_TEST, {
+        logging: false,
+    });
 }
 else 
 {
