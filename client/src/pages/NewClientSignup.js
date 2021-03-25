@@ -33,7 +33,7 @@ function NewClientSignup() {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['Photo'] = (imagePreviewSrc) || null
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
-    data['Date'] = clientDate
+    data['DateCreated'] = clientDate
     data['Gender'] = (data['Gender'] || 'Male')
     data['GPSLocation'] = GPSLocation;
 
@@ -139,6 +139,7 @@ function NewClientSignup() {
               <FormGroup>
                 <Label>New Client On</Label>
                 <DatePicker
+                  dateFormat='DD-MM-YYYY'
                   showClearButton={false}
                   value={clientDate}
                   onChange={(v) => setClientDate(v)}

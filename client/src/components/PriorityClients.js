@@ -12,6 +12,7 @@ function PriorityClients(){
 
     const [location, setLocation] = useState("BidiBidi Zone 1");
     const [data, setData]= useState(['']);
+    const defaultNumPriorityClients = '10';
 
     const context = useContext(UserContext);
     const [initialLoad, setInitialLoad] = useState(true);
@@ -24,7 +25,7 @@ function PriorityClients(){
             setInitialLoad(false);
         }
         
-        axios.get(`/clients/location/${location}`)
+        axios.get(`/clients/priority/${location}&${defaultNumPriorityClients}`)
         .then(res =>{setData(res.data)});
       },[location]);
 
