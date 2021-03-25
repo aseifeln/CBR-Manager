@@ -160,7 +160,7 @@ as right now will still render this component briefly even for existing clients*
                 </Col>
                 {(client.GPSLocation) ? (
                     <Col>
-                        <Label>GPS Location</Label>
+                        <Label className="font-weight-bold">GPS Location</Label>
                         <MapWithMarker
                             loadingElement={<div style={{ height: '75%' }} />}
                             containerElement={<div style={{ height: '250px', width: '300px' }} />}
