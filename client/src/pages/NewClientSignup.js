@@ -32,7 +32,7 @@ function NewClientSignup() {
     data['CaregiverState'] = (data['CaregiverState']) ? 'Y' : 'N'
     data['Photo'] = (imagePreviewSrc) || null
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
-    data['Date'] = clientDate
+    data['DateCreated'] = clientDate
     data['Gender'] = (data['Gender'] || 'Male')
 
     const formData = new FormData()
@@ -134,6 +134,7 @@ function NewClientSignup() {
               <FormGroup>
                 <Label>New Client On</Label>
                 <DatePicker
+                  dateFormat='DD-MM-YYYY'
                   showClearButton={false}
                   value={clientDate}
                   onChange={(v) => setClientDate(v)}
@@ -144,10 +145,10 @@ function NewClientSignup() {
             <Col xs={12}>
               <FieldInput 
               key={GPSLocation} 
-              name="GPSLocation" 
-              label="GPS Location" 
-              type="text" 
-              defaultValue={GPSLocation}
+                name="GPSLocation" 
+                label="GPS Location" 
+                type="text" 
+                defaultValue={GPSLocation}
               />
             </Col>
 
