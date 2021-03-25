@@ -80,7 +80,7 @@ router.get('/', (req, res) =>
 // @desc    POST Add a new client to the database
 router.post('/add', upload.single('Photo'), (req,res) => {
     let {FirstName, LastName, Gender, Location, ContactNo, 
-        VillageNo, Age, DisabilityType, GPSLocation, Consent,
+        VillageNumber, Age, DisabilityType, GPSLocation, Consent,
         CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
         HealthGoal, EducationStatus, EducationDesc, EducationGoal,
         SocialStatus, SocialDesc, SocialGoal, CaregiverName, WorkerId, DateCreated} = req.body;
@@ -91,7 +91,7 @@ router.post('/add', upload.single('Photo'), (req,res) => {
         Gender,
         Location,
         ContactNo,
-        VillageNo,
+        VillageNumber,
         Age,
         DateCreated,
         DisabilityType: DisabilityType.split(", "),
@@ -157,7 +157,7 @@ router.get('/location/:loc', (req,res) => {
 router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
 
     let {FirstName, LastName, Gender, Location, ContactNo, 
-        VillageNo, Age, DisabilityType, GPSLocation, Consent,
+        VillageNumber, Age, DisabilityType, GPSLocation, Consent,
         CaregiverState, CaregiverContactNo, HealthStatus, HealthDesc,
         HealthGoal, EducationStatus, EducationDesc, EducationGoal,
         SocialStatus, SocialDesc, SocialGoal, WorkerId, DeletePhoto} = req.body;
@@ -179,7 +179,7 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
                 Gender,
                 Location,
                 ContactNo,
-                VillageNo,
+                VillageNumber,
                 Age,
                 DisabilityType: DisabilityType.split(", "),
                 GPSLocation,

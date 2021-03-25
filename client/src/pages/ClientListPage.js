@@ -115,7 +115,7 @@ function ClientListPage() {
             numFilters++;
         }
         if (isOpenVillageNo) {
-            if (client.VillageNo === searchVillageNo) {
+            if (client.VillageNumber === Number(searchVillageNo)) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -204,7 +204,7 @@ function ClientListPage() {
             case 'Age':
                 setIsOpenAge(!isOpenAge);
                 break;
-            case 'VillageNo':
+            case 'VillageNumber':
                 setIsOpenVillageNo(!isOpenVillageNo)
                 break;
             case 'Gender':
@@ -247,7 +247,7 @@ function ClientListPage() {
             filters = filters.concat(`"Location": "${searchLocation}",`);
         }
         if(isOpenVillageNo) {
-            filters = filters.concat(`"VillageNo": "${searchVillageNo}",`);
+            filters = filters.concat(`"VillageNumber": ${Number(searchVillageNo)},`);
         }
         if(isOpenDisability) {
             filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
@@ -365,7 +365,7 @@ function ClientListPage() {
                                 Zone
                             </Col>
                             <Col xs="auto">
-                                <Input checked={isOpenVillageNo} type="checkbox" value="VillageNo"/>
+                                <Input checked={isOpenVillageNo} type="checkbox" value="VillageNumber"/>
                                 Village Number
                             </Col>
                             <Col xs="auto">
@@ -429,7 +429,8 @@ function ClientListPage() {
                     <Collapse isOpen={isOpenVillageNo}>
                         <FormGroup>
                             <Label>Village No</Label>
-                            <Input type="text"
+                            <Input type="number"
+                                   min="1"
                                    value={searchVillageNo}
                                    onChange={(event) => setSearchVillageNo(
                                        event.target.value)}
@@ -510,7 +511,7 @@ function ClientListPage() {
                     <p className="clientRowText">
                         <b>Age:</b> {client.Age}
                         <br/><b>Gender:</b> {client.Gender}
-                        <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
+                        <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNumber}
                         <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}
                     </p>
                     <p className="dateText"><i>Created {moment(client.DateCreated).format('DD-MM-YYYY')}</i></p>
