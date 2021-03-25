@@ -1,11 +1,13 @@
 /* eslint-disable no-lone-blocks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import NotFoundPage from './404';
 import CookieChecker from '../components/CookieChecker';
 import moment from 'moment';
+import { UserContext } from '../components/UserContext';
+import Modal from 'react-modal';
 
 function ClientInfo(props) {
 
@@ -13,11 +15,25 @@ function ClientInfo(props) {
     const [ visits, setVisits ] = useState([]);
     const [ referrals,setReferrals] = useState([]);
     const [ clientFound, setClientFound ] = useState(false);
+    const [ modelOpen, setModalOpen ] = useState(false);
+    const context = useContext(UserContext);
     
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
     const areaColor2={backgroundColor:"#22a9ba"};
+
+    // Reference: https://www.npmjs.com/package/react-modal
+    const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)'
+        }
+      };
 
     useEffect(() => {
         const formatDate = (arr) => {
@@ -56,6 +72,29 @@ function ClientInfo(props) {
                 console.log(error);
             })
     }, [])
+
+    function openModal() {
+        setModalOpen(true);
+    }
+
+    function closeModal() {
+        setModalOpen(false);
+    }
+
+    function deleteClient(event) {
+        event.preventDefault();
+
+        axios.delete('/clients/delete/' + props.match.params.id)
+            .then(response => {
+                closeModal();
+                window.location.replace('/client-list');
+            })
+            .catch(err => {
+                console.log(err);
+                closeModal();
+                alert("Something went wrong when deleting the client")
+            })
+    }
 
     function ClientAreaAccordian(props) {
 
@@ -135,7 +174,28 @@ as right now will still render this component briefly even for existing clients*
                     <Col>
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
-                    <Col>
+                    <Col style={{display: 'inline'}}>
+                        {(context.Role === 'Admin') ? (
+                            <div>
+                                <Button onClick={openModal} style={{float: 'right'}}>Delete Client</Button>
+                                <Modal
+                                isOpen={modelOpen}
+                                onRequestClose={closeModal}
+                                style={customStyles}
+                                >
+                                    <Container>
+                                        <Row>
+                                            <Col>Are you sure you want to delete this client?</Col>
+                                        </Row>
+                                        <br/>
+                                        <Row>
+                                            <Col><Button color="success" onClick={deleteClient}>Yes</Button></Col>
+                                            <Col><Button color="danger" style={{float: 'right'}} onClick={closeModal}>No</Button></Col>
+                                        </Row>                           
+                                    </Container>
+                                </Modal>
+                            </div>
+                        ) : ""}
                         <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
                     </Col>
                 </Row>
