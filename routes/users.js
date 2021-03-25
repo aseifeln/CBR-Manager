@@ -65,7 +65,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
         
         if (await userIsExist(Username)){
             const REGISTERED = '3'
-            return res.status(409).send(REGISTERED);
+            return res.send(REGISTERED);
             
         }else{
             const hashedPassword = await bcrypt.hash(Password, 10);

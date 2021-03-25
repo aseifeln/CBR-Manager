@@ -15,6 +15,7 @@ function SignUpPage() {
 
     const [firstNameErr, setFirstNameErr] = useState(false);
     const [lastNameErr, setLastNameErr] = useState(false);
+    const [locationErr, setLocationErr] = useState(false);
     const [usernameErr, setUsernameErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
     const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
@@ -26,6 +27,7 @@ function SignUpPage() {
     function initialErrState() {
         setFirstNameErr(false)
         setLastNameErr(false)
+        setLocationErr(false)
         setUsernameErr(false)
         setPasswordErr(false)
         setConfirmPasswordErr(false)
@@ -82,6 +84,10 @@ function SignUpPage() {
             setLastNameErr(true)
             isPass = false
         }
+        if(location.length <= 0) {
+            setLocationErr(true)
+            isPass = false
+        }
         if (username.length <= 0) {
             setUsernameErr(true)
             isPass = false
@@ -101,13 +107,13 @@ function SignUpPage() {
         axios.post('/users/register', user, {
             headers: { 'Content-Type': 'multipart/form-data' }
           })
-            .then(async res => {
+            .then(res => {
                 const REGISTERED = '3'
-                if (res.data === REGISTERED) {
-                    alert("Username is already taken");
-                    await window.location.replace("/signup");
+                if (res.data == REGISTERED) {
+                    alert("Username is already taken")
                     return;
-                } else {
+                }
+                else{
                     alert("User is successfully registered");
                     const credentials = userCredentials();
                     login(credentials);
@@ -173,7 +179,7 @@ function SignUpPage() {
                 </FormGroup>
                 <FormGroup>
                     <Label for="location">Location</Label>
-                    <Input type="select"
+                    <Input invalid={locationErr} type="select"
                         id="location"
                         value={location}
                         onChange={(event) => setLocation(event.target.value)}>
@@ -189,6 +195,7 @@ function SignUpPage() {
                         <option>Palorinya Zone 3</option>
                     </Input>
                     <FormText><i>Choose your assigned zone.</i></FormText>
+                    <FormFeedback>Please choose a location!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>
