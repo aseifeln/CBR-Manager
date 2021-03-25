@@ -153,8 +153,8 @@ Client.hasMany(Referral, {
     }
 })
 
-Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
-Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'})
+Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId', onDelete: 'cascade', hooks: true})
+Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId', onDelete: 'cascade', hooks: true})
 
 
 // Define Hooks here
