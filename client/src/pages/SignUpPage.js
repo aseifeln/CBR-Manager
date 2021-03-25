@@ -15,8 +15,8 @@ function SignUpPage() {
 
     const [firstNameErr, setFirstNameErr] = useState(false);
     const [lastNameErr, setLastNameErr] = useState(false);
+    const [locationErr, setLocationErr] = useState(false);
     const [usernameErr, setUsernameErr] = useState(false);
-    const [photoErr, setPhotoErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
     const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
 
@@ -27,32 +27,40 @@ function SignUpPage() {
     function initialErrState() {
         setFirstNameErr(false)
         setLastNameErr(false)
+        setLocationErr(false)
         setUsernameErr(false)
-        setPhotoErr(false)
         setPasswordErr(false)
         setConfirmPasswordErr(false)
     }
 
     function createUser() {
-        const user = {
-            firstname: firstName,
-            lastname: lastName,
-            username: username,
-            location: document.getElementById('location').value,
-            photo: document.getElementById('profilePhoto').value,
-            password: password,
-            confirm_password: confirmPassword
-        }
-        return user;
+        const formData = new FormData()
+
+        formData.append('FirstName', firstName)
+        formData.append('LastName',lastName)
+        formData.append('Location', location)
+        formData.append('Username', username)
+        formData.append('Password', password)
+        formData.append('Photo', photo)
+
+        return formData;
+    }
+
+    function userCredentials() {
+        let credentials = {}
+        credentials['Username'] = username
+        credentials['Password'] = password
+
+        return credentials;
     }
 
 
     async function login(user) {
-        axios.post('/users/login', { user })
+        axios.post('/users/login', user)
             .then(res => {
                 const maxAge = 60 * 60; // 60 mins
                 document.cookie = "cookiename=cookievalue;max-age=" + (maxAge);
-                axios.get('users/session', { params: { username: user.username } })
+                axios.get('users/session', { params: { username: user['Username'] } })
                     .then(res => {
                         document.cookie = `Role=${res.data[0].Role};max-age=` + (maxAge);
                         document.cookie = `WorkerId=${res.data[0].WorkerId};max-age=` + (maxAge);
@@ -76,6 +84,10 @@ function SignUpPage() {
             setLastNameErr(true)
             isPass = false
         }
+        if(location.length <= 0) {
+            setLocationErr(true)
+            isPass = false
+        }
         if (username.length <= 0) {
             setUsernameErr(true)
             isPass = false
@@ -92,16 +104,19 @@ function SignUpPage() {
     }
 
     async function registerApiCall(user) {
-        axios.post('/users/register', { user })
-            .then(async res => {
+        axios.post('/users/register', user, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+            .then(res => {
                 const REGISTERED = '3'
                 if (res.data == REGISTERED) {
-                    alert("Username is already taken");
-                    await window.location.replace("/signup");
+                    alert("Username is already taken")
                     return;
-                } else {
+                }
+                else{
                     alert("User is successfully registered");
-                    login(user);
+                    const credentials = userCredentials();
+                    login(credentials);
                 }
             })
             .catch(err => {
@@ -154,7 +169,7 @@ function SignUpPage() {
                 </FormGroup>
                 <FormGroup>
                     <Label for="profilePhoto">Profile Picture</Label>
-                    <Input invalid={photoErr}
+                    <Input
                         type="file"
                         name="profilePhoto"
                         id="profilePhoto"
@@ -164,10 +179,11 @@ function SignUpPage() {
                 </FormGroup>
                 <FormGroup>
                     <Label for="location">Location</Label>
-                    <Input type="select"
+                    <Input invalid={locationErr} type="select"
                         id="location"
                         value={location}
                         onChange={(event) => setLocation(event.target.value)}>
+                        <option hidden>Choose a location </option>    
                         <option>BidiBidi Zone 1</option>
                         <option>BidiBidi Zone 2</option>
                         <option>BidiBidi Zone 3</option>
@@ -179,6 +195,7 @@ function SignUpPage() {
                         <option>Palorinya Zone 3</option>
                     </Input>
                     <FormText><i>Choose your assigned zone.</i></FormText>
+                    <FormFeedback>Please choose a location!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>

@@ -15,6 +15,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 
+//Function that converts an image byte array into a base64 string
+//Reference: https://robert-keller22.medium.com/upload-and-download-images-to-a-postgres-db-node-js-92e43f232ae4
+function ConvertImage(worker){
+    const workerImage = worker.Photo.toString('base64')
+    worker['Photo'] = workerImage
+}
+
 async function userIsExist(username){
     const exist = await users.count({
         where: {
@@ -53,29 +60,22 @@ function setCookie(res, accessToken, expiryTime){
 
 app.post("/register", upload.single('Photo'), async (req, res) => {
     try{
-        let user = { 
-            firstname: req.body.user.firstname,
-            lastname: req.body.user.lastname,
-            username: req.body.user.username, 
-            location: req.body.user.location,
-            photo: req.body.user.photo,
-            password: req.body.user.password,
-            confirm_password: req.body.user.confirm_password
-        };
-        if (await userIsExist(user.username)){
+        let { FirstName, LastName, 
+            Location, Username, Password } = req.body
+        
+        if (await userIsExist(Username)){
             const REGISTERED = '3'
             return res.send(REGISTERED);
             
         }else{
-            const hashedPassword = await bcrypt.hash(user.password, 10);
-            user.password = hashedPassword
-            user.confirm_password = hashedPassword
+            const hashedPassword = await bcrypt.hash(Password, 10);
+            Password = hashedPassword
 
             const new_worker = await workers.create({
-                FirstName: user.firstname,
-                LastName: user.lastname,
-                Photo: user.photo,
-                Location: user.location
+                FirstName,
+                LastName,
+                Photo: req.file ? req.file.buffer : null,
+                Location
             })
             .then(function(worker){
                 return worker
@@ -83,8 +83,8 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             .catch(err => res.status(400).json(err))
 
             await users.create({
-                Username: user.username, 
-                Password: user.password,
+                Username, 
+                Password,
                 Role: "Worker",
                 WorkerId: new_worker.WorkerId
             })
@@ -101,11 +101,13 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+    let {Username, Password} = req.body
+
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'
-    const loginUsername = req.body.user.username
-    const loginPassword = req.body.user.password
+    const loginUsername = Username
+    const loginPassword = Password
     if(await userIsExist(loginUsername) == true){
         try{
             await getUserPassword(loginUsername).then(async function(result){
@@ -155,13 +157,16 @@ app.get('/worker/:id', async (req, res) => {
                 model: workers,
                 required: true,
                 attributes: [
-                    'FirstName', 'LastName', 'Location'
+                    'FirstName', 'LastName', 'Location', 'Photo'
                 ]
             }]
         }, { transaction })
         
         await transaction.commit();
         if (worker.length === 1) {
+            if(worker[0].Worker.Photo){
+                ConvertImage(worker[0].Worker)
+            }
             res.json(worker);
         }
         else {
