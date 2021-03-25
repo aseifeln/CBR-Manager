@@ -45,6 +45,6 @@ EducationForm.hasOne(Visit, {
     type: Sequelize.UUID
   }
 })
-Visit.belongsTo(EducationForm, {foreignKey: 'EducationFormId', targetKey: 'EducationFormId', onDelete: 'cascade'})
+Visit.belongsTo(EducationForm, {foreignKey: 'EducationFormId', targetKey: 'EducationFormId', onDelete: 'cascade', hooks: true})
 
 module.exports = EducationForm;

@@ -45,6 +45,6 @@ SocialForm.hasOne(Visit, {
     type: Sequelize.UUID
   }
 })
-Visit.belongsTo(SocialForm, {foreignKey: 'SocialFormId', targetKey: 'SocialFormId', onDelete: 'cascade'})
+Visit.belongsTo(SocialForm, {foreignKey: 'SocialFormId', targetKey: 'SocialFormId', onDelete: 'cascade', hooks: true})
 
 module.exports = SocialForm;
