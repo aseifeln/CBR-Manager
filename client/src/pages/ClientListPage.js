@@ -4,8 +4,6 @@ import { UserContext } from '../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import CookieChecker from '../components/CookieChecker';
-import moment from 'moment';
-
 import { Form,
         FormGroup,
         Label,
@@ -23,7 +21,18 @@ import { Form,
 
 import "../css/ClientList.css";
 
+
 const buttonColor={color:"white",backgroundColor:"#46ad2f"}
+
+const formatDateStr = (dateStr) => {
+    // reference: https://stackoverflow.com/a/66409911
+    const date = new Date(dateStr)
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
+    const dd = String(date.getDate()).padStart(2, "0");
+    return `${dd}-${mm}-${yyyy}`;
+}
+
 
 function ClientListPage() {
 
@@ -127,11 +136,16 @@ function ClientListPage() {
             numFilters++;
         }
         if (isOpenDate) {
-            const dateFrom = moment(searchDateFrom, 'DD-MM-YYYY')
-            const dateTo = moment(searchDateTo, 'DD-MM-YYYY')
-            const dateCreated = moment(client.DateCreated, 'DD-MM-YYYY')
+            const dateFrom = new Date(searchDateFrom)
+            const dateTo = new Date(searchDateTo)
+            const dateCreated = new Date(client.DateCreated)
+            dateFrom.setDate(dateFrom.getDate() + 1)
+            dateTo.setDate(dateTo.getDate() + 1)
+            dateFrom.setHours(0,0,0,0)
+            dateTo.setHours(0,0,0,0)
+            dateCreated.setHours(0,0,0,0)
 
-            if (dateCreated.isBetween(dateFrom, dateTo, 'days', '[]')) {
+            if (dateCreated >= dateFrom && dateCreated <= dateTo) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -253,7 +267,7 @@ function ClientListPage() {
             filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
         }
         if(isOpenDate) {
-            filters = filters.concat(`"DateCreated": ["${searchDateFrom}", "${searchDateTo}"],`)
+            filters = filters.concat(`"DateCreated: { $between: ["${searchDateFrom}", ${searchDateTo}] }"`)
         }
 
         if (names.length === 2) {
@@ -303,7 +317,7 @@ function ClientListPage() {
     }
 
     return (
-        <>
+        <div className="container-size">
         <CookieChecker></CookieChecker>
         <Container className='ClientList'>
             <Container className='Title'>
@@ -496,7 +510,7 @@ function ClientListPage() {
                            activeClassName={'pagination_active'}/>
 
         </Container>
-        </>
+        </div>
     )
 
     function renderRow(client) {
@@ -513,7 +527,7 @@ function ClientListPage() {
                         <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
                         <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}
                     </p>
-                    <p className="dateText"><i>Created {moment(client.DateCreated).format('DD-MM-YYYY')}</i></p>
+                    <p className="dateText"><i>Created {formatDateStr(client.DateCreated)}</i></p>
                 </ListGroupItemText>
             </ListGroupItem>
         );
