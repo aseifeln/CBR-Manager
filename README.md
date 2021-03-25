@@ -49,6 +49,20 @@ Run in project root directory:
 
 6) (Optional) Run "npx sequelize-cli db:seed:all" to load the tables with the provided stock data.
 
+### Enabling Google Maps Feature ### 
+
+Some pages will display a Google Maps with a marker, which requires a Google Maps API key. To set this up for localhost:
+
+1) Follow this [guide](https://developers.google.com/maps/documentation/embed/get-api-key) to obtain a Google Maps API key.
+
+2) Create a .env file within the /client folder with the following ""REACT_APP_GOOGLE_MAPS_API_KEY='api key'"".
+
+3) Enable the JavaScript Google Maps API in the Google Cloud Platform console.
+
+4) A Google billing account must also be linked, but there is a free trial that provides $200 of credit at the moment.
+
+**Note**: The above steps are optional for running on localhost, but will display "Map cannot load properly" error along with the "For developer purposes only" watermark. However, the map will still display the correct location with the marker in the right place.
+
 ### Run Instructions ###
 
 After all the set up is done, use the command "npm run start" in the project root directory and the client and server will start simultaneously.

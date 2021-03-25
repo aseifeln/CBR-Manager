@@ -7,6 +7,7 @@ import axios from 'axios';
 import NotFoundPage from './404';
 import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
+import MapWithMarker from '../components/MapWithMarker';
 
 function NewVisit(props) {
 
@@ -16,7 +17,7 @@ function NewVisit(props) {
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
-  const [ GPSLocation, setGPSLocation ] = useState('');
+  const [ GPSLocation, setGPSLocation ] = useState();
   const [ worker, setWorker ] = useState({});
   const context = useContext(UserContext);
 
@@ -82,7 +83,7 @@ function NewVisit(props) {
     // Prepare General info
     newData['VisitPurpose'] = data.purposeOfVisit;
     newData['Date'] = data.date;
-    newData['GPSLocation'] = data.locationOfVisit;
+    newData['GPSLocation'] = JSON.stringify(GPSLocation);
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
 
@@ -359,17 +360,19 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row form>
-                  <Col>
-                    <FormGroup>
-                      <FieldInput type="text" name="locationOfVisit"
-                            key={GPSLocation} 
-                            label="Location of visit" 
-                            defaultValue={GPSLocation}
-                            />
-                    </FormGroup>
+                {(GPSLocation) ? (
+                  <Row>
+                    <Col>
+                      <Label>Location of Visit</Label>
+                      <MapWithMarker
+                        loadingElement={<div style={{ height: '75%' }} />}
+                        containerElement={<div style={{ height: '400px', width: '500px' }} />}
+                        mapElement={<div style={{ height: '95%' }} />}
+                        location={GPSLocation}
+                      />
                   </Col>
                 </Row>
+                ) : ("")}
 
                 <Row form>
                   <Col xs={10}>
