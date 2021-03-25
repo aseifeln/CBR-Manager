@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const referral = require('../models/referral')
 const { sequelize } = require('../models/referral')
+const multer = require('multer');
+const upload = multer({});
 
 const worker = require('../models/worker')
 const client = require('../models/client')
@@ -12,6 +14,13 @@ const prostheticService = require('../models/prostheticService')
 const orthoticService = require('../models/orthoticService')
 
 const { v4: uuidv4 } = require('uuid');
+
+//Function that converts an image byte array into a base64 string
+//Reference: https://robert-keller22.medium.com/upload-and-download-images-to-a-postgres-db-node-js-92e43f232ae4
+function ConvertImage(referral){
+    const targetImage = referral.Photo.toString('base64')
+    referral['Photo'] = targetImage
+}
 
 // @route   GET /referrals/outstanding
 // @desc    GET all outstanding referrals (status === "Made") ordered by date
@@ -94,6 +103,18 @@ router.get('/:id', (req,res) => {
         }]
     })
     .then(referralsFound => {
+        if(referralsFound[0].WheelchairService){
+            ConvertImage(referralsFound[0].WheelchairService)
+        }
+        if(referralsFound[0].PhysiotherapyService){
+            ConvertImage(referralsFound[0].PhysiotherapyService)
+        }
+        if(referralsFound[0].ProstheticService && referralsFound[0].ProstheticService.Photo){
+            ConvertImage(referralsFound[0].ProstheticService)
+        }
+        if(referralsFound[0].OrthoticService && referralsFound[0].OrthoticService.Photo){
+            ConvertImage(referralsFound[0].OrthoticService)
+        }
         res.json(referralsFound);
     })
     .catch(err => {
@@ -138,11 +159,18 @@ router.get('/client/:id', (req, res) => {
 
 // @route   POST /referrals/add
 // @desc    POST Add a new visit to the database
-router.post('/add', async (req,res) => {
+router.post('/add', upload.fields([{name: 'wheelchairPhoto', maxCount: 1}, 
+{name: 'physioPhoto', maxCount: 1}, {name: 'prostheticPhoto', maxCount: 1}, 
+{name: 'orthoticPhoto', maxCount: 1}]), async (req,res) => {
     let {Date, ServiceRequired, OtherServices,
         ReferTo, Status, Outcome, ClientId, WorkerId,
         WheelchairService, PhysiotherapyService,
         ProstheticService, OrthoticService} = req.body;
+
+    // React formData sends a string instead of an array if only one service is selected
+    if(typeof(ServiceRequired) === 'string'){
+        ServiceRequired = [ServiceRequired]
+    }
 
     // transaction functionality from
     // https://stackoverflow.com/questions/42870374/node-js-7-how-to-use-sequelize-transaction-with-async-await/49162797
@@ -152,10 +180,11 @@ router.post('/add', async (req,res) => {
 
 
         if (WheelchairService != null) {
+            WheelchairService = JSON.parse(WheelchairService)
             var WheelchairServiceId = uuidv4();
             await wheelchairService.create({
                 WheelchairServiceId,
-                Photo: WheelchairService.Photo.toString('base64'),
+                Photo: req.files['wheelchairPhoto'][0].buffer,
                 ClientProficiency: WheelchairService.ClientProficiency,
                 ClientHipWidth: WheelchairService.ClientHipWidth,
                 WheelchairExist: WheelchairService.WheelchairExist,
@@ -164,29 +193,32 @@ router.post('/add', async (req,res) => {
         }
 
         if (PhysiotherapyService != null) {
+            PhysiotherapyService = JSON.parse(PhysiotherapyService)
             var PhysiotherapyServiceId = uuidv4();
             await physiotherapyService.create({
                 PhysiotherapyServiceId,
-                Photo: PhysiotherapyService.Photo.toString('base64'),
+                Photo: req.files['physioPhoto'][0].buffer,
                 ClientCondition: PhysiotherapyService.ClientCondition,
                 OtherClientCondition: PhysiotherapyService.OtherClientCondition
             }, { transaction });
         }
 
         if (ProstheticService != null) {
+            ProstheticService = JSON.parse(ProstheticService)
             var ProstheticServiceId = uuidv4();
             await prostheticService.create({
                 ProstheticServiceId,
-                Photo: ProstheticService.Photo.toString('base64'),
+                Photo: req.files['prostheticPhoto'] ? req.files['prostheticPhoto'][0].buffer : null,
                 InjuryPosition: ProstheticService.InjuryPosition
             }, { transaction });
         }
 
         if (OrthoticService != null) {
+            OrthoticService = JSON.parse(OrthoticService)
             var OrthoticServiceId = uuidv4();
             await orthoticService.create({
                 OrthoticServiceId,
-                Photo: OrthoticService.Photo.toString('base64'),
+                Photo: req.files['orthoticPhoto'] ? req.files['orthoticPhoto'][0].buffer : null,
                 InjuryPosition: OrthoticService.InjuryPosition
             }, { transaction });
         }

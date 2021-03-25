@@ -105,10 +105,11 @@ function ReferralInfo(props){
                     </Col>
                 </Row>
                 <Row>
-                {referral.ProstheticService.Photo!==""?
+                {referral.ProstheticService.Photo ?
                     <Col>
                         <Media src={`data:image/jpeg;base64,${referral.ProstheticService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
-                    </Col>:null}
+                    </Col>
+                    : ""}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
                         {referral.ProstheticService.InjuryPosition}
@@ -127,10 +128,11 @@ function ReferralInfo(props){
                     </Col>
                 </Row>
                 <Row>
-                {referral.OrthoticService.Photo!==""?
+                {referral.OrthoticService.Photo ?
                     <Col>
                         <Media src={`data:image/jpeg;base64,${referral.OrthoticService.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
-                    </Col>:null}
+                    </Col>
+                    :""}
                     <Col>
                         <span className='font-weight-bold' style={{fontSize: '18px'}}>Injury Position: </span>
                         {referral.OrthoticService.InjuryPosition}
@@ -177,10 +179,6 @@ function ReferralInfo(props){
                 </Col>
             </Row>
             <Row>
-            {referral.OtherServices.Photo!==""?
-                <Col>
-                        <Media src={`data:image/jpeg;base64,${referral.OtherServices.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
-                </Col>:null}
                 <Col>
                     <span className='font-weight-bold' style={{fontSize: '18px'}}>Details: </span>
                     {referral.OtherServices}
