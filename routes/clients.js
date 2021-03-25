@@ -220,4 +220,30 @@ router.put('/:id/edit', upload.single('Photo'), async (req, res) => {
     }
 })
 
+router.delete('/delete/:id', async(req, res) => {
+    let transaction;
+    const clientId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const clientToDelete = await client.findByPk(clientId, { transaction });
+
+        if (clientToDelete === null) {
+            throw new Error("Client not found")
+        }
+        await clientToDelete.destroy({ transaction });
+        await transaction.commit();
+        res.json("Client deleted successfully");
+    }
+    catch (err) {
+        if (transaction)
+            await transaction.rollback();
+        if (err.message === "Client not found")
+            res.status(404).json(err.message)
+        else
+            res.status(400).json(err.name + ": " + err.message)
+    }
+})
+
 module.exports = router
