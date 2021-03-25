@@ -41,6 +41,6 @@ PhysiotherapyService.hasOne(Referral, {
     }
 })
 
-Referral.belongsTo(PhysiotherapyService, {foreignKey: 'PhysiotherapyServiceId', targetKey: 'PhysiotherapyServiceId', onDelete: 'cascade'})
+Referral.belongsTo(PhysiotherapyService, {foreignKey: 'PhysiotherapyServiceId', targetKey: 'PhysiotherapyServiceId', onDelete: 'cascade', hooks: true})
 
 module.exports = PhysiotherapyService;

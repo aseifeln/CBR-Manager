@@ -31,6 +31,6 @@ ProstheticService.hasOne(Referral, {
     }
 })
 
-Referral.belongsTo(ProstheticService, {foreignKey: 'ProstheticServiceId', targetKey: 'ProstheticServiceId', onDelete: 'cascade'})
+Referral.belongsTo(ProstheticService, {foreignKey: 'ProstheticServiceId', targetKey: 'ProstheticServiceId', onDelete: 'cascade', hooks: true})
 
 module.exports = ProstheticService;
