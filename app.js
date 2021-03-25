@@ -16,6 +16,7 @@ const path = require('path')
 
 // Bodyparser Middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // Routes
 app.use('/users', users);
