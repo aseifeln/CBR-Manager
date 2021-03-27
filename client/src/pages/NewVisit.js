@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput } from "../components/MultiStepForm";
+import { MultiStepForm, Step, FieldInput, FieldTypeahead } from "../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
 import NotFoundPage from './404';
 import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
+import MapWithMarker from '../components/MapWithMarker';
 
 function NewVisit(props) {
 
@@ -16,7 +17,7 @@ function NewVisit(props) {
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientProvided, setClientProvided ] = useState(true);
   const [ clientFound, setClientFound ] = useState(false);
-  const [ GPSLocation, setGPSLocation ] = useState('');
+  const [ GPSLocation, setGPSLocation ] = useState();
   const [ worker, setWorker ] = useState({});
   const context = useContext(UserContext);
 
@@ -58,7 +59,11 @@ function NewVisit(props) {
       setClientProvided(false)
       axios.get('/clients')
       .then(response => {
-        setClients(response.data);
+        const clientArr = [];
+        // Reference: https://stackoverflow.com/a/57008713
+        // FieldTypeahead options must be an array
+        Object.keys(response.data).forEach(key => clientArr.push({value: response.data[key].ClientId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
+        setClients(clientArr);
       })
       .catch(error => {
         console.log(error);
@@ -78,7 +83,7 @@ function NewVisit(props) {
     // Prepare General info
     newData['VisitPurpose'] = data.purposeOfVisit;
     newData['Date'] = data.date;
-    newData['GPSLocation'] = data.locationOfVisit;
+    newData['GPSLocation'] = JSON.stringify(GPSLocation);
     newData['Location'] = data.location;
     newData['VillageNumber'] = data.villageNum;
 
@@ -86,7 +91,7 @@ function NewVisit(props) {
       newData['ClientId'] = props.match.params.id;
     }
     else {
-      newData['ClientId'] = data.client;
+      newData['ClientId'] = data.client[0].value;
     }
     
     newData['WorkerId'] = context.WorkerId;
@@ -198,6 +203,7 @@ function NewVisit(props) {
   }
 
   function onValidSubmit(data) {
+
     data = prepareData(data);
 
     axios.post('/visits/add/', data)
@@ -277,13 +283,13 @@ function NewVisit(props) {
                         <FieldInput label="Client" name="client" disabled required="Client is required"
                          defaultValue={client.FirstName + ' ' + client.LastName}/>
                       ) : (
-                        <FieldInput type="select" label="Client" name="client" required="Client is required">
-                          <option hidden selected>Select a client</option>
-                          {/* TODO: Make it so users can type out the name, which autofills */}
-                          {clients.map(({FirstName, LastName, ClientId}) => (
-                            <option value={ClientId}>{FirstName} {LastName}</option>
-                          ))}
-                        </FieldInput>
+                        <div>
+                          <Label>Client</Label>
+                          <FieldTypeahead
+                            name="client"
+                            required="Client is required"
+                            options={clients}/>
+                        </div>
                       )}
                     </FormGroup>
                   </Col>
@@ -354,17 +360,19 @@ function NewVisit(props) {
                   </Col>
                 </Row>
 
-                <Row form>
-                  <Col>
-                    <FormGroup>
-                      <FieldInput type="text" name="locationOfVisit"
-                            key={GPSLocation} 
-                            label="Location of visit" 
-                            defaultValue={GPSLocation}
-                            />
-                    </FormGroup>
+                {(GPSLocation) ? (
+                  <Row>
+                    <Col>
+                      <Label>Location of Visit</Label>
+                      <MapWithMarker
+                        loadingElement={<div style={{ height: '75%' }} />}
+                        containerElement={<div style={{ height: '400px', width: '500px' }} />}
+                        mapElement={<div style={{ height: '95%' }} />}
+                        location={GPSLocation}
+                      />
                   </Col>
                 </Row>
+                ) : ("")}
 
                 <Row form>
                   <Col xs={10}>

@@ -57,3 +57,31 @@
 .rbt-input-wrapper > *:last-child:not(:only-child) {
     margin-bottom: 0.4em;
 }
+
+.fade-to-in {
+    transition: opacity 0.4s;
+    opacity: 0.2;
+}
+
+.fade-to-out {
+    transition: opacity 0.4s;
+    opacity: 1;
+}
+
+/* Multi-step form */
+.multistep-form-btns {
+    width: 100%;
+}
+
+@media (max-width: 700px) {
+    .multistep-form-btns {
+        overflow-x: auto;
+    }
+
+    .multistep-form-btns .btn-group {
+        display: block;
+        white-space: nowrap;
+    }
+}
+
+

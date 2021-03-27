@@ -8,7 +8,10 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "pretest": "cross-env NODE_ENV=test npm run db:reset",
+    "db:reset": "npx sequelize-cli db:drop & npx sequelize-cli db:create & npx sequelize-cli db:migrate && npx sequelize-cli db:seed --seed /seeders/demo2",
+    "test:server": "cross-env NODE_ENV=test mocha tests/server"
   },
   "repository": {
     "type": "git",
@@ -35,7 +38,9 @@
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
+    "react-google-maps": "^9.4.5",
     "react-icons": "^4.2.0",
+    "react-modal": "^3.12.1",
     "react-paginate": "^7.1.0",
     "react-router-dom": "^5.2.0",
     "reactstrap-date-picker": "^0.0.11",
@@ -43,5 +48,12 @@
     "sequelize-cli": "^6.2.0",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.6"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.3",
+    "mocha": "^8.3.2",
+    "supertest": "^6.1.3"
   }
 }

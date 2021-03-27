@@ -1,15 +1,10 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import axios from 'axios'
 import { Button, Form, FormGroup, FormFeedback, FormText, Input, Label } from 'reactstrap';
-
-
+import axios from 'axios'
 import "../css/SignUp.css";
 
-
-
-function SignUpPage(props) {
-
+function SignUpPage() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
@@ -20,104 +15,127 @@ function SignUpPage(props) {
 
     const [firstNameErr, setFirstNameErr] = useState(false);
     const [lastNameErr, setLastNameErr] = useState(false);
+    const [locationErr, setLocationErr] = useState(false);
     const [usernameErr, setUsernameErr] = useState(false);
-    const [photoErr, setPhotoErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
     const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
 
     useEffect(() => {
-        document.title="Create CBR Account"
-      }, [])
-    
-    function initialErrState(){
+        document.title = "Create CBR Account"
+    }, [])
+
+    function initialErrState() {
         setFirstNameErr(false)
         setLastNameErr(false)
+        setLocationErr(false)
         setUsernameErr(false)
-        setPhotoErr(false)
         setPasswordErr(false)
         setConfirmPasswordErr(false)
     }
 
+    function createUser() {
+        const formData = new FormData()
+
+        formData.append('FirstName', firstName)
+        formData.append('LastName',lastName)
+        formData.append('Location', location)
+        formData.append('Username', username)
+        formData.append('Password', password)
+        formData.append('Photo', photo)
+
+        return formData;
+    }
+
+    function userCredentials() {
+        let credentials = {}
+        credentials['Username'] = username
+        credentials['Password'] = password
+
+        return credentials;
+    }
+
+
+    async function login(user) {
+        axios.post('/users/login', user)
+            .then(res => {
+                const maxAge = 60 * 60; // 60 mins
+                document.cookie = "cookiename=cookievalue;max-age=" + (maxAge);
+                axios.get('users/session', { params: { username: user['Username'] } })
+                    .then(res => {
+                        document.cookie = `Role=${res.data[0].Role};max-age=` + (maxAge);
+                        document.cookie = `WorkerId=${res.data[0].WorkerId};max-age=` + (maxAge);
+                    })
+                    .catch(err => console.log(err))
+                window.location.replace("/");
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    function authPasses() {
+        var isPass = true
+        if (firstName.length <= 0) {
+            setFirstNameErr(true)
+            isPass = false
+        }
+        if (lastName.length <= 0) {
+            setLastNameErr(true)
+            isPass = false
+        }
+        if(location.length <= 0) {
+            setLocationErr(true)
+            isPass = false
+        }
+        if (username.length <= 0) {
+            setUsernameErr(true)
+            isPass = false
+        }
+        if (password.length <= 5) {
+            setPasswordErr(true)
+            isPass = false
+        }
+        if (confirmPassword !== password) {
+            setConfirmPasswordErr(true)
+            isPass = false
+        }
+        return isPass
+    }
+
+    async function registerApiCall(user) {
+        axios.post('/users/register', user, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+            .then(res => {
+                const REGISTERED = '3'
+                if (res.data == REGISTERED) {
+                    alert("Username is already taken")
+                    return;
+                }
+                else{
+                    alert("User is successfully registered");
+                    const credentials = userCredentials();
+                    login(credentials);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+
     async function handleSubmit(event) {
         event.preventDefault();
         initialErrState();
-
         if (authPasses()) {
-            const user = {
-                firstname: firstName,
-                lastname: lastName,
-                username: username,
-                location: document.getElementById('location').value,
-                photo: document.getElementById('profilePhoto').value,
-                password: password,
-                confirm_password: confirmPassword
-            }
-            axios.post('/users/register', {user})
-            .then(async res => {
-                const REGISTERED = '3'
-                if(res.data == REGISTERED){
-                    alert("Username is already taken");
-                    await window.location.replace("/signup");
-                    return;
-                } else {
-                    alert("User is successfully registered");
-                    login(user);
-                }
-            })
-            .catch( err => {
-                console.log(err);
-            })
+            const user = createUser();
+            registerApiCall(user);
             return;
         }
-        window.location.replace("/signup");
-    }
-
-    async function login(user){
-        axios.post('/users/login',{user})
-            .then(res => {
-                const maxAge = 60*60; // 60 mins
-                document.cookie="cookiename=cookievalue;max-age="+(maxAge); 
-                axios.get('users/session', {params: {username: user.username}})
-                    .then(res => {
-                        document.cookie=`Role=${res.data[0].Role};max-age=`+(maxAge); 
-                        document.cookie=`WorkerId=${res.data[0].WorkerId};max-age=`+(maxAge); 
-                    })
-                    .catch(err => console.log(err))
-                    window.location.replace("/");
-                console.log(res.data)
-            })
-            .catch( err => {
-                console.log(err);
-            })
-    }
-
-    function authPasses() { 
-        var PASS = true
-        if(!firstName.length > 0){
-            setFirstNameErr(true)
-            PASS = false
-        }
-        if(!lastName.length > 0){
-            setLastNameErr(true)
-            PASS = false
-        }
-        if(!username.length > 0){
-            setUsernameErr(true)
-            PASS = false
-        }
-        if(password.length <= 5){
-            setPasswordErr(true)
-            PASS = false
-        }
-        if(confirmPassword !== password){
-            setConfirmPasswordErr(true)
-            PASS = false
-        }
-        return PASS
     }
 
     return (
-        
         <div className='SignUp'>
             <Form onSubmit={handleSubmit}>
                 <h2><b>Create CBR Account</b></h2>
@@ -127,7 +145,7 @@ function SignUpPage(props) {
                         id="firstName"
                         value={firstName}
                         onChange={(event) => setFirstName(event.target.value)}
-                        placeholder="First name"/>
+                        placeholder="First name" />
                     <FormFeedback>Please enter your first name!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
@@ -136,7 +154,7 @@ function SignUpPage(props) {
                         id="lastName"
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
-                        placeholder="Last name"/>
+                        placeholder="Last name" />
                     <FormFeedback>Please enter your last name!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
@@ -151,20 +169,21 @@ function SignUpPage(props) {
                 </FormGroup>
                 <FormGroup>
                     <Label for="profilePhoto">Profile Picture</Label>
-                    <Input invalid={photoErr} 
-                        type="file" 
-                        name="profilePhoto" 
+                    <Input
+                        type="file"
+                        name="profilePhoto"
                         id="profilePhoto"
                         onChange={(event) => setPhoto(event.target.files[0])}
-                         />
+                    />
                     <FormText><i>Optional</i></FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label for="location">Location</Label>
-                    <Input type="select"
+                    <Input invalid={locationErr} type="select"
                         id="location"
                         value={location}
                         onChange={(event) => setLocation(event.target.value)}>
+                        <option hidden>Choose a location </option>    
                         <option>BidiBidi Zone 1</option>
                         <option>BidiBidi Zone 2</option>
                         <option>BidiBidi Zone 3</option>
@@ -176,9 +195,10 @@ function SignUpPage(props) {
                         <option>Palorinya Zone 3</option>
                     </Input>
                     <FormText><i>Choose your assigned zone.</i></FormText>
+                    <FormFeedback>Please choose a location!</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                    <Label  for="password">Password</Label>
+                    <Label for="password">Password</Label>
                     <Input invalid={passwordErr} type="password"
                         id="password"
                         value={password}
@@ -187,7 +207,7 @@ function SignUpPage(props) {
                     <FormFeedback>Password must be more than 5 characters</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                    <Label  for="confirmPassword">Confirm Password</Label>
+                    <Label for="confirmPassword">Confirm Password</Label>
                     <Input invalid={confirmPasswordErr} type="password"
                         id="confirmPassword"
                         value={confirmPassword}
@@ -197,11 +217,10 @@ function SignUpPage(props) {
                 </FormGroup>
                 <Button
                     type="submit" id="submitBtn" onClick={handleSubmit}>Create Account</Button>
-                <Link to="/login" style={{color:"#22a9ba"}}>Login instead</Link>
+                <Link to="/login" style={{ color: "#22a9ba" }}>Login instead</Link>
             </Form>
         </div>
     )
-
 }
 
 export default SignUpPage;

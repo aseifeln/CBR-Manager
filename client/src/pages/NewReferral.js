@@ -17,6 +17,8 @@ function NewReferral(props) {
 
     const [ client, setClient ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
+    const [ clients, setClients ] = useState([]);
+    const [ clientProvided, setClientProvided ] = useState(false);
     const [ otherSelected, setOtherSelected ] = useState(false);
 
     const [ wheelchairService, setWheelchairService ] = useState(false);
@@ -35,73 +37,91 @@ function NewReferral(props) {
 
     function prepareData(data) {
         let newData = {};
-        newData['ClientId'] = props.match.params.id;
+        
+        if (clientProvided) {
+            newData['ClientId'] = props.match.params.id;
+        }
+        else {
+            newData['ClientId'] = data.client[0].value;
+        }
+
         newData['ReferTo'] = data['referTo'];
         newData['Status'] = "Made";
         newData['Date'] = data['date'];
         newData['WorkerId'] = context.WorkerId;
         
         let services = []
+        const formData = new FormData()
 
         if (wheelchairService) {
             let wheelchairForm = {};
 
-            wheelchairForm['Photo'] = wheelchairImgPreview;
+            formData.append('wheelchairPhoto', wheelchairImgPreview)
             wheelchairForm['ClientProficiency'] = data['wheelchairProficiency'];
             wheelchairForm['ClientHipWidth'] = data['hipWidth'];
             wheelchairForm['WheelchairExist'] = (data['hasWheelchair'] === "Yes") ? "Y" : "N";
             wheelchairForm['WheelchairRepairable'] = (data['wheelchairRepairable'] === "Yes") ? "Y" : "N";
 
             services.push("Wheelchair");
-            newData['WheelchairService'] = wheelchairForm;
+            formData.append('WheelchairService', JSON.stringify(wheelchairForm))
         }
 
         if (physioService) {
             let physioForm = {};
 
-            physioForm['Photo'] = physioImgPreview;
+            formData.append('physioPhoto', physioImgPreview)
             physioForm['ClientCondition'] = data['clientCondition'];
             physioForm['OtherClientCondition'] = data['otherCondition'];
 
             services.push("Physiotherapy");
-            newData['PhysiotherapyService'] = physioForm;
+            formData.append('PhysiotherapyService', JSON.stringify(physioForm))
         }
 
         if (prostheticService) {
             let prostheticForm = {};
 
-            prostheticForm['Photo'] = prostheticImgPreview;
+            formData.append('prostheticPhoto', (prostheticImgPreview) || null)
             prostheticForm['InjuryPosition'] = data['prostheticInjuryPosition'];
 
             services.push("Prosthetic");
-            newData['ProstheticService'] = prostheticForm;
+            formData.append('ProstheticService', JSON.stringify(prostheticForm))
         }
 
         if (orthoticService) {
             let orthoticForm = {};
 
-            orthoticForm['Photo'] = orthoticImgPreview;
+            formData.append('orthoticPhoto', (orthoticImgPreview) || null)
             orthoticForm['InjuryPosition'] = data['orthoticInjuryPosition'];
 
             services.push("Orthotic");
-            newData['OrthoticService'] = orthoticForm;
+            formData.append('OrthoticService', JSON.stringify(orthoticForm))
         }
 
         if (otherSelected) {
             services.push("Other");
         }
 
-        newData['ServiceRequired'] = services;
         newData['OtherService'] = data['otherServiceDesc'];
 
-        return newData;
+        for (let [key, val] of Object.entries(newData)) {
+            formData.append(key, val)
+        }
+
+        for(let i = 0; i < services.length; i++){
+            formData.append('ServiceRequired', services[i])
+        }      
+        
+        return formData
     }
 
     function onValidSubmit(data) {
         data = prepareData(data);
-        console.log(data);
 
-        axios.post('/referrals/add', data)
+        axios.post('/referrals/add', data, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
         .then(() => {
             alert("Referral was added successfully.");
             // TODO: Should redirect to referral page when that is implemented
@@ -124,22 +144,41 @@ function NewReferral(props) {
           console.log(error);
         })
 
-        axios.get('/clients/' + props.match.params.id)
-        .then(response => {
-            setClient(response.data);
-            setClientFound(true)
-        })
-        .catch(error => {
-            console.log(error);
-            document.title = "Client not found";
-            alert("Client not found");
-            history.push('/dashboard')
-        })
+        if (typeof props.match.params.id !== 'undefined') {
+            axios.get('/clients/' + props.match.params.id)
+            .then(response => {
+                setClient(response.data);
+                setClientFound(true);
+                setClientProvided(true);
+            })
+            .catch(error => {
+                console.log(error);
+                document.title = "Client not found";
+                alert("Client not found");
+                history.push('/dashboard')
+            })
+        }
+        else {
+            setClientProvided(false);
+            axios.get('/clients')
+            .then(response => {
+                const clientArr = [];
+                // Reference: https://stackoverflow.com/a/57008713
+                // FieldTypeahead options must be an array
+                Object.keys(response.data).forEach(key => clientArr.push({value: response.data[key].ClientId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
+                setClients(clientArr);
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Something went wrong")
+                history.push('/dashboard')
+            })
+        }
     
         document.title="New Referral";
     }, [])
 
-    if (!clientFound) {
+    if (!clientFound && clientProvided) {
         return (
             <div>
                 <NotFoundPage/>
@@ -150,14 +189,35 @@ function NewReferral(props) {
     return (
         <Container>
             <CookieChecker></CookieChecker>
-            <Row>
-              <Col className="font-weight-bold" style={{fontSize: "30px"}}>
-                Client: {client.FirstName + ' ' + client.LastName}
-              </Col>
-            </Row>
+            {(clientProvided) ? (
+                <Row>
+                    <Col className="font-weight-bold" style={{fontSize: "30px"}}>
+                        Client: {client.FirstName + ' ' + client.LastName}
+                    </Col>
+                </Row>
+            ) : ("")}
 
             <MultiStepForm name="New Referral" onValidSubmit={onValidSubmit}>
                 <Step name="General Info">
+
+                    <Row form>
+                        <Col>
+                            <FormGroup>
+                            {(clientProvided) ? (
+                                <FieldInput label="Client" name="client" disabled
+                                defaultValue={client.FirstName + ' ' + client.LastName}/>
+                            ) : (
+                                <div>
+                                    <Label>Client</Label>
+                                    <FieldTypeahead
+                                        name="client"
+                                        required="Client is required"
+                                        options={clients}/>
+                                </div>
+                            )}
+                            </FormGroup>
+                        </Col>
+                    </Row>
 
                     <Row form>
                         <Col>
