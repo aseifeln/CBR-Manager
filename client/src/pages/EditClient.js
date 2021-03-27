@@ -151,7 +151,7 @@ function EditClient(props) {
             </Col>
 
             <Col xs={3} md={2}>
-              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required" defaultValue={client.VillageNo}/>
+              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required" defaultValue={client.VillageNumber}/>
             </Col>
 
             <Col xs={12}>
