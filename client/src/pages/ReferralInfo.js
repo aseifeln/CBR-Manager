@@ -13,7 +13,7 @@ function ReferralInfo(props){
     let formState = useForm();
 
     const [referral, setReferral]= useState({});
-    const [ modelOpen, setModalOpen ] = useState(false);
+    const [ resolveModalOpen, setResolveModalOpen ] = useState(false);
     const [ deleteModalOpen, setDeleteModalOpen ] = useState(false);
     const context = useContext(UserContext);
     const formContainerSize={
@@ -57,20 +57,22 @@ function ReferralInfo(props){
         })
       }, [])
     
-    function openModal() {
-        setModalOpen(true);
+    function openModal(option) {
+        if (option === 'resolve') {
+            setResolveModalOpen(true);
+        }
+        else {
+            setDeleteModalOpen(true);
+        }
     }
 
-    function closeModal() {
-        setModalOpen(false);
-    }
-
-    function openDeleteModal() {
-        setDeleteModalOpen(true);
-    }
-
-    function closeDeleteModal() {
-        setDeleteModalOpen(false);
+    function closeModal(option) {
+        if (option === 'resolve') {
+            setResolveModalOpen(false);
+        }
+        else {
+            setDeleteModalOpen(false);
+        }
     }
 
     function resolveReferral(data) {
@@ -239,10 +241,10 @@ function ReferralInfo(props){
                     <Col style={{display: 'inline'}}>
                     {(context.Role === 'Admin') ? (
                             <div>
-                                <Button onClick={openDeleteModal} style={{float: 'right'}}>Delete</Button>
+                                <Button onClick={() => openModal('delete')} style={{float: 'right'}}>Delete</Button>
                                 <Modal
                                 isOpen={deleteModalOpen}
-                                onRequestClose={closeDeleteModal}
+                                onRequestClose={() => closeModal('delete')}
                                 style={deleteCustomStyles}
                                 >
                                     <Container>
@@ -252,16 +254,17 @@ function ReferralInfo(props){
                                         <br/>
                                         <Row>
                                             <Col><Button color="success" onClick={deleteReferral}>Yes</Button></Col>
-                                            <Col><Button color="danger" style={{float: 'right'}} onClick={closeModal}>No</Button></Col>
+                                            <Col><Button color="danger" style={{float: 'right'}} onClick={() => closeModal('delete')}>No</Button></Col>
                                         </Row>                           
                                     </Container>
                                 </Modal>
                             </div>
                         ) : ""}
-                        <Button onClick={openModal} style={{float: 'right'}}>Resolve</Button>
+                        
+                        <Button onClick={() => openModal('resolve')} style={{float: 'right'}}>Resolve</Button>
                         <Modal
-                         isOpen={modelOpen}
-                         onRequestClose={closeModal}
+                         isOpen={resolveModalOpen}
+                         onRequestClose={() => closeModal('resolve')}
                          style={customStyles}>
                             <Container>
                                 <Formiz connect={formState} onValidSubmit={resolveReferral}>
@@ -275,7 +278,7 @@ function ReferralInfo(props){
                                         <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required" 
                                          defaultValue={referral.Outcome || ""}/>
                                         <Button type="submit">Submit</Button>
-                                        <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
+                                        <Button onClick={() => closeModal('resolve')} style={{float: 'right'}}>Close</Button>
                                     </form>
                                 </Formiz>
                             </Container>
