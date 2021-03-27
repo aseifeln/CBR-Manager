@@ -22,7 +22,6 @@ function WorkerListPage() {
         axios.get('/workers')
             .then(res => setWorkers(res.data))
             .catch(err => console.log(err))
-
         document.title = 'Workers List'
     },[])
 
@@ -44,6 +43,10 @@ function WorkerListPage() {
     function resetFilters() {
         setSearchName('');
         setSearchLocation('');
+    }
+
+    function deleteAccount(WorkerId){
+        console.log(WorkerId)
     }
 
     return(
@@ -115,12 +118,13 @@ function WorkerListPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {workers.map(({FirstName, LastName, Location}) => (
+                        {workers.map(({WorkerId, FirstName, LastName, Location}) => (
                             <tr>
                                 <td>{FirstName}</td>
                                 <td>{LastName}</td>
                                 <td>{Location}</td>
                                 <td><Button color="success">View</Button></td>
+                                <td><Button onClick={ () => deleteAccount(WorkerId)} color="success">Delete</Button></td>
                             </tr>
                         ))} 
                     </tbody>
