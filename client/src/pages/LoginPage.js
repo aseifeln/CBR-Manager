@@ -36,7 +36,7 @@ function Login() {
         return isPass
     }
 
-    async function createCookie(user) {
+    function createCookie(user) {
         const maxAge = 60 * 60; // 60 mins
         document.cookie = "cookiename=cookievalue;max-age=" + (maxAge);
         axios.get('users/session', { params: { username: user.username } })
@@ -54,7 +54,7 @@ function Login() {
             .catch(err => console.log(err))
     }
 
-    async function accountValidation(res, user) {
+    function accountValidation(res, user) {
         if (res.data == WRONGPASSWORD) {
             alert("Wrong Password");
             window.location.replace("/login");
@@ -67,7 +67,7 @@ function Login() {
         }
     }
 
-    async function login(user) {
+    function login(user) {
         axios.post('/users/login', { user })
             .then(res => {
                 accountValidation(res, user)
