@@ -1,16 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Button, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
-
+import { UserContext } from '../components/UserContext';
+import Modal from 'react-modal';
 
 function VisitInfo(props) {
 
     const [ visit, setVisit ] = useState({});
     const [ visitFound, setVisitFound ] = useState(false);
+    const [ modelOpen, setModalOpen ] = useState(false);
+    const context = useContext(UserContext);
     document.title = "Visit Details";
 
+    // Reference: https://www.npmjs.com/package/react-modal
+    const customStyles = {
+        content : {
+            top                   : '50%',
+            left                  : '50%',
+            right                 : 'auto',
+            bottom                : 'auto',
+            marginRight           : '-50%',
+            transform             : 'translate(-50%, -50%)'
+        }
+    };
 
     useEffect(() => {
 
@@ -24,6 +38,29 @@ function VisitInfo(props) {
             document.title = "Visit not found";
         })
     },[])
+
+    function openModal() {
+        setModalOpen(true);
+    }
+
+    function closeModal() {
+        setModalOpen(false);
+    }
+
+    function deleteVisit(event) {
+        event.preventDefault();
+
+        axios.delete('/visits/delete/' + props.match.params.id)
+            .then(response => {
+                closeModal();
+                window.location.replace('/client/'+ visit.Client?.ClientId);
+            })
+            .catch(err => {
+                console.log(err);
+                closeModal();
+                alert("Something went wrong when deleting the visit")
+            })
+    }
 
     if(!visitFound){
 
@@ -42,6 +79,27 @@ function VisitInfo(props) {
                     <Col>
                         <Button tag={Link} to={'/client/'+ visit.Client?.ClientId}>Back to Client</Button>
                     </Col>
+                    {(context.Role === 'Admin') ? (
+                        <Col>
+                        <Button onClick={openModal} style={{float: 'right'}}>Delete</Button>
+                        <Modal
+                         isOpen={modelOpen}
+                         onRequestClose={closeModal}
+                         style={customStyles}
+                        >
+                            <Container>
+                                <Row>
+                                    <Col>Are you sure you want to delete this visit?</Col>
+                                </Row>
+                                <br/>
+                                <Row>
+                                    <Col><Button color="success" onClick={deleteVisit}>Yes</Button></Col>
+                                    <Col><Button color="danger" style={{float: 'right'}} onClick={closeModal}>No</Button></Col>
+                                </Row>                           
+                            </Container>
+                        </Modal>
+                    </Col>
+                    ): ""}
                 </Row>
             </Container>
             <br/>

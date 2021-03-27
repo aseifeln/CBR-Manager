@@ -33,7 +33,7 @@ function ClientInfo(props) {
           marginRight           : '-50%',
           transform             : 'translate(-50%, -50%)'
         }
-      };
+    };
 
     useEffect(() => {
         const formatDate = (arr) => {
