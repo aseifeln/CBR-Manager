@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Media, Button } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import CookieChecker from '../components/CookieChecker';
 import Modal from 'react-modal';
 import { FieldInput } from "../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
+import { UserContext } from '../components/UserContext';
 
 function ReferralInfo(props){
 
@@ -13,7 +14,8 @@ function ReferralInfo(props){
 
     const [referral, setReferral]= useState({});
     const [ modelOpen, setModalOpen ] = useState(false);
-
+    const [ deleteModalOpen, setDeleteModalOpen ] = useState(false);
+    const context = useContext(UserContext);
     const formContainerSize={
         margin: 'auto',
         maxWidth: 800
@@ -29,7 +31,19 @@ function ReferralInfo(props){
           bottom: 'auto',
           transform: 'translate(-50%, -50%)'
         }
-      };
+    };
+
+    // Reference: https://www.npmjs.com/package/react-modal
+    const deleteCustomStyles = {
+        content : {
+            top                   : '50%',
+            left                  : '50%',
+            right                 : 'auto',
+            bottom                : 'auto',
+            marginRight           : '-50%',
+            transform             : 'translate(-50%, -50%)'
+        }
+    };
 
     useEffect(() => {
         document.title='Referral Info' 
@@ -51,6 +65,14 @@ function ReferralInfo(props){
         setModalOpen(false);
     }
 
+    function openDeleteModal() {
+        setDeleteModalOpen(true);
+    }
+
+    function closeDeleteModal() {
+        setDeleteModalOpen(false);
+    }
+
     function resolveReferral(data) {
         axios.put('/referrals/' + props.match.params.id + '/edit', data)
         .then(response => {
@@ -63,6 +85,21 @@ function ReferralInfo(props){
             closeModal();
             alert("Something went wrong when trying to resolve the referral");
         })
+    }
+
+    function deleteReferral(event) {
+        event.preventDefault();
+
+        axios.delete('/referrals/delete/' + props.match.params.id)
+            .then(response => {
+                closeModal();
+                window.location.replace('/client/'+ referral.Client?.ClientId);
+            })
+            .catch(err => {
+                console.log(err);
+                closeModal();
+                alert("Something went wrong when deleting the referral")
+            })
     }
 
     function ServiceHandler( props ){
@@ -199,7 +236,28 @@ function ReferralInfo(props){
                     <Col>
                         <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
                     </Col>
-                    <Col>
+                    <Col style={{display: 'inline'}}>
+                    {(context.Role === 'Admin') ? (
+                            <div>
+                                <Button onClick={openDeleteModal} style={{float: 'right'}}>Delete</Button>
+                                <Modal
+                                isOpen={deleteModalOpen}
+                                onRequestClose={closeDeleteModal}
+                                style={deleteCustomStyles}
+                                >
+                                    <Container>
+                                        <Row>
+                                            <Col>Are you sure you want to delete this referral?</Col>
+                                        </Row>
+                                        <br/>
+                                        <Row>
+                                            <Col><Button color="success" onClick={deleteReferral}>Yes</Button></Col>
+                                            <Col><Button color="danger" style={{float: 'right'}} onClick={closeModal}>No</Button></Col>
+                                        </Row>                           
+                                    </Container>
+                                </Modal>
+                            </div>
+                        ) : ""}
                         <Button onClick={openModal} style={{float: 'right'}}>Resolve</Button>
                         <Modal
                          isOpen={modelOpen}
