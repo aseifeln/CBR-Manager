@@ -7,8 +7,7 @@ const client = require('../models/client');
 
 // @route   GET /excel
 // @desc    GET all filtered clients in an excel format
-router.get('/', async (req,res) => {
-
+router.get('/', async (req, res) => {
     // Get all filtered clients
     let filters = JSON.parse(req.query.filters);
     let sortBy = [[req.query.sortBy, "DESC"]];
@@ -18,11 +17,17 @@ router.get('/', async (req,res) => {
 
     let disabilitiesInSearch = filters.hasOwnProperty('DisabilityType');
     let nameInSearch = filters.hasOwnProperty('FirstName') || filters.hasOwnProperty('LastName');
-    let selectionClause;
+    
+    // date search filter
+    let dateInSearch = filters.hasOwnProperty('DateCreated')
+    if (dateInSearch) {
+        let [dateFrom, dateTo] = filters['DateCreated']
+        filters['DateCreated'] = {
+            [Op.between]: [dateFrom, dateTo]
+        }
+    }
 
-    let dateBounds = filters.DateCreated;
-    // Will add DateCreated to selectionClause later, therefore we don't need it in filters
-    delete filters['DateCreated'];
+    let selectionClause;
 
     if (nameInSearch && disabilitiesInSearch) {
         selectionClause = {
@@ -65,44 +70,31 @@ router.get('/', async (req,res) => {
         selectionClause = filters;
     }
 
-    if (dateBounds) {
-        correctedBounds = correctDateFormat(dateBounds);
-        selectionClause.DateCreated = {[Op.between]: [correctedBounds[0], correctedBounds[1]] };
-    }
-
-    let allClients = await client.findAll(
-        {
+    try {
+        let allClients = await client.findAll({
             // SELECT * FROM Clients WHERE FirstName IN filters.Name OR LastName IN filters.Name
             where: selectionClause,
             order: sortBy,
-        })
-        .then()
-        .catch(err => res.status(400).json(err));
+        });
 
-    // Create Excel Workbook
-    const wb = new excel.Workbook();
+        // Create Excel Workbook
+        const wb = new excel.Workbook();
+        let clientSheet = wb.addWorksheet('Clients');
 
-    let clientSheet = wb.addWorksheet('Clients');
+        generateGenericWorkSheet(wb, clientSheet, allClients);
+        wb.write('excel.xlsx', res);
 
-    await generateGenericWorkSheet(wb, clientSheet, allClients)
-        .then(wb.write('excel.xlsx', res))
-        .catch(err => res.status(400).json(err));
+    } catch(err) {
+        console.error('[Error]: Could not generate client sheet successfully\n', err);
+        res.status(400).json(err);
+    }
 })
-
-// Bounds for the between operator in sequelize are inclusive for the first bound
-// and exclusive for the second bound so the dateTo bound must be increased by 1
-function correctDateFormat(dateBounds) {
-    const dateFrom = new Date(dateBounds[0]);
-
-    const dateTo = new Date(dateBounds[1]);
-    dateTo.setDate(dateTo.getDate() + 1);
-
-    return [dateFrom, dateTo];
-}
 
 // Takes an Excel workbook and sheet then adds the data to the sheet.
 // data must come from a database call
-async function generateGenericWorkSheet(workBook, workSheet, data) {
+function generateGenericWorkSheet(workBook, workSheet, data) {
+    if (data.length < 1) throw new Error('cannot generate worksheet from empty dataset.')
+
     // Excel Sheet Headers
     let headerStyle = workBook.createStyle({
         font: {
@@ -126,6 +118,7 @@ async function generateGenericWorkSheet(workBook, workSheet, data) {
             horizontal: 'left',
         }
     })
+
     const attributes = data[0]._options.attributes;
     for (let i = 0; i < attributes.length - 1; i++) {
         workSheet.cell(1, i + 1)
@@ -133,6 +126,7 @@ async function generateGenericWorkSheet(workBook, workSheet, data) {
             .style(headerStyle)
         workSheet.column(i + 1).setWidth(18);
     }
+
     // Fill cells with client data
     for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < attributes.length; j++) {

@@ -4,6 +4,8 @@ import { UserContext } from '../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import CookieChecker from '../components/CookieChecker';
+import moment from 'moment';
+
 import { Form,
         FormGroup,
         Label,
@@ -22,16 +24,6 @@ import { Form,
 import "../css/ClientList.css";
 
 const buttonColor={color:"white",backgroundColor:"#46ad2f"}
-
-const formatDateStr = (dateStr) => {
-    // reference: https://stackoverflow.com/a/66409911
-    const date = new Date(dateStr)
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0"); // month is zero-based
-    const dd = String(date.getDate()).padStart(2, "0");
-    return `${dd}-${mm}-${yyyy}`;
-}
-
 
 function ClientListPage() {
 
@@ -123,7 +115,7 @@ function ClientListPage() {
             numFilters++;
         }
         if (isOpenVillageNo) {
-            if (client.VillageNo === searchVillageNo) {
+            if (client.VillageNumber === Number(searchVillageNo)) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -135,16 +127,11 @@ function ClientListPage() {
             numFilters++;
         }
         if (isOpenDate) {
-            const dateFrom = new Date(searchDateFrom)
-            const dateTo = new Date(searchDateTo)
-            const dateCreated = new Date(client.DateCreated)
-            dateFrom.setDate(dateFrom.getDate() + 1)
-            dateTo.setDate(dateTo.getDate() + 1)
-            dateFrom.setHours(0,0,0,0)
-            dateTo.setHours(0,0,0,0)
-            dateCreated.setHours(0,0,0,0)
+            const dateFrom = moment(searchDateFrom, 'DD-MM-YYYY')
+            const dateTo = moment(searchDateTo, 'DD-MM-YYYY')
+            const dateCreated = moment(client.DateCreated, 'DD-MM-YYYY')
 
-            if (dateCreated >= dateFrom && dateCreated <= dateTo) {
+            if (dateCreated.isBetween(dateFrom, dateTo, 'days', '[]')) {
                 numFiltersMatching++;
             }
             numFilters++;
@@ -217,7 +204,7 @@ function ClientListPage() {
             case 'Age':
                 setIsOpenAge(!isOpenAge);
                 break;
-            case 'VillageNo':
+            case 'VillageNumber':
                 setIsOpenVillageNo(!isOpenVillageNo)
                 break;
             case 'Gender':
@@ -260,13 +247,13 @@ function ClientListPage() {
             filters = filters.concat(`"Location": "${searchLocation}",`);
         }
         if(isOpenVillageNo) {
-            filters = filters.concat(`"VillageNo": "${searchVillageNo}",`);
+            filters = filters.concat(`"VillageNumber": ${Number(searchVillageNo)},`);
         }
         if(isOpenDisability) {
             filters = filters.concat(`"DisabilityType": "${searchDisability}",`);
         }
         if(isOpenDate) {
-            filters = filters.concat(`"DateCreated": [ "${searchDateFrom}", "${searchDateTo}" ],`)
+            filters = filters.concat(`"DateCreated": ["${searchDateFrom}", "${searchDateTo}"],`)
         }
 
         if (names.length === 2) {
@@ -378,7 +365,7 @@ function ClientListPage() {
                                 Zone
                             </Col>
                             <Col xs="auto">
-                                <Input checked={isOpenVillageNo} type="checkbox" value="VillageNo"/>
+                                <Input checked={isOpenVillageNo} type="checkbox" value="VillageNumber"/>
                                 Village Number
                             </Col>
                             <Col xs="auto">
@@ -442,7 +429,8 @@ function ClientListPage() {
                     <Collapse isOpen={isOpenVillageNo}>
                         <FormGroup>
                             <Label>Village No</Label>
-                            <Input type="text"
+                            <Input type="number"
+                                   min="1"
                                    value={searchVillageNo}
                                    onChange={(event) => setSearchVillageNo(
                                        event.target.value)}
@@ -523,10 +511,10 @@ function ClientListPage() {
                     <p className="clientRowText">
                         <b>Age:</b> {client.Age}
                         <br/><b>Gender:</b> {client.Gender}
-                        <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNo}
+                        <br/><b>Location:</b> {client.Location} <b>No.</b> {client.VillageNumber}
                         <br/><b>Disability:</b> {(client.DisabilityType || []).join(', ')}
                     </p>
-                    <p className="dateText"><i>Created {formatDateStr(client.DateCreated)}</i></p>
+                    <p className="dateText"><i>Created {moment(client.DateCreated).format('DD-MM-YYYY')}</i></p>
                 </ListGroupItemText>
             </ListGroupItem>
         );

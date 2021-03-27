@@ -1,10 +1,12 @@
 /* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody } from 'reactstrap';
+import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import NotFoundPage from './404';
 import CookieChecker from '../components/CookieChecker';
+import MapWithMarker from '../components/MapWithMarker';
+import moment from 'moment';
 
 function ClientInfo(props) {
 
@@ -19,8 +21,13 @@ function ClientInfo(props) {
     const areaColor2={backgroundColor:"#22a9ba"};
 
     useEffect(() => {
-        // Send request to backend to retrieve client info data
+        const formatDate = (arr) => {
+            arr.forEach((v) => {
+                v['Date'] = moment(v['Date']).format('DD-MM-YYYY')
+            })
+        }
 
+        // Send request to backend to retrieve client info data
         axios.get('/clients/' + props.match.params.id)
             .then(response => {
                 setClient(response.data);
@@ -34,6 +41,7 @@ function ClientInfo(props) {
 
         axios.get('/visits/client/' + props.match.params.id)
             .then(response => {
+                formatDate(response.data);
                 setVisits(response.data);
             })
             .catch(error => {
@@ -42,6 +50,7 @@ function ClientInfo(props) {
 
         axios.get('/referrals/client/' + props.match.params.id)
             .then(response => {
+                formatDate(response.data);
                 setReferrals(response.data);
             })
             .catch(error => {
@@ -149,6 +158,17 @@ as right now will still render this component briefly even for existing clients*
                         <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
                     </ul>
                 </Col>
+                {(client.GPSLocation) ? (
+                    <Col>
+                        <Label className="font-weight-bold">GPS Location</Label>
+                        <MapWithMarker
+                            loadingElement={<div style={{ height: '75%' }} />}
+                            containerElement={<div style={{ height: '250px', width: '300px' }} />}
+                            mapElement={<div style={{ height: '90%' }} />}
+                            location={JSON.parse(client.GPSLocation)}
+                        />
+                    </Col>
+                ) : ("")}
             </Row>
             <Row>
                 <Col align="center">
