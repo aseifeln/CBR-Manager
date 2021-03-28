@@ -45,8 +45,16 @@ function WorkerListPage() {
         setSearchLocation('');
     }
 
-    function deleteAccount(WorkerId){
+    async function deleteAccount(WorkerId){
         console.log(WorkerId)
+        axios.post('/users/delete', {WorkerId})
+            .then(res => {
+                alert('Worker is deleted')
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Worker is not deleted')
+            })
     }
 
     return(
@@ -114,6 +122,7 @@ function WorkerListPage() {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Location</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
