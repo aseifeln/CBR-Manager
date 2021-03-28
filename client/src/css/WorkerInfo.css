@@ -1,29 +1,26 @@
 .summary-stats {
+    display: flex;
+    margin: 1.4rem 0 40px;
     height: 180px;
-    margin-bottom: 60px;
+    gap: 1rem;
 }
 
-.visit-count {
-    background-color: teal;
-    margin-right: 60px;
+.summary-stats > * {
+    flex: 1 1 200px;
 }
 
-.visit-count h5 {
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 60px;
+.stat-count {
+    background-color: #008080;
+    display: flex;
+    padding: 1.2rem;
+    border-radius: 4px;
+    justify-content: flex-end;
+    flex-direction: column;
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.referral-count {
-    background-color: tomato;
-}
-
-.referral-count h5 {
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 60px;
+.stat-count .count-number {
+    font-size: 3rem;
 }
 
 .tab-content {

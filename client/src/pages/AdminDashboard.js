@@ -1,19 +1,21 @@
 import React from 'react';
-import { Container} from 'reactstrap';
 import AdminSideBar from '../components/AdminSideBar';
 import CookieChecker from '../components/CookieChecker';
 
-function AdminDashboard() {
+import '../css/AdminDashboard.css';
 
-    return(
+function AdminDashboard() {
+    return (
         <>
-        <CookieChecker></CookieChecker>
-        <AdminSideBar/>
-        <Container>
-            <div className="main-content">
-                <h1>Dashboard</h1>
+            <CookieChecker/>
+
+            <div className='main-content'>
+                <AdminSideBar/>
+
+                <div className='admin-container'>
+                    <h1>Dashboard</h1>
+                </div>
             </div>
-        </Container>
         </>
     )
 }
