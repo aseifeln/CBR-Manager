@@ -46,15 +46,16 @@ function WorkerListPage() {
     }
 
     async function deleteAccount(WorkerId){
-        console.log(WorkerId)
         axios.post('/users/delete', {WorkerId})
             .then(res => {
-                alert('Worker is deleted')
             })
             .catch(err => {
                 console.log(err)
                 alert('Worker is not deleted')
+                return
             })
+        alert('Worker is deleted')
+        window.location.reload();
     }
 
     return(

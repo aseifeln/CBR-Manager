@@ -175,17 +175,21 @@ app.get('/worker/:id', async (req, res) => {
 })
 
 app.post('/delete', async (req, res) => {
-    await users.destroy({
-        where: {
-            WorkerId: req.body.WorkerId
-        }
-    })
-    await workers.destroy({
-        where: {
-            WorkerId: req.body.WorkerId
-        }
-    })
-    return res.status(200);
+    try{
+        await users.destroy({
+            where: {
+                WorkerId: req.body.WorkerId
+            }
+        })
+        await workers.destroy({
+            where: {
+                WorkerId: req.body.WorkerId
+            }
+        })
+        return res.status(200);
+    } catch (err) {
+        return res.status(400);
+    }  
 })
 
 app.get('/session', async (req, res) => {
