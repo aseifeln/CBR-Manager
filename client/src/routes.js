@@ -19,6 +19,7 @@ import AdminInsights from './pages/AdminInsights';
 import WorkerListPage from './pages/WorkerListPage';
 import WorkerInfo from './pages/WorkerInfo';
 import NewReferral from './pages/NewReferral';
+import BaselineSurveyInfo from './pages/BaselineSurveyInfo';
 
 /**
 * Reference:
@@ -134,6 +135,12 @@ const ROUTES = [
         component: ReferralInfo
       }
     ]
+  },
+  {
+    path:'/baseline/:id',
+    key:'BASELINE_INFO',
+    exact:true,
+    component: BaselineSurveyInfo
   },
 ];
 
