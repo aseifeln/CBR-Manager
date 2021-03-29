@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, FormText } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../components/MultiStepForm";
+import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from "../../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
-import NotFoundPage from './404';
-import CookieChecker from '../components/CookieChecker';
-import { UserContext } from '../components/UserContext';
+import NotFoundPage from '../404';
+import CookieChecker from '../../components/CookieChecker';
+import { UserContext } from '../../components/UserContext';
 
 function NewReferral(props) {
 

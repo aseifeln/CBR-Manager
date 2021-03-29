@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { Container, Button} from 'reactstrap';
-import AdminSideBar from '../components/AdminSideBar';
-import CookieChecker from '../components/CookieChecker';
-import CreateAdminAccount from '../components/CreateAdminAccount';
+import AdminSideBar from '../../components/AdminSideBar';
+import CookieChecker from '../../components/CookieChecker';
+import CreateAdminAccount from '../../components/CreateAdminAccount';
 
 function AdminDashboard() {
 

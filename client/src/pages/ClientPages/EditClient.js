@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card } from 'reactstrap';
-import CookieChecker from '../components/CookieChecker';
+import CookieChecker from '../../components/CookieChecker';
 
-import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
+import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../../components/MultiStepForm';
 
 function EditClient(props) {
   const [imagePreviewSrc, setImagePreviewSrc] = useState('')
