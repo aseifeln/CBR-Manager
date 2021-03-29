@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Visit = require('./visit');
+const Visit = require('./VisitForms/visit');
 const User = require('./user');
 const Client = require('./client');
-const Referral = require('./referral');
+const Referral = require('./ReferralForms/referral');
 
 
 const Worker = db.define('Worker', {

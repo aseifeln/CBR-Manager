@@ -1,6 +1,6 @@
 const { UUIDV4 } = require('sequelize');
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 const Referral = require('./referral');
 
 const OrthoticService = db.define('OrthoticService', {
