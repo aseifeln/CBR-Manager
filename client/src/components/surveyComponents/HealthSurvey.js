@@ -26,15 +26,27 @@ function HealthSurvey(props){
         setHealthSurvey(
           {
             "HealthStatus" : "Good",
-            "RehabilitationAccess" : "Y",
-            "RehabilitationAccessNeeded" : "N",
-            "AssistiveDevice" : "Y",
-            "AssistiveDeviceWorking" : "Y",
-            "AssistiveDeviceNeeded" : "N",
+            "RehabilitationAccess" : true,
+            "RehabilitationAccessNeeded" : false,
+            "AssistiveDevice" : true,
+            "AssistiveDeviceWorking" : true,
+            "AssistiveDeviceNeeded" : false,
             "AssistiveDeviceRequired" : "N/A",
             "HealthServiceStatus" : "5",
           }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -52,35 +64,35 @@ function HealthSurvey(props){
               <tbody>
                 <tr>
                   <td>General Health</td>
-                  <td>{HealthSurvey?.HealthStatus ? HealthSurvey.HealthStatus : ""}</td>
+                  <td>{HealthSurvey?.HealthStatus ? HealthSurvey.HealthStatus : "--"}</td>
                 </tr>
                 <tr>
                   <td>Current access to rehabilitation services</td>
-                  <td>{HealthSurvey?.RehabilitationAccess ? HealthSurvey.RehabilitationAccessNeeded : ""}</td>
+                  <InsertYesOrNoImg bool={HealthSurvey?.RehabilitationAccess}/>
                 </tr>
                 <tr>
                   <td>Need for access to rehabilitation services</td>
-                  <td>{HealthSurvey?.RehabilitationAccessNeeded ? HealthSurvey.RehabilitationAccessNeeded : ""}</td>
+                  <InsertYesOrNoImg bool={HealthSurvey?.RehabilitationAccessNeeded}/>
                 </tr>
                 <tr>
                   <td>Has assistive device</td>
-                  <td>{HealthSurvey?.AssistiveDevice ? HealthSurvey.AssistiveDevice : ""}</td>
+                  <InsertYesOrNoImg bool={HealthSurvey?.AssistiveDevice}/>
                 </tr>
                 <tr>
                   <td>Assistive device working</td>
-                  <td>{HealthSurvey?.AssistiveDeviceWorking ? HealthSurvey.AssistiveDeviceWorking : ""}</td>
+                  <InsertYesOrNoImg bool={HealthSurvey?.AssistiveDeviceWorking}/>
                 </tr>
                 <tr>
                   <td>Assistive device needed</td>
-                  <td>{HealthSurvey?.AssistiveDeviceNeeded ? HealthSurvey.AssistiveDeviceNeeded : ""}</td>
+                  <InsertYesOrNoImg bool={HealthSurvey?.AssistiveDeviceNeeded}/>
                 </tr>
                 <tr>
                   <td>Which assistive device needed</td>
-                  <td> {HealthSurvey?.AssistiveDeviceRequired ? HealthSurvey.AssistiveDeviceRequired : ""}</td>
+                  <td> {HealthSurvey?.AssistiveDeviceRequired ? HealthSurvey.AssistiveDeviceRequired : "--"}</td>
                 </tr>
                 <tr>
                   <td>Satisfaction with current health services</td>
-                  <td>{HealthSurvey?.HealthServiceStatus ? HealthSurvey.HealthServiceStatus : "" }</td>
+                  <td>{HealthSurvey?.HealthServiceStatus ? HealthSurvey.HealthServiceStatus : "--" }</td>
                 </tr>
               </tbody>
             </Table>

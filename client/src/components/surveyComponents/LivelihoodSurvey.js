@@ -25,14 +25,26 @@ function LivelihoodSurvey(props){
     function createSurvey() {
         setLivelihoodSurvey(
           {
-              "WorkStatus" : "",
+              "WorkStatus" : false,
               "WorkDescription" : "",
               "EmploymentType" : "",
-              "FinancialNeedsMet" : "",
-              "DisabilityImpact" : "",
-              "WorkWanted" : "",
+              "FinancialNeedsMet" : false,
+              "DisabilityImpact" : true,
+              "WorkWanted" : true,
             }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -50,27 +62,27 @@ function LivelihoodSurvey(props){
               <tbody>
                 <tr>
                   <td>Currently working</td>
-                  <td>{LivelihoodSurvey?.WorkStatus ? LivelihoodSurvey.WorkStatus : ""}</td>
+                  <InsertYesOrNoImg bool={LivelihoodSurvey?.WorkStatus}/>
                 </tr>
                 <tr>
                   <td>What do you do?</td>
-                  <td>{LivelihoodSurvey?.WorkDescription ? LivelihoodSurvey.WorkDescription : ""}</td>
+                  <td>{LivelihoodSurvey?.WorkDescription ? LivelihoodSurvey.WorkDescription : "--"}</td>
                 </tr>
                 <tr>
                   <td>Employed or self-employed</td>
-                  <td>{LivelihoodSurvey?.EmploymentType ? LivelihoodSurvey.EmploymentType : ""}</td>
+                  <td>{LivelihoodSurvey?.EmploymentType ? LivelihoodSurvey.EmploymentType : "--"}</td>
                 </tr>
                 <tr>
                   <td>Does this meet financial needs</td>
-                  <td>{LivelihoodSurvey?.FinancialNeedsMet ? LivelihoodSurvey.FinancialNeedsMet : ""}</td>
+                  <InsertYesOrNoImg bool={LivelihoodSurvey?.FinancialNeedsMet}/>
                 </tr>
                 <tr>
                   <td>Does your disability affect ability to work</td>
-                  <td>{LivelihoodSurvey?.DisabilityImpact ? LivelihoodSurvey.DisabilityImpact : ""}</td>
+                  <InsertYesOrNoImg bool={LivelihoodSurvey?.DisabilityImpact}/>
                 </tr>
                 <tr>
                   <td>Want work</td>
-                  <td>{LivelihoodSurvey?.WorkWanted ? LivelihoodSurvey.WorkWanted : ""}</td>
+                  <InsertYesOrNoImg bool={LivelihoodSurvey?.WorkWanted}/>
                 </tr>
               </tbody>
             </Table>

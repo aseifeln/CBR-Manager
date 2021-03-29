@@ -25,10 +25,22 @@ function ShelterSurvey(props){
     function createSurvey() {
         setShelterSurvey(
           {
-                "ShelterAccess" : "",
-                "EssentialsAccess" : "",
+                "ShelterAccess" : true,
+                "EssentialsAccess" : true,
             }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -46,11 +58,11 @@ function ShelterSurvey(props){
               <tbody>
                 <tr>
                   <td>Adequate shelter</td>
-                  <td>{ShelterSurvey?.ShelterAccess ? ShelterSurvey.ShelterAccess : ""}</td>
+                  <InsertYesOrNoImg bool={ShelterSurvey?.ShelterAccess}/>
                 </tr>
                 <tr>
                   <td>Access to essential household items</td>
-                  <td>{ShelterSurvey?.EssentialsAccess ? ShelterSurvey.EssentialsAccess : ""}</td>
+                  <InsertYesOrNoImg bool={ShelterSurvey?.EssentialsAccess}/>
                 </tr>
               </tbody>
             </Table>

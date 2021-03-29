@@ -25,12 +25,24 @@ function EmpowermentSurvey(props){
     function createSurvey() {
         setEmpowermentSurvey(
           {
-              "DisabilityOrganizationMember" : "",
-              "DisabilityOrganizations" : "",
-              "AwareDisabilityRights" : "",
-              "Influential" : "",
+              "DisabilityOrganizationMember" : true,
+              "DisabilityOrganizations" : "Disability Org1, Org 2, Organizaion 3",
+              "AwareDisabilityRights" : true,
+              "Influential" : false,
             }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -48,19 +60,19 @@ function EmpowermentSurvey(props){
               <tbody>
                 <tr>
                   <td>Is a member of a disability organization</td>
-                  <td>{EmpowermentSurvey?.DisabilityOrganizationMember ? EmpowermentSurvey.DisabilityOrganizationMember : ""}</td>
+                  <InsertYesOrNoImg bool={EmpowermentSurvey?.DisabilityOrganizationMember}/>
                 </tr>
                 <tr>
                   <td>List of organizations</td>
-                  <td>{EmpowermentSurvey?.DisabilityOrganizations ? EmpowermentSurvey.DisabilityOrganizations : ""}</td>
+                  <td>{EmpowermentSurvey?.DisabilityOrganizations ? EmpowermentSurvey.DisabilityOrganizations : "--"}</td>
                 </tr>
                 <tr>
                   <td>Aware of rights</td>
-                  <td>{EmpowermentSurvey?.AwareDisabilityRights ? EmpowermentSurvey.AwareDisabilityRights : ""}</td>
+                  <InsertYesOrNoImg bool={EmpowermentSurvey?.AwareDisabilityRights}/>
                 </tr>
                 <tr>
                   <td>Feel able to influence people around</td>
-                  <td>{EmpowermentSurvey?.Influential ? EmpowermentSurvey.Influential : ""}</td>
+                  <InsertYesOrNoImg bool={EmpowermentSurvey?.Influential}/>
                 </tr>
               </tbody>
             </Table>

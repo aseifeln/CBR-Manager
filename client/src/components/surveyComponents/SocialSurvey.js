@@ -26,13 +26,27 @@ function SocialSurvey(props){
     function createSurvey() {
         setSocialSurvey(
           {
-              "ValuedCommunityMember" : "Y",
-              "Independence" : "Y",
-              "CommunityParticipation" : "Y",
-              "DisabilityImpact" : "N",
-              "Discrimination" : "Y",
+              "ValuedCommunityMember" : null,
+              "Independence" : true,
+              "CommunityParticipation" : false,
+              "DisabilityImpact" : false,
+              "Discrimination" : true,
             }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -50,23 +64,23 @@ function SocialSurvey(props){
               <tbody>
                 <tr>
                   <td>Feel valued as a community member</td>
-                  <td>{SocialSurvey?.ValuedCommunityMember ? SocialSurvey.ValuedCommunityMember : ""}</td>
+                    <InsertYesOrNoImg bool={SocialSurvey?.ValuedCommunityMember}/>
                 </tr>
                 <tr>
                   <td>Feel independent</td>
-                  <td>{SocialSurvey?.Independence ? SocialSurvey.Independence : ""}</td>
+                    <InsertYesOrNoImg bool={SocialSurvey?.Independence}/>
                 </tr>
                 <tr>
                   <td>Able to participate in community/social events</td>
-                  <td>{SocialSurvey?.CommunityParticipation ? SocialSurvey.CommunityParticipation : ""}</td>
+                    <InsertYesOrNoImg bool={SocialSurvey?.CommunityParticipation}/>
                 </tr>
                 <tr>
                   <td>Does disability affect ability to interact socially?</td>
-                  <td>{SocialSurvey?.DisabilityImpact ? SocialSurvey.DisabilityImpact : ""}</td>
+                  <InsertYesOrNoImg bool={SocialSurvey?.DisabilityImpact}/>
                 </tr>
                 <tr>
                   <td>Experienced discrimination because of your disability</td>
-                  <td>{SocialSurvey?.Discrimination ? SocialSurvey.Discrimination : ""}</td>
+                  <InsertYesOrNoImg bool={SocialSurvey?.Discrimination}/>
                 </tr>
               </tbody>
             </Table>

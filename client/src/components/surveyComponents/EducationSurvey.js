@@ -26,13 +26,25 @@ function EducationSurvey(props){
     function createSurvey() {
         setEducationSurvey(
           {
-            "SchoolState" : "",
-            "CurrentGrade" : "",
-            "NoSchoolReason" : "",
-            "SchoolBefore" : "",
-            "WantSchool" : "",
+            "SchoolState" : true,
+            "CurrentGrade" : "5",
+            "NoSchoolReason" : null,
+            "SchoolBefore" : true,
+            "WantSchool" : true,
           }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -50,23 +62,23 @@ function EducationSurvey(props){
               <tbody>
                 <tr>
                   <td>Goes to school</td>
-                  <td>{EducationSurvey?.SchoolState ? EducationSurvey.SchoolState : ""}</td>
+                  <InsertYesOrNoImg bool={EducationSurvey?.SchoolState}/>
                 </tr>
                 <tr>
                   <td>Current Grade</td>
-                  <td>{EducationSurvey?.CurrentGrade ? EducationSurvey.CurrentGrade : ""}</td>
+                  <td>{EducationSurvey?.CurrentGrade ? EducationSurvey.CurrentGrade : "--"}</td>
                 </tr>
                 <tr>
                   <td>Reason for not attending school</td>
-                  <td>{EducationSurvey?.NoSchoolReason ? EducationSurvey.NoSchoolReason : ""}</td>
+                  <td>{EducationSurvey?.NoSchoolReason ? EducationSurvey.NoSchoolReason : "--"}</td>
                 </tr>
                 <tr>
                   <td>Has every attended school</td>
-                  <td>{EducationSurvey?.SchoolBefore ? EducationSurvey.SchoolBefore : ""}</td>
+                  <InsertYesOrNoImg bool={EducationSurvey?.SchoolBefore}/>
                 </tr>
                 <tr>
                   <td>Want to go to school</td>
-                  <td>{EducationSurvey?.WantSchool ? EducationSurvey.WantSchool : ""}</td>
+                  <InsertYesOrNoImg bool={EducationSurvey?.WantSchool}/>
                 </tr>
               </tbody>
             </Table>

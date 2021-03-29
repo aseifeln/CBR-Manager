@@ -25,11 +25,23 @@ function NutritionSurvey(props){
     function createSurvey() {
         setNutritionSurvey(
           {
-              "FoodStatus" : "",
-              "MonthlyFoodAccess" : "",
-              "ChildNutritionStatus" : "",
+              "FoodStatus" : "Adequate",
+              "MonthlyFoodAccess" : true,
+              "ChildNutritionStatus" : "N/A",
             }
         )
+    }
+
+    function InsertYesOrNoImg(props) {
+
+        if (props.bool == undefined) {
+            return (<td>--</td>);
+        }
+        if (props.bool) {
+            //image: https://www.flaticon.com/free-icon/check-mark_1722017
+            return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+        }
+        return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
     }
 
     return(
@@ -47,15 +59,15 @@ function NutritionSurvey(props){
               <tbody>
                 <tr>
                   <td>Food security level</td>
-                  <td>{NutritionSurvey?.FoodStatus ? NutritionSurvey.FoodStatus : ""}</td>
+                  <td>{NutritionSurvey?.FoodStatus ? NutritionSurvey.FoodStatus : "--"}</td>
                 </tr>
                 <tr>
                   <td>Enough food every month</td>
-                  <td>{NutritionSurvey?.MonthlyFoodAccess ? NutritionSurvey.MonthlyFoodAccess : ""}</td>
+                  <InsertYesOrNoImg bool={NutritionSurvey?.MonthlyFoodAccess}/>
                 </tr>
                 <tr>
                   <td>If child, nutrition status</td>
-                  <td>{NutritionSurvey?.ChildNutritionStatus ? NutritionSurvey.ChildNutritionStatus : ""}</td>
+                  <td>{NutritionSurvey?.ChildNutritionStatus ? NutritionSurvey.ChildNutritionStatus : "--"}</td>
 
                 </tr>
               </tbody>
