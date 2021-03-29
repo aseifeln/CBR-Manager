@@ -101,7 +101,7 @@ function NewReferral(props) {
             services.push("Other");
         }
 
-        newData['OtherService'] = data['otherServiceDesc'];
+        newData['OtherServices'] = data['otherServiceDesc'];
 
         for (let [key, val] of Object.entries(newData)) {
             formData.append(key, val)

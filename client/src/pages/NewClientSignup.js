@@ -175,7 +175,7 @@ function NewClientSignup() {
             </Col>
 
             <Col xs={3} md={2}>
-              <FieldInput name="VillageNo" label="Village #" type="number" required="Village No. is required"/>
+              <FieldInput name="VillageNumber" label="Village #" type="number" required="Village No. is required"/>
             </Col>
 
             <Col xs={12}>

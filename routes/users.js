@@ -61,7 +61,7 @@ function setCookie(res, accessToken, expiryTime){
 app.post("/register", upload.single('Photo'), async (req, res) => {
     try{
         let { FirstName, LastName, 
-            Location, Username, Password } = req.body
+            Location, Username, Password, Role } = req.body
         
         if (await userIsExist(Username)){
             const REGISTERED = '3'
@@ -71,28 +71,50 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             const hashedPassword = await bcrypt.hash(Password, 10);
             Password = hashedPassword
 
-            const new_worker = await workers.create({
-                FirstName,
-                LastName,
-                Photo: req.file ? req.file.buffer : null,
-                Location
-            })
-            .then(function(worker){
-                return worker
-            })
-            .catch(err => res.status(400).json(err))
+            if(Role === 'Admin'){
+                let transaction;
+                try{
+                    transaction = await sequelize.transaction();
+                    await users.create({
+                        Username,
+                        Password,
+                        Role: "Admin"
+                    }, {transaction})
 
-            await users.create({
-                Username, 
-                Password,
-                Role: "Worker",
-                WorkerId: new_worker.WorkerId
-            })
-            .then(result => res.status(200))
-            .catch(err => res.status(400).json(err))
+                    await transaction.commit();
+                    res.status(201).json("Admin account created successfully!")
+                }
+                catch(error){
+                    if (transaction) {
+                        await transaction.rollback();
+                    }
+                    res.status(400).json(error);
+                }
 
-            res.status(201).send('Register Successful');
-            return;
+            } else{
+                const new_worker = await workers.create({
+                    FirstName,
+                    LastName,
+                    Photo: req.file ? req.file.buffer : null,
+                    Location
+                })
+                .then(function(worker){
+                    return worker
+                })
+                .catch(err => res.status(400).json(err))
+    
+                await users.create({
+                    Username, 
+                    Password,
+                    Role: "Worker",
+                    WorkerId: new_worker.WorkerId
+                })
+                .then(result => res.status(200))
+                .catch(err => res.status(400).json(err))
+    
+                res.status(201).send('Register Successful');
+                return;
+            }
         }
 
     } catch {
@@ -101,8 +123,8 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    let {Username, Password} = req.body
-
+    let Username = req.body.user.username
+    let Password = req.body.user.password
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'

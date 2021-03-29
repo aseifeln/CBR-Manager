@@ -37,8 +37,8 @@ const Client = db.define('Client', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    VillageNo: {
-        type: Sequelize.STRING,
+    VillageNumber: {
+        type: Sequelize.INTEGER,
         allowNull: false
     },
     Age: {
