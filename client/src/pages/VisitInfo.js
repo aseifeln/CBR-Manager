@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Button, Row, Col, ListGroup, ListGroupItem, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
-
+import MapWithMarker  from '../components/MapWithMarker';
 
 function VisitInfo(props) {
 
     const [ visit, setVisit ] = useState({});
     const [ visitFound, setVisitFound ] = useState(false);
     document.title = "Visit Details";
-
 
     useEffect(() => {
 
@@ -49,27 +48,30 @@ function VisitInfo(props) {
                 <Row>
                     <Col><h1>Summary:</h1></Col>
                 </Row>
-                {visit.Client ? 
                 <Row>
-                    <Col><h5><b>Client Name: </b>{visit.Client?.FirstName + ' ' + visit.Client?.LastName}</h5></Col>
-                </Row>
-                  : ""}
-                {visit.Worker ?
-                <Row>
-                    <Col><h5><b>Worker Name: </b>{visit.Worker?.FirstName + ' ' + visit.Worker?.LastName}</h5></Col>
-                </Row>
-                  : ""}
-                <Row>
-                    <Col><h5><b>Visit Purpose: </b>{visit.VisitPurpose}</h5></Col>
-                </Row>
-                <Row>
-                    <Col><h5><b>Visit Date: </b>{visit.Date}</h5></Col>
-                </Row>
-                <Row>
-                    <Col><h5><b>Location: </b>{visit.Location}</h5></Col>
-                </Row>
-                <Row>
-                    <Col><h5><b>Village Number: </b>{visit.VillageNumber}</h5></Col>
+                    <Col>
+                        {visit.Client ? (
+                            <h5><b>Client Name: </b>{visit.Client?.FirstName + ' ' + visit.Client?.LastName}</h5>
+                        ) : ""}
+                        {visit.Worker ? (
+                            <h5><b>Worker Name: </b>{visit.Worker?.FirstName + ' ' + visit.Worker?.LastName}</h5>
+                        ) : ""}
+                        <h5><b>Visit Purpose: </b>{visit.VisitPurpose}</h5>
+                        <h5><b>Visit Date: </b>{visit.Date}</h5>
+                        <h5><b>Location: </b>{visit.Location}</h5>
+                        <h5><b>Village Number: </b>{visit.VillageNumber}</h5>
+                    </Col>
+                    {(visit.GPSLocation) ? (
+                        <Col>
+                            <h5><b>GPS Location</b></h5>
+                            <MapWithMarker
+                                loadingElement={<div style={{ height: '75%' }} />}
+                                containerElement={<div style={{ height: '250px', width: '300px' }} />}
+                                mapElement={<div style={{ height: '90%' }} />}
+                                location={JSON.parse(visit.GPSLocation)}
+                            />
+                        </Col>
+                    ) : ("")}
                 </Row>
             </Container>
             <Container>

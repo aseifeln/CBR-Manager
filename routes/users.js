@@ -101,8 +101,8 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    let {Username, Password} = req.body
-
+    let Username = req.body.user.username
+    let Password = req.body.user.password
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'
