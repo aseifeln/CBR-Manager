@@ -64,6 +64,20 @@ module.exports = {
         },
         allowNull: true
       },
+      WorkerId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Worker',
+          key: 'WorkerId'
+        }
+      },
+      ClientId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Client',
+          key: 'ClientId'
+        }
+      },
       Date: {
         type: Sequelize.DATEONLY,
         defaultValue: Sequelize.NOW,
