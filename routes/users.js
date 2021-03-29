@@ -213,7 +213,7 @@ app.put('/changepw', async (req, res) => {
                 Password: New_Password
             }, { transaction })
 
-            transaction.commit();
+            await transaction.commit();
             res.json("Password has been updated");
         }
         else {
@@ -222,7 +222,7 @@ app.put('/changepw', async (req, res) => {
     }
     catch (error) {
         if (transaction)
-            transaction.rollback();
+            await transaction.rollback();
 
         if (error.message === "New password must be different")
             res.status(409).json(error.message);
