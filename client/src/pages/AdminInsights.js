@@ -8,12 +8,13 @@ function AdminInsights() {
     return(
         <>
         <CookieChecker></CookieChecker>
-        <AdminSideBar/>
-        <Container>
-            <div className="main-content">
-                <h1>Insights</h1>
+        <div className='main-content'>
+                <AdminSideBar/>
+
+                <div className='admin-container'>
+                    <h1>Insights</h1>
+                </div>
             </div>
-        </Container>
         </>
     )
 }
