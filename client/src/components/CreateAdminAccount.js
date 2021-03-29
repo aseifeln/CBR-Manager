@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Container,
   Button,
   Form,
   FormGroup,
@@ -54,6 +53,7 @@ function CreateAdminAccount(props) {
     let user = {};
     user["Username"] = username;
     user["Password"] = password;
+    user['Role'] = "Admin";
 
     return user;
   }
@@ -69,7 +69,7 @@ function CreateAdminAccount(props) {
           setRegisterSuccessful(true);
           setTimeout(() => {
             onSuccess();
-          }, 1500)
+          }, 1000)
         }
       })
       .catch((err) => {
@@ -108,7 +108,7 @@ function CreateAdminAccount(props) {
         </button>
         <Form onSubmit={handleSubmit}>
           <h4>
-            <b>Create New Account</b>
+            <b>Create New Admin</b>
           </h4>
           <div className="form-content">
             <Row form>

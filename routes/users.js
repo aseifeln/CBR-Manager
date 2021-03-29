@@ -61,7 +61,7 @@ function setCookie(res, accessToken, expiryTime){
 app.post("/register", upload.single('Photo'), async (req, res) => {
     try{
         let { FirstName, LastName, 
-            Location, Username, Password } = req.body
+            Location, Username, Password, Role } = req.body
         
         if (await userIsExist(Username)){
             const REGISTERED = '3'
@@ -71,7 +71,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
             const hashedPassword = await bcrypt.hash(Password, 10);
             Password = hashedPassword
 
-            if(!Location){
+            if(Role === 'Admin'){
                 let transaction;
                 try{
                     transaction = await sequelize.transaction();
@@ -82,7 +82,7 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
                     }, {transaction})
 
                     await transaction.commit();
-                    res.status(200).json("Admin account created successfully!")
+                    res.status(201).json("Admin account created successfully!")
                 }
                 catch(error){
                     if (transaction) {

@@ -10,18 +10,18 @@ function AdminDashboard() {
 
     return(
         <>
-        <CookieChecker></CookieChecker>
-        <AdminSideBar/>
-        {toggleCreateAdmin ?
-        <CreateAdminAccount onClick={() => setToggleCreateAdmin(false)}
-        onSuccess={() => setToggleCreateAdmin(false)}/>
-        : ''}
-        <Container>
-            <div className="main-content">
-                <h1>Dashboard</h1>
-                <Button onClick={() => setToggleCreateAdmin(true)}>Create New Admin</Button>
-            </div>
-        </Container>
+            <CookieChecker></CookieChecker>
+            <AdminSideBar/>
+            {toggleCreateAdmin ?
+            <CreateAdminAccount onClick={() => setToggleCreateAdmin(false)}
+            onSuccess={() => setToggleCreateAdmin(false)}/>
+            : ''}
+            <Container>
+                <div className="main-content">
+                    <h1>Dashboard</h1>
+                    <Button onClick={() => setToggleCreateAdmin(true)}>Create New Admin</Button>
+                </div>
+            </Container>
         </>
     )
 }
