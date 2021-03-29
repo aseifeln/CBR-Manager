@@ -8,13 +8,7 @@ import CookieChecker from '../components/CookieChecker';
 import MapWithMarker from '../components/MapWithMarker';
 import moment from 'moment';
 
-import HealthSurvey from '../components/surveyComponents/HealthSurvey';
-import SocialSurvey from '../components/surveyComponents/SocialSurvey';
-import EducationSurvey from '../components/surveyComponents/EducationSurvey';
-import LivelihoodSurvey from '../components/surveyComponents/LivelihoodSurvey';
-import NutritionSurvey from '../components/surveyComponents/NutritionSurvey';
-import EmpowermentSurvey from '../components/surveyComponents/EmpowermentSurvey';
-import ShelterSurvey from '../components/surveyComponents/ShelterSurvey';
+import BaselineSurvey from '../components/BaselineSurvey';
 
 function ClientInfo(props) {
 
@@ -86,22 +80,35 @@ function ClientInfo(props) {
                 </CardHeader>
                 <Collapse isOpen={toggle}>
                     <CardBody>
-                        {area == "Health" ? <DisplayPrimary type="Health" status={client.HealthStatus} goal={client.HealthGoal} desc={client.HealthDesc}/> : ""}
-                        {area == "Social" ? <DisplayPrimary type="Social" status={client.SocialStatus} goal={client.SocialGoal} desc={client.SocialDesc}/> : ""}
-                        {area == "Education" ? <DisplayPrimary type="Education" status={client.EducationStatus} goal={client.EducationGoal} desc={client.EducationDesc}/> : ""}
-                        {area == "Livelihood" ? <LivelihoodSurvey id={clientId}></LivelihoodSurvey> : ""}
-                        {area == "Food / Nutrition" ? <NutritionSurvey id={clientId}></NutritionSurvey> : ""}
-                        {area == "Empowerment" ? <EmpowermentSurvey id={clientId}></EmpowermentSurvey> : ""}
-                        {area == "Shelter / Care" ? <ShelterSurvey id={clientId}></ShelterSurvey> : ""}
+                        <DisplayStatus type={area}/>
+                        <BaselineSurvey clientId={clientId} surveyType={area}></BaselineSurvey>
                     </CardBody>
                 </Collapse>
             </Card>
         )
     }
 
-    function DisplayPrimary(props) {
-
-        const {type, status, goal, desc} = props;
+    function DisplayStatus(props) {
+        let status, goal, desc;
+        switch(props.type) {
+            case 'Health':
+              status=client.HealthStatus;
+              goal=client.HealthGoal;
+              desc=client.HealthDesc;
+              break;
+            case 'Social':
+              status=client.SocialStatus;
+              goal=client.SocialGoal;
+              desc=client.SocialDesc;
+              break;
+            case 'Education':
+              status=client.EducationStatus;
+              goal=client.EducationGoal;
+              desc=client.EducationDesc;
+              break;
+            default:
+              return null;
+        }
 
         return (
             <div>
@@ -118,11 +125,6 @@ function ClientInfo(props) {
                 </div>
                 <div><b>Goal:</b> {goal}</div>
                 <div><b>More Details:</b> {desc}</div><br/>
-
-                {type == "Health" ? <HealthSurvey id={clientId}></HealthSurvey> : ""}
-                {type == "Social" ? <SocialSurvey id={clientId}></SocialSurvey> : ""}
-                {type == "Education" ? <EducationSurvey id={clientId}></EducationSurvey> : ""}
-
             </div>
         );
     }
@@ -234,9 +236,9 @@ as right now will still render this component briefly even for existing clients*
                 <ClientAreaAccordion area="Social" defaultState={false}/>
                 <ClientAreaAccordion area="Education" defaultState={false}/>
                 <ClientAreaAccordion area="Livelihood" defaultState={false}/>
-                <ClientAreaAccordion area="Food / Nutrition" defaultState={false}/>
+                <ClientAreaAccordion area="Food/Nutrition" defaultState={false}/>
                 <ClientAreaAccordion area="Empowerment" defaultState={false}/>
-                <ClientAreaAccordion area="Shelter / Care" defaultState={false}/>
+                <ClientAreaAccordion area="Shelter/Care" defaultState={false}/>
 
                 <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
                 <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>
