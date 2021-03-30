@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container, Media } from 'reactstrap';
 import classnames from 'classnames';
 import CookieChecker from '../../components/CookieChecker';
 import AdminSideBar from '../../components/AdminSideBar';
 import {Link} from 'react-router-dom';
 import '../../css/WorkerInfo.css'
+import axios from 'axios';
 
 function WorkerInfo(props){
 
     const [activeTab, setActiveTab] = useState('1');
     const [activeSubTab, setActiveSubTab] = useState('1');
+    const [worker, setWorker] = useState({});
+    const [visits, setVisits] = useState([]);
+    const [referrals, setReferrals] = useState([]);
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
     }
     const toggleSubTab = subTab => {
         if(activeSubTab !== subTab) setActiveSubTab(subTab);
     }
+
+    useEffect(() => {
+        axios.get('/users/worker/' + props.match.params.id)
+            .then((response) => {
+                setWorker(response.data[0].Worker);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, []);
 
     return (
         <div>
@@ -25,14 +39,15 @@ function WorkerInfo(props){
               <div className="main-content">
                 <Row className="align-items-center">
                     <Col xs="auto">
-                        <img src="/default-profile.jpg" alt="Profile photo" height="200px" width="200px" style={{borderRadius: "50%"}}/>
+                        <Media src={`data:image/jpeg;base64,${worker.Photo}`} alt="Profile photo" height="200px" width="200px" style={{borderRadius: "50%"}}/>
                     </Col>
                     <Col xs="auto">
-                        <Row><h2>Denis Onyango</h2></Row>
-                        <Row><h5><b>Location:</b> BidiBidi Zone 1</h5></Row>
+                        <Row><h2>{worker.FirstName + ' ' + worker.LastName}</h2></Row>
+                        <Row><h5><b>Location:</b> {worker.Location}</h5></Row>
                     </Col>
                 </Row>
                 <hr/>
+                {/* TODO: Replace stock data with actual data */}
                 <Row className="summary-stats">
                     <Col xs="2"></Col>
                     <Col xs="4" className="visit-count">
