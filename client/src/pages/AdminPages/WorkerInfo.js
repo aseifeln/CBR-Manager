@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Container, Media } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Container, Media, Table, Button } from 'reactstrap';
 import classnames from 'classnames';
 import CookieChecker from '../../components/CookieChecker';
 import AdminSideBar from '../../components/AdminSideBar';
@@ -30,6 +30,7 @@ function WorkerInfo(props){
             .then((response) => {
                 setWorker(response.data[0].Worker);
                 setWorkerFound(true);
+                document.title = "CBR Worker | " + response.data[0].Worker.FirstName + " " + response.data[0].Worker.LastName;
             })
             .catch((error) => {
                 console.log(error);
@@ -115,11 +116,24 @@ function WorkerInfo(props){
                 </Nav>
                 <TabContent activeTab={activeTab}>
                     <TabPane className="tab-content" tabId="1">
-                    <ul>
-                        {visits.map(({VisitId, Date}) => (
-                                    <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
-                                ))}
-                    </ul>
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {visits.map(({VisitId, Date, Client}) => (
+                            <tr>
+                                <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                                <td>{Date}</td>
+                                <td><Link to={"/visit/" + VisitId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
                     </TabPane>
                     <TabPane className="tab-content" tabId="2">
                         <Nav tabs>
@@ -150,29 +164,68 @@ function WorkerInfo(props){
                         </Nav>
                         <TabContent activeTab={activeSubTab}>
                             <TabPane className="tab-content" tabId="1">
-                            <ul>
-                                {referrals.map(({ReferralId, Date}) => (
-                                    <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
-                                ))}
-                            </ul>
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {referrals.map(({ReferralId, Date, Client}) => (
+                                        <tr>
+                                            <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                                            <td>{Date}</td>
+                                            <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </Table>
                             </TabPane>
                             <TabPane className="tab-content" tabId="2">
-                            <ul>
-                                {referrals.map(({ReferralId, Date, Status}) => (
-                                    (Status === 'Made') ? (
-                                        <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
-                                    ) : ("")
-                                ))}
-                            </ul>
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {referrals.map(({ReferralId, Date, Client, Status}) => (
+                                        (Status === 'Made') ? (
+                                            <tr>
+                                                <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                                                <td>{Date}</td>
+                                                <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                                            </tr>
+                                        ) : ("")
+                                    ))}
+                                    </tbody>
+                                </Table>
                             </TabPane>
                             <TabPane className="tab-content" tabId="3">
-                            <ul>
-                                {referrals.map(({ReferralId, Date, Status}) => (
-                                    (Status === 'Resolved') ? (
-                                        <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
-                                    ) : ("")
-                                ))}
-                            </ul>
+                                <Table>
+                                    <thead>
+                                        <tr>
+                                            <th>Client</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {referrals.map(({ReferralId, Date, Client, Status}) => (
+                                        (Status === 'Resolved') ? (
+                                            <tr>
+                                                <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                                                <td>{Date}</td>
+                                                <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                                            </tr>
+                                        ) : ("")
+                                    ))}
+                                    </tbody>
+                                </Table>
                             </TabPane>
                         </TabContent>
                     </TabPane>
