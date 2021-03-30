@@ -5,6 +5,7 @@ import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import '../../css/WorkerList.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function WorkerListPage() {
     const [offset, setOffset] = useState(0);
@@ -115,12 +116,16 @@ function WorkerListPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {workers.map(({FirstName, LastName, Location}) => (
+                        {workers.map(({FirstName, LastName, Location, WorkerId}) => (
                             <tr>
                                 <td>{FirstName}</td>
                                 <td>{LastName}</td>
                                 <td>{Location}</td>
-                                <td><Button color="success">View</Button></td>
+                                <td>
+                                    <Link to={"/admin/worker/" + WorkerId}>
+                                        <Button color="success"> View </Button>
+                                    </Link>
+                                </td>
                             </tr>
                         ))} 
                     </tbody>
