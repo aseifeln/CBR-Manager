@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from 'react-router-dom';
 import axios from 'axios'
-import { UserContext } from '../components/UserContext';
+import { UserContext } from '../../components/UserContext';
 import { Button, Form, FormGroup, FormFeedback, Label, Input } from 'reactstrap';
 
-import "../css/Login.css";
+import "../../css/Login.css";
 
 function Login() {
     const WRONGPASSWORD = '0'

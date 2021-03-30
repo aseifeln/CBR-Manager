@@ -1,24 +1,30 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Dashboard from './pages/Dashboard';
-import NewClientSignup from './pages/NewClientSignup';
-import ClientListPage from './pages/ClientListPage';
-import ClientInfoPage from './pages/ClientInfo';
-import EditClientPage from './pages/EditClient';
+import Dashboard from './pages/NavigationPages/Dashboard';
+import Home from './pages/NavigationPages/Home';
+
+import NewClientSignup from './pages/ClientPages/NewClientSignup';
+import ClientListPage from './pages/ClientPages/ClientListPage';
+import ClientInfoPage from './pages/ClientPages/ClientInfo';
+import EditClientPage from './pages/ClientPages/EditClient';
+
+import LoginPage from './pages/RegistrationPages/LoginPage';
+import SignUpPage from './pages/RegistrationPages/SignUpPage';
+import Logout from './pages/RegistrationPages/Logout';
+
+import NewVisitPage from './pages/VisitPages/NewVisit';
+import VisitInfoPage from './pages/VisitPages/VisitInfo';
+
+import ReferralInfo from './pages/ReferralPages/ReferralInfo';
+import NewReferral from './pages/ReferralPages/NewReferral';
+
+import AdminDashboard from './pages/AdminPages/AdminDashboard';
+import AdminInsights from './pages/AdminPages/AdminInsights';
+import WorkerListPage from './pages/AdminPages/WorkerListPage';
+import WorkerInfo from './pages/AdminPages/WorkerInfo';
+
 import NotFoundPage from './pages/404';
-import LoginPage from './pages/LoginPage'
-import NewVisitPage from './pages/NewVisit'
-import VisitInfoPage from './pages/VisitInfo'
-import SignUpPage from './pages/SignUpPage'
-import Logout from './pages/Logout';
-import Home from './pages/Home';
-import ReferralInfo from './pages/ReferralInfo';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminInsights from './pages/AdminInsights';
-import WorkerListPage from './pages/WorkerListPage';
-import WorkerInfo from './pages/WorkerInfo';
-import NewReferral from './pages/NewReferral';
 
 /**
 * Reference:

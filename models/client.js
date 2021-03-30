@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Visit = require('./visit');
-const Referral = require('./referral');
-const BaselineSurvey = require('./BaselineSurveys/baselineSurvey')
+const Visit = require('./VisitForms/visit');
+const Referral = require('./ReferralForms/referral');
+const BaselineSurvey = require('./BaselineSurveys/baselineSurvey');
 
 const Client = db.define('Client', {
     ClientId: {

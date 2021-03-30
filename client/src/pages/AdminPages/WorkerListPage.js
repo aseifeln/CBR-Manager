@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Container, Row, Col, Button, Table, Form, FormGroup, Input, Label} from 'reactstrap';
 import ReactPaginate from 'react-paginate';
-import AdminSideBar from '../components/AdminSideBar';
-import CookieChecker from '../components/CookieChecker';
-import '../css/WorkerList.css';
+import AdminSideBar from '../../components/AdminSideBar';
+import CookieChecker from '../../components/CookieChecker';
+import '../../css/WorkerList.css';
 import axios from 'axios';
 
 function WorkerListPage() {

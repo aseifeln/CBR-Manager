@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardDeck } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import CookieChecker from '../components/CookieChecker';
+import CookieChecker from '../../components/CookieChecker';
 
 function Home(){
 

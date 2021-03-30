@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import NotFoundPage from './404';
-import CookieChecker from '../components/CookieChecker';
-import MapWithMarker from '../components/MapWithMarker';
+import NotFoundPage from '../404';
+import CookieChecker from '../../components/CookieChecker';
+import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
 
 function ClientInfo(props) {

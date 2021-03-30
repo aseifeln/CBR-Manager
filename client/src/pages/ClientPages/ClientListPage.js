@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { UserContext } from '../components/UserContext';
+import { UserContext } from '../../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-import CookieChecker from '../components/CookieChecker';
+import CookieChecker from '../../components/CookieChecker';
 import moment from 'moment';
 
 import { Form,
@@ -21,7 +21,7 @@ import { Form,
         ListGroupItemHeading,
         ListGroupItemText } from 'reactstrap';
 
-import "../css/ClientList.css";
+import "../../css/ClientList.css";
 
 const buttonColor={color:"white",backgroundColor:"#46ad2f"}
 
