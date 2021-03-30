@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const visit = require('../models/visit')
+const visit = require('../models/VisitForms/visit')
 const worker = require('../models/worker')
 const client = require('../models/client')
-const healthForm = require('../models/healthForm')
-const educationForm = require('../models/educationForm')
-const socialForm = require('../models/socialForm')
+const healthForm = require('../models/VisitForms/healthForm')
+const educationForm = require('../models/VisitForms/educationForm')
+const socialForm = require('../models/VisitForms/socialForm')
 
-const { sequelize } = require('../models/visit')
+const { sequelize } = require('../models/VisitForms/visit')
 const { v4: uuidv4 } = require('uuid');
 
 // @route   GET /visits/id
