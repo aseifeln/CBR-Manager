@@ -212,4 +212,49 @@ app.get('/session', async (req, res) => {
         .catch(err => res.status(500).json(err))
 });
 
+app.put('/changepw', async (req, res) => {
+    let { Username, Current_Password, New_Password } = req.body;
+
+    let transaction;
+
+    try {
+        if (Current_Password === New_Password) {
+            throw new Error("New password must be different");
+        }
+
+        transaction = await sequelize.transaction();
+        const user = await users.findByPk(Username, { transaction });
+
+        if (user === null) {
+            throw new Error("User not found");
+        }
+
+        if (await passwordIsTrue(Current_Password, user.Password)) {
+            New_Password = await bcrypt.hash(New_Password, 10);
+            await user.update({
+                Password: New_Password
+            }, { transaction })
+
+            await transaction.commit();
+            res.json("Password has been updated");
+        }
+        else {
+            throw new Error("Current password is incorrect");
+        }        
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+
+        if (error.message === "New password must be different")
+            res.status(409).json(error.message);
+        else if (error.message === "User not found")
+            res.status(404).json(error.message);
+        else if (error.message === "Current password is incorrect")
+            res.status(401).json(error.message);
+        else
+            res.status(400).json(error);
+    }
+})
+
 module.exports = app;
