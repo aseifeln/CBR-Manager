@@ -1,17 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const referral = require('../models/referral')
-const { sequelize } = require('../models/referral')
+const referral = require('../models/ReferralForms/referral')
+const { sequelize } = require('../models/ReferralForms/referral')
 const multer = require('multer');
 const upload = multer({});
 
 const worker = require('../models/worker')
 const client = require('../models/client')
 
-const wheelchairService = require('../models/wheelchairService')
-const physiotherapyService = require('../models/physiotherapyService')
-const prostheticService = require('../models/prostheticService')
-const orthoticService = require('../models/orthoticService')
+const wheelchairService = require('../models/ReferralForms/wheelchairService')
+const physiotherapyService = require('../models/ReferralForms/physiotherapyService')
+const prostheticService = require('../models/ReferralForms/prostheticService')
+const orthoticService = require('../models/ReferralForms/orthoticService')
 
 const { v4: uuidv4 } = require('uuid');
 
