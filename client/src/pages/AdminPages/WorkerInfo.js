@@ -39,7 +39,6 @@ function WorkerInfo(props){
         axios.get('/workers/' + props.match.params.id + '/visits')
             .then((response) => {
                 setVisits(response.data);
-                console.log(response.data)
             })
             .catch((error) => {
                 console.log(error);
@@ -48,7 +47,6 @@ function WorkerInfo(props){
         axios.get('/workers/' + props.match.params.id + '/referrals')
             .then((response) => {
                 setReferrals(response.data);
-                console.log(response.data)
             })
             .catch((error) => {
                 console.log(error);
