@@ -1,10 +1,10 @@
 import React,{useEffect} from 'react';
 
 import { Container, Row, Col } from 'reactstrap';
-import OutRefs from '../components/OutRef';
-import PriorityClients from '../components/PriorityClients';
-import CookieChecker from '../components/CookieChecker';
-import '../css/Dashboard.css';
+import OutRefs from '../../components/OutRef';
+import PriorityClients from '../../components/PriorityClients';
+import CookieChecker from '../../components/CookieChecker';
+import '../../css/Dashboard.css';
 
 function Dashboard() {
 

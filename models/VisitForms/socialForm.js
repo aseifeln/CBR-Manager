@@ -1,38 +1,22 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 const Visit = require('./visit');
 
-const HealthForm = db.define('HealthForm', {
-    HealthFormId: {
+const SocialForm = db.define('SocialForm', {
+    SocialFormId: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true
-    },
-    Wheelchair: {
-      type: Sequelize.TEXT,
-      allowNull: true
-    },
-    Prosthetic: {
-      type: Sequelize.TEXT,
-      allowNull: true
-    },
-    Orthotic: {
-      type: Sequelize.TEXT,
-      allowNull: true
-    },
-    WheelchairRepair: {
-      type: Sequelize.TEXT,
-      allowNull: true
-    },
-    HealthCenterReferral: {
-      type: Sequelize.TEXT,
-      allowNull: true
     },
     Advice: {
       type: Sequelize.TEXT,
       allowNull: true
     },
     Advocacy: {
+      type: Sequelize.TEXT,
+      allowNull: true
+    },
+    OrganizationReferral: {
       type: Sequelize.TEXT,
       allowNull: true
     },
@@ -50,17 +34,17 @@ const HealthForm = db.define('HealthForm', {
       allowNull: true
     }
 }, {
-    tableName: 'HealthForm',
+    tableName: 'SocialForm',
     timestamps: false
 });
 
 //Define associations here
-HealthForm.hasOne(Visit, {
+SocialForm.hasOne(Visit, {
   foreignKey:{
-    name: 'HealthFormId',
+    name: 'SocialFormId',
     type: Sequelize.UUID
   }
 })
-Visit.belongsTo(HealthForm, {foreignKey: 'HealthFormId', targetKey: 'HealthFormId'})
+Visit.belongsTo(SocialForm, {foreignKey: 'SocialFormId', targetKey: 'SocialFormId'})
 
-module.exports = HealthForm;
+module.exports = SocialForm;

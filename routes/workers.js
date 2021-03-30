@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const worker = require('../models/worker')
-const visit = require('../models/visit')
-const referral = require('../models/referral')
+const visit = require('../models/VisitForms/visit')
+const referral = require('../models/ReferralForms/referral')
 
 // @route   GET /workers
 // @desc    GET Retrieve all workers from the database

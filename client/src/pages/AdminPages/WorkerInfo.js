@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container, Media } from 'reactstrap';
 import classnames from 'classnames';
-import CookieChecker from '../components/CookieChecker';
-import AdminSideBar from '../components/AdminSideBar';
+import CookieChecker from '../../components/CookieChecker';
+import AdminSideBar from '../../components/AdminSideBar';
 import {Link} from 'react-router-dom';
-import '../css/WorkerInfo.css'
+import '../../css/WorkerInfo.css'
 
 function WorkerInfo(props){
 

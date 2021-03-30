@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, FormGroup, Col, Row, Label, Input, Card, CardHeader, CardBody, Collapse } from 'reactstrap';
-import { MultiStepForm, Step, FieldInput, FieldTypeahead } from "../components/MultiStepForm";
+import { MultiStepForm, Step, FieldInput, FieldTypeahead } from "../../components/MultiStepForm";
 import { useHistory } from "react-router-dom";
-import CookieChecker from '../components/CookieChecker';
+import CookieChecker from '../../components/CookieChecker';
 import axios from 'axios';
-import NotFoundPage from './404';
-import {getGPSLocation} from './Helpers';
-import { UserContext } from '../components/UserContext';
-import MapWithMarker from '../components/MapWithMarker';
+import NotFoundPage from '../404';
+import {getGPSLocation} from '../Helpers';
+import { UserContext } from '../../components/UserContext';
+import MapWithMarker from '../../components/MapWithMarker';
 
 function NewVisit(props) {
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col, ListGroup, ListGroupItem, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import CookieChecker from '../components/CookieChecker';
+import CookieChecker from '../../components/CookieChecker';
 import axios from 'axios';
-import MapWithMarker  from '../components/MapWithMarker';
+import MapWithMarker  from '../../components/MapWithMarker';
 
 function VisitInfo(props) {
 

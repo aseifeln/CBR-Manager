@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container} from 'reactstrap';
-import AdminSideBar from '../components/AdminSideBar';
-import CookieChecker from '../components/CookieChecker';
+import AdminSideBar from '../../components/AdminSideBar';
+import CookieChecker from '../../components/CookieChecker';
 
 function AdminInsights() {
 

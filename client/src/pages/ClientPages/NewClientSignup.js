@@ -4,10 +4,10 @@ import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
 import { Col, Row, FormText, CardBody, Card, FormGroup, Label } from 'reactstrap';
 import DatePicker from 'reactstrap-date-picker';
-import {getGPSLocation} from './Helpers';
-import CookieChecker from '../components/CookieChecker';
-import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../components/MultiStepForm';
-import MapWithMarker from '../components/MapWithMarker';
+import {getGPSLocation} from '../Helpers';
+import CookieChecker from '../../components/CookieChecker';
+import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../../components/MultiStepForm';
+import MapWithMarker from '../../components/MapWithMarker';
 
 const formContainerSize = {
   margin: 'auto',

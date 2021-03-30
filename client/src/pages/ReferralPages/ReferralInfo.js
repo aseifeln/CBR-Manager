@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Media, Button } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import CookieChecker from '../components/CookieChecker';
+import CookieChecker from '../../components/CookieChecker';
 import Modal from 'react-modal';
-import { FieldInput } from "../components/MultiStepForm";
+import { FieldInput } from "../../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
 import moment from 'moment';
 
