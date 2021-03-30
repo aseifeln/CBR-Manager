@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container, Media } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Container, Media } from 'reactstrap';
 import classnames from 'classnames';
 import CookieChecker from '../../components/CookieChecker';
 import AdminSideBar from '../../components/AdminSideBar';
+import NotFoundPage from '../404';
 import {Link} from 'react-router-dom';
 import '../../css/WorkerInfo.css'
 import axios from 'axios';
@@ -14,9 +15,12 @@ function WorkerInfo(props){
     const [worker, setWorker] = useState({});
     const [visits, setVisits] = useState([]);
     const [referrals, setReferrals] = useState([]);
+    const [workerFound, setWorkerFound] = useState(false);
+
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
     }
+
     const toggleSubTab = subTab => {
         if(activeSubTab !== subTab) setActiveSubTab(subTab);
     }
@@ -25,11 +29,37 @@ function WorkerInfo(props){
         axios.get('/users/worker/' + props.match.params.id)
             .then((response) => {
                 setWorker(response.data[0].Worker);
+                setWorkerFound(true);
             })
             .catch((error) => {
                 console.log(error);
             })
+        
+        axios.get('/workers/' + props.match.params.id + '/visits')
+            .then((response) => {
+                setVisits(response.data);
+                console.log(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        axios.get('/workers/' + props.match.params.id + '/referrals')
+            .then((response) => {
+                setReferrals(response.data);
+                console.log(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        
     }, []);
+
+    if (!workerFound) {
+        return (
+            <NotFoundPage/>
+        )
+    }
 
     return (
         <div>
@@ -86,11 +116,9 @@ function WorkerInfo(props){
                 <TabContent activeTab={activeTab}>
                     <TabPane className="tab-content" tabId="1">
                     <ul>
-                        <li><Link>17-03-2021</Link></li>
-                        <li><Link>16-03-2021</Link></li>
-                        <li><Link>15-03-2021</Link></li>
-                        <li><Link>14-03-2021</Link></li>
-                        <li><Link>13-03-2021</Link></li>
+                        {visits.map(({VisitId, Date}) => (
+                                    <li><Link to={`/visit/${VisitId}`}>{Date}</Link></li>
+                                ))}
                     </ul>
                     </TabPane>
                     <TabPane className="tab-content" tabId="2">
@@ -123,26 +151,27 @@ function WorkerInfo(props){
                         <TabContent activeTab={activeSubTab}>
                             <TabPane className="tab-content" tabId="1">
                             <ul>
-                                <li><Link>17-03-2021</Link></li>
-                                <li><Link>16-03-2021</Link></li>
-                                <li><Link>15-03-2021</Link></li>
-                                <li><Link>14-03-2021</Link></li>
-                                <li><Link>13-03-2021</Link></li>
+                                {referrals.map(({ReferralId, Date}) => (
+                                    <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
+                                ))}
                             </ul>
                             </TabPane>
                             <TabPane className="tab-content" tabId="2">
                             <ul>
-                                <li><Link>17-03-2021</Link></li>
-                                <li><Link>16-03-2021</Link></li>
-                                <li><Link>15-03-2021</Link></li>
-                                <li><Link>14-03-2021</Link></li>
+                                {referrals.map(({ReferralId, Date, Status}) => (
+                                    (Status === 'Made') ? (
+                                        <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
+                                    ) : ("")
+                                ))}
                             </ul>
                             </TabPane>
                             <TabPane className="tab-content" tabId="3">
                             <ul>
-                                <li><Link>17-03-2021</Link></li>
-                                <li><Link>16-03-2021</Link></li>
-                                <li><Link>15-03-2021</Link></li>
+                                {referrals.map(({ReferralId, Date, Status}) => (
+                                    (Status === 'Resolved') ? (
+                                        <li><Link to={`/referral/${ReferralId}`}>{Date}</Link></li>
+                                    ) : ("")
+                                ))}
                             </ul>
                             </TabPane>
                         </TabContent>
