@@ -14,7 +14,8 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.changeColumn(
       'Referral', 'ReferTo', {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       }
     )
 
