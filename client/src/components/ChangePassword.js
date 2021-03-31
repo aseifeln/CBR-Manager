@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Row, Container, Button, FormFeedback, FormGroup, Input, Label, Modal } from 'reactstrap';
+import { Row, Col, Container, Button, FormFeedback, FormGroup, Input, Label, Modal } from 'reactstrap';
 import axios from 'axios';
 import { UserContext } from './UserContext';
 
@@ -73,43 +73,45 @@ function ChangePassword(props) {
 
     return (
         <Row className='right-button'>
-            <Button onClick={openModal} className='right-button'>Change Password</Button>
-            <Modal
-                isOpen={modalOpen}
-                onRequestClose={closeModal}>
-                <h4>Change password</h4>
-                <Container>
-                    <form onSubmit={changeUserPassword}>
-                        <FormGroup>
-                            <Label>New Password</Label>
-                            <Input
-                                invalid={!validPassword}
-                                type="password"
-                                id="newPassword"
-                                value={newPassword}
-                                onChange={(event) => setNewPassword(event.target.value)}
-                                placeholder="New Password"
-                            />
-                            <FormFeedback>Enter a valid password (at least 6 characters)</FormFeedback>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Confirm Password</Label>
-                            <Input
-                                invalid={!passwordMatch}
-                                type="password"
-                                id="confirmPassword"
-                                value={confirmPassword}
-                                onChange={(event) => setConfirmPassword(event.target.value)}
-                                placeholder="Confirm Password"
-                            />
-                            <FormFeedback>Passwords must match</FormFeedback>
-                        </FormGroup>
-                        <Button type="submit" onClick={changeUserPassword}>Submit</Button>
-                        <Button onClick={closeModal} className='right-button'>Close</Button>
-                    </form>
-                    <br/>
-                </Container>
-            </Modal>
+            <Col>
+                <Button onClick={openModal} className='right-button'>Change Password</Button>
+                <Modal
+                    isOpen={modalOpen}
+                    onRequestClose={closeModal}>
+                    <h4>Change password</h4>
+                    <Container>
+                        <form onSubmit={changeUserPassword}>
+                            <FormGroup>
+                                <Label>New Password</Label>
+                                <Input
+                                    invalid={!validPassword}
+                                    type="password"
+                                    id="newPassword"
+                                    value={newPassword}
+                                    onChange={(event) => setNewPassword(event.target.value)}
+                                    placeholder="New Password"
+                                />
+                                <FormFeedback>Enter a valid password (at least 6 characters)</FormFeedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Confirm Password</Label>
+                                <Input
+                                    invalid={!passwordMatch}
+                                    type="password"
+                                    id="confirmPassword"
+                                    value={confirmPassword}
+                                    onChange={(event) => setConfirmPassword(event.target.value)}
+                                    placeholder="Confirm Password"
+                                />
+                                <FormFeedback>Passwords must match</FormFeedback>
+                            </FormGroup>
+                            <Button type="submit" onClick={changeUserPassword}>Submit</Button>
+                            <Button onClick={closeModal} className='right-button'>Close</Button>
+                        </form>
+                        <br/>
+                    </Container>
+                </Modal>
+            </Col>
         </Row>
     )
 }
