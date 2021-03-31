@@ -40,6 +40,6 @@ SocialSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(SocialSurvey, {foreignKey: 'SocialSurveyId', targetKey: 'SocialSurveyId'})
+BaselineSurvey.belongsTo(SocialSurvey, {foreignKey: 'SocialSurveyId', targetKey: 'SocialSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = SocialSurvey;

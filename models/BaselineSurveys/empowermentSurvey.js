@@ -36,6 +36,6 @@ EmpowermentSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(EmpowermentSurvey, {foreignKey: 'EmpowermentSurveyId', targetKey: 'EmpowermentSurveyId'})
+BaselineSurvey.belongsTo(EmpowermentSurvey, {foreignKey: 'EmpowermentSurveyId', targetKey: 'EmpowermentSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = EmpowermentSurvey;
