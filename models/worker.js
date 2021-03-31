@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Visit = require('./visit');
+const Visit = require('./VisitForms/visit');
 const User = require('./user');
 const Client = require('./client');
-const Referral = require('./referral');
+const Referral = require('./ReferralForms/referral');
+const BaselineSurvey = require('./BaselineSurveys/baselineSurvey')
 
 
 const Worker = db.define('Worker', {
@@ -48,6 +49,12 @@ Worker.hasMany(Client, {
     }
 })
 Worker.hasMany(Referral, {
+    foreignKey:{
+        name: 'WorkerId',
+        type: Sequelize.UUID
+    }
+})
+Worker.hasMany(BaselineSurvey, {
     foreignKey:{
         name: 'WorkerId',
         type: Sequelize.UUID
