@@ -24,6 +24,7 @@ function WorkerInfo(props){
     const [confirmPassword, setConfirmPassword] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(true);
+    const [validPassword, setValidPassword] = useState(true);
 
     function openModal() {
         setModalOpen(true);
@@ -44,15 +45,30 @@ function WorkerInfo(props){
         if(activeSubTab !== subTab) setActiveSubTab(subTab);
     }
 
-    function changeUserPassword(event) {
-        event.preventDefault();
+    function validInputs() {
+        if (newPassword.length <= 5)
+        {
+            setValidPassword(false);
+            return false;
+        }
+        setValidPassword(true);
+
         if (newPassword !== confirmPassword)
         {
             setPasswordMatch(false);
+            return false;
+        }
+        setPasswordMatch(true);
+
+        return true;
+    }
+
+    function changeUserPassword(event) {
+        event.preventDefault();
+
+        if (!validInputs()) {
             return;
         }
-        else
-            setPasswordMatch(true);
         
         let request = {};
 
@@ -127,26 +143,24 @@ function WorkerInfo(props){
                                 <FormGroup>
                                     <Label>New Password</Label>
                                     <Input
-                                     required="Enter a password"
+                                     invalid={!validPassword}
                                      type="password"
                                      id="newPassword"
                                      value={newPassword}
                                      onChange={(event) => setNewPassword(event.target.value)}
                                      placeholder="New Password"
-                                     minLength="6"
                                     />
+                                    <FormFeedback>Enter a valid password (at least 6 characters)</FormFeedback>
                                 </FormGroup>
                                 <FormGroup>
                                     <Label>Confirm Password</Label>
                                     <Input
                                      invalid={!passwordMatch}
-                                     required="Re-enter new password"
                                      type="password"
                                      id="confirmPassword"
                                      value={confirmPassword}
                                      onChange={(event) => setConfirmPassword(event.target.value)}
                                      placeholder="Confirm Password"
-                                     minLength="6"
                                     />
                                     <FormFeedback>Passwords must match</FormFeedback>
                                 </FormGroup>
