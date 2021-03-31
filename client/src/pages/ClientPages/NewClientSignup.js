@@ -35,7 +35,9 @@ function NewClientSignup() {
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
     data['DateCreated'] = clientDate
     data['Gender'] = (data['Gender'] || 'Male')
-    data['GPSLocation'] = GPSLocation;
+
+    if (GPSLocation)
+      data['GPSLocation'] = GPSLocation
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {
