@@ -132,8 +132,8 @@ function WorkerInfo(props){
           <AdminSideBar/>
           <Container>
               <div className="main-content">
-                <Row style={{float: 'right'}}>
-                    <Button onClick={openModal}>Change Password</Button>
+                <Row className='right-button'>
+                    <Button onClick={openModal} className='right-button'>Change Password</Button>
                     <Modal
                      isOpen={modalOpen}
                      onRequestClose={closeModal}>
@@ -165,7 +165,7 @@ function WorkerInfo(props){
                                     <FormFeedback>Passwords must match</FormFeedback>
                                 </FormGroup>
                                 <Button type="submit" onClick={changeUserPassword}>Submit</Button>
-                                <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
+                                <Button onClick={closeModal} className='right-button'>Close</Button>
                             </form>
                             <br/>
                         </Container>
