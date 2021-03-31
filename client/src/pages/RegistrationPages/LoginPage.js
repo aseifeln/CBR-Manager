@@ -39,7 +39,7 @@ function Login() {
     function createCookie(user) {
         const maxAge = 60 * 60; // 60 mins
         document.cookie = "cookiename=cookievalue;max-age=" + (maxAge);
-        axios.get('users/session', { params: { username: user.username } })
+        axios.get('users/session', { params: { username: user['Username'] } })
             .then(res => {
                 document.cookie = `Role=${res.data[0].Role};max-age=` + (maxAge);
                 document.cookie = `WorkerId=${res.data[0].WorkerId};max-age=` + (maxAge);
@@ -68,7 +68,7 @@ function Login() {
     }
 
     function login(user) {
-        axios.post('/users/login', { user })
+        axios.post('/users/login', user)
             .then(res => {
                 accountValidation(res, user)
                 return;
@@ -83,11 +83,11 @@ function Login() {
         initialErrState();
 
         if (authPasses()) {
-            const user = {
-                username: username,
-                password: password,
-            }
-            login(user)
+            let credentials = {}
+            credentials['Username'] = username
+            credentials['Password'] = password
+
+            login(credentials)
         }
     }
 
