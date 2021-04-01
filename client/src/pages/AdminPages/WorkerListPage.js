@@ -139,7 +139,7 @@ function WorkerListPage(props) {
                                             <Button color="success"> View </Button>
                                         </Link>
                                     </td>
-                                    <td><Button onClick={() => deleteAccount(WorkerId)} color="success">Delete</Button></td>
+                                    <td><Button onClick={() => deleteAccount(WorkerId)} color="danger">Delete</Button></td>
                                 </tr>
                             ))}
                         </tbody>
