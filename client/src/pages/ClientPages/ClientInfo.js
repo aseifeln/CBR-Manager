@@ -100,6 +100,19 @@ function ClientInfo(props) {
             })
     }
 
+    function deleteSurvey(event) {
+        event.preventDefault();
+
+        axios.delete('/baselineSurveys/' + props.match.params.id + '/delete') 
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+                alert("Something went wrong when deleting the client")
+            })
+    }
+
     function ClientAreaAccordion(props) {
 
         const { area, status, goal, desc, defaultState } = props;
@@ -290,7 +303,7 @@ as right now will still render this component briefly even for existing clients*
                 </Col>
                 <Col align="center">
                     {(client.BaselineSurvey && context.Role === "Admin") ? (
-                        <Link>
+                        <Link onClick={deleteSurvey}>
                             <Button variant="primary" size="md" color="danger" style={{float: 'left'}}>
                                 Delete Survey
                             </Button>
