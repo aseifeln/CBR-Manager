@@ -123,8 +123,8 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    let Username = req.body.user.username
-    let Password = req.body.user.password
+    let {Username, Password} = req.body
+
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'
@@ -174,7 +174,7 @@ app.get('/worker/:id', async (req, res) => {
             where: {
                 WorkerId: workerId
             },
-            attributes: [], // Only want worker info
+            attributes: ["Username"], 
             include: [{
                 model: workers,
                 required: true,
@@ -211,5 +211,52 @@ app.get('/session', async (req, res) => {
         .then(userData => res.status(200).json(userData))
         .catch(err => res.status(500).json(err))
 });
+
+app.put('/changepw', async (req, res) => {
+    let { Username, Current_Password, New_Password, Role } = req.body;
+
+    let transaction;
+
+    try {
+
+        transaction = await sequelize.transaction();
+        const user = await users.findByPk(Username, { transaction });
+
+        if (user === null) {
+            throw new Error("User not found");
+        }
+
+        if (await passwordIsTrue(New_Password, user.Password)) {
+            throw new Error("New password must be different");
+        }
+
+        // Admins can bypass entering current password
+        if (Role === 'Admin' || await passwordIsTrue(Current_Password, user.Password)) {
+            New_Password = await bcrypt.hash(New_Password, 10);
+            await user.update({
+                Password: New_Password
+            }, { transaction })
+
+            await transaction.commit();
+            res.json("Password has been updated");
+        }
+        else {
+            throw new Error("Current password is incorrect");
+        }        
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+
+        if (error.message === "New password must be different")
+            res.status(409).json(error.message);
+        else if (error.message === "User not found")
+            res.status(404).json(error.message);
+        else if (error.message === "Current password is incorrect")
+            res.status(401).json(error.message);
+        else
+            res.status(400).json(error);
+    }
+})
 
 module.exports = app;

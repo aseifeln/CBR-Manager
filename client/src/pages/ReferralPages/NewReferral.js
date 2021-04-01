@@ -288,7 +288,11 @@ function NewReferral(props) {
                     <Row form>
                         <Col>
                             <FormGroup>
-                                <FieldInput placeholder="Center Services" name="referTo" label="Refer to" required="Center Services is required"/>
+                                <FieldInput type="select" placeholder="Center Services" name="referTo" label="Refer to" required="Center Services is required">
+                                    <option selected hidden>Make a selection</option>
+                                    <option>Disability Center</option>
+                                    <option>Mobile Clinic</option>
+                                </FieldInput>
                             </FormGroup>
                         </Col>
                     </Row>
