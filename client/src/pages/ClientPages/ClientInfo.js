@@ -9,6 +9,7 @@ import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
 import { UserContext } from '../../components/UserContext';
 import Modal from 'react-modal';
+import WarningModal from '../../components/WarningModal';
 
 import BaselineSurvey from '../../components/BaselineSurvey';
 
@@ -233,25 +234,7 @@ as right now will still render this component briefly even for existing clients*
                     </Col>
                     <Col style={{display: 'inline'}}>
                         {(context.Role === 'Admin') ? (
-                            <div>
-                                <Button onClick={openModal} style={{float: 'right'}}>Delete Client</Button>
-                                <Modal
-                                isOpen={modelOpen}
-                                onRequestClose={closeModal}
-                                style={customStyles}
-                                >
-                                    <Container>
-                                        <Row>
-                                            <Col>Are you sure you want to delete this client?</Col>
-                                        </Row>
-                                        <br/>
-                                        <Row>
-                                            <Col><Button color="success" onClick={deleteClient}>Yes</Button></Col>
-                                            <Col><Button color="danger" style={{float: 'right'}} onClick={closeModal}>No</Button></Col>
-                                        </Row>                           
-                                    </Container>
-                                </Modal>
-                            </div>
+                            <WarningModal clientId={props.match.params.id}/>
                         ) : ""}
                         <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
                     </Col>

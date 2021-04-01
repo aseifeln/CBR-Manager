@@ -6,6 +6,7 @@ import axios from 'axios';
 import { UserContext } from '../../components/UserContext';
 import Modal from 'react-modal';
 import MapWithMarker  from '../../components/MapWithMarker';
+import WarningModal from '../../components/WarningModal';
 
 function VisitInfo(props) {
 
@@ -81,25 +82,9 @@ function VisitInfo(props) {
                         <Button tag={Link} to={'/client/'+ visit.Client?.ClientId}>Back to Client</Button>
                     </Col>
                     {(context.Role === 'Admin') ? (
-                        <Col>
-                        <Button onClick={openModal} style={{float: 'right'}}>Delete</Button>
-                        <Modal
-                         isOpen={modelOpen}
-                         onRequestClose={closeModal}
-                         style={customStyles}
-                        >
-                            <Container>
-                                <Row>
-                                    <Col>Are you sure you want to delete this visit?</Col>
-                                </Row>
-                                <br/>
-                                <Row>
-                                    <Col><Button color="success" onClick={deleteVisit}>Yes</Button></Col>
-                                    <Col><Button color="danger" style={{float: 'right'}} onClick={closeModal}>No</Button></Col>
-                                </Row>                           
-                            </Container>
-                        </Modal>
-                    </Col>
+                        <div>
+                            <WarningModal visitId={props.match.params.id} clientId={visit.Client?.ClientId}/>
+                        </div>
                     ): ""}
                 </Row>
             </Container>

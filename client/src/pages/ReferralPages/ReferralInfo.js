@@ -8,6 +8,7 @@ import { FieldInput } from "../../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
 import { UserContext } from '../../components/UserContext';
 import moment from 'moment';
+import WarningModal from '../../components/WarningModal';
 
 function ReferralInfo(props){
 
@@ -240,23 +241,7 @@ function ReferralInfo(props){
                     <Col style={{display: 'inline'}}>
                     {(context.Role === 'Admin') ? (
                             <div>
-                                <Button onClick={() => openModal('delete')} style={{float: 'right'}}>Delete</Button>
-                                <Modal
-                                isOpen={deleteModalOpen}
-                                onRequestClose={() => closeModal('delete')}
-                                style={deleteCustomStyles}
-                                >
-                                    <Container>
-                                        <Row>
-                                            <Col>Are you sure you want to delete this referral?</Col>
-                                        </Row>
-                                        <br/>
-                                        <Row>
-                                            <Col><Button color="success" onClick={deleteReferral}>Yes</Button></Col>
-                                            <Col><Button color="danger" style={{float: 'right'}} onClick={() => closeModal('delete')}>No</Button></Col>
-                                        </Row>                           
-                                    </Container>
-                                </Modal>
+                                <WarningModal referralId={props.match.params.id} clientId={referral.Client?.ClientId}/>
                             </div>
                         ) : ""}
                         
