@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 
 function WarningModal(props) {
 
-    const { clientId, referralId, visitId } = props;
+    const { clientId, referralId, visitId, toDeleteSurvey } = props;
 
     const [ modelOpen, setModalOpen ] = useState(false);
 
@@ -77,7 +77,7 @@ function WarningModal(props) {
     function deleteSurvey(event) {
         event.preventDefault();
 
-        axios.delete('/baselineSurveys/' + props.match.params.id + '/delete') 
+        axios.delete('/baselineSurveys/' + clientId + '/delete') 
             .then(response => {
                 window.location.reload();
             })
@@ -89,10 +89,11 @@ function WarningModal(props) {
 
     return (
         <div>
-            <Button onClick={openModal} style={{float: 'right'}}>
+            <Button onClick={openModal} style={{float: (toDeleteSurvey) ? 'left' : 'right'}} color="danger">
                 Delete 
                 {(referralId) ? " Referral"
                 : (visitId) ? " Visit"
+                : (toDeleteSurvey) ? " Survey"
                 : (clientId) ? " Client"
                 : ""}
             </Button>
@@ -104,9 +105,10 @@ function WarningModal(props) {
                 <Container>
                     <Row>
                         <Col>Are you sure you want to delete this 
-                        {(referralId) ? " Referral"
-                        : (visitId) ? " Visit"
-                        : (clientId) ? " Client"
+                        {(referralId) ? " referral"
+                        : (visitId) ? " visit"
+                        : (toDeleteSurvey) ? " baseline survey"
+                        : (clientId) ? " client"
                         : ""}
                         ?</Col>
                     </Row>
@@ -115,6 +117,7 @@ function WarningModal(props) {
                         <Col><Button color="success" onClick={
                             referralId ? deleteReferral
                             : visitId ? deleteVisit
+                            : (toDeleteSurvey) ? deleteSurvey
                             : clientId ? deleteClient
                             : ""
                         }>Yes</Button></Col>
