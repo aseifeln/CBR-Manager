@@ -13,9 +13,8 @@ const uuid = require('uuid');
 
 // @route   /baselineSurveys/add
 // @desc    POST a new baseline survey
-// @returns BaselineSurveyId of the new baseline survey
 router.post('/add', async (req, res) => {
-    let {Date, DateEdited, WorkerId, ClientId,
+    let {WorkerId, ClientId,Date, DateEdited,
         healthSurvey, educationSurvey, socialSurvey,
         nutritionSurvey, shelterSurvey, empowermentSurvey,
         livelihoodSurvey} = req.body;
@@ -35,7 +34,7 @@ router.post('/add', async (req, res) => {
                     AssistiveDeviceNeeded: healthSurvey.AssistiveDeviceNeeded,
                     AssistiveDeviceRequired: healthSurvey.AssistiveDeviceRequired,
                     HealthServiceStatus: healthSurvey.HealthServiceStatus,
-                }, { transaction })
+                }, { transaction });
             }
 
             if (educationSurvey != null) {
