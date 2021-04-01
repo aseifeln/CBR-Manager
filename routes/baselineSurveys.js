@@ -47,7 +47,7 @@ router.post('/add', async (req, res) => {
                     NoSchoolReason: educationSurvey.NoSchoolReason,
                     SchoolBefore: educationSurvey.SchoolBefore,
                     WantSchool: educationSurvey.WantSchool,
-                }, { transaction, returning: 'EducationSurveyId' });
+                }, { transaction });
             }
 
             if (socialSurvey != null) {
@@ -59,7 +59,7 @@ router.post('/add', async (req, res) => {
                     CommunityParticipation: socialSurvey.CommunityParticipation,
                     DisabilityImpact: socialSurvey.DisabilityImpact,
                     Discrimination: socialSurvey.Discrimination,
-                }, { transaction, returning: 'SocialSurveyId' });
+                }, { transaction });
             }
 
             if (nutritionSurvey != null) {
@@ -69,7 +69,7 @@ router.post('/add', async (req, res) => {
                     FoodStatus: nutritionSurvey.FoodStatus,
                     MonthlyFoodAccess: nutritionSurvey.MonthlyFoodAccess,
                     ChildNutritionStatus: nutritionSurvey.ChildNutritionStatus,
-                }, { transaction, returning: 'NutritionSurveyId' });
+                }, { transaction });
             }
 
             if (shelterSurvey != null) {
@@ -78,7 +78,7 @@ router.post('/add', async (req, res) => {
                     ShelterSurveyId,
                     ShelterAccess: shelterSurvey.ShelterAccess,
                     EssentialsAccess: shelterSurvey.EssentialsAccess,
-                }, { transaction, returning: 'ShelterSurveyId' });
+                }, { transaction });
             }
 
             if (livelihoodSurvey != null) {
@@ -91,7 +91,7 @@ router.post('/add', async (req, res) => {
                     FinancialNeedsMet: livelihoodSurvey.FinancialNeedsMet,
                     DisabilityImpact: livelihoodSurvey.DisabilityImpact,
                     WorkWanted: livelihoodSurvey.WorkWanted,
-                }, { transaction, returning: 'LivelihoodSurveyId'});
+                }, { transaction });
             }
 
             if (empowermentSurvey != null) {
@@ -102,7 +102,7 @@ router.post('/add', async (req, res) => {
                     DisabilityOrganizations: empowermentSurvey.DisabilityOrganizations,
                     AwareDisabilityRights: empowermentSurvey.AwareDisabilityRights,
                     Influential: empowermentSurvey.Influential,
-                }, { transaction, returning: 'EmpowermentSurveyId'});
+                }, { transaction });
             }
 
             await BaselineSurvey.create({
@@ -120,9 +120,9 @@ router.post('/add', async (req, res) => {
             }, { transaction });
         });
 
-        res.status(200).json("New Baseline Survey added")
+        res.status(200).json("New Baseline Survey added");
     } catch(error) {
-        res.status(500).json(error);
+        res.status(400).json(error);
     }
 })
 
