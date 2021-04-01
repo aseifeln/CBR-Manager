@@ -176,11 +176,12 @@ app.get('/worker/:id', async (req, res) => {
 
 app.post('/delete', async (req, res) => {
     try{
+        /*
         await users.destroy({
             where: {
                 WorkerId: req.body.WorkerId
             }
-        })
+        })*/
         await workers.destroy({
             where: {
                 WorkerId: req.body.WorkerId
