@@ -281,12 +281,27 @@ as right now will still render this component briefly even for existing clients*
                         </Button>
                     </Link>
                 </Col>
-                <Col align="center">
+                <Col align="center" xs={2}>
                     <Link to={"/referral/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}}>
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
                             New Referral
                         </Button>
                     </Link>
+                </Col>
+                <Col align="center">
+                    {(client.BaselineSurvey && context.Role === "Admin") ? (
+                        <Link>
+                            <Button variant="primary" size="md" color="danger" style={{float: 'left'}}>
+                                Delete Survey
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Link>
+                            <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>
+                                New Survey
+                            </Button>
+                        </Link>
+                    )}
                 </Col>
             </Row>
             </Container>
