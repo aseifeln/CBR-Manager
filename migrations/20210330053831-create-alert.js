@@ -19,8 +19,15 @@ module.exports = {
     },
     Date: {
       type: Sequelize.DATE,
-      default: Sequelize.NOW,
+      defaultValue: Sequelize.NOW,
       allowNull: false
+    },
+    AuthorWorkerId: {
+        type: Sequelize.UUID,
+        references: {
+            model: 'Worker',
+            key: 'WorkerId'
+        }
     },
     SpecificWorkers: {
       type: Sequelize.ARRAY(Sequelize.UUID),
