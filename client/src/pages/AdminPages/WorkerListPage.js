@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Container, Row, Col, Button, Table, Form, FormGroup, Input, Label} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Button, Table, Form, FormGroup, Input, Label } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
@@ -7,7 +7,7 @@ import '../../css/WorkerList.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-function WorkerListPage() {
+function WorkerListPage(props) {
     const [offset, setOffset] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     const [currentPageWorkers, setCurrentPageWorkers] = useState([]);
@@ -24,7 +24,7 @@ function WorkerListPage() {
             .then(res => setWorkers(res.data))
             .catch(err => console.log(err))
         document.title = 'Workers List'
-    },[])
+    }, [])
 
     function handlePageClick(event) {
         setOffset(event.selected * workersPerPage);
@@ -37,7 +37,7 @@ function WorkerListPage() {
         setCurrentPageWorkers(currentPage);
     }
 
-    function filterList(event){
+    function filterList(event) {
         event.preventDefault();
     }
 
@@ -46,8 +46,8 @@ function WorkerListPage() {
         setSearchLocation('');
     }
 
-    async function deleteAccount(WorkerId){
-        axios.post('/users/delete', {WorkerId})
+    async function deleteAccount(WorkerId) {
+        axios.delete('/users/delete', { data: { WorkerId: WorkerId } })
             .then(res => {
             })
             .catch(err => {
@@ -59,105 +59,105 @@ function WorkerListPage() {
         window.location.reload();
     }
 
-    return(
+    return (
         <>
-        <CookieChecker/>
-        <AdminSideBar/>
-        <Container>
-            <div className="main-content">
-                <h1>Worker List</h1>
-                <br/>
-                <Form>
-                    <Row form>
-                        <Col md={6}>
-                            <FormGroup className="searchName">
-                                <Label>Name</Label>
-                                <Input type="text" id="searchName"
+            <CookieChecker />
+            <AdminSideBar />
+            <Container>
+                <div className="main-content">
+                    <h1>Worker List</h1>
+                    <br />
+                    <Form>
+                        <Row form>
+                            <Col md={6}>
+                                <FormGroup className="searchName">
+                                    <Label>Name</Label>
+                                    <Input type="text" id="searchName"
                                         value={searchName}
                                         onChange={(e) => setSearchName(
                                             e.target.value)}
                                         placeholder="Search by name" />
-                                <button onClick={(e) =>
-                                {setSearchName('');
-                                e.preventDefault();
-                                }} >X</button>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row form>
-                        <Col md={6}>
-                            <FormGroup>
-                                <Label>Location</Label>
-                                <Input type="select"
-                                        value={searchLocation}
-                                        onChange={(e) => setSearchLocation(e.target.value)}>
-                                    <option value="Choose Location">Choose Location</option>
-                                    <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
-                                    <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
-                                    <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
-                                    <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
-                                    <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
-                                    <option value="Palorinya Basecamp">Palorinya Basecamp</option>
-                                    <option value="Palorinya Zone 1">Palorinya Zone 1</option>
-                                    <option value="Palorinya Zone 2">Palorinya Zone 2</option>
-                                    <option value="Palorinya Zone 3">Palorinya Zone 3</option>
-                                </Input>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    
-                    <FormGroup>
-                        <Row>
-                            <Col xs="auto">
-                                <Button color="success" onClick={filterList}>Search</Button>
-                            </Col>
-                            <Col xs="auto">
-                                <Button onClick={resetFilters}>Reset</Button>
+                                    <button onClick={(e) => {
+                                        setSearchName('');
+                                        e.preventDefault();
+                                    }} >X</button>
+                                </FormGroup>
                             </Col>
                         </Row>
-                    </FormGroup>
-                </Form>
+                        <Row form>
+                            <Col md={6}>
+                                <FormGroup>
+                                    <Label>Location</Label>
+                                    <Input type="select"
+                                        value={searchLocation}
+                                        onChange={(e) => setSearchLocation(e.target.value)}>
+                                        <option value="Choose Location">Choose Location</option>
+                                        <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
+                                        <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
+                                        <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
+                                        <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
+                                        <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
+                                        <option value="Palorinya Basecamp">Palorinya Basecamp</option>
+                                        <option value="Palorinya Zone 1">Palorinya Zone 1</option>
+                                        <option value="Palorinya Zone 2">Palorinya Zone 2</option>
+                                        <option value="Palorinya Zone 3">Palorinya Zone 3</option>
+                                    </Input>
+                                </FormGroup>
+                            </Col>
+                        </Row>
 
-                <Table responsive className="workers-table">
-                    <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Location</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {workers.map(({FirstName, LastName, Location, WorkerId}) => (
+                        <FormGroup>
+                            <Row>
+                                <Col xs="auto">
+                                    <Button color="success" onClick={filterList}>Search</Button>
+                                </Col>
+                                <Col xs="auto">
+                                    <Button onClick={resetFilters}>Reset</Button>
+                                </Col>
+                            </Row>
+                        </FormGroup>
+                    </Form>
+
+                    <Table responsive className="workers-table">
+                        <thead>
                             <tr>
-                                <td>{FirstName}</td>
-                                <td>{LastName}</td>
-                                <td>{Location}</td>
-                                <td>
-                                    <Link to={"/admin/worker/" + WorkerId}>
-                                        <Button color="success"> View </Button>
-                                    </Link>
-                                </td>
-                                <td><Button onClick={ () => deleteAccount(WorkerId)} color="success">Delete</Button></td>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Location</th>
+                                <th></th>
+                                <th></th>
                             </tr>
-                        ))} 
-                    </tbody>
-                </Table>
-                
-                <ReactPaginate previousLabel={'Previous'}
-                            nextLabel={'Next'}
-                            breakLabel={'...'}
-                            pageCount={pageCount}
-                            pageRangeDisplayed={5}
-                            marginPagesDisplayed={2}
-                            onPageChange={handlePageClick}
-                            forcePage={offset / workersPerPage}
-                            containerClassName={'pagination'}
-                            subContainerClassName={'pages pagination'}
-                            activeClassName={'pagination_active'}/>
-            </div>
-        </Container>
+                        </thead>
+                        <tbody>
+                            {workers.map(({ FirstName, LastName, Location, WorkerId }) => (
+                                <tr>
+                                    <td>{FirstName}</td>
+                                    <td>{LastName}</td>
+                                    <td>{Location}</td>
+                                    <td>
+                                        <Link to={"/admin/worker/" + WorkerId}>
+                                            <Button color="success"> View </Button>
+                                        </Link>
+                                    </td>
+                                    <td><Button onClick={() => deleteAccount(WorkerId)} color="success">Delete</Button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+
+                    <ReactPaginate previousLabel={'Previous'}
+                        nextLabel={'Next'}
+                        breakLabel={'...'}
+                        pageCount={pageCount}
+                        pageRangeDisplayed={5}
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageClick}
+                        forcePage={offset / workersPerPage}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'pagination_active'} />
+                </div>
+            </Container>
         </>
     )
 }

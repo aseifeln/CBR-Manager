@@ -69,6 +69,6 @@ Worker.hasOne(User, {
 Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
-User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'CASCADE', hooks: true})
 
 module.exports = Worker;
