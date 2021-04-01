@@ -21,7 +21,7 @@ const Alert = db.define('Alert', {
       allowNull: false
     },
     SpecificWorkers: {
-      type: Sequelize.ARRAY(Sequelize.INTEGER),
+      type: Sequelize.ARRAY(Sequelize.UUID),
       allowNull: true
     },
     ForAllWorkers: {
