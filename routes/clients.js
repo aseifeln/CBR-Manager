@@ -3,6 +3,7 @@ const router = express.Router()
 const client = require('../models/client')
 const multer = require('multer');
 const { sequelize } = require('../models/client');
+const BaselineSurvey = require('../models/BaselineSurveys/baselineSurvey');
 const upload = multer({});
 
 //Function that converts an image byte array into a base64 string
@@ -55,13 +56,21 @@ router.get('/priority/:loc&:num', async (req, res) => {
 // @desc    GET Retrieve a client with a certain id from the database
 router.get('/:id', (req,res) => {
     const clientId = req.params.id
-    client.findByPk(clientId)
-        .then(client => {
-            ConvertImage(client)
-            return client;
-        })
-        .then(client => res.json(client))
-        .catch(err => res.status(404).json(err))
+    client.findOne({
+        where: {
+            ClientId: clientId
+        },
+        include: [{
+            model: BaselineSurvey,
+            required: false
+        }]
+    })
+    .then(client => {
+        ConvertImage(client)
+        return client;
+    })
+    .then(client => res.json(client))
+    .catch(err => res.status(404).json(err))
 })
 
 // @route   GET /clients
