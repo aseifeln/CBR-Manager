@@ -52,7 +52,7 @@ module.exports = function SeedInterface(seedWorkers, seedClients) {
                             GPSLocation: seedClients[i].Visits[j].GPSLocation,
                             Date: seedClients[i].Visits[j].Date,
                             Location: seedClients[i].Client.Location,
-                            VillageNumber: Number(seedClients[i].Client.VillageNo),
+                            VillageNumber: Number(seedClients[i].Client.VillageNumber),
                         },
                     ]);
                 }

@@ -35,3 +35,7 @@
 .tab-link {
     cursor: pointer;
 }
+
+.right-button {
+    float: right;
+}
