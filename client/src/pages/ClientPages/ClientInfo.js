@@ -10,6 +10,8 @@ import moment from 'moment';
 import { UserContext } from '../../components/UserContext';
 import Modal from 'react-modal';
 
+import BaselineSurvey from '../../components/BaselineSurvey';
+
 function ClientInfo(props) {
 
     const [ client, setClient ] = useState({});
@@ -18,6 +20,7 @@ function ClientInfo(props) {
     const [ clientFound, setClientFound ] = useState(false);
     const [ modelOpen, setModalOpen ] = useState(false);
     const context = useContext(UserContext);
+    const [ clientId, setClientId ] = useState(props.match.params.id);
     
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
@@ -97,7 +100,7 @@ function ClientInfo(props) {
             })
     }
 
-    function ClientAreaAccordian(props) {
+    function ClientAreaAccordion(props) {
 
         const { area, status, goal, desc, defaultState } = props;
         const [ toggle, setToggle ] = useState(defaultState);
@@ -116,13 +119,53 @@ function ClientInfo(props) {
                 </CardHeader>
                 <Collapse isOpen={toggle}>
                     <CardBody>
-                        <div style={areaInfo}>Risk Level:</div> {status}<br/>
-                        <div style={areaInfo}>Goal:</div> {goal}<br/>
-                        <div style={areaInfo}>More Details:</div> {desc}<br/>
+                        <DisplayStatus type={area}/>
+                        <BaselineSurvey clientId={clientId} surveyType={area}></BaselineSurvey>
                     </CardBody>
                 </Collapse>
             </Card>
         )
+    }
+
+    function DisplayStatus(props) {
+        let status, goal, desc;
+        switch(props.type) {
+            case 'Health':
+              status=client.HealthStatus;
+              goal=client.HealthGoal;
+              desc=client.HealthDesc;
+              break;
+            case 'Social':
+              status=client.SocialStatus;
+              goal=client.SocialGoal;
+              desc=client.SocialDesc;
+              break;
+            case 'Education':
+              status=client.EducationStatus;
+              goal=client.EducationGoal;
+              desc=client.EducationDesc;
+              break;
+            default:
+              return null;
+        }
+
+        return (
+            <div>
+                <Row>
+                    <Col><h4>Current Status</h4></Col>
+                </Row>
+                <div>
+                    <b>Risk Level:</b> <span style={
+                    (status==="Critical Risk")?{color:"red"}:
+                    (status==="High Risk")?{color:"orange"}:
+                    (status==="Medium Risk")?{color:"blue"}:
+                    {color:"green"}
+                    }>{status} </span>
+                </div>
+                <div><b>Goal:</b> {goal}</div>
+                <div><b>More Details:</b> {desc}</div><br/>
+            </div>
+        );
     }
 
     // TODO: May want to rename this
@@ -249,15 +292,13 @@ as right now will still render this component briefly even for existing clients*
             </Container>
             <br/>
             <Container>
-                <ClientAreaAccordian area="Health" status={client.HealthStatus} goal={client.HealthGoal} desc={client.HealthDesc} defaultState={true}/>
-                <ClientAreaAccordian area="Social" status={client.SocialStatus} goal={client.SocialGoal} desc={client.SocialDesc} defaultState={false}/>
-                <ClientAreaAccordian area="Education" status={client.EducationStatus} goal={client.EducationGoal} desc={client.EducationDesc} defaultState={false}/>
-                {/* The remaining areas are for display purposes only and will be added later */}
-                <ClientAreaAccordian area="Food / Nutrition" defaultState={false}/>
-                <ClientAreaAccordian area="Shelter / Care" defaultState={false}/>
-                <ClientAreaAccordian area="Food / Nutrition" defaultState={false}/>
-                <ClientAreaAccordian area="Livelihood" defaultState={false}/>
-                <ClientAreaAccordian area="Empowerment" defaultState={false}/>
+                <ClientAreaAccordion area="Health" defaultState={true}/>
+                <ClientAreaAccordion area="Social" defaultState={false}/>
+                <ClientAreaAccordion area="Education" defaultState={false}/>
+                <ClientAreaAccordion area="Livelihood" defaultState={false}/>
+                <ClientAreaAccordion area="Food/Nutrition" defaultState={false}/>
+                <ClientAreaAccordion area="Empowerment" defaultState={false}/>
+                <ClientAreaAccordion area="Shelter/Care" defaultState={false}/>
 
                 <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
                 <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>

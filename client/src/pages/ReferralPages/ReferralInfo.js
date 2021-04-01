@@ -306,6 +306,11 @@ function ReferralInfo(props){
                         <h5><b>Services: </b>{referral.ServiceRequired && referral.ServiceRequired.join(', ')}</h5>
                     </Col>
                 </Row>
+                <Row>
+                    <Col>
+                        <h5><b>Service Center: </b>{referral.ReferTo}</h5>
+                    </Col>
+                </Row>
                 <br/>
                 <Row>
                     <Col><h1>Details</h1></Col>

@@ -123,8 +123,8 @@ app.post("/register", upload.single('Photo'), async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    let Username = req.body.user.username
-    let Password = req.body.user.password
+    let {Username, Password} = req.body
+
     const WRONGPASSWORD = '0'
     const SUCCESS = '1'
     const UNREGISTERED = '2'
@@ -174,7 +174,7 @@ app.get('/worker/:id', async (req, res) => {
             where: {
                 WorkerId: workerId
             },
-            attributes: [], // Only want worker info
+            attributes: ["Username"], 
             include: [{
                 model: workers,
                 required: true,
@@ -213,14 +213,11 @@ app.get('/session', async (req, res) => {
 });
 
 app.put('/changepw', async (req, res) => {
-    let { Username, Current_Password, New_Password } = req.body;
+    let { Username, Current_Password, New_Password, Role } = req.body;
 
     let transaction;
 
     try {
-        if (Current_Password === New_Password) {
-            throw new Error("New password must be different");
-        }
 
         transaction = await sequelize.transaction();
         const user = await users.findByPk(Username, { transaction });
@@ -229,7 +226,12 @@ app.put('/changepw', async (req, res) => {
             throw new Error("User not found");
         }
 
-        if (await passwordIsTrue(Current_Password, user.Password)) {
+        if (await passwordIsTrue(New_Password, user.Password)) {
+            throw new Error("New password must be different");
+        }
+
+        // Admins can bypass entering current password
+        if (Role === 'Admin' || await passwordIsTrue(Current_Password, user.Password)) {
             New_Password = await bcrypt.hash(New_Password, 10);
             await user.update({
                 Password: New_Password

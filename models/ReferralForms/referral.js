@@ -30,7 +30,8 @@ const Referral = db.define('Referral', {
         allowNull: true
     },
     ReferTo: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM,
+        values: ['Disability Center', 'Mobile Clinic'],
         allowNull: false
     },
     Status: {
