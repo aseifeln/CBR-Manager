@@ -8,7 +8,7 @@ import CookieChecker from '../../components/CookieChecker';
 import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
 
-import BaselineSurvey from '../components/BaselineSurvey';
+import BaselineSurvey from '../../components/BaselineSurvey';
 
 function ClientInfo(props) {
 
