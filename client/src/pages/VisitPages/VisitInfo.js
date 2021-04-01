@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import CookieChecker from '../../components/CookieChecker';
 import axios from 'axios';
 import { UserContext } from '../../components/UserContext';
-import Modal from 'react-modal';
 import MapWithMarker  from '../../components/MapWithMarker';
 import WarningModal from '../../components/WarningModal';
 
@@ -12,21 +11,8 @@ function VisitInfo(props) {
 
     const [ visit, setVisit ] = useState({});
     const [ visitFound, setVisitFound ] = useState(false);
-    const [ modelOpen, setModalOpen ] = useState(false);
     const context = useContext(UserContext);
     document.title = "Visit Details";
-
-    // Reference: https://www.npmjs.com/package/react-modal
-    const customStyles = {
-        content : {
-            top                   : '50%',
-            left                  : '50%',
-            right                 : 'auto',
-            bottom                : 'auto',
-            marginRight           : '-50%',
-            transform             : 'translate(-50%, -50%)'
-        }
-    };
 
     useEffect(() => {
 
@@ -40,29 +26,6 @@ function VisitInfo(props) {
             document.title = "Visit not found";
         })
     },[])
-
-    function openModal() {
-        setModalOpen(true);
-    }
-
-    function closeModal() {
-        setModalOpen(false);
-    }
-
-    function deleteVisit(event) {
-        event.preventDefault();
-
-        axios.delete('/visits/delete/' + props.match.params.id)
-            .then(response => {
-                closeModal();
-                window.location.replace('/client/'+ visit.Client?.ClientId);
-            })
-            .catch(err => {
-                console.log(err);
-                closeModal();
-                alert("Something went wrong when deleting the visit")
-            })
-    }
 
     if(!visitFound){
 

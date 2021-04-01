@@ -16,7 +16,6 @@ function ReferralInfo(props){
 
     const [referral, setReferral]= useState({});
     const [ resolveModalOpen, setResolveModalOpen ] = useState(false);
-    const [ deleteModalOpen, setDeleteModalOpen ] = useState(false);
     const context = useContext(UserContext);
     const formContainerSize={
         margin: 'auto',
@@ -35,18 +34,6 @@ function ReferralInfo(props){
         }
     };
 
-    // Reference: https://www.npmjs.com/package/react-modal
-    const deleteCustomStyles = {
-        content : {
-            top                   : '50%',
-            left                  : '50%',
-            right                 : 'auto',
-            bottom                : 'auto',
-            marginRight           : '-50%',
-            transform             : 'translate(-50%, -50%)'
-        }
-    };
-
     useEffect(() => {
         document.title='Referral Info' 
         axios.get('/referrals/' + props.match.params.id)
@@ -59,22 +46,12 @@ function ReferralInfo(props){
         })
       }, [])
     
-    function openModal(option) {
-        if (option === 'resolve') {
-            setResolveModalOpen(true);
-        }
-        else {
-            setDeleteModalOpen(true);
-        }
+    function openModal() {
+        setResolveModalOpen(true);
     }
 
-    function closeModal(option) {
-        if (option === 'resolve') {
-            setResolveModalOpen(false);
-        }
-        else {
-            setDeleteModalOpen(false);
-        }
+    function closeModal() {
+        setResolveModalOpen(false);
     }
 
     function resolveReferral(data) {
@@ -89,21 +66,6 @@ function ReferralInfo(props){
             closeModal();
             alert("Something went wrong when trying to resolve the referral");
         })
-    }
-
-    function deleteReferral(event) {
-        event.preventDefault();
-
-        axios.delete('/referrals/delete/' + props.match.params.id)
-            .then(response => {
-                closeModal();
-                window.location.replace('/client/'+ referral.Client?.ClientId);
-            })
-            .catch(err => {
-                console.log(err);
-                closeModal();
-                alert("Something went wrong when deleting the referral")
-            })
     }
 
     function ServiceHandler( props ){
@@ -245,10 +207,10 @@ function ReferralInfo(props){
                             </div>
                         ) : ""}
                         
-                        <Button onClick={() => openModal('resolve')} style={{float: 'right'}}>Resolve</Button>
+                        <Button onClick={openModal} style={{float: 'right'}}>Resolve</Button>
                         <Modal
                          isOpen={resolveModalOpen}
-                         onRequestClose={() => closeModal('resolve')}
+                         onRequestClose={closeModal}
                          style={customStyles}>
                             <Container>
                                 <Formiz connect={formState} onValidSubmit={resolveReferral}>
@@ -262,7 +224,7 @@ function ReferralInfo(props){
                                         <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required" 
                                          defaultValue={referral.Outcome || ""}/>
                                         <Button type="submit">Submit</Button>
-                                        <Button onClick={() => closeModal('resolve')} style={{float: 'right'}}>Close</Button>
+                                        <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
                                     </form>
                                 </Formiz>
                             </Container>

@@ -8,7 +8,6 @@ import CookieChecker from '../../components/CookieChecker';
 import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
 import { UserContext } from '../../components/UserContext';
-import Modal from 'react-modal';
 import WarningModal from '../../components/WarningModal';
 
 import BaselineSurvey from '../../components/BaselineSurvey';
@@ -19,7 +18,6 @@ function ClientInfo(props) {
     const [ visits, setVisits ] = useState([]);
     const [ referrals,setReferrals] = useState([]);
     const [ clientFound, setClientFound ] = useState(false);
-    const [ modelOpen, setModalOpen ] = useState(false);
     const context = useContext(UserContext);
     const [ clientId, setClientId ] = useState(props.match.params.id);
     
@@ -27,18 +25,6 @@ function ClientInfo(props) {
     const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
     const areaColor2={backgroundColor:"#22a9ba"};
-
-    // Reference: https://www.npmjs.com/package/react-modal
-    const customStyles = {
-        content : {
-          top                   : '50%',
-          left                  : '50%',
-          right                 : 'auto',
-          bottom                : 'auto',
-          marginRight           : '-50%',
-          transform             : 'translate(-50%, -50%)'
-        }
-    };
 
     useEffect(() => {
         const formatDate = (arr) => {
@@ -77,29 +63,6 @@ function ClientInfo(props) {
                 console.log(error);
             })
     }, [])
-
-    function openModal() {
-        setModalOpen(true);
-    }
-
-    function closeModal() {
-        setModalOpen(false);
-    }
-
-    function deleteClient(event) {
-        event.preventDefault();
-
-        axios.delete('/clients/delete/' + props.match.params.id)
-            .then(response => {
-                closeModal();
-                window.location.replace('/client-list');
-            })
-            .catch(err => {
-                console.log(err);
-                closeModal();
-                alert("Something went wrong when deleting the client")
-            })
-    }
 
     function deleteSurvey(event) {
         event.preventDefault();
