@@ -10,8 +10,15 @@ import { FaTachometerAlt, FaRegChartBar, FaBars, FaBriefcase, FaComment, FaUser 
 
 
 function AdminSideBar() {
-
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const links = [
+        { label: 'Dashboard', to: '/admin/dashboard', icon: FaTachometerAlt },
+        { label: 'Insights', to: '/admin/insights', icon: FaRegChartBar },
+        { label: 'Workers', to: '/admin/worker-list', icon: FaBriefcase },
+        { label: 'Clients', to: '/client-list', icon: FaUser },
+        { label: 'Messaging', to: '/admin/messaging', icon: FaComment },
+
+    ]
 
     return (
         <>
@@ -20,38 +27,23 @@ function AdminSideBar() {
                     <FaBars className="hamburger-icon" onClick={()=> setIsCollapsed(!isCollapsed)} size="27"/>
                 </div>
                 
-                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
-                    <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/dashboard">
-                        <FaTachometerAlt className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Dashboard"}
-                    </NavLink>
-                </NavItem>
-
-                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
-                    <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/insights">
-                        <FaRegChartBar className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Insights"}
-                    </NavLink>
-                </NavItem>
-
-                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
-                    <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/worker-list">
-                        <FaBriefcase className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Workers"}
-                    </NavLink>
-                </NavItem>
-
-                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
-                    <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/client-list">
-                        <FaUser className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Clients"}
-                    </NavLink>
-                </NavItem>
-
-                <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
-                    <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/messaging">
-                        <FaComment className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Messaging"}
-                    </NavLink>
-                </NavItem>
+                {links.map((link) => (
+                    <AdminSideBar.NavItem to={link.to} collapsed={isCollapsed}>
+                        <link.icon size="25"/>
+                        <span>{!isCollapsed && link.label}</span>
+                    </AdminSideBar.NavItem>
+                ))}
             </Nav>
         </>
     );
 }
+
+AdminSideBar.NavItem = (props) => (
+    <NavItem className={`sidenav-item ${props.collapsed && "collapsed-link"}`}>
+        <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to={props.to}>
+            {props.children}
+        </NavLink>
+    </NavItem>
+)
 
 export default AdminSideBar;
