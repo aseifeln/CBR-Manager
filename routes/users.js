@@ -208,9 +208,9 @@ app.delete('/delete', async (req, res) => {
                 WorkerId: req.body.WorkerId
             }
         })
-        return res.status(200);
+        return res.status(200).send('Account deleted');
     } catch (err) {
-        return res.status(400);
+        return res.status(404).send('Account not found');
     }  
 })
 
