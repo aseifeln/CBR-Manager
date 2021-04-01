@@ -8,8 +8,7 @@ import CookieChecker from '../../components/CookieChecker';
 import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
 import { UserContext } from '../../components/UserContext';
-import WarningModal from '../../components/WarningModal';
-
+import DeleteWithWarning from '../../components/DeleteWithWarning';
 import BaselineSurvey from '../../components/BaselineSurvey';
 
 function ClientInfo(props) {
@@ -184,7 +183,7 @@ as right now will still render this component briefly even for existing clients*
                     </Col>
                     <Col style={{display: 'inline'}}>
                         {(context.Role === 'Admin') ? (
-                            <WarningModal clientId={props.match.params.id}/>
+                            <DeleteWithWarning clientId={props.match.params.id}/>
                         ) : ""}
                         <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
                     </Col>
@@ -236,7 +235,7 @@ as right now will still render this component briefly even for existing clients*
                 </Col>
                 <Col align="center">
                     {(client.BaselineSurvey && context.Role === "Admin") ? (
-                        <WarningModal toDeleteSurvey={true} clientId={props.match.params.id}/>
+                        <DeleteWithWarning toDeleteSurvey={true} clientId={props.match.params.id}/>
                     ) : (
                         <Link>
                             <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>

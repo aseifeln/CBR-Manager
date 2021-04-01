@@ -8,7 +8,7 @@ import { FieldInput } from "../../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
 import { UserContext } from '../../components/UserContext';
 import moment from 'moment';
-import WarningModal from '../../components/WarningModal';
+import DeleteWithWarning from '../../components/DeleteWithWarning';
 
 function ReferralInfo(props){
 
@@ -203,7 +203,7 @@ function ReferralInfo(props){
                     <Col style={{display: 'inline'}}>
                     {(context.Role === 'Admin') ? (
                             <div>
-                                <WarningModal referralId={props.match.params.id} clientId={referral.Client?.ClientId}/>
+                                <DeleteWithWarning referralId={props.match.params.id} clientId={referral.Client?.ClientId}/>
                             </div>
                         ) : ""}
                         

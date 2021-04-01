@@ -5,7 +5,7 @@ import CookieChecker from '../../components/CookieChecker';
 import axios from 'axios';
 import { UserContext } from '../../components/UserContext';
 import MapWithMarker  from '../../components/MapWithMarker';
-import WarningModal from '../../components/WarningModal';
+import DeleteWithWarning from '../../components/DeleteWithWarning';
 
 function VisitInfo(props) {
 
@@ -46,7 +46,7 @@ function VisitInfo(props) {
                     </Col>
                     {(context.Role === 'Admin') ? (
                         <div>
-                            <WarningModal visitId={props.match.params.id} clientId={visit.Client?.ClientId}/>
+                            <DeleteWithWarning visitId={props.match.params.id} clientId={visit.Client?.ClientId}/>
                         </div>
                     ): ""}
                 </Row>
