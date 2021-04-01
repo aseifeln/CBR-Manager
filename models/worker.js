@@ -5,6 +5,7 @@ const User = require('./user');
 const Client = require('./client');
 const Referral = require('./ReferralForms/referral');
 const BaselineSurvey = require('./BaselineSurveys/baselineSurvey')
+const Alert = require('./alert')
 
 
 const Worker = db.define('Worker', {
