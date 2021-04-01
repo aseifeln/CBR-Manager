@@ -77,7 +77,7 @@ Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
-Alert.belongsTo(Worker, {foreignKey: 'AuthorWorkerId', targetKey: 'WorkerId'})
 BaselineSurvey.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+Alert.belongsTo(Worker, {foreignKey: 'AuthorWorkerId', targetKey: 'WorkerId'})
 
 module.exports = Worker;
