@@ -123,6 +123,20 @@ router.post('/add', async (req, res) => {
     } catch(error) {
         res.status(400).json(error);
     }
-})
+});
 
-module.exports = router
+// @route   /baselineSurveys/
+// @desc    GET all baselineSurveys
+router.get('/', async (req, res) => {
+    try {
+        await sequelize.transaction(async (transaction) => {
+            const allBaselineSurveys = await BaselineSurvey.findAll({ transaction });
+            res.status(200).json(allBaselineSurveys);
+        });
+    }
+    catch(error) {
+        res.status(400).json(error);
+    }
+});
+
+module.exports = router;
