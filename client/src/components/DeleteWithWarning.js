@@ -33,7 +33,7 @@ function WarningModal(props) {
         event.preventDefault();
 
         axios.delete('/clients/delete/' + clientId)
-            .then(response => {
+            .then(() => {
                 closeModal();
                 window.location.replace('/client-list');
             })
@@ -48,7 +48,7 @@ function WarningModal(props) {
         event.preventDefault();
 
         axios.delete('/referrals/delete/' + referralId)
-            .then(response => {
+            .then(() => {
                 closeModal();
                 window.location.replace('/client/'+ clientId);
             })
@@ -63,7 +63,7 @@ function WarningModal(props) {
         event.preventDefault();
 
         axios.delete('/visits/delete/' + visitId)
-            .then(response => {
+            .then(() => {
                 closeModal();
                 window.location.replace('/client/'+ clientId);
             })
@@ -78,7 +78,7 @@ function WarningModal(props) {
         event.preventDefault();
 
         axios.delete('/baselineSurveys/' + clientId + '/delete') 
-            .then(response => {
+            .then(() => {
                 window.location.reload();
             })
             .catch(err => {

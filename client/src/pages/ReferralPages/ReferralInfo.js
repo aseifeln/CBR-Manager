@@ -207,7 +207,7 @@ function ReferralInfo(props){
                             </div>
                         ) : ""}
                         
-                        <Button onClick={openModal} style={{float: 'right'}}>Resolve</Button>
+                        <Button onClick={openModal} style={{float: 'right',  marginRight: '5px'}}>Resolve</Button>
                         <Modal
                          isOpen={resolveModalOpen}
                          onRequestClose={closeModal}
