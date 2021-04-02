@@ -76,6 +76,7 @@ function WorkerListPage() {
                                         onChange={(e) => setSearchName(
                                             e.target.value)}
                                         placeholder="Search by name" />
+                                <Input type="submit" hidden />
                                 <button onClick={(e) =>
                                 {setSearchName('');
                                 e.preventDefault();
@@ -90,7 +91,7 @@ function WorkerListPage() {
                                 <Input type="select"
                                         value={searchLocation}
                                         onChange={(e) => setSearchLocation(e.target.value)}>
-                                    <option hidden selected>Choose Location</option>
+                                    <option value="">Any Location</option>
                                     <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
                                     <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
                                     <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
