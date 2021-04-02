@@ -219,7 +219,7 @@ router.post('/add', async (req, res) => {
     } catch(error) {
         res.status(400).json(error);
     }
-})
+});
 
 // @route /baselineSurveys/<clientId>/delete
 // @desc DELETE an existing baseline survey
@@ -238,7 +238,7 @@ router.delete('/:id/delete', async (req, res) => {
 
         if (surveyToDelete === null)
             throw new Error("Client has no survey");
-        
+
         await surveyToDelete.destroy({ transaction });
         await transaction.commit();
         res.json("Survey successfully deleted");
@@ -249,9 +249,23 @@ router.delete('/:id/delete', async (req, res) => {
 
         if (error.message === "Client has no survey")
             res.status(404).json(error.message);
-        else 
+        else
             res.status(400).json(error);
     }
-})
+});
 
-module.exports = router
+// @route   /baselineSurveys/
+// @desc    GET all baselineSurveys
+router.get('/', async (req, res) => {
+    try {
+        await sequelize.transaction(async (transaction) => {
+            const allBaselineSurveys = await BaselineSurvey.findAll({ transaction });
+            res.status(200).json(allBaselineSurveys);
+        });
+    }
+    catch(error) {
+        res.status(400).json(error);
+    }
+});
+
+module.exports = router;
