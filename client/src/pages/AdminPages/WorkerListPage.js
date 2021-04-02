@@ -6,7 +6,6 @@ import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import '../../css/WorkerList.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 function WorkerListPage() {
     const [offset, setOffset] = useState(0);

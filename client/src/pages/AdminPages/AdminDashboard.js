@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { Container, Button } from 'reactstrap';
-import AdminSideBar from '../components/AdminSideBar';
-import CookieChecker from '../components/CookieChecker';
-import CreateAdminAccount from '../components/CreateAdminAccount';
+import AdminSideBar from '../../components/AdminSideBar';
+import CookieChecker from '../../components/CookieChecker';
+import CreateAdminAccount from '../../components/CreateAdminAccount';
 
-import '../css/AdminDashboard.css';
+import '../../css/AdminDashboard.css';
 
 function AdminDashboard() {
     const [toggleCreateAdmin, setToggleCreateAdmin] = useState(false);
