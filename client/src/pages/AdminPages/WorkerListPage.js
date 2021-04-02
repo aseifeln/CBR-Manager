@@ -21,7 +21,10 @@ function WorkerListPage() {
 
     useEffect(() => {
         axios.get('/workers')
-            .then(res => setWorkers(res.data))
+            .then(res => {
+                setWorkers(res.data)
+                setCurrentPageWorkers(res.data)
+            })
             .catch(err => console.log(err))
 
         document.title = 'Workers List'
@@ -31,7 +34,6 @@ function WorkerListPage() {
         setOffset(event.selected * workersPerPage);
     }
 
-    //TODO: Use this function when filtering the workers list
     function setWorkerPages(relevantWorkers) {
         setPageCount(Math.ceil(relevantWorkers.length / workersPerPage));
         let currentPage = relevantWorkers.slice(offset, offset + workersPerPage);
@@ -40,11 +42,20 @@ function WorkerListPage() {
 
     function filterList(event){
         event.preventDefault();
+        let relevantWorkers = [];
+
+        workers.forEach((worker) => {
+            if ((worker.Location === searchLocation || searchLocation === '') && (worker.FirstName + ' ' + worker.LastName).toLowerCase().includes(searchName))
+                relevantWorkers.push(worker)
+        })
+
+        setWorkerPages(relevantWorkers);
     }
 
     function resetFilters() {
         setSearchName('');
         setSearchLocation('');
+        setCurrentPageWorkers(workers);
     }
 
     return(
@@ -55,7 +66,7 @@ function WorkerListPage() {
             <div className="main-content">
                 <h1>Worker List</h1>
                 <br/>
-                <Form>
+                <Form onSubmit={filterList}>
                     <Row form>
                         <Col md={6}>
                             <FormGroup className="searchName">
@@ -79,7 +90,7 @@ function WorkerListPage() {
                                 <Input type="select"
                                         value={searchLocation}
                                         onChange={(e) => setSearchLocation(e.target.value)}>
-                                    <option value="Choose Location">Choose Location</option>
+                                    <option hidden selected>Choose Location</option>
                                     <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
                                     <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
                                     <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
@@ -116,7 +127,7 @@ function WorkerListPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {workers.map(({FirstName, LastName, Location, WorkerId}) => (
+                        {currentPageWorkers.map(({FirstName, LastName, Location, WorkerId}) => (
                             <tr>
                                 <td>{FirstName}</td>
                                 <td>{LastName}</td>
