@@ -187,7 +187,7 @@ as right now will still render this component briefly even for existing clients*
                                 <DeleteWithWarning clientId={props.match.params.id}/>
                             </div>
                         ) : ""}
-                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right', marginRight: '5px'}}>Edit Client</Button>{' '}
+                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right', marginRight: '5px'}}>Edit Client</Button>
                     </Col>
                 </Row>
             </Container>

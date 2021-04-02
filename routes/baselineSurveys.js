@@ -148,7 +148,6 @@ router.delete('/:id/delete', async (req, res) => {
         res.json("Survey successfully deleted");
     }
     catch (error) {
-        console.log(error.message)
         if (transaction)
             await transaction.rollback();
 
