@@ -7,6 +7,33 @@ const Client = require('../models/client')
 const { Op } = require('sequelize')
 const Sequelize = require('sequelize')
 
+function TotalCount(model, workerId) {
+    return model.count({
+            col: 'WorkerId',
+            where: {
+                WorkerId: workerId
+            }
+        })
+}
+
+function WeeklyCount(model, workerId) {
+    let fromDate = new Date()
+    fromDate.setHours(0,0,0,0)
+
+    let toDate = new Date()
+    toDate.setHours(0,0,0,0)
+
+    return model.count({
+        col: 'WorkerId',
+        where: {
+            WorkerId: workerId,
+            Date: {
+                [Op.between]: [fromDate - ((24 * 60 * 60 * 1000) * 7), toDate]
+            }
+        }
+    })
+}
+
 // @route   GET /workers
 // @desc    GET Retrieve all workers from the database
 router.get('/', (req,res) => {
@@ -84,14 +111,10 @@ router.get('/:id/referrals', (req,res) => {
 router.get('/:id/clients/count', (req, res) => {
     const workerId = req.params.id
 
-    Client.count({
-        col: 'WorkerId',
-        where: {
-            WorkerId: workerId
-        }
-    })
+    TotalCount(Client, workerId)
     .then(count => res.json(count))
     .catch(err => res.status(400).json(err))
+
 })
 
 // @route   GET /workers/workerId/clients/weeklyCount
@@ -123,12 +146,7 @@ router.get('/:id/clients/weeklyCount', (req, res) => {
 router.get('/:id/visits/count', (req, res) => {
     const workerId = req.params.id
 
-    visit.count({
-        col: 'WorkerId',
-        where: {
-            WorkerId: workerId
-        }
-    })
+    TotalCount(visit, workerId)
     .then(count => res.json(count))
     .catch(err => res.status(400).json(err))
 })
@@ -138,21 +156,7 @@ router.get('/:id/visits/count', (req, res) => {
 router.get('/:id/visits/weeklyCount', (req, res) => {
     const workerId = req.params.id
 
-    let fromDate = new Date()
-    fromDate.setHours(0,0,0,0)
-
-    let toDate = new Date()
-    toDate.setHours(0,0,0,0)
-
-    visit.count({
-        col: 'WorkerId',
-        where: {
-            WorkerId: workerId,
-            Date: {
-                [Op.between]: [fromDate - ((24 * 60 * 60 * 1000) * 7), toDate]
-            }
-        }
-    })
+    WeeklyCount(visit, workerId)
     .then(count => res.json(count))
     .catch(err => res.status(400).json(err))
 })
@@ -162,12 +166,7 @@ router.get('/:id/visits/weeklyCount', (req, res) => {
 router.get('/:id/referrals/count', (req, res) => {
     const workerId = req.params.id
 
-    referral.count({
-        col: 'WorkerId',
-        where: {
-            WorkerId: workerId
-        }
-    })
+    TotalCount(referral, workerId)
     .then(count => res.json(count))
     .catch(err => res.status(400).json(err))
 })
@@ -177,21 +176,7 @@ router.get('/:id/referrals/count', (req, res) => {
 router.get('/:id/referrals/weeklyCount', (req, res) => {
     const workerId = req.params.id
 
-    let fromDate = new Date()
-    fromDate.setHours(0,0,0,0)
-
-    let toDate = new Date()
-    toDate.setHours(0,0,0,0)
-
-    referral.count({
-        col: 'WorkerId',
-        where: {
-            WorkerId: workerId,
-            Date: {
-                [Op.between]: [fromDate - ((24 * 60 * 60 * 1000) * 7), toDate]
-            }
-        }
-    })
+    WeeklyCount(referral, workerId)
     .then(count => res.json(count))
     .catch(err => res.status(400).json(err))
 })
