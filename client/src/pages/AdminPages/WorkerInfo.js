@@ -7,6 +7,7 @@ import NotFoundPage from '../404';
 import {Link} from 'react-router-dom';
 import '../../css/WorkerInfo.css'
 import axios from 'axios';
+import ChangePassword from '../../components/ChangePassword';
 
 function WorkerInfo(props){
 
@@ -16,6 +17,7 @@ function WorkerInfo(props){
     const [visits, setVisits] = useState([]);
     const [referrals, setReferrals] = useState([]);
     const [workerFound, setWorkerFound] = useState(false);
+    const [username, setUsername] = useState("");
 
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
@@ -30,6 +32,7 @@ function WorkerInfo(props){
             .then((response) => {
                 setWorker(response.data[0].Worker);
                 setWorkerFound(true);
+                setUsername(response.data[0].Username);
                 document.title = "CBR Worker | " + response.data[0].Worker.FirstName + " " + response.data[0].Worker.LastName;
             })
             .catch((error) => {
@@ -66,9 +69,14 @@ function WorkerInfo(props){
           <AdminSideBar/>
           <Container>
               <div className="main-content">
+                <ChangePassword username={username}/>
                 <Row className="align-items-center">
                     <Col xs="auto">
+                        {worker.Photo ?
                         <Media src={`data:image/jpeg;base64,${worker.Photo}`} alt="Profile photo" height="200px" width="200px" style={{borderRadius: "50%"}}/>
+                        :
+                        <img src="/default-profile.jpg" alt="Profile photo" height="200px" width="200px" style={{borderRadius: "50%"}}/>
+                        }
                     </Col>
                     <Col xs="auto">
                         <Row><h2>{worker.FirstName + ' ' + worker.LastName}</h2></Row>
