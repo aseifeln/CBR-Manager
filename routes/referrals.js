@@ -158,7 +158,7 @@ router.get('/client/:id', (req, res) => {
 
 
 // @route   POST /referrals/add
-// @desc    POST Add a new visit to the database
+// @desc    POST Add a new referral to the database
 router.post('/add', upload.fields([{name: 'wheelchairPhoto', maxCount: 1}, 
 {name: 'physioPhoto', maxCount: 1}, {name: 'prostheticPhoto', maxCount: 1}, 
 {name: 'orthoticPhoto', maxCount: 1}]), async (req,res) => {
