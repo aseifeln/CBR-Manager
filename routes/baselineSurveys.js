@@ -11,6 +11,102 @@ const LivelihoodSurvey = require('../models/BaselineSurveys/livelihoodSurvey');
 const { sequelize } = require('../models/BaselineSurveys/baselineSurvey');
 const uuid = require('uuid');
 
+// @route   /baselineSurveys/:id
+// @desc    GET retrieve a survey by SurveyId
+router.get('/:id', (req,res) => {
+    const surveyId = req.params.id
+
+    BaselineSurvey.findAll({
+        where: {
+            BaselineSurveyId: surveyId
+        },
+        attributes: [
+            'Date', 'DateEdited', 'BaselineSurveyId',
+            'ClientId', 'WorkerId'
+        ],
+        include: [
+            {
+                model: HealthSurvey,
+                required: false
+            },
+            {
+                model: EducationSurvey,
+                required: false
+            },
+            {
+                model: SocialSurvey,
+                required: false
+            },
+            {
+                model: NutritionSurvey,
+                required: false
+            },
+            {
+                model: ShelterSurvey,
+                required: false
+            },
+            {
+                model: EmpowermentSurvey,
+                required: false
+            },
+            {
+                model: LivelihoodSurvey,
+                required: false
+            }
+        ]
+    })
+    .then(survey => res.json(survey))
+    .catch(err => res.status(404).json(err))
+})
+
+// @route   /baselineSurveys/client/:id
+// @desc    GET retrieve a survey by ClientId
+router.get('/client/:id', (req,res) => {
+    const clientId = req.params.id
+
+    BaselineSurvey.findAll({
+        where: {
+            ClientId: clientId
+        },
+        attributes: [
+            'Date', 'DateEdited', 'BaselineSurveyId',
+            'ClientId', 'WorkerId'
+        ],
+        include: [
+            {
+                model: HealthSurvey,
+                required: false
+            },
+            {
+                model: EducationSurvey,
+                required: false
+            },
+            {
+                model: SocialSurvey,
+                required: false
+            },
+            {
+                model: NutritionSurvey,
+                required: false
+            },
+            {
+                model: ShelterSurvey,
+                required: false
+            },
+            {
+                model: EmpowermentSurvey,
+                required: false
+            },
+            {
+                model: LivelihoodSurvey,
+                required: false
+            }
+        ]
+    })
+    .then(survey => res.json(survey))
+    .catch(err => res.status(404).json(err))
+})
+
 // @route   /baselineSurveys/add
 // @desc    POST a new baseline survey
 router.post('/add', async (req, res) => {
