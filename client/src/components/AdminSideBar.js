@@ -40,8 +40,8 @@ function AdminSideBar() {
                 </NavLink>
                 </NavItem>
                 <NavItem className={`sidenav-item ${isCollapsed ? "collapsed-link" : ""}`}>
-                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/messaging">
-                    <FaComment className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Messaging"}
+                <NavLink className="sidenav-link" activeClassName="active" tag={RRNavLink} to="/admin/alerts">
+                    <FaComment className={`icon ${isCollapsed ? "collapsed-icon" : ""}`} size="25"/>{isCollapsed ? "" : "Alerts"}
                 </NavLink>
                 </NavItem>
             </Nav>
