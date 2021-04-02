@@ -114,6 +114,14 @@ module.exports = function SeedInterface(seedWorkers, seedClients) {
             await queryInterface.bulkDelete('HealthForm', null, {});
             await queryInterface.bulkDelete('EducationForm', null, {});
             await queryInterface.bulkDelete('SocialForm', null, {});
+            await queryInterface.bulkDelete('BaselineSurvey', null, {});
+            await queryInterface.bulkDelete('SocialSurvey', null, {});
+            await queryInterface.bulkDelete('EducationSurvey', null, {});
+            await queryInterface.bulkDelete('EmpowermentSurvey', null, {});
+            await queryInterface.bulkDelete('HealthSurvey', null, {});
+            await queryInterface.bulkDelete('LivelihoodSurvey', null, {});
+            await queryInterface.bulkDelete('NutritionSurvey', null, {});
+            await queryInterface.bulkDelete('ShelterSurvey', null, {});
             await queryInterface.bulkDelete('Client', null, {});
             await queryInterface.bulkDelete('User', null, {});
             await queryInterface.bulkDelete('Worker', null, {});

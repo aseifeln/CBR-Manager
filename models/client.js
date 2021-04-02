@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Visit = require('./visit');
-const Referral = require('./referral');
+const Visit = require('./VisitForms/visit');
+const Referral = require('./ReferralForms/referral');
+const BaselineSurvey = require('./BaselineSurveys/baselineSurvey');
 
 const Client = db.define('Client', {
     ClientId: {
@@ -145,20 +146,25 @@ Client.hasMany(Visit, {
         name: 'ClientId',
         type: Sequelize.INTEGER
     }
-})
+});
 Client.hasMany(Referral, {
     foreignKey:{
         name: 'ClientId',
         type: Sequelize.UUID
     }
-})
+});
+Client.hasOne(BaselineSurvey, {
+    foreignKey:{
+        name:'ClientId',
+        type: Sequelize.INTEGER
+    }
+});
 
-Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'})
-Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'})
-
+Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'});
+Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'});
+BaselineSurvey.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'});
 
 // Define Hooks here
-
 function calculatePriority(client) {
     const statusLevelWeights = {
         'HealthStatus': 5,

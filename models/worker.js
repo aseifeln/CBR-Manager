@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Visit = require('./visit');
+const Visit = require('./VisitForms/visit');
 const User = require('./user');
 const Client = require('./client');
-const Referral = require('./referral');
+const Referral = require('./ReferralForms/referral');
+const BaselineSurvey = require('./BaselineSurveys/baselineSurvey')
 
 
 const Worker = db.define('Worker', {
@@ -53,6 +54,12 @@ Worker.hasMany(Referral, {
         type: Sequelize.UUID
     }
 })
+Worker.hasMany(BaselineSurvey, {
+    foreignKey:{
+        name: 'WorkerId',
+        type: Sequelize.UUID
+    }
+})
 Worker.hasOne(User, {
     foreignKey:{
         name: 'WorkerId',
@@ -63,5 +70,6 @@ Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+BaselineSurvey.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 
 module.exports = Worker;

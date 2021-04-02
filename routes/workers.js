@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const worker = require('../models/worker')
-const visit = require('../models/visit')
-const referral = require('../models/referral')
+const visit = require('../models/VisitForms/visit')
+const referral = require('../models/ReferralForms/referral')
+const Client = require('../models/client')
 
 // @route   GET /workers
 // @desc    GET Retrieve all workers from the database
@@ -31,6 +32,13 @@ router.get('/:id/visits', (req,res) => {
         where: {
             WorkerId: workerId
         },
+        include: [{
+            model: Client,
+            required: true,
+            attributes: [
+                "FirstName", "LastName"
+            ]
+        }],
         order: [
             ['Date', 'DESC']
         ]
@@ -55,6 +63,13 @@ router.get('/:id/referrals', (req,res) => {
         where: {
             WorkerId: workerId
         },
+        include: [{
+            model: Client,
+            required: true,
+            attributes: [
+                "FirstName", "LastName"
+            ]
+        }],
         order: [
             ['Date', 'DESC']
         ]
