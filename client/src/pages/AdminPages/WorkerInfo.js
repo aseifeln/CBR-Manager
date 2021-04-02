@@ -72,7 +72,11 @@ function WorkerInfo(props){
                 <ChangePassword username={username}/>
                 <Row className="align-items-center">
                     <Col xs="auto">
+                        {worker.Photo ?
                         <Media src={`data:image/jpeg;base64,${worker.Photo}`} alt="Profile photo" height="200px" width="200px" style={{borderRadius: "50%"}}/>
+                        :
+                        <img src="/default-profile.jpg" alt="Profile photo" height="200px" width="200px" style={{borderRadius: "50%"}}/>
+                        }
                     </Col>
                     <Col xs="auto">
                         <Row><h2>{worker.FirstName + ' ' + worker.LastName}</h2></Row>
