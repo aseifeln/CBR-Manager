@@ -8,8 +8,8 @@ const clients = require('./routes/clients');
 const excel = require('./routes/excel');
 const visits = require('./routes/visits');
 const referrals = require('./routes/referrals');
-const workers = require('./routes/workers');
 const baselineSurveys = require('./routes/baselineSurveys');
+const workers = require('./routes/workers');
 
 const app = express();
 const path = require('path')

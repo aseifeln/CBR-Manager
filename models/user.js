@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Alert = require('./alert');
 
 const User = db.define('User', {
     Username: {
@@ -20,5 +21,14 @@ const User = db.define('User', {
     tableName: 'User',
     timestamps: false
 });
+
+User.hasMany(Alert, {
+    foreignKey:{
+        name: 'AuthorUsername',
+        type: Sequelize.STRING
+    }
+})
+
+Alert.belongsTo(User, {foreignKey: 'AuthorUsername', targetKey: 'Username'})
 
 module.exports = User;
