@@ -47,7 +47,7 @@ router.get('/priority/:loc&:num', async (req, res) => {
                 .catch(err => res.status(404).json(err))
         })
     } catch(error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 })
 
