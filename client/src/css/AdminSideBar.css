@@ -5,12 +5,13 @@
     
     position: sticky;
     top: 0;
+    transition: width 0.3s;
 }
 
 .SideNav::after {
     content: '';
     position: absolute;
-    height: 150vh;
+    height: 100vh;
     top: 0;
     left: 0; right: 0; 
     background: inherit;
@@ -21,18 +22,15 @@
     width: 65px;
 }
 
-.main-content {
-    margin-left: 110px;
-}
-
 .sidenav-item {
+    width: inherit;
     height: 60px;
+    overflow: hidden;
 }
 
 .sidenav-item:hover {
     background-color: rgba(242, 218, 218, 0.4);
 }
-
 
 .sidenav-top-space {
     height: 80px;
@@ -48,18 +46,15 @@
 
 .sidenav-link > * + * {
     margin-left: 12px;
+    transition: opacity 0.2s;
 }
 
 .sidenav-link:hover {
     color: white;
 }
 
-.collapsed-link {
-    width: 65px;
-}
-
-.collapsed-link > .sidenav-link {
-    width: 65px;
+.collapsed-link span {
+    opacity: 0;
 }
 
 .active {
