@@ -223,19 +223,20 @@ function NewVisit(props) {
     if (typeof clientSelected === 'undefined' || typeof clientSelected[0] === 'undefined')
     {
       setClientSelected(false);
+      setClient({});
       return;
     }
 
-      axios.get('/clients/' + clientSelected[0].value)
-      .then(response => {
-          setClient(response.data);
-          setClientFound(true);
-          setClientSelected(true);
-      })
-      .catch(error => {
-          console.log(error);
-          setClientSelected(false);
-      })
+    axios.get('/clients/' + clientSelected[0].value)
+    .then(response => {
+        setClient(response.data);
+        setClientFound(true);
+        setClientSelected(true);
+    })
+    .catch(error => {
+        console.log(error);
+        setClientSelected(false);
+    })
   }
 
   const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
