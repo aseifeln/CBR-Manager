@@ -104,7 +104,7 @@ function CreateAdminAccount(props) {
             if (onClick) onClick(e);
           }}
         >
-          X
+          &times;
         </button>
         <Form onSubmit={handleSubmit}>
           <h4>

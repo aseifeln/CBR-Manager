@@ -30,7 +30,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     DateCreated: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         defaultValue: Sequelize.NOW,
         allowNull: false
     },
@@ -160,9 +160,9 @@ Client.hasOne(BaselineSurvey, {
     }
 });
 
-Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId'});
-Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'});
-BaselineSurvey.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId'});
+Visit.belongsTo(Client, {foreignKey:'ClientId', targetKey: 'ClientId', onDelete: 'cascade'});
+Referral.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId', onDelete: 'cascade'});
+BaselineSurvey.belongsTo(Client, {foreignKey: 'ClientId', targetKey: 'ClientId', onDelete: 'cascade'});
 
 // Define Hooks here
 function calculatePriority(client) {
