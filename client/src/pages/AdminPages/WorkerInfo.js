@@ -237,6 +237,13 @@ function WorkerInfo(props) {
     const [referrals, setReferrals] = useState([]);
     const [workerFound, setWorkerFound] = useState(false);
     const [username, setUsername] = useState("");
+    const [totalVisits, setTotalVisits] = useState('')
+    const [weeklyVisits, setWeeklyVisits] = useState('')
+    const [weeklyClients, setWeeklyClients] = useState('')
+    const [totalReferrals, setTotalReferrals] = useState('')
+    const [weeklyReferrals, setWeeklyReferrals] = useState('')
+    const [totalResolvedReferrals, setTotalResolvedReferrals] = useState('')
+    const [weeklyResolvedReferrals, setWeeklyResolvedReferrals] = useState('')
     const toggle = (tab) => { if (activeTab !== tab) setActiveTab(tab); }
     const toggleSubTab = (subTab) => { if (activeSubTab !== subTab) setActiveSubTab(subTab); }
 
@@ -267,12 +274,69 @@ function WorkerInfo(props) {
           .catch((error) => {
               console.log(error);
           })
+
+      axios.get('/workers/' + props.match.params.id + '/clients/Weeklycount')
+           .then((response) => {
+            setWeeklyClients(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
       
-  }, []);
+      axios.get('/workers/' + props.match.params.id + '/visits/count')
+           .then((response) => {
+            setTotalVisits(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           }) 
+
+      axios.get('/workers/' + props.match.params.id + '/visits/Weeklycount')
+           .then((response) => {
+            setWeeklyVisits(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           }) 
+
+      axios.get('/workers/' + props.match.params.id + '/referrals/count')
+           .then((response) => {
+            setTotalReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+      axios.get('/workers/' + props.match.params.id + '/referrals/Weeklycount')
+           .then((response) => {
+            setWeeklyReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+    axios.get('/workers/' + props.match.params.id + '/referrals/resolved/count')
+           .then((response) => {
+            setTotalResolvedReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+      axios.get('/workers/' + props.match.params.id + '/referrals/resolved/Weeklycount')
+           .then((response) => {
+            setWeeklyResolvedReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+    }, [])
+
+    
 
   if (!workerFound) {
     return (
-        <NotFoundPage/>
+      <NotFoundPage/>
     )
   }
 
@@ -299,22 +363,21 @@ function WorkerInfo(props) {
                   </div>
               </div>
 
-              {/* TODO: Replace stock data with actual data */}
               <div className="summary-stats">
                   <div className="stat-count" style={{background: '#5f27cd'}}>
-                      <div className='count-number'>123</div>
+                      <div className='count-number'>{weeklyVisits}</div>
                       <h6>Visits made in the past week</h6>
                   </div>
                   <div className="stat-count" style={{background: '#ff9f43'}}>
-                      <div className='count-number'>123</div>
+                      <div className='count-number'>{weeklyClients}</div>
                       <h6>New clients in the past week</h6>
                   </div>
                   <div className="stat-count" style={{background: '#ee5253'}}>
-                      <div className='count-number'>123</div>
+                      <div className='count-number'>{weeklyReferrals}</div>
                       <h6>Referrals made in the past week</h6>
                   </div>
                   <div className="stat-count" style={{background: '#1dd1a1'}}>
-                      <div className='count-number'>123</div>
+                      <div className='count-number'>{weeklyResolvedReferrals}</div>
                       <h6>Referrals resolved in the past week</h6>
                   </div>
               </div>
@@ -325,7 +388,7 @@ function WorkerInfo(props) {
                       className={classnames({ active: activeTab === '1' }, 'tab-link')}
                       onClick={() => { toggle('1'); }}
                   >
-                      Visits
+                      Visits ({totalVisits})
                   </NavLink>
                   </NavItem>
                   <NavItem>
@@ -342,22 +405,22 @@ function WorkerInfo(props) {
               <TabContent activeTab={activeTab}>
                   <TabPane className="tab-content" tabId="1">
                     <Table>
-                        <thead>
-                            <tr>
-                                <th>Client</th>
-                                <th>Date</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {visits.map(({VisitId, Date, Client}) => (
-                            <tr>
-                                <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
-                                <td>{Date}</td>
-                                <td><Link to={"/visit/" + VisitId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
-                            </tr>
-                        ))}
-                        </tbody>
+                      <thead>
+                          <tr>
+                              <th>Client</th>
+                              <th>Date</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {visits.map(({VisitId, Date, Client}) => (
+                          <tr>
+                              <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                              <td>{Date}</td>
+                              <td><Link to={"/visit/" + VisitId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                          </tr>
+                      ))}
+                      </tbody>
                     </Table>
                   </TabPane>
                   <TabPane className="tab-content" tabId="2">
@@ -367,7 +430,7 @@ function WorkerInfo(props) {
                               className={classnames({ active: activeSubTab === '1' }, 'tab-link')}
                               onClick={() => { toggleSubTab('1'); }}
                           >
-                              All
+                              All ({totalReferrals})
                           </NavLink>
                           </NavItem>
                           <NavItem>
@@ -375,7 +438,7 @@ function WorkerInfo(props) {
                               className={classnames({ active: activeSubTab === '2' }, 'tab-link')}
                               onClick={() => { toggleSubTab('2'); }}
                           >
-                              Made
+                              Made ({totalReferrals - totalResolvedReferrals})
                           </NavLink>
                           </NavItem>
                           <NavItem>
@@ -383,51 +446,51 @@ function WorkerInfo(props) {
                               className={classnames({ active: activeSubTab === '3' }, 'tab-link')}
                               onClick={() => { toggleSubTab('3'); }}
                           >
-                              Resolved
+                              Resolved ({totalResolvedReferrals})
                           </NavLink>
                           </NavItem>
                       </Nav>
                       <TabContent activeTab={activeSubTab}>
                           <TabPane className="tab-content" tabId="1">
                             <Table>
-                                <thead>
-                                    <tr>
-                                        <th>Client</th>
-                                        <th>Date</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {referrals.map(({ReferralId, Date, Client}) => (
-                                    <tr>
-                                        <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
-                                        <td>{Date}</td>
-                                        <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
-                                    </tr>
-                                ))}
-                                </tbody>
+                              <thead>
+                                  <tr>
+                                      <th>Client</th>
+                                      <th>Date</th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              {referrals.map(({ReferralId, Date, Client}) => (
+                                  <tr>
+                                      <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                                      <td>{Date}</td>
+                                      <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                                  </tr>
+                              ))}
+                              </tbody>
                             </Table>
                           </TabPane>
                           <TabPane className="tab-content" tabId="2">
                             <Table>
-                                <thead>
-                                    <tr>
-                                        <th>Client</th>
-                                        <th>Date</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {referrals.map(({ReferralId, Date, Client, Status}) => (
-                                    (Status === 'Made') ? (
-                                        <tr>
-                                            <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
-                                            <td>{Date}</td>
-                                            <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
-                                        </tr>
-                                    ) : ("")
-                                ))}
-                                </tbody>
+                              <thead>
+                                  <tr>
+                                      <th>Client</th>
+                                      <th>Date</th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              {referrals.map(({ReferralId, Date, Client, Status}) => (
+                                  (Status === 'Made') ? (
+                                      <tr>
+                                          <td>{Client?.FirstName + ' ' + Client?.LastName}</td>
+                                          <td>{Date}</td>
+                                          <td><Link to={"/referral/" + ReferralId}><Button color="success" style={{float: 'right'}}>View</Button></Link></td>
+                                      </tr>
+                                  ) : ("")
+                              ))}
+                              </tbody>
                             </Table>
                           </TabPane>
                           <TabPane className="tab-content" tabId="3">
