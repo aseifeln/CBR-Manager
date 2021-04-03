@@ -1,0 +1,50 @@
+.Title h1 {
+    text-align: center;
+}
+
+.Title {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.Title Button {
+    float: right;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.ClientList Button {
+    float: right;
+    border-color: lightgrey;
+    background-color: white;
+    color: blue;
+}
+
+.listHeader {
+    text-align: left;
+    margin: 0px;
+}
+.clientRow {
+    box-shadow: 0 0px 5px 3px #e4d5eb;
+    text-align: left;
+    margin: 2px 0;
+    align-items: center;
+}
+
+.clientRowText{
+    margin: 0px;
+}
+
+.dateText {
+    text-align: left;
+    color: #8c8c8c;
+}
+
+
+
+
+
+
+
+
+
