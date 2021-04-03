@@ -44,8 +44,9 @@ function WorkerListPage() {
         let relevantWorkers = [];
 
         workers.forEach((worker) => {
-            if ((worker.Location === searchLocation || searchLocation === '') && (worker.FirstName + ' ' + worker.LastName).toLowerCase().includes(searchName))
-                relevantWorkers.push(worker)
+            if ((worker.Location === searchLocation || searchLocation === '') 
+                && (worker.FirstName + ' ' + worker.LastName).toLowerCase().includes(searchName.toLowerCase()))
+                relevantWorkers.push(worker);
         })
 
         setWorkerPages(relevantWorkers);
