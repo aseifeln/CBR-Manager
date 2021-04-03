@@ -241,10 +241,6 @@ function NewVisit(props) {
 
   const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
 
-  const [ healthChecked, setHealthChecked ] = useState(false);
-  const [ socialChecked, setSocialChecked ] = useState(false);
-  const [ educationChecked, setEducationChecked ] = useState(false);
-
   const [ hideHealthSection, setHideHealthSection ] = useState(true);
   const [ wheelchairProvided, setWheelchairProvided ] = useState(false);
   const [ prostheticProvided, setProstheticProvided ] = useState(false);
@@ -269,20 +265,6 @@ function NewVisit(props) {
   const [ educationAdvocacyProvided, setEducationAdvocacyProvided ] = useState(false);
   const [ educationEncouragementProvided, setEducationEncouragementProvided ] = useState(false);
   const [ educationGoalMet, setEducationGoalMet ] = useState(false);
-
-  // May be needed for later
-  function changeHiddenValues(event) {
-    if (event.target.value !== "CBR") {
-      setHideHealthSection(true);
-      setHideSocialSection(true);
-      setHideEducationSection(true);
-    }
-    else {
-      setHideHealthSection(!healthChecked);
-      setHideSocialSection(!socialChecked);
-      setHideEducationSection(!educationChecked);
-    }
-  }
 
   if (!clientFound && clientProvided)
   {
