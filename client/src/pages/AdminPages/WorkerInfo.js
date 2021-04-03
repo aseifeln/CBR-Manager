@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Badge } from 'reactstrap';
 import classnames from 'classnames';
 import CookieChecker from '../../components/CookieChecker';
 import AdminSideBar from '../../components/AdminSideBar';
 import { WorkerStatsGraph } from '../../components/graphs/WorkerGraphs';
 import { Link } from 'react-router-dom';
-import '../../css/WorkerInfo.css'
+import '../../css/WorkerInfo.css';
+import axios from 'axios';
 
 const data = [
     {
@@ -229,8 +230,74 @@ const data = [
 function WorkerInfo(props) {
     const [activeTab, setActiveTab] = useState('1');
     const [activeSubTab, setActiveSubTab] = useState('1');
+    const [totalVisits, setTotalVisits] = useState('')
+    const [weeklyVisits, setWeeklyVisits] = useState('')
+    const [weeklyClients, setWeeklyClients] = useState('')
+    const [totalReferrals, setTotalReferrals] = useState('')
+    const [weeklyReferrals, setWeeklyReferrals] = useState('')
+    const [totalResolvedReferrals, setTotalResolvedReferrals] = useState('')
+    const [weeklyResolvedReferrals, setWeeklyResolvedReferrals] = useState('')
     const toggle = (tab) => { if (activeTab !== tab) setActiveTab(tab); }
     const toggleSubTab = (subTab) => { if (activeSubTab !== subTab) setActiveSubTab(subTab); }
+
+    useEffect(() => {
+
+      axios.get('/workers/' + props.match.params.id + '/clients/Weeklycount')
+           .then((response) => {
+            setWeeklyClients(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+      
+      axios.get('/workers/' + props.match.params.id + '/visits/count')
+           .then((response) => {
+            setTotalVisits(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           }) 
+
+      axios.get('/workers/' + props.match.params.id + '/visits/Weeklycount')
+           .then((response) => {
+            setWeeklyVisits(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           }) 
+
+      axios.get('/workers/' + props.match.params.id + '/referrals/count')
+           .then((response) => {
+            setTotalReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+      axios.get('/workers/' + props.match.params.id + '/referrals/Weeklycount')
+           .then((response) => {
+            setWeeklyReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+    axios.get('/workers/' + props.match.params.id + '/referrals/resolved/count')
+           .then((response) => {
+            setTotalResolvedReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+      axios.get('/workers/' + props.match.params.id + '/referrals/resolved/Weeklycount')
+           .then((response) => {
+            setWeeklyResolvedReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+    }, [])
 
     return (
         <div>
@@ -256,19 +323,19 @@ function WorkerInfo(props) {
 
                     <div className="summary-stats">
                         <div className="stat-count" style={{background: '#5f27cd'}}>
-                            <div className='count-number'>123</div>
+                            <div className='count-number'>{weeklyVisits}</div>
                             <h6>Visits made in the past week</h6>
                         </div>
                         <div className="stat-count" style={{background: '#ff9f43'}}>
-                            <div className='count-number'>123</div>
+                            <div className='count-number'>{weeklyClients}</div>
                             <h6>New clients in the past week</h6>
                         </div>
                         <div className="stat-count" style={{background: '#ee5253'}}>
-                            <div className='count-number'>123</div>
+                            <div className='count-number'>{weeklyReferrals}</div>
                             <h6>Referrals made in the past week</h6>
                         </div>
                         <div className="stat-count" style={{background: '#1dd1a1'}}>
-                            <div className='count-number'>123</div>
+                            <div className='count-number'>{weeklyResolvedReferrals}</div>
                             <h6>Referrals resolved in the past week</h6>
                         </div>
                     </div>
@@ -279,7 +346,7 @@ function WorkerInfo(props) {
                             className={classnames({ active: activeTab === '1' }, 'tab-link')}
                             onClick={() => { toggle('1'); }}
                         >
-                            Visits
+                            Visits ({totalVisits})
                         </NavLink>
                         </NavItem>
                         <NavItem>
@@ -310,7 +377,7 @@ function WorkerInfo(props) {
                                     className={classnames({ active: activeSubTab === '1' }, 'tab-link')}
                                     onClick={() => { toggleSubTab('1'); }}
                                 >
-                                    All
+                                    All ({totalReferrals})
                                 </NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -318,7 +385,7 @@ function WorkerInfo(props) {
                                     className={classnames({ active: activeSubTab === '2' }, 'tab-link')}
                                     onClick={() => { toggleSubTab('2'); }}
                                 >
-                                    Made
+                                    Made ({totalReferrals - totalResolvedReferrals})
                                 </NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -326,7 +393,7 @@ function WorkerInfo(props) {
                                     className={classnames({ active: activeSubTab === '3' }, 'tab-link')}
                                     onClick={() => { toggleSubTab('3'); }}
                                 >
-                                    Resolved
+                                    Resolved ({totalResolvedReferrals})
                                 </NavLink>
                                 </NavItem>
                             </Nav>
