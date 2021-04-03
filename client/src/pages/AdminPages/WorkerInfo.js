@@ -230,14 +230,18 @@ const data = [
 function WorkerInfo(props) {
     const [activeTab, setActiveTab] = useState('1');
     const [activeSubTab, setActiveSubTab] = useState('1');
+    const [totalVisits, setTotalVisits] = useState('')
     const [weeklyVisits, setWeeklyVisits] = useState('')
     const [weeklyClients, setWeeklyClients] = useState('')
+    const [totalReferrals, setTotalReferrals] = useState('')
     const [weeklyReferrals, setWeeklyReferrals] = useState('')
+    const [totalResolvedReferrals, setTotalResolvedReferrals] = useState('')
     const [weeklyResolvedReferrals, setWeeklyResolvedReferrals] = useState('')
     const toggle = (tab) => { if (activeTab !== tab) setActiveTab(tab); }
     const toggleSubTab = (subTab) => { if (activeSubTab !== subTab) setActiveSubTab(subTab); }
 
     useEffect(() => {
+
       axios.get('/workers/' + props.match.params.id + '/clients/Weeklycount')
            .then((response) => {
             setWeeklyClients(response.data)
@@ -245,7 +249,15 @@ function WorkerInfo(props) {
            .catch((error) => {
              console.log(error)
            })
-           
+      
+      axios.get('/workers/' + props.match.params.id + '/visits/count')
+           .then((response) => {
+            setTotalVisits(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           }) 
+
       axios.get('/workers/' + props.match.params.id + '/visits/Weeklycount')
            .then((response) => {
             setWeeklyVisits(response.data)
@@ -254,9 +266,25 @@ function WorkerInfo(props) {
              console.log(error)
            }) 
 
+      axios.get('/workers/' + props.match.params.id + '/referrals/count')
+           .then((response) => {
+            setTotalReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
       axios.get('/workers/' + props.match.params.id + '/referrals/Weeklycount')
            .then((response) => {
             setWeeklyReferrals(response.data)
+           })
+           .catch((error) => {
+             console.log(error)
+           })
+
+    axios.get('/workers/' + props.match.params.id + '/referrals/resolved/count')
+           .then((response) => {
+            setTotalResolvedReferrals(response.data)
            })
            .catch((error) => {
              console.log(error)
@@ -318,7 +346,7 @@ function WorkerInfo(props) {
                             className={classnames({ active: activeTab === '1' }, 'tab-link')}
                             onClick={() => { toggle('1'); }}
                         >
-                            Visits
+                            Visits ({totalVisits})
                         </NavLink>
                         </NavItem>
                         <NavItem>
@@ -349,7 +377,7 @@ function WorkerInfo(props) {
                                     className={classnames({ active: activeSubTab === '1' }, 'tab-link')}
                                     onClick={() => { toggleSubTab('1'); }}
                                 >
-                                    All
+                                    All ({totalReferrals})
                                 </NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -357,7 +385,7 @@ function WorkerInfo(props) {
                                     className={classnames({ active: activeSubTab === '2' }, 'tab-link')}
                                     onClick={() => { toggleSubTab('2'); }}
                                 >
-                                    Made
+                                    Made ({totalReferrals - totalResolvedReferrals})
                                 </NavLink>
                                 </NavItem>
                                 <NavItem>
@@ -365,7 +393,7 @@ function WorkerInfo(props) {
                                     className={classnames({ active: activeSubTab === '3' }, 'tab-link')}
                                     onClick={() => { toggleSubTab('3'); }}
                                 >
-                                    Resolved
+                                    Resolved ({totalResolvedReferrals})
                                 </NavLink>
                                 </NavItem>
                             </Nav>
