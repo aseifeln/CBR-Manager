@@ -288,8 +288,8 @@ function WorkerInfo(props) {
                 <div>
                   <ChangePassword username={username}/>
                   <Badge pill>Worker</Badge>
-                  <h2>Denis Onyango</h2>
-                  <h5><b>Location:</b> BidiBidi Zone 1</h5>
+                  <h2>{worker.FirstName + ' ' + worker.LastName}</h2>
+                  <h5><b>Location:</b> {worker.Location}</h5>
                 </div>
               </div>
 
