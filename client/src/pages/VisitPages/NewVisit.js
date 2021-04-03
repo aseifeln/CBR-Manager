@@ -16,6 +16,7 @@ function NewVisit(props) {
   const [ clients, setClients ] = useState([]);
   const [ CBRVisit, setCBRVisit ] = useState(false);
   const [ clientProvided, setClientProvided ] = useState(true);
+  const [ clientSelected, setClientSelected ] = useState(false);
   const [ clientFound, setClientFound ] = useState(false);
   const [ GPSLocation, setGPSLocation ] = useState();
   const [ worker, setWorker ] = useState({});
@@ -91,7 +92,7 @@ function NewVisit(props) {
       newData['ClientId'] = props.match.params.id;
     }
     else {
-      newData['ClientId'] = data.client[0].value;
+      newData['ClientId'] = client.ClientId;
     }
     
     newData['WorkerId'] = context.WorkerId;
@@ -217,6 +218,26 @@ function NewVisit(props) {
     })
   }
 
+  function retrieveClientData(clientSelected) {
+
+    if (typeof clientSelected === 'undefined' || typeof clientSelected[0] === 'undefined')
+    {
+      setClientSelected(false);
+      return;
+    }
+
+      axios.get('/clients/' + clientSelected[0].value)
+      .then(response => {
+          setClient(response.data);
+          setClientFound(true);
+          setClientSelected(true);
+      })
+      .catch(error => {
+          console.log(error);
+          setClientSelected(false);
+      })
+  }
+
   const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
 
   const [ healthChecked, setHealthChecked ] = useState(false);
@@ -287,8 +308,9 @@ function NewVisit(props) {
                           <Label>Client</Label>
                           <FieldTypeahead
                             name="client"
-                            required="Client is required"
-                            options={clients}/>
+                            required={!clientSelected}
+                            options={clients}
+                            onChange={(e) => retrieveClientData(e)}/>
                         </div>
                       )}
                     </FormGroup>
@@ -401,21 +423,25 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Health" isEnabled={!hideHealthSection}>
-                <Row>
-                  <Col>
-                    <Card>
-                      <CardHeader className="font-weight-bold">
-                        Client Health Info
-                      </CardHeader>
-                        <CardBody>
-                          <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
-                          <div style={areaInfo}>Goal:</div> {client.HealthGoal} <br />
-                          <div style={areaInfo}>Description:</div> {client.HealthDesc}
-                        </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-                <br/>
+                {(clientProvided || clientSelected) ? (
+                  <div>
+                      <Row>
+                      <Col>
+                        <Card>
+                          <CardHeader className="font-weight-bold">
+                            Client Health Info
+                          </CardHeader>
+                            <CardBody>
+                              <div style={areaInfo}>Risk Level:</div> {client.HealthStatus}<br/>
+                              <div style={areaInfo}>Goal:</div> {client.HealthGoal} <br />
+                              <div style={areaInfo}>Description:</div> {client.HealthDesc}
+                            </CardBody>
+                        </Card>
+                      </Col>
+                    </Row>
+                    <br/>
+                  </div>
+                ) : ("")}
                 <Row>
                   <Col>
                     <FormGroup>
@@ -611,7 +637,7 @@ function NewVisit(props) {
                         }
                       }}>
                         <option selected hidden>Was the goal met?</option>
-                        <option>Cancelled</option>
+                        <option>Canceled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
                       </FieldInput>
@@ -631,21 +657,25 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Social" isEnabled={!hideSocialSection}>
-                <Row>
-                  <Col>
-                    <Card>
-                      <CardHeader className="font-weight-bold">
-                        Client Social Info
-                      </CardHeader>
-                        <CardBody>
-                          <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
-                          <div style={areaInfo}>Goal:</div> {client.SocialGoal} <br />
-                          <div style={areaInfo}>Description:</div> {client.SocialDesc}
-                        </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-                <br/>
+                {(clientProvided || clientSelected) ? (
+                  <div>
+                    <Row>
+                      <Col>
+                      <Card>
+                        <CardHeader className="font-weight-bold">
+                          Client Social Info
+                        </CardHeader>
+                          <CardBody>
+                            <div style={areaInfo}>Risk Level:</div> {client.SocialStatus}<br/>
+                            <div style={areaInfo}>Goal:</div> {client.SocialGoal} <br />
+                            <div style={areaInfo}>Description:</div> {client.SocialDesc}
+                          </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                  <br/>
+                  </div>
+                ) : ("")}
                 
                 <Row>
                   <Col>
@@ -754,7 +784,7 @@ function NewVisit(props) {
                         }
                       }}>
                         <option selected hidden>Was the goal met?</option>
-                        <option>Cancelled</option>
+                        <option>Canceled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
                       </FieldInput>
@@ -774,21 +804,25 @@ function NewVisit(props) {
               </Step>
 
               <Step name="Education" isEnabled={!hideEducationSection}>
-                <Row>
-                  <Col>
-                    <Card>
-                      <CardHeader className="font-weight-bold">
-                        Client Education Info
-                      </CardHeader>
-                        <CardBody>
-                          <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
-                          <div style={areaInfo}>Goal:</div> {client.EducationGoal} <br />
-                          <div style={areaInfo}>Description:</div> {client.EducationDesc}
-                        </CardBody>
-                    </Card>
-                  </Col>
-                </Row>
-                <br/>
+                {(clientProvided || clientSelected) ? (
+                  <div>
+                    <Row>
+                      <Col>
+                        <Card>
+                          <CardHeader className="font-weight-bold">
+                            Client Education Info
+                          </CardHeader>
+                            <CardBody>
+                              <div style={areaInfo}>Risk Level:</div> {client.EducationStatus}<br/>
+                              <div style={areaInfo}>Goal:</div> {client.EducationGoal} <br />
+                              <div style={areaInfo}>Description:</div> {client.EducationDesc}
+                            </CardBody>
+                        </Card>
+                      </Col>
+                    </Row>
+                    <br/>
+                  </div>
+                ) : ("")}
 
                 <Row>
                   <Col>
@@ -897,7 +931,7 @@ function NewVisit(props) {
                         }
                       }}>
                         <option selected hidden>Was the goal met?</option>
-                        <option>Cancelled</option>
+                        <option>Canceled</option>
                         <option>Ongoing</option>
                         <option>Concluded</option>
                       </FieldInput>
