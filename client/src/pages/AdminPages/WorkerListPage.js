@@ -13,7 +13,6 @@ function WorkerListPage() {
     const [currentPageWorkers, setCurrentPageWorkers] = useState([]);
     const [workers, setWorkers] = useState([]);
 
-
     const [searchName, setSearchName] = useState('')
     const [searchLocation, setSearchLocation] = useState('');
 
