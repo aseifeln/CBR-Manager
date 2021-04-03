@@ -61,6 +61,6 @@ HealthForm.hasOne(Visit, {
     type: Sequelize.UUID
   }
 })
-Visit.belongsTo(HealthForm, {foreignKey: 'HealthFormId', targetKey: 'HealthFormId'})
+Visit.belongsTo(HealthForm, {foreignKey: 'HealthFormId', targetKey: 'HealthFormId', onDelete: 'cascade', hooks: true})
 
 module.exports = HealthForm;
