@@ -20,6 +20,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nivo/bar": "^0.67.0",
+    "@nivo/core": "^0.67.0",
+    "@nivo/line": "^0.67.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",

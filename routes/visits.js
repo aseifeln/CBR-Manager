@@ -166,4 +166,30 @@ router.post('/add', async (req,res) => {
 
 })
 
+router.delete('/delete/:id', async(req, res) => {
+    let transaction;
+    const visitId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const visitToDelete = await visit.findByPk(visitId, { transaction });
+
+        if (visitToDelete === null) {
+            throw new Error("Visit not found")
+        }
+        await visitToDelete.destroy({ transaction });
+        await transaction.commit();
+        res.json("Visit deleted successfully");
+    }
+    catch (err) {
+        if (transaction)
+            await transaction.rollback();
+        if (err.message === "Visit not found")
+            res.status(404).json(err.message)
+        else
+            res.status(400).json(err.name + ": " + err.message)
+    }
+})
+ 
 module.exports = router

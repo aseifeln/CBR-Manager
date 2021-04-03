@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Button, Row, Col, ListGroup, ListGroupItem, Label } from 'reactstrap';
+import React, { useState, useEffect, useContext } from 'react';
+import { Container, Button, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import CookieChecker from '../../components/CookieChecker';
 import axios from 'axios';
+import { UserContext } from '../../components/UserContext';
 import MapWithMarker  from '../../components/MapWithMarker';
+import DeleteWithWarning from '../../components/DeleteWithWarning';
 
 function VisitInfo(props) {
 
     const [ visit, setVisit ] = useState({});
     const [ visitFound, setVisitFound ] = useState(false);
+    const context = useContext(UserContext);
     document.title = "Visit Details";
 
     useEffect(() => {
@@ -41,6 +44,11 @@ function VisitInfo(props) {
                     <Col>
                         <Button tag={Link} to={'/client/'+ visit.Client?.ClientId}>Back to Client</Button>
                     </Col>
+                    {(context.Role === 'Admin') ? (
+                        <div>
+                            <DeleteWithWarning visitId={props.match.params.id} clientId={visit.Client?.ClientId}/>
+                        </div>
+                    ): ""}
                 </Row>
             </Container>
             <br/>

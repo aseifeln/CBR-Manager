@@ -346,4 +346,30 @@ router.put('/:id/edit', async (req,res) => {
     }
 })
 
+router.delete('/delete/:id', async(req, res) => {
+    let transaction;
+    const referralId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const refToDelete = await referral.findByPk(referralId, { transaction });
+
+        if (refToDelete === null) {
+            throw new Error("Referral not found")
+        }
+        await refToDelete.destroy({ transaction });
+        await transaction.commit();
+        res.json("Referral deleted successfully");
+    }
+    catch (err) {
+        if (transaction)
+            await transaction.rollback();
+        if (err.message === "Referral not found")
+            res.status(404).json(err.message)
+        else
+            res.status(400).json(err.name + ": " + err.message)
+    }
+})
+
 module.exports = router

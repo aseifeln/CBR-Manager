@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Media, Button } from 'reactstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -6,15 +6,17 @@ import CookieChecker from '../../components/CookieChecker';
 import Modal from 'react-modal';
 import { FieldInput } from "../../components/MultiStepForm";
 import { Formiz, useForm } from '@formiz/core';
+import { UserContext } from '../../components/UserContext';
 import moment from 'moment';
+import DeleteWithWarning from '../../components/DeleteWithWarning';
 
 function ReferralInfo(props){
 
     let formState = useForm();
 
     const [referral, setReferral]= useState({});
-    const [ modelOpen, setModalOpen ] = useState(false);
-
+    const [ resolveModalOpen, setResolveModalOpen ] = useState(false);
+    const context = useContext(UserContext);
     const formContainerSize={
         margin: 'auto',
         maxWidth: 800
@@ -30,7 +32,7 @@ function ReferralInfo(props){
           bottom: 'auto',
           transform: 'translate(-50%, -50%)'
         }
-      };
+    };
 
     useEffect(() => {
         document.title='Referral Info' 
@@ -45,11 +47,11 @@ function ReferralInfo(props){
       }, [])
     
     function openModal() {
-        setModalOpen(true);
+        setResolveModalOpen(true);
     }
 
     function closeModal() {
-        setModalOpen(false);
+        setResolveModalOpen(false);
     }
 
     function resolveReferral(data) {
@@ -198,10 +200,16 @@ function ReferralInfo(props){
                     <Col>
                         <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
                     </Col>
-                    <Col>
-                        <Button onClick={openModal} style={{float: 'right'}}>Resolve</Button>
+                    <Col style={{display: 'inline'}}>
+                    {(context.Role === 'Admin') ? (
+                            <div>
+                                <DeleteWithWarning referralId={props.match.params.id} clientId={referral.Client?.ClientId}/>
+                            </div>
+                        ) : ""}
+                        
+                        <Button onClick={openModal} style={{float: 'right',  marginRight: '5px'}}>Resolve</Button>
                         <Modal
-                         isOpen={modelOpen}
+                         isOpen={resolveModalOpen}
                          onRequestClose={closeModal}
                          style={customStyles}>
                             <Container>
