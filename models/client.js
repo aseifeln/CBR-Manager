@@ -30,7 +30,7 @@ const Client = db.define('Client', {
         allowNull: false
     },
     DateCreated: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         defaultValue: Sequelize.NOW,
         allowNull: false
     },
