@@ -65,32 +65,32 @@ function AdminAlerts() {
         setAllAlerts(
             [{
                "AlertId": 1,
-               "Title":"Any txt",
-               "Message":"Any txt",
+               "Title":"Title of alert",
+               "Message":"Message body",
                "Date":"01-01-2021",
                "AuthorUsername":"admin",
                "SpecificWorkers":[],
                "ForAllWorkers": true
                },{
                "AlertId": 2,
-               "Title":"Any txt",
-               "Message":"Any txt",
+               "Title":"Title of alert",
+               "Message":"Message body",
                "Date":"01-01-2021",
                "AuthorUsername":"admin",
                "SpecificWorkers":[],
                "ForAllWorkers": true
                },{
                "AlertId": 3,
-               "Title":"Any txt",
-               "Message":"Any txt",
+               "Title":"Title of alert",
+               "Message":"Message body",
                "Date":"01-01-2021",
                "AuthorUsername":"admin",
                "SpecificWorkers":[],
                "ForAllWorkers": true
                },{
                "AlertId": 4,
-               "Title":"Any txt",
-               "Message":"Any txt",
+               "Title":"Title of alert",
+               "Message":"Message body",
                "Date":"01-01-2021",
                "AuthorUsername":"admin",
                "SpecificWorkers":[],
@@ -171,20 +171,20 @@ function AdminAlerts() {
         <CookieChecker></CookieChecker>
         <AdminSideBar/>
         <Container>
-            <div className="AdminAlerts">
+            <div className="main-content">
             <h1>Alerts</h1>
             <Row>
-                <Button onClick={openModal} className="button">Create message</Button>
+                <Button onClick={openModal} >Create message</Button>
             </Row>
             <Row>
                 <Col>
-                  <div className="myAlerts">
+                  <div>
                     <h3>My Alerts</h3>
                     <AlertsList alerts={currUserAlerts}/>
                   </div>
                 </Col>
                 <Col>
-                  <div className="allAlerts">
+                  <div>
                     <h3>All Alerts</h3>
                     <AlertsList alerts={allAlerts}/>
                   </div>

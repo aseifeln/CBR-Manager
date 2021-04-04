@@ -19,9 +19,7 @@ function ListAlerts(props) {
                 </ListGroupItemHeading>
                 <ListGroupItemText>
                     <p className="dateText"><i>Sent {moment(alert.Date).format('DD-MM-YYYY')}</i></p>
-                    <p className="clientRowText">
-                        {alert.Message}
-                    </p>
+                    <p className="messageText">{alert.Message}</p>
                 </ListGroupItemText>
             </ListGroupItem>
         );
