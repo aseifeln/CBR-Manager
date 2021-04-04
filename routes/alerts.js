@@ -31,5 +31,33 @@ router.post('/add', async (req, res) => {
     }
 })
 
+router.delete('/:id/delete', async (req, res) => {
+    let alertId = req.params.id
+
+    let transaction
+
+    try {
+        transaction = await sequelize.transaction()
+
+        let alertToDelete = await alert.findByPk(alertId, { transaction })
+
+        if (alertToDelete === null)
+            throw new Error("Alert not found")
+        
+        await alertToDelete.destroy({ transaction })
+
+        await transaction.commit()
+        res.json("Alert deleted")
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback()
+        
+        if (error.message === "Alert not found")
+            res.status(404).json(error.message)
+        else
+            res.status(400).json(error)
+    }
+})
 
 module.exports = router
