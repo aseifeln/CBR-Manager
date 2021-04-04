@@ -204,24 +204,14 @@ app.get('/worker/:id', async (req, res) => {
 app.delete('/delete', async (req, res) => {
     let transaction;
     let workerId = req.body.WorkerId;
-    console.log("waduup")
     try{
         transaction = await sequelize.transaction();
-
-        console.log(workerId)
         const accountToDelete = await workers.findByPk(workerId, {transaction});
-
-        console.log('bsd')
-        console.log(accountToDelete)
-        console.log("asd?")
         if (accountToDelete === null){
-            console.log("ayo")
             throw new Error("Account not found")
         }
-        console.log('asd')
         await accountToDelete.destroy({transaction})
         await transaction.commit();
-        console.log('success?')
         return res.status(200).send('Account deleted');
     } catch (err) {
         return res.status(404).send('Account not found');
