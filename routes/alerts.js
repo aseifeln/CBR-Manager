@@ -21,6 +21,7 @@ router.get('/worker/:id', (req, res) => {
 
     alert.findAll({
         attributes: [
+            'AlertId',
             'Title',
             'Message',
             'Date',
