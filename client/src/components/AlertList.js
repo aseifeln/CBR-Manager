@@ -12,7 +12,6 @@ function ListAlerts(props) {
     const context = useContext(UserContext);
 
     function renderRow(alert) {
-        console.log(alert)
         return (
             <ListGroupItem key={alert.AlertId}>
                 <ListGroupItemHeading className="listHeader">

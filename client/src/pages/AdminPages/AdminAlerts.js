@@ -19,18 +19,13 @@ import AlertsList from '../../components/AlertList';
 
 function AdminAlerts() {
 
-    const [alertTitle, setAlertTitle] = useState("");
-    const [alertBody, setAlertBody] = useState("");
     const [ workers, setWorkers ] = useState([]);
 
     const [ allAlerts, setAllAlerts ] = useState([]);
     const [ currUserAlerts, setCurrUserAlerts ] = useState([]);
 
-    const [modelOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [alertAllWorkers, setAlertAllWorkers] = useState(true);
-
-    const [alertTitleErr, setAlertTitleErr] = useState(false);
-    const [alertBodyErr, setAlertBodyErr] = useState(false);
 
     const context = useContext(UserContext);
 
@@ -77,7 +72,7 @@ function AdminAlerts() {
                "SpecificWorkers":[],
                "ForAllWorkers": true
                },{
-               "AlertId": 1,
+               "AlertId": 2,
                "Title":"Any txt",
                "Message":"Any txt",
                "Date":"01-01-2021",
@@ -85,7 +80,7 @@ function AdminAlerts() {
                "SpecificWorkers":[],
                "ForAllWorkers": true
                },{
-               "AlertId": 1,
+               "AlertId": 3,
                "Title":"Any txt",
                "Message":"Any txt",
                "Date":"01-01-2021",
@@ -93,7 +88,7 @@ function AdminAlerts() {
                "SpecificWorkers":[],
                "ForAllWorkers": true
                },{
-               "AlertId": 1,
+               "AlertId": 4,
                "Title":"Any txt",
                "Message":"Any txt",
                "Date":"01-01-2021",
@@ -107,42 +102,7 @@ function AdminAlerts() {
     }
 
     function makeFakeAlerts2() {
-        setCurrUserAlerts(
-            [{
-               "AlertId": 1,
-               "Title":"Any txt",
-               "Message":"Any txt",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 1,
-               "Title":"Any txt",
-               "Message":"Any txt",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 1,
-               "Title":"Any txt",
-               "Message":"Any txt",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 1,
-               "Title":"Any txt",
-               "Message":"Any txt",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },
-            ]
-        );
+        setCurrUserAlerts(allAlerts);
 
     }
 
@@ -161,20 +121,40 @@ function AdminAlerts() {
         }
     }
 
-    function sendAlert() {
-        closeModal();
+    function sendAlert(data) {
+        const sendData = formatData(data);
+        console.log("DATA IS HERE:",sendData);
 
-        //TODO: get data and actually send message with axios
-
-        alert("alert sent");
+        axios.put('/alerts/add', sendData)
+        .then(response => {
+            closeModal();
+            alert("alert sent");
+            window.location.reload()
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Something went wrong when trying to send alert");
+        });
     }
 
-    function handleChange(event) {
-        setAlertTitle(event.target.value)
+    function formatData(data) {
+        let specificWorkersArr = [];
+        if (data.SpecificWorkers) {
+            specificWorkersArr = data.SpecificWorkers.map(function (worker) {
+                return worker.value;
+            });
+        }
+
+        return ({
+            'Title': data.Title,
+            'Message': data.Message,
+            'AuthorUsername': context.Username,
+            'SpecificWorkers': specificWorkersArr,
+            'ForAllWorkers': alertAllWorkers
+        });
     }
 
     let formState = useForm();
-    // TODO: move to css
     const customStyles = {
         content : {
           position: 'relative',
@@ -191,15 +171,15 @@ function AdminAlerts() {
         <CookieChecker></CookieChecker>
         <AdminSideBar/>
         <Container>
-            <div className="wooooooooooooooo">
+            <div className="AdminAlerts">
             <h1>Alerts</h1>
             <Row>
-                <Button onClick={openModal} style={{float: 'right'}}>Create message</Button>
+                <Button onClick={openModal} className="button">Create message</Button>
             </Row>
             <Row>
                 <Col>
                   <div className="myAlerts">
-                    <h2>My Alerts</h2>
+                    <h3>My Alerts</h3>
                     <AlertsList alerts={currUserAlerts}/>
                   </div>
                 </Col>
@@ -212,7 +192,7 @@ function AdminAlerts() {
             </Row>
 
             <Modal
-             isOpen={modelOpen}
+             isOpen={modalOpen}
              onRequestClose={closeModal}
              style={customStyles}
              shouldCloseOnOverlayClick={false}>
@@ -220,24 +200,25 @@ function AdminAlerts() {
                     <Formiz connect={formState} onValidSubmit={sendAlert}>
                         <form onSubmit={formState.submit}>
                             <h4>Compose message</h4>
-                            <FieldInput label="Title" type="text" name="Title" placeholder="Title" required="Title is required"
-                             defaultValue={""}/>
-                            <FieldInput label="Message Body" type="textarea" name="AlertBody" placeholder="Enter message body here..."
-                             defaultValue={""}/>
+                            <FieldInput label="Title" type="text" name="Title" placeholder="Title" required="Title is required"/>
+                            <FieldInput label="Message Body" type="textarea" name="Message" placeholder="Enter message body here..."/>
                              <FormGroup>
                                   <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                                    <Input type="checkbox" name="allWorkers" defaultChecked={true}
+                                    <Input type="checkbox" name="ForAllWorkers" defaultChecked={alertAllWorkers}
                                         onChange={() => setAlertAllWorkers(!alertAllWorkers)}/>
                                     Send to all workers
                                   </Label>
                                 <Collapse isOpen={!alertAllWorkers}>
                                 <Container>
-                                    <FieldTypeahead
-                                        name="worker"
-                                        placeholder="Add worker"
-                                        required="Worker is required"
-                                        options={workers}
-                                        multiple/>
+                                      {(!alertAllWorkers) ? (
+                                          <FieldTypeahead
+                                              id="worker"
+                                              name="SpecificWorkers"
+                                              placeholder="Add worker"
+                                              required="Worker is required"
+                                              options={workers}
+                                              multiple/>
+                                      ) : ''}
                                 </Container>
                                 </Collapse>
                               </FormGroup>

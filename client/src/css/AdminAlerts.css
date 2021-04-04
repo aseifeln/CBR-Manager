@@ -1,19 +1,8 @@
-.Title h1 {
+.AdminAlerts h1 {
     text-align: center;
 }
 
-.Title {
-    text-align: right;
-    margin-bottom: 10px;
-}
-
-.Title Button {
-    float: right;
-    margin-bottom: 10px;
-    margin-left: 10px;
-}
-
-.ClientList Button {
+.button {
     float: right;
     border-color: lightgrey;
     background-color: white;
@@ -40,6 +29,14 @@
     color: #8c8c8c;
 }
 
+.modal {
+          position: 'relative',
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, -50%)'
+        }
 
 
 
