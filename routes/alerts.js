@@ -13,7 +13,7 @@ router.get('/:id', async (req, res) => {
     let transaction
 
     try {
-        transaction = await sequelize.transaction();
+        transaction = await sequelize.transaction()
 
         let result = await alert.findByPk(alertId, { transaction })
 
@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
             throw new Error("Alert not found") 
         }
 
-        await transaction.commit();
+        await transaction.commit()
         res.status(200).json(result)
         
     } catch (error) {
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
             res.status(404).json(error.message)
         }
         else {
-            res.status(500).json(error.message);
+            res.status(400).json(error.message)
         }
     }
 })
@@ -43,7 +43,7 @@ router.get('/worker/:id', async (req, res) => {
     let transaction
 
     try {
-        transaction = await sequelize.transaction();
+        transaction = await sequelize.transaction()
 
         let isWorker = await worker.findByPk(workerId, { transaction })
 
@@ -71,17 +71,17 @@ router.get('/worker/:id', async (req, res) => {
                 }
             }, { transaction })
     
-            await transaction.commit();
+            await transaction.commit()
             res.status(200).json(result)
         }
     } 
     catch (error) {
-        await transaction.rollback();
+        await transaction.rollback()
         if(error.message === "Worker not found") {
             res.status(404).json(error.message)
         }
         else {
-            res.status(500).json(error.message);
+            res.status(400).json(error.message)
         }
     }
 
