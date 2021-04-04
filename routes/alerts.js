@@ -31,6 +31,8 @@ router.post('/add', async (req, res) => {
     }
 })
 
+// @route   DELETE /alerts/:id/delete
+// @desc    DELETE an existing alert in the database
 router.delete('/:id/delete', async (req, res) => {
     let alertId = req.params.id
 
