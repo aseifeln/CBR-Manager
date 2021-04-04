@@ -8,16 +8,16 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    queryInterface.removeConstraint('User', 'User_WorkerId_fkey');
-    queryInterface.addConstraint('User', {
+    queryInterface.removeConstraint('Visit', 'Visit_WorkerId_fkey');
+    queryInterface.addConstraint('Visit', {
       fields: ['WorkerId'],
       type: 'foreign key',
-      name: 'User_WorkerId_fkey',
+      name: 'Visit_WorkerId_fkey',
       references: {
         table: 'Worker',
         field: 'WorkerId'
       },
-      onDelete: 'CASCADE'
+      onDelete: 'SET NULL'
     });
 
   },
@@ -29,11 +29,11 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    queryInterface.removeConstraint('User', 'User_WorkerId_fkey');
-    queryInterface.addConstraint('User', {
+    queryInterface.removeConstraint('Visit', 'Visit_WorkerId_fkey');
+    queryInterface.addConstraint('Visit', {
       fields: ['WorkerId'],
       type: 'foreign key',
-      name: 'User_WorkerId_fkey',
+      name: 'Visit_WorkerId_fkey',
       references: {
         table: 'Worker',
         field: 'WorkerId'

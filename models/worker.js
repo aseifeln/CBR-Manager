@@ -66,9 +66,9 @@ Worker.hasOne(User, {
         type: Sequelize.UUID
     }
 })
-Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
-Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
-Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
+Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'SET NULL', hooks: true})
+Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'SET NULL', hooks: true})
+Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'SET NULL', hooks: true})
 User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'CASCADE', hooks: true})
 
 module.exports = Worker;
