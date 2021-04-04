@@ -29,7 +29,11 @@ router.get('/worker/:id', (req, res) => {
         where: {
             [Op.or]: [
                 { ForAllWorkers: true },
-                { AuthorUsername: 'admin' }
+                { 
+                  SpecificWorkers: {
+                    [Op.contains]: [workerId]
+                  } 
+                }
             ]
         }
     })
