@@ -28,6 +28,6 @@ ShelterSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(ShelterSurvey, {foreignKey: 'ShelterSurveyId', targetKey: 'ShelterSurveyId'})
+BaselineSurvey.belongsTo(ShelterSurvey, {foreignKey: 'ShelterSurveyId', targetKey: 'ShelterSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = ShelterSurvey;

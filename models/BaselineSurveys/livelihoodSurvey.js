@@ -45,6 +45,6 @@ LivelihoodSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(LivelihoodSurvey, {foreignKey: 'LivelihoodSurveyId', targetKey: 'LivelihoodSurveyId'})
+BaselineSurvey.belongsTo(LivelihoodSurvey, {foreignKey: 'LivelihoodSurveyId', targetKey: 'LivelihoodSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = LivelihoodSurvey;
