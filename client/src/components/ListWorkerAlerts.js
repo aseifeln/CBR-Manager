@@ -43,10 +43,12 @@ function ListWorkerAlerts(props) {
         <div>
             <h4>Alerts</h4>
             <Button onClick={pullAlerts} className="button">Refresh</Button>
-            <ListGroup className="alert-list">
-                {alerts.length > 0 ? alerts.map(renderRow) :
-                    <ListGroupItem>No alerts to show</ListGroupItem>}
-            </ListGroup>
+            <div className="list">
+                <ListGroup>
+                    {alerts.length > 0 ? alerts.map(renderRow) :
+                        <ListGroupItem>No alerts to show</ListGroupItem>}
+                </ListGroup>
+            </div>
         </div>
     );
 }

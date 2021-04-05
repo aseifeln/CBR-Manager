@@ -1,12 +1,11 @@
 
-.alerts {
-    maxHeight: 35em;
-    overflowY: auto;
-    maxWidth:100%;
-}
-
-.alerts alert-list {
-    border:1px solid grey;
+.alerts div.list {
+    max-height: 600px;
+    overflow-Y: auto;
+    max-width: 100%;
+    min-width: 300px;
+    border: 1px solid grey;
+    border-radius: 5px;
 }
 
 .alerts h4 {
@@ -18,17 +17,17 @@
 }
 
 .listHeader {
-    float: left;
+    float: center;
     margin: 0px;
-    width:100%;
 }
 
 .messageText{
+    text-align: left;
     margin-bottom: 0px;
 }
 
 .dateText {
-    text-align: left;
+    text-align: right;
     color: #8c8c8c;
     margin: 0px;
 }
