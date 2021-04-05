@@ -31,6 +31,6 @@ OrthoticService.hasOne(Referral, {
     }
 })
 
-Referral.belongsTo(OrthoticService, {foreignKey: 'OrthoticServiceId', targetKey: 'OrthoticServiceId'})
+Referral.belongsTo(OrthoticService, {foreignKey: 'OrthoticServiceId', targetKey: 'OrthoticServiceId', onDelete: 'cascade', hooks: true})
 
 module.exports = OrthoticService;

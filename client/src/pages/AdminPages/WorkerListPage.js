@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Button, Table, Form, FormGroup, Input, Label } from 'reactstrap';
+import React, {useEffect, useState} from 'react';
+import {Container, Row, Col, Button, Table, Form, FormGroup, Input, Label} from 'reactstrap';
+import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import '../../css/WorkerList.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 function WorkerListPage(props) {
     const [offset, setOffset] = useState(0);
@@ -61,12 +61,13 @@ function WorkerListPage(props) {
 
     return (
         <>
-            <CookieChecker />
-            <AdminSideBar />
-            <Container>
-                <div className="main-content">
+            <CookieChecker/>
+            <div className='main-content'>
+                <AdminSideBar/>
+
+                <div className='admin-container'>
                     <h1>Worker List</h1>
-                    <br />
+                    <br/>
                     <Form>
                         <Row form>
                             <Col md={6}>
@@ -157,7 +158,7 @@ function WorkerListPage(props) {
                         subContainerClassName={'pages pagination'}
                         activeClassName={'pagination_active'} />
                 </div>
-            </Container>
+            </div>
         </>
     )
 }

@@ -70,5 +70,6 @@ Visit.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete
 Client.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'SET NULL', hooks: true})
 Referral.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'SET NULL', hooks: true})
 User.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId', onDelete: 'CASCADE', hooks: true})
+BaselineSurvey.belongsTo(Worker, {foreignKey: 'WorkerId', targetKey: 'WorkerId'})
 
 module.exports = Worker;

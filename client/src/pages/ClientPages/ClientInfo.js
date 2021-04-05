@@ -1,5 +1,5 @@
 /* eslint-disable no-lone-blocks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Container, Button, Row, Col, Media, Card, Collapse, CardHeader, CardBody, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,8 @@ import CookieChecker from '../../components/CookieChecker';
 import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
 
+import { UserContext } from '../../components/UserContext';
+import DeleteWithWarning from '../../components/DeleteWithWarning';
 import BaselineSurvey from '../../components/BaselineSurvey';
 
 function ClientInfo(props) {
@@ -16,6 +18,7 @@ function ClientInfo(props) {
     const [ visits, setVisits ] = useState([]);
     const [ referrals,setReferrals] = useState([]);
     const [ clientFound, setClientFound ] = useState(false);
+    const context = useContext(UserContext);
     const [ clientId, setClientId ] = useState(props.match.params.id);
     
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
@@ -179,8 +182,13 @@ as right now will still render this component briefly even for existing clients*
                     <Col>
                         <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
                     </Col>
-                    <Col>
-                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right'}}>Edit Client </Button>
+                    <Col style={{display: 'inline'}}>
+                        {(context.Role === 'Admin') ? (
+                            <div>
+                                <DeleteWithWarning clientId={props.match.params.id}/>
+                            </div>
+                        ) : ""}
+                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right', marginRight: '5px'}}>Edit Client</Button>
                     </Col>
                 </Row>
             </Container>
@@ -221,12 +229,23 @@ as right now will still render this component briefly even for existing clients*
                         </Button>
                     </Link>
                 </Col>
-                <Col align="center">
+                <Col align="center" xs={2}>
                     <Link to={"/referral/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}}>
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
                             New Referral
                         </Button>
                     </Link>
+                </Col>
+                <Col align="center">
+                    {(client.BaselineSurvey && context.Role === "Admin") ? (
+                        <DeleteWithWarning toDeleteSurvey={true} clientId={props.match.params.id}/>
+                    ) : (
+                        <Link>
+                            <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>
+                                New Survey
+                            </Button>
+                        </Link>
+                    )}
                 </Col>
             </Row>
             </Container>
