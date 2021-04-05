@@ -11,8 +11,10 @@ UncontrolledDropdown,
     NavLink,
     Container
 } from 'reactstrap';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import moment from 'moment';
 
 
 // Dropdown functionality from:
@@ -20,13 +22,36 @@ import { UserContext } from './UserContext';
 
 function AppNavbar(props) {
     const context = useContext(UserContext);
-    const [isAdmin, setIsAdmin] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [numAlertsToday, setNumAlertsToday] = useState(0);
 
     useEffect(() => {
         if(context.Role === 'Admin'){
             setIsAdmin(true)
         }
+
+        axios.get('/alerts/worker/' + context.WorkerId)
+        .then(response => {
+            countTodaysAlerts(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
     }, [context])
+
+    function countTodaysAlerts(alerts) {
+        const today = moment();
+
+        let count = 0;
+        alerts.forEach(alert => {
+            if (today.isBetween(alert.Date, alert.Date, 'days', '[]')) {
+                count++;
+            }
+        });
+        setNumAlertsToday(count);
+    }
+
     return(
         <div>
             <Navbar expand="lg" style={{backgroundColor:"#585858",color:"inherit",marginBottom:"40px",padding:"15px"}}>
@@ -39,7 +64,7 @@ function AppNavbar(props) {
                         {!isAdmin ?
                         <NavItem>
                             <Link to="/dashboard" className="nav-link" style={{color:"#c7eabe"}}>
-                                Dashboard
+                                Dashboard ({numAlertsToday})
                             </Link>
                         </NavItem>
                         :""}
