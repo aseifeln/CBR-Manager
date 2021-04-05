@@ -67,6 +67,6 @@ HealthSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(HealthSurvey, {foreignKey: 'HealthSurveyId', targetKey: 'HealthSurveyId'})
+BaselineSurvey.belongsTo(HealthSurvey, {foreignKey: 'HealthSurveyId', targetKey: 'HealthSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = HealthSurvey;

@@ -22,11 +22,11 @@ module.exports = {
       defaultValue: Sequelize.NOW,
       allowNull: false
     },
-    AuthorWorkerId: {
-        type: Sequelize.UUID,
+    AuthorUsername: {
+        type: Sequelize.STRING,
         references: {
-            model: 'Worker',
-            key: 'WorkerId'
+            model: 'User',
+            key: 'Username'
         }
     },
     SpecificWorkers: {

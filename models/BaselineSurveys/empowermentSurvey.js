@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database');
+const db = require('../../config/database');
 const BaselineSurvey = require('./baselineSurvey')
 
 const EmpowermentSurvey = db.define('EmpowermentSurvey', {
@@ -36,6 +36,6 @@ EmpowermentSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(EmpowermentSurvey, {foreignKey: 'EmpowermentSurveyId', targetKey: 'EmpowermentSurveyId'})
+BaselineSurvey.belongsTo(EmpowermentSurvey, {foreignKey: 'EmpowermentSurveyId', targetKey: 'EmpowermentSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = EmpowermentSurvey;
