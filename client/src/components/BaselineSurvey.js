@@ -181,7 +181,7 @@ function BaselineSurvey(props){
     }
 
     function LivelihoodSurvey() {
-        const {Livelihood} = baselineSurvey;
+        const {LivelihoodSurvey} = baselineSurvey;
         return(
             <div>
                 <Table size="sm">
