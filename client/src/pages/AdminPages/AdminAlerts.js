@@ -184,68 +184,68 @@ function AdminAlerts() {
 
     return (
         <>
-        <CookieChecker></CookieChecker>
-        <AdminSideBar/>
-        <Container>
-            <div className="main-content">
-            <h1>Alerts</h1>
-            <Row>
-                <Button onClick={openModal}>Create message</Button>
-            </Row>
-            <Row>
-                <Col>
-                  <div>
-                    <h3>My Alerts</h3>
-                    <AlertsList alerts={currUserAlerts}/>
-                  </div>
-                </Col>
-                <Col>
-                  <div>
-                    <h3>All Alerts</h3>
-                    <AlertsList alerts={allAlerts}/>
-                  </div>
-                </Col>
-            </Row>
+        <CookieChecker/>
+        <div className="main-content">
+            <AdminSideBar/>
+            <div className='admin-container'>
+                <h1>Alerts</h1>
+                <Row>
+                    <Button onClick={openModal}>Create message</Button>
+                </Row>
+                <Row>
+                    <Col>
+                      <div>
+                        <h3>My Alerts</h3>
+                        <AlertsList alerts={currUserAlerts}/>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <h3>All Alerts</h3>
+                        <AlertsList alerts={allAlerts}/>
+                      </div>
+                    </Col>
+                </Row>
 
-            <Modal
-             isOpen={modalOpen}
-             onRequestClose={closeModal}
-             style={customStyles}
-             shouldCloseOnOverlayClick={false}>
-                <Container>
-                    <Formiz connect={formState} onValidSubmit={sendAlert}>
-                        <form onSubmit={formState.submit}>
-                            <h4>Compose message</h4>
-                            <FieldInput label="Title" type="text" name="Title" placeholder="Title" required="Title is required"/>
-                            <FieldInput label="Message Body" type="textarea" name="Message" placeholder="Enter message body here..."/>
-                             <FormGroup>
-                                  <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
-                                    <Input type="checkbox" name="ForAllWorkers" defaultChecked={alertAllWorkers}
-                                        onChange={() => setAlertAllWorkers(!alertAllWorkers)}/>
-                                    Send to all workers
-                                  </Label>
-                                <Collapse isOpen={!alertAllWorkers}>
-                                <Container>
-                                      {(!alertAllWorkers) ? (
-                                          <FieldTypeahead
-                                              id="worker"
-                                              name="SpecificWorkers"
-                                              placeholder="Add worker"
-                                              required="Worker is required"
-                                              options={workers}
-                                              multiple/>
-                                      ) : ''}
-                                </Container>
-                                </Collapse>
-                              </FormGroup>
-                            <Button type="submit">Submit</Button>
-                            <Button onClick={cancelAlert} style={{float: 'right'}}>Cancel</Button>
-                        </form>
-                    </Formiz>
-                </Container>
-            </Modal>
+                <Modal
+                 isOpen={modalOpen}
+                 onRequestClose={closeModal}
+                 style={customStyles}
+                 shouldCloseOnOverlayClick={false}>
+                    <Container>
+                        <Formiz connect={formState} onValidSubmit={sendAlert}>
+                            <form onSubmit={formState.submit}>
+                                <h4>Compose message</h4>
+                                <FieldInput label="Title" type="text" name="Title" placeholder="Title" required="Title is required"/>
+                                <FieldInput label="Message Body" type="textarea" name="Message" placeholder="Enter message body here..."/>
+                                 <FormGroup>
+                                      <Label check style={{paddingLeft: "21px", paddingRight: "20px"}}>
+                                        <Input type="checkbox" name="ForAllWorkers" defaultChecked={alertAllWorkers}
+                                            onChange={() => setAlertAllWorkers(!alertAllWorkers)}/>
+                                        Send to all workers
+                                      </Label>
+                                    <Collapse isOpen={!alertAllWorkers}>
+                                    <Container>
+                                          {(!alertAllWorkers) ? (
+                                              <FieldTypeahead
+                                                  id="worker"
+                                                  name="SpecificWorkers"
+                                                  placeholder="Add worker"
+                                                  required="Worker is required"
+                                                  options={workers}
+                                                  multiple/>
+                                          ) : ''}
+                                    </Container>
+                                    </Collapse>
+                                  </FormGroup>
+                                <Button type="submit">Submit</Button>
+                                <Button onClick={cancelAlert} style={{float: 'right'}}>Cancel</Button>
+                            </form>
+                        </Formiz>
+                    </Container>
+                </Modal>
             </div>
-        </Container>
+        </div>
         </>
     );
 
