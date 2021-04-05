@@ -1,5 +1,5 @@
-import React, {useContext, useEffect,useState} from 'react';
-import { Container, Row, Col, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import React, { useEffect,useState} from 'react';
+import { Row, Col } from 'reactstrap';
 import {Table} from 'reactstrap';
 import axios from 'axios';
 
@@ -12,80 +12,18 @@ function BaselineSurvey(props){
 
     useEffect(() => {
         console.log("in baseline: ", surveyType)
-        axios.get('baselineSurvey/' + props.clientId)
+        axios.get('/baselineSurveys/client/' + props.clientId)
         .then(response => {
             setBaselineSurvey(response.data[0]);
             setBaselineSurveyFound(true);
         })
         .catch(error => {
-            createSurvey();
-            //console.log(error);
-            //document.title = "Baseline survey not found";
+            console.log(error);
         })
     },[])
 
-    function createSurvey() {
-        setBaselineSurvey(
-            {
-              "Date": "01-01-21",
-              "DateEdited":"01-01-21",
-              "Client": {
-                "ClientId": "1",
-                "FirstName": "Filbert",
-                "LastName": "Olayinka"
-              },
-              "SocialSurvey": {
-                  "ValuedCommunityMember" : null,
-                  "Independence" : true,
-                  "CommunityParticipation" : false,
-                  "DisabilityImpact" : false,
-                  "Discrimination" : true,
-              },
-              "ShelterSurvey": {
-                "ShelterAccess" : true,
-                "EssentialsAccess" : true,
-              },
-              "HealthSurvey": {
-                  "HealthStatus" : "Good",
-                  "RehabilitationAccess" : true,
-                  "RehabilitationAccessNeeded" : false,
-                  "AssistiveDevice" : true,
-                  "AssistiveDeviceWorking" : true,
-                  "AssistiveDeviceNeeded" : false,
-                  "AssistiveDeviceRequired" : "N/A",
-                  "HealthServiceStatus" : "5",
-              },
-              "EducationSurvey": {
-                "SchoolState" : true,
-                "CurrentGrade" : "5",
-                "NoSchoolReason" : null,
-                "SchoolBefore" : true,
-                "WantSchool" : true,
-              },
-              "NutritionSurvey": {
-                  "FoodStatus" : "Adequate",
-                  "MonthlyFoodAccess" : true,
-                  "ChildNutritionStatus" : "N/A",
-              },
-              "LivelihoodSurvey": {
-                  "WorkStatus" : false,
-                  "WorkDescription" : "",
-                  "EmploymentType" : "",
-                  "FinancialNeedsMet" : false,
-                  "DisabilityImpact" : true,
-                  "WorkWanted" : true,
-              },
-              "EmpowermentSurvey": {
-                  "DisabilityOrganizationMember" : true,
-                  "DisabilityOrganizations" : "Disability Org1, Org 2, Organizaion 3",
-                  "AwareDisabilityRights" : true,
-                  "Influential" : false,
-              }
-          });
-    }
-
     function InsertYesOrNoImg(props) {
-        if (props.bool == undefined) {
+        if (typeof props.bool == undefined) {
             return (<td>--</td>);
         }
         if (props.bool) {
