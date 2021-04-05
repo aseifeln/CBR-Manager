@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Row, Col, Button, Table, Form, FormGroup, Input, Label} from 'reactstrap';
+import {Row, Col, Button, Table, Form, FormGroup, Input, Label} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import AdminSideBar from '../../components/AdminSideBar';
@@ -13,7 +13,6 @@ function WorkerListPage(props) {
     const [currentPageWorkers, setCurrentPageWorkers] = useState([]);
     const [workers, setWorkers] = useState([]);
 
-
     const [searchName, setSearchName] = useState('')
     const [searchLocation, setSearchLocation] = useState('');
 
@@ -21,7 +20,10 @@ function WorkerListPage(props) {
 
     useEffect(() => {
         axios.get('/workers')
-            .then(res => setWorkers(res.data))
+            .then(res => {
+                setWorkers(res.data);
+                setCurrentPageWorkers(res.data);
+            })
             .catch(err => console.log(err))
         document.title = 'Workers List'
     }, [])
@@ -30,7 +32,6 @@ function WorkerListPage(props) {
         setOffset(event.selected * workersPerPage);
     }
 
-    //TODO: Use this function when filtering the workers list
     function setWorkerPages(relevantWorkers) {
         setPageCount(Math.ceil(relevantWorkers.length / workersPerPage));
         let currentPage = relevantWorkers.slice(offset, offset + workersPerPage);
@@ -39,11 +40,21 @@ function WorkerListPage(props) {
 
     function filterList(event) {
         event.preventDefault();
+        let relevantWorkers = [];
+
+        workers.forEach((worker) => {
+            if ((worker.Location === searchLocation || searchLocation === '') 
+                && (worker.FirstName + ' ' + worker.LastName).toLowerCase().includes(searchName.toLowerCase()))
+                relevantWorkers.push(worker);
+        })
+
+        setWorkerPages(relevantWorkers);
     }
 
     function resetFilters() {
         setSearchName('');
         setSearchLocation('');
+        setCurrentPageWorkers(workers);
     }
 
     async function deleteAccount(WorkerId) {
@@ -68,19 +79,20 @@ function WorkerListPage(props) {
                 <div className='admin-container'>
                     <h1>Worker List</h1>
                     <br/>
-                    <Form>
+                    <Form onSubmit={filterList}>
                         <Row form>
                             <Col md={6}>
                                 <FormGroup className="searchName">
                                     <Label>Name</Label>
                                     <Input type="text" id="searchName"
-                                        value={searchName}
-                                        onChange={(e) => setSearchName(
-                                            e.target.value)}
-                                        placeholder="Search by name" />
-                                    <button onClick={(e) => {
-                                        setSearchName('');
-                                        e.preventDefault();
+                                            value={searchName}
+                                            onChange={(e) => setSearchName(
+                                                e.target.value)}
+                                            placeholder="Search by name" />
+                                    <Input type="submit" hidden />
+                                    <button onClick={(e) =>
+                                    {setSearchName('');
+                                    e.preventDefault();
                                     }} >X</button>
                                 </FormGroup>
                             </Col>
@@ -90,9 +102,9 @@ function WorkerListPage(props) {
                                 <FormGroup>
                                     <Label>Location</Label>
                                     <Input type="select"
-                                        value={searchLocation}
-                                        onChange={(e) => setSearchLocation(e.target.value)}>
-                                        <option value="Choose Location">Choose Location</option>
+                                            value={searchLocation}
+                                            onChange={(e) => setSearchLocation(e.target.value)}>
+                                        <option value="">Any Location</option>
                                         <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
                                         <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
                                         <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
@@ -130,7 +142,7 @@ function WorkerListPage(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {workers.map(({ FirstName, LastName, Location, WorkerId }) => (
+                            {currentPageWorkers.map(({WorkerId, FirstName, LastName, Location}) => (
                                 <tr>
                                     <td>{FirstName}</td>
                                     <td>{LastName}</td>
