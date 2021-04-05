@@ -158,7 +158,7 @@ router.get('/client/:id', (req, res) => {
 
 
 // @route   POST /referrals/add
-// @desc    POST Add a new visit to the database
+// @desc    POST Add a new referral to the database
 router.post('/add', upload.fields([{name: 'wheelchairPhoto', maxCount: 1}, 
 {name: 'physioPhoto', maxCount: 1}, {name: 'prostheticPhoto', maxCount: 1}, 
 {name: 'orthoticPhoto', maxCount: 1}]), async (req,res) => {
@@ -343,6 +343,32 @@ router.put('/:id/edit', async (req,res) => {
             res.status(404).json(error.message)
         else
             res.status(400).json(error);
+    }
+})
+
+router.delete('/delete/:id', async(req, res) => {
+    let transaction;
+    const referralId = req.params.id;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const refToDelete = await referral.findByPk(referralId, { transaction });
+
+        if (refToDelete === null) {
+            throw new Error("Referral not found")
+        }
+        await refToDelete.destroy({ transaction });
+        await transaction.commit();
+        res.json("Referral deleted successfully");
+    }
+    catch (err) {
+        if (transaction)
+            await transaction.rollback();
+        if (err.message === "Referral not found")
+            res.status(404).json(err.message)
+        else
+            res.status(400).json(err.name + ": " + err.message)
     }
 })
 
