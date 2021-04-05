@@ -85,8 +85,8 @@ function AdminAlerts() {
                "Message":"Message body",
                "Date":"01-01-2021",
                "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
+               "SpecificWorkers":[1, 2, 3, 4, 5],
+               "ForAllWorkers": false
                },{
                "AlertId": 4,
                "Title":"Title of alert",
@@ -102,7 +102,23 @@ function AdminAlerts() {
     }
 
     function makeFakeAlerts2() {
-        setCurrUserAlerts(allAlerts);
+        setCurrUserAlerts([{
+         "AlertId": 1,
+         "Title":"Title of alert",
+         "Message":"Message body",
+         "Date":"01-01-2021",
+         "AuthorUsername":"admin",
+         "SpecificWorkers":[],
+         "ForAllWorkers": true
+         },{
+         "AlertId": 2,
+         "Title":"Title of alert",
+         "Message":"Message body",
+         "Date":"01-01-2021",
+         "AuthorUsername":"admin",
+         "SpecificWorkers":[1, 2],
+         "ForAllWorkers": false
+         }]);
 
     }
 
@@ -174,7 +190,7 @@ function AdminAlerts() {
             <div className="main-content">
             <h1>Alerts</h1>
             <Row>
-                <Button onClick={openModal} >Create message</Button>
+                <Button onClick={openModal}>Create message</Button>
             </Row>
             <Row>
                 <Col>

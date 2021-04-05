@@ -8,6 +8,15 @@
     margin-bottom: 0px;
 }
 
+.delete-btn {
+    float: right;
+    background-color: red;
+}
+
+.badge-pill {
+    color: success;
+}
+
 .dateText {
     text-align: left;
     color: #8c8c8c;
