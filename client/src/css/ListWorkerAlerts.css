@@ -1,0 +1,43 @@
+
+.alerts {
+    maxHeight: 35em;
+    overflowY: auto;
+    maxWidth:100%;
+}
+
+.alerts alert-list {
+    border:1px solid grey;
+}
+
+.alerts h4 {
+    color:#9646b7;
+}
+
+.alerts button {
+    background-color: green
+}
+
+.listHeader {
+    float: left;
+    margin: 0px;
+    width:100%;
+}
+
+.messageText{
+    margin-bottom: 0px;
+}
+
+.dateText {
+    text-align: left;
+    color: #8c8c8c;
+    margin: 0px;
+}
+
+
+
+
+
+
+
+
+

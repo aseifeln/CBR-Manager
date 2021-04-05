@@ -68,7 +68,10 @@ router.get('/worker/:id', async (req, res) => {
                           } 
                         }
                     ]
-                }
+                },
+                order: [
+                    ['AlertId', 'DESC']
+                ]
             }, { transaction })
     
             await transaction.commit()
