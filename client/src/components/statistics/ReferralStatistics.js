@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Table} from 'reactstrap'
+import { Container, Table, Label, Input } from 'reactstrap'
 import { ReferralBarChart } from '../graphs/ReferralsGraph';
 import axios from 'axios';
 
@@ -7,6 +7,7 @@ function ReferralStatistics() {
 
     const [ stats, setStats ] = useState([]);
     const [ maxCount, setMaxCount ] = useState(0);
+    const [ sortBy, setSortBy ] = useState('Total');
 
     useEffect(() => {
         axios.get('/referrals')
@@ -49,11 +50,38 @@ function ReferralStatistics() {
         setMaxCount(count);
     }
 
+    // Reference: https://stackoverflow.com/a/1129270
+    function compare(a, b) {
+        if (a[sortBy] > b[sortBy])
+            return 1;
+        else if (a[sortBy] < b[sortBy])
+            return -1;
+        else
+            return 0;
+    }
+
+    function sortByStats() {
+        let sortedStats = [];
+        sortedStats = stats.sort(compare);
+
+        setStats(sortedStats);
+    }
+
     return (
         <Container>
             <div style={{height: '400px'}}>
                 <ReferralBarChart data={stats} keys={['Total', 'Made', 'Resolved']} maxValue={maxCount}/>
             </div>
+            <Label>Sort by</Label>
+            <Input type="select"
+             onChange={(e) => {
+                setSortBy(e.target.value);
+                sortByStats();
+             }}>
+                <option value="Total">Total</option>
+                <option value="Made">Made</option>
+                <option value="Resolved">Resolved</option>
+            </Input>
             <Table>
                 <thead>
                     <tr>
