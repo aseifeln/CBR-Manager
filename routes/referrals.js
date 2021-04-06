@@ -66,11 +66,11 @@ router.get('/count', (req, res) => {
     let filters = { Date: [null], ClientId: null, WorkerId: null, Status: null, ServiceRequired: [null] }
     MatchFilters(filters, req.query);
     filters = ValidateFilters(filters);
-    console.log(filters)
+
     referral.count({
         where: filters
     })
-    .then(visitCount => res.status(200).json(visitCount))
+    .then(referralCount => res.status(200).json(referralCount))
     .catch(err => res.status(400).json(err));
 });
 
