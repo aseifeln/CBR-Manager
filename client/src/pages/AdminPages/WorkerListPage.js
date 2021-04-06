@@ -59,15 +59,14 @@ function WorkerListPage(props) {
 
     async function deleteAccount(WorkerId) {
         axios.delete('/users/delete', { data: { WorkerId: WorkerId } })
-            .then(res => {
-            })
-            .catch(err => {
-                console.log(err)
-                alert('Worker is not deleted')
-                return
-            })
-        alert('Worker is deleted')
-        window.location.reload();
+        .then(() => {
+            alert('Worker is deleted');
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err)
+            alert('An error occurred, the worker is not able to be deleted');
+        })
     }
 
     return (
