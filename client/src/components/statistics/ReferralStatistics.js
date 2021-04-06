@@ -64,10 +64,10 @@ function ReferralStatistics() {
                     </tr>
                 </thead>
                 <tbody>
-                {stats.map(({Location, All, Made, Resolved}) => (
+                {stats.map(({Location, Total, Made, Resolved}) => (
                     <tr>
                         <td>{Location}</td>
-                        <td>{All}</td>
+                        <td>{Total}</td>
                         <td>{Made}</td>
                         <td>{Resolved}</td>
                     </tr>
