@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { isPattern } from '@formiz/validations';
@@ -8,6 +8,8 @@ import {getGPSLocation} from '../Helpers';
 import CookieChecker from '../../components/CookieChecker';
 import { MultiStepForm, Step, FieldInput, FieldCheck, FieldTypeahead } from '../../components/MultiStepForm';
 import MapWithMarker from '../../components/MapWithMarker';
+import { UserContext } from '../../components/UserContext';
+
 
 const formContainerSize = {
   margin: 'auto',
@@ -21,6 +23,7 @@ function NewClientSignup() {
   const [clientDate, setClientDate] = useState((new Date()).toISOString())
   const [GPSLocation, setGPSLocation] = useState();
   const phoneNumberRegex = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/g
+  const context = useContext(UserContext);
   const history = useHistory()
 
   useEffect(() => {
@@ -35,7 +38,10 @@ function NewClientSignup() {
     data['DisabilityType'] = (data['DisabilityType']) ? `${data['DisabilityType']}` : "Don't Know" 
     data['DateCreated'] = clientDate
     data['Gender'] = (data['Gender'] || 'Male')
-    data['GPSLocation'] = GPSLocation;
+    data['WorkerId'] = context.WorkerId
+
+    if (GPSLocation)
+      data['GPSLocation'] = GPSLocation
 
     const formData = new FormData()
     for (let [key, val] of Object.entries(data)) {

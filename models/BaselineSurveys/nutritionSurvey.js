@@ -34,6 +34,6 @@ NutritionSurvey.hasOne(BaselineSurvey, {
     }
 });
 
-BaselineSurvey.belongsTo(NutritionSurvey, {foreignKey: 'NutritionSurveyId', targetKey: 'NutritionSurveyId'})
+BaselineSurvey.belongsTo(NutritionSurvey, {foreignKey: 'NutritionSurveyId', targetKey: 'NutritionSurveyId', onDelete: 'cascade', hooks: true})
 
 module.exports = NutritionSurvey;
