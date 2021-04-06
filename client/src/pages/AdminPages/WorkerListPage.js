@@ -59,7 +59,7 @@ function WorkerListPage(props) {
 
     async function deleteAccount(WorkerId) {
         axios.delete('/users/delete', { data: { WorkerId: WorkerId } })
-        .then(res => {
+        .then(() => {
             alert('Worker is deleted');
             window.location.reload();
         })
