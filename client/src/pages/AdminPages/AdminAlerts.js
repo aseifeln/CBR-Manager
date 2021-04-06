@@ -51,9 +51,9 @@ function AdminAlerts() {
                 setAlerts(response.data);
             })
             .catch((error) => {
+                console.log(error);
                 setAlerts(makeFakeAlerts());
                 setCurrentPageAlerts(makeFakeAlerts());
-                //console.log(error);
             })
     }, []);
 
@@ -163,7 +163,6 @@ function AdminAlerts() {
 
     function sendAlert(data) {
         const sendData = formatData(data);
-        console.log("DATA IS HERE:",sendData);
 
         axios.put('/alerts/add', sendData)
         .then(response => {
@@ -208,7 +207,6 @@ function AdminAlerts() {
 
       function changedCheckbox() {
         setIsCurrentAuthor(!isCurrentAuthor);
-        console.log("called: ", isCurrentAuthor);
         filterList();
       }
 
