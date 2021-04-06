@@ -12,7 +12,7 @@ function ValidateFilters(filters) {
     // Removes all nulls from the object
     let validatedFilters = Object.fromEntries(Object.entries(filters).filter(filter => {
         const [key, val] = filter;
-        if (key === 'location' || 'DisabilityType' || 'Date') {
+        if (key === 'Location' || 'DisabilityType' || 'Date') {
             return (filters[key][0] !== null);
         }
         return (filters[key] !== null);
@@ -20,17 +20,20 @@ function ValidateFilters(filters) {
 
     // Checks all types are correct (eg. Dateformat, location enum, disability enum, date range)
     for (let [key, val] of Object.entries(validatedFilters)) {
-        if (key === 'location') {
-            val = JSON.parse(val)
+        if (key === 'Location') {
+            val = JSON.parse(val);
             let locations = val.filter(location => {
                 return !!validLocations.find(validLocation => location === validLocation);
             })
-            if (locations.length !== 0) {
-                validatedFilters[key] = locations;
+            if (locations.length === 1) {
+                validatedFilters.Location = locations[0];
+            }
+            else if (locations.length > 1) {
+                validatedFilters.Location = { [Op.in]: locations }
             }
         }
         else if (key === 'DisabilityType') {
-            val = JSON.parse(val)
+            val = JSON.parse(val);
             let disabilities = val.filter(disability => {
                 return !!validDisabilities.find(validDisability => disability === validDisability);
             })
@@ -39,7 +42,7 @@ function ValidateFilters(filters) {
             }
         }
         else if (key === 'Date') {
-            let date = JSON.parse(validatedFilters.Date)
+            let date = JSON.parse(validatedFilters.Date);
             if (date.length === 1) {
                 let dateParsed = date[0].split('-').reverse().map(Number);
                 validatedFilters.Date = new Date(dateParsed[0], dateParsed[1], dateParsed[2]);
@@ -48,8 +51,8 @@ function ValidateFilters(filters) {
                 let from = date[0].split('-').reverse().map(Number);
                 let to = date[1].split('-').reverse().map(Number);
 
-                let fromDate = new Date(from[0], from[1], from[2])
-                let toDate = new Date(to[0], to[1], to[2])
+                let fromDate = new Date(from[0], from[1], from[2]);
+                let toDate = new Date(to[0], to[1], to[2]);
 
                 validatedFilters.Date = {
                     [Op.between]: [fromDate, toDate]
@@ -68,7 +71,7 @@ function MatchFilters(filters, query) {
 
     validQuery.map(filter => {
         const [key, val] = filter;
-        return filters[key] = val
+        return filters[key] = val;
     });
 }
 
