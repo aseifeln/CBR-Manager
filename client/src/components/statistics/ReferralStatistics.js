@@ -7,7 +7,7 @@ function ReferralStatistics() {
 
     const [ stats, setStats ] = useState([]);
     const [ maxCount, setMaxCount ] = useState(0);
-    const [ sortBy, setSortBy ] = useState('Total');
+    const [ sortBy, setSortBy ] = useState('Total'); // Need this state for sorting statistics even though it isn't used
 
     useEffect(() => {
         axios.get('/referrals')
@@ -50,21 +50,17 @@ function ReferralStatistics() {
         setMaxCount(count);
     }
 
-    // Reference: https://stackoverflow.com/a/1129270
-    function compare(a, b) {
-        if (a[sortBy] > b[sortBy])
-            return 1;
-        else if (a[sortBy] < b[sortBy])
-            return -1;
-        else
-            return 0;
-    }
-
-    function sortByStats() {
-        let sortedStats = [];
-        sortedStats = stats.sort(compare);
-
-        setStats(sortedStats);
+    // Reference: https://stackoverflow.com/a/46848788
+    function sortByStats(sortBy) {
+        stats.sort((a, b) => {
+            if (a[sortBy] < b[sortBy])
+                return 1;
+            else if (a[sortBy] > b[sortBy])
+                return -1;
+            else
+                return 0;
+        })
+        setStats(stats);
     }
 
     return (
@@ -76,7 +72,7 @@ function ReferralStatistics() {
             <Input type="select"
              onChange={(e) => {
                 setSortBy(e.target.value);
-                sortByStats();
+                sortByStats(e.target.value);
              }}>
                 <option value="Total">Total</option>
                 <option value="Made">Made</option>
