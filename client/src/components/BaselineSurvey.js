@@ -77,7 +77,7 @@ function BaselineSurvey(props){
                   </tr>
                   <tr>
                     <td>Which assistive device needed</td>
-                    <td> {HealthSurvey?.AssistiveDeviceRequired ? HealthSurvey.AssistiveDeviceRequired : "--"}</td>
+                    <td> {HealthSurvey?.AssistiveDeviceRequired ? (HealthSurvey.AssistiveDeviceRequired.join(', ')) : "--"}</td>
                   </tr>
                   <tr>
                     <td>Satisfaction with current health services</td>
@@ -158,7 +158,7 @@ function BaselineSurvey(props){
                     <InsertYesOrNoImg bool={EducationSurvey?.SchoolBefore}/>
                   </tr>
                   <tr>
-                    <td>Want to go to school</td>
+                    <td>Wants to go to school</td>
                     <InsertYesOrNoImg bool={EducationSurvey?.WantSchool}/>
                   </tr>
                 </tbody>
@@ -185,7 +185,7 @@ function BaselineSurvey(props){
                     <InsertYesOrNoImg bool={LivelihoodSurvey?.WorkStatus}/>
                   </tr>
                   <tr>
-                    <td>What do you do?</td>
+                    <td>Work Description</td>
                     <td>{LivelihoodSurvey?.WorkDescription ? LivelihoodSurvey.WorkDescription : "--"}</td>
                   </tr>
                   <tr>
@@ -261,7 +261,7 @@ function BaselineSurvey(props){
                   </tr>
                   <tr>
                     <td>List of organizations</td>
-                    <td>{EmpowermentSurvey?.DisabilityOrganizations ? EmpowermentSurvey.DisabilityOrganizations : "--"}</td>
+                    <td>{EmpowermentSurvey?.DisabilityOrganizations ? (EmpowermentSurvey.DisabilityOrganizations.join(', ')) : "--"}</td>
                   </tr>
                   <tr>
                     <td>Aware of rights</td>

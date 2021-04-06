@@ -93,7 +93,9 @@ function ClientInfo(props) {
                 <Collapse isOpen={toggle}>
                     <CardBody>
                         <DisplayStatus type={area}/>
-                        <BaselineSurvey baselineSurvey={baselineSurvey} surveyType={area}></BaselineSurvey>
+                        {(baselineSurvey) ? (
+                            <BaselineSurvey baselineSurvey={baselineSurvey} surveyType={area}></BaselineSurvey>
+                        ) : ("")}
                     </CardBody>
                 </Collapse>
             </Card>
