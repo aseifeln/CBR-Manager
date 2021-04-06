@@ -3,13 +3,9 @@ import { useHistory, Link } from 'react-router-dom';
 import { UserContext } from '../../components/UserContext';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-<<<<<<< HEAD:client/src/pages/ClientListPage.js
-import CookieChecker from '../components/CookieChecker';
-=======
 import CookieChecker from '../../components/CookieChecker';
 import moment from 'moment';
 
->>>>>>> master:client/src/pages/ClientPages/ClientListPage.js
 import { Form,
         FormGroup,
         Label,

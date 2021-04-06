@@ -168,7 +168,7 @@ as right now will still render this component briefly even for existing clients*
                             location={JSON.parse(client.GPSLocation)}
                         />
                     </Col>
-                ) : ("")}
+                ) : ""}
             </Row>
             <Row>
                 <Col align="center">
@@ -182,6 +182,13 @@ as right now will still render this component briefly even for existing clients*
                     <Link to={"/referral/new/" + props.match.params.id}>
                         <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}}>
                             New Referral
+                        </Button>
+                    </Link>
+                </Col>
+                <Col align="center">
+                    <Link to={"/survey/new/" + props.match.params.id}>
+                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'right'}}>
+                            New Baseline Survey
                         </Button>
                     </Link>
                 </Col>

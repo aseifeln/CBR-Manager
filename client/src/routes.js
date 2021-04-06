@@ -24,6 +24,8 @@ import AdminInsights from './pages/AdminPages/AdminInsights';
 import WorkerListPage from './pages/AdminPages/WorkerListPage';
 import WorkerInfo from './pages/AdminPages/WorkerInfo';
 
+import NewSurvey from './pages/NewSurvey'
+
 import NotFoundPage from './pages/404';
 
 /**
@@ -141,6 +143,25 @@ const ROUTES = [
       }
     ]
   },
+    {
+    path: '/survey',
+    key: 'Survey',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/survey/new',
+        key: 'NEW_SURVEY',
+        exact: true,
+        component: NewSurvey
+      },
+      {
+        path: '/survey/new/:id',
+        key: 'NEW_SURVEY_WITH_ID',
+        exact: true,
+        component: NewSurvey
+      }
+    ]
+  }
 ];
 
 export default ROUTES;
