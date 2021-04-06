@@ -7,12 +7,13 @@ const validDisabilities = [
     'Amputee', 'Polio', 'Spinal Cord Injury', 'Cerebral Palsy',
     'Spina Bifida', 'Hydrocephalus', 'Visual Impairment', 'Hearing Impairment',
     'Don\'t Know', 'Other'];
+const validServices = [ 'Physiotherapy', 'Prosthetic', 'Orthotic', 'Wheelchair', 'Other' ];
 
 function ValidateFilters(filters) {
     // Removes all nulls from the object
     let validatedFilters = Object.fromEntries(Object.entries(filters).filter(filter => {
         const [key, val] = filter;
-        if (key === 'Location' || 'DisabilityType' || 'Date') {
+        if (key === 'Location' || key === 'DisabilityType' || key === 'Date' || key === 'ServiceRequired') {
             return (filters[key][0] !== null);
         }
         return (filters[key] !== null);
@@ -25,11 +26,14 @@ function ValidateFilters(filters) {
             let locations = val.filter(location => {
                 return !!validLocations.find(validLocation => location === validLocation);
             })
-            if (locations.length === 1) {
+            if (locations.length === 0) {
+                delete validatedFilters.Location;
+            }
+            else if (locations.length === 1) {
                 validatedFilters.Location = locations[0];
             }
             else if (locations.length > 1) {
-                validatedFilters.Location = { [Op.in]: locations }
+                validatedFilters.Location = { [Op.in]: locations };
             }
         }
         else if (key === 'DisabilityType') {
@@ -37,13 +41,23 @@ function ValidateFilters(filters) {
             let disabilities = val.filter(disability => {
                 return !!validDisabilities.find(validDisability => disability === validDisability);
             })
-            if (disabilities.length !== 0) {
-                validatedFilters[key] = disabilities;
+            if (disabilities.length === 0) {
+                delete validatedFilters.DisabilityType;
+            }
+            else if (disabilities.length === 1) {
+                validatedFilters.DisabilityType = disabilities;
+            }
+            else if (disabilities.length > 1) {
+                // TODO add multiple disability search
+                validatedFilters.DisabilityType = { [Op.contains]: disabilities }
             }
         }
         else if (key === 'Date') {
             let date = JSON.parse(validatedFilters.Date);
-            if (date.length === 1) {
+            if (date.length === 0) {
+                delete validatedFilters.Date;
+            }
+            else if (date.length === 1) {
                 let dateParsed = date[0].split('-').reverse().map(Number);
                 validatedFilters.Date = new Date(dateParsed[0], dateParsed[1], dateParsed[2]);
             }
@@ -57,6 +71,27 @@ function ValidateFilters(filters) {
                 validatedFilters.Date = {
                     [Op.between]: [fromDate, toDate]
                 }
+            }
+        }
+        else if (key === 'Status') {
+            if (validatedFilters.Status !== 'Made' && validatedFilters.Status !== 'Resolved') {
+                delete validatedFilters.Status
+                throw "Invalid Status value"
+            }
+        }
+        else if (key === 'ServiceRequired') {
+            val = JSON.parse(val);
+            let services = val.filter(service => {
+                return !!validServices.find(validService => service === validService);
+            })
+            if (services.length === 0) {
+                delete validatedFilters.ServiceRequired;
+            }
+            else if (services.length === 1) {
+                validatedFilters.ServiceRequired = services;
+            }
+            else if (services.length > 1) {
+                validatedFilters.ServiceRequired = { [Op.in]: [services] };
             }
         }
     }
