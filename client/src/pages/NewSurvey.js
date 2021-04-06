@@ -438,7 +438,7 @@ function NewSurvey(props){
                         
                       <Step name="Empowerment">
                         <Row form>
-                          <Label>Are you a member of any organizations which assist people with disabilities??</Label>
+                          <Label>Are you a member of any organizations which assist people with disabilities?</Label>
                           <Col>
                               <FormGroup>
                                   <FieldCheck name="part-of-organizations" type="radio" label="Yes" value="Yes" defaultChecked
