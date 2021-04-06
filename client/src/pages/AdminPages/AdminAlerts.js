@@ -49,6 +49,7 @@ function AdminAlerts() {
         axios.get('/alerts')
             .then((response) => {
                 setAlerts(response.data);
+                setCurrentPageAlerts(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -114,7 +115,7 @@ function AdminAlerts() {
     }
 
     function deleteAlert(AlertId) {
-        axios.put('/alerts/delete' + AlertId)
+        axios.delete('/alerts/' + AlertId + '/delete')
             .then((response) => {
                 alert("Alert deleted");
                 window.location.reload();
