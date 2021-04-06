@@ -17,6 +17,7 @@ function ClientInfo(props) {
     const [ client, setClient ] = useState({});
     const [ visits, setVisits ] = useState([]);
     const [ referrals,setReferrals] = useState([]);
+    const [ baselineSurvey, setBaselineSurvey ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
     const context = useContext(UserContext);
     const [ clientId, setClientId ] = useState(props.match.params.id);
@@ -62,6 +63,14 @@ function ClientInfo(props) {
             .catch(error => {
                 console.log(error);
             })
+
+        axios.get('/baselineSurveys/client/' + props.match.params.id)
+            .then(response => {
+                setBaselineSurvey(response.data[0]);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }, [])
 
     function ClientAreaAccordion(props) {
@@ -84,9 +93,7 @@ function ClientInfo(props) {
                 <Collapse isOpen={toggle}>
                     <CardBody>
                         <DisplayStatus type={area}/>
-                        {(client.BaselineSurvey) ? (
-                            <BaselineSurvey clientId={clientId} surveyType={area}></BaselineSurvey>
-                        ) : ("")}
+                        <BaselineSurvey baselineSurvey={baselineSurvey} surveyType={area}></BaselineSurvey>
                     </CardBody>
                 </Collapse>
             </Card>

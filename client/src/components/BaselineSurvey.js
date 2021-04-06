@@ -1,26 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import {Table} from 'reactstrap';
-import axios from 'axios';
 
 function BaselineSurvey(props){
 
-    const [ baselineSurvey, setBaselineSurvey ] = useState({});
-    const [ baselineSurveyFound, setBaselineSurveyFound ] = useState(false);
-
-    const [ surveyType, setSurveyType ] = useState(props.surveyType);
-
-    useEffect(() => {
-        console.log("in baseline: ", surveyType)
-        axios.get('/baselineSurveys/client/' + props.clientId)
-        .then(response => {
-            setBaselineSurvey(response.data[0]);
-            setBaselineSurveyFound(true);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    },[])
+  let { baselineSurvey, surveyType } = props;
+  let [ surveyFound, setSurveyFound ] = useState(true);
 
     function InsertYesOrNoImg(props) {
         if (typeof props.bool == undefined) {
@@ -34,7 +19,6 @@ function BaselineSurvey(props){
     }
 
     function InsertSpecificSurvey() {
-        console.log("in baseline: ", surveyType)
         switch(surveyType) {
             case 'Health':
                 return HealthSurvey();
@@ -55,7 +39,8 @@ function BaselineSurvey(props){
     }
 
     function HealthSurvey() {
-        const {HealthSurvey} = baselineSurvey;
+        const HealthSurvey = baselineSurvey['HealthSurvey'];
+        setSurveyFound(HealthSurvey !== null);
         return(
             <div>
                 <Table size="sm">
@@ -105,7 +90,8 @@ function BaselineSurvey(props){
     }
 
     function SocialSurvey() {
-        const {SocialSurvey} = baselineSurvey;
+        const SocialSurvey = baselineSurvey['SocialSurvey'];
+        setSurveyFound(SocialSurvey !== null);
         return(
             <div>
                 <Table size="sm">
@@ -143,7 +129,8 @@ function BaselineSurvey(props){
     }
 
     function EducationSurvey() {
-        const {EducationSurvey} = baselineSurvey;
+        const EducationSurvey = baselineSurvey['EducationSurvey'];
+        setSurveyFound(EducationSurvey !== null);
         return(
             <div>
                 <Table size="sm">
@@ -181,7 +168,8 @@ function BaselineSurvey(props){
     }
 
     function LivelihoodSurvey() {
-        const {LivelihoodSurvey} = baselineSurvey;
+        const LivelihoodSurvey = baselineSurvey['LivelihoodSurvey'];
+        setSurveyFound(LivelihoodSurvey !== null);
         return(
             <div>
                 <Table size="sm">
@@ -223,7 +211,8 @@ function BaselineSurvey(props){
     }
 
     function NutritionSurvey() {
-        const {NutritionSurvey} = baselineSurvey;
+        const NutritionSurvey = baselineSurvey['NutritionSurvey'];
+        setSurveyFound(NutritionSurvey !== null);
         return(
             <div>
                 <Table size="sm">
@@ -254,7 +243,8 @@ function BaselineSurvey(props){
     }
 
     function EmpowermentSurvey() {
-        const {EmpowermentSurvey} = baselineSurvey;
+        const EmpowermentSurvey = baselineSurvey['EmpowermentSurvey'];
+        setSurveyFound(EmpowermentSurvey !== null);
         return(
             <div>
                 <Table size="sm">
@@ -288,7 +278,8 @@ function BaselineSurvey(props){
     }
 
     function ShelterSurvey() {
-        const {ShelterSurvey} = baselineSurvey;
+        const ShelterSurvey = baselineSurvey['ShelterSurvey'];
+        setSurveyFound(ShelterSurvey !== null)
         return(
             <div>
                 <Table size="sm">
@@ -312,6 +303,9 @@ function BaselineSurvey(props){
             </div>
         );
     }
+
+    if (!surveyFound)
+      return(<div></div>)
 
     return (
         <div>
