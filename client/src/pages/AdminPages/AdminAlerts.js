@@ -1,31 +1,32 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Collapse,
-Card,
-CardBody,
-CardHeader,
-Container,
-Button,
-Form, FormGroup, FormFeedback, FormText,
-Input, Label, Row, Col } from 'reactstrap';
+import { Collapse, Container, Button, Form, FormGroup, Input, Label, Table } from 'reactstrap';
+import axios from 'axios';
+import Modal from 'react-modal';
+import ReactPaginate from 'react-paginate';
+import { Formiz, useForm } from '@formiz/core';
+
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import { FieldInput, FieldTypeahead } from "../../components/MultiStepForm";
-import axios from 'axios';
-import Modal from 'react-modal';
-import { Formiz, useForm } from '@formiz/core';
 import { UserContext } from '../../components/UserContext';
+import '../../css/AdminAlerts.css';
 
-import AlertsList from '../../components/AlertList';
 
 function AdminAlerts() {
 
     const [ workers, setWorkers ] = useState([]);
 
-    const [ allAlerts, setAllAlerts ] = useState([]);
-    const [ currUserAlerts, setCurrUserAlerts ] = useState([]);
+    const [ alerts, setAlerts ] = useState([]);
 
     const [modalOpen, setModalOpen] = useState(false);
     const [alertAllWorkers, setAlertAllWorkers] = useState(true);
+
+    const [offset, setOffset] = useState(0);
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPageAlerts, setCurrentPageAlerts] = useState([]);
+    const alertsPerPage = 15;
+
+    const [isCurrentAuthor, setIsCurrentAuthor] = useState(true);
 
     const context = useContext(UserContext);
 
@@ -35,7 +36,10 @@ function AdminAlerts() {
                 const workerArr = [];
                 // Reference: https://stackoverflow.com/a/57008713
                 // FieldTypeahead options must be an array
-                Object.keys(response.data).forEach(key => workerArr.push({value: response.data[key].WorkerId, label: response.data[key].FirstName + ' ' + response.data[key].LastName}));
+                Object.keys(response.data).forEach(key =>
+                    workerArr.push({value: response.data[key].WorkerId,
+                                    label: response.data[key].FirstName + ' ' + response.data[key].LastName
+                                   }));
                 setWorkers(workerArr);
             })
             .catch((error) => {
@@ -44,25 +48,17 @@ function AdminAlerts() {
 
         axios.get('/alerts')
             .then((response) => {
-                setAllAlerts(response.data);
+                setAlerts(response.data);
             })
             .catch((error) => {
-                makeFakeAlerts();
-                //console.log(error);
-            })
-
-        axios.get('/alerts/' + context.Username)
-            .then((response) => {
-                setCurrUserAlerts(response.data);
-            })
-            .catch((error) => {
-                makeFakeAlerts2();
+                setAlerts(makeFakeAlerts());
+                setCurrentPageAlerts(makeFakeAlerts());
                 //console.log(error);
             })
     }, []);
 
     function makeFakeAlerts() {
-        setAllAlerts(
+        return (
             [{
                "AlertId": 1,
                "Title":"Title of alert",
@@ -95,31 +91,59 @@ function AdminAlerts() {
                "AuthorUsername":"admin",
                "SpecificWorkers":[],
                "ForAllWorkers": true
+               },{
+               "AlertId": 5,
+               "Title":"NOT BY THIS ADMIN",
+               "Message":"Message body",
+               "Date":"01-01-2021",
+               "AuthorUsername":"greg",
+               "SpecificWorkers":[],
+               "ForAllWorkers": true
+               },{
+               "AlertId": 6,
+               "Title":"Also not by this admin",
+               "Message":"Message body",
+               "Date":"01-01-2021",
+               "AuthorUsername":"steve",
+               "SpecificWorkers":[],
+               "ForAllWorkers": true
                },
             ]
         );
 
     }
 
-    function makeFakeAlerts2() {
-        setCurrUserAlerts([{
-         "AlertId": 1,
-         "Title":"Title of alert",
-         "Message":"Message body",
-         "Date":"01-01-2021",
-         "AuthorUsername":"admin",
-         "SpecificWorkers":[],
-         "ForAllWorkers": true
-         },{
-         "AlertId": 2,
-         "Title":"Title of alert",
-         "Message":"Message body",
-         "Date":"01-01-2021",
-         "AuthorUsername":"admin",
-         "SpecificWorkers":[1, 2],
-         "ForAllWorkers": false
-         }]);
+    function deleteAlert(AlertId) {
+        axios.put('/alerts/delete' + AlertId)
+            .then((response) => {
+                alert("Alert deleted");
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("Something went wrong when trying to delete the alert");
+            });
+    }
 
+    function handlePageClick(event) {
+        setOffset(event.selected * alertsPerPage);
+    }
+
+    function setAlertPages(relevantAlerts) {
+        setPageCount(Math.ceil(relevantAlerts.length / alertsPerPage));
+        let currentPage = relevantAlerts.slice(offset, offset + alertsPerPage);
+        setCurrentPageAlerts(currentPage);
+    }
+
+    function filterList(){
+        let relevantAlerts = [];
+
+        alerts.forEach((alert) => {
+         if (!isCurrentAuthor || (isCurrentAuthor && alert.AuthorUsername === context.Username))
+             relevantAlerts.push(alert);
+         })
+
+        setAlertPages(relevantAlerts);
     }
 
     function openModal() {
@@ -182,6 +206,12 @@ function AdminAlerts() {
         }
       };
 
+      function changedCheckbox() {
+        setIsCurrentAuthor(!isCurrentAuthor);
+        console.log("called: ", isCurrentAuthor);
+        filterList();
+      }
+
     return (
         <>
         <CookieChecker/>
@@ -189,23 +219,57 @@ function AdminAlerts() {
             <AdminSideBar/>
             <div className='admin-container'>
                 <h1>Alerts</h1>
-                <Row>
-                    <Button onClick={openModal}>Create message</Button>
-                </Row>
-                <Row>
-                    <Col>
-                      <div>
-                        <h3>My Alerts</h3>
-                        <AlertsList alerts={currUserAlerts}/>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div>
-                        <h3>All Alerts</h3>
-                        <AlertsList alerts={allAlerts}/>
-                      </div>
-                    </Col>
-                </Row>
+                <Button className="button" onClick={openModal}>Create message</Button>
+                <br/>
+
+                <Form>
+                    <FormGroup>
+                         <Label check className="checkbox">
+                            <Input type="checkbox" defaultChecked={false} onChange={changedCheckbox}/>
+                            Show current admin alerts only
+                         </Label>
+                    </FormGroup>
+                </Form>
+
+                <Table responsive className="alerts-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Author</th>
+                            <th>Recipients</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {currentPageAlerts.map(({AlertId, Title, Message, Date, AuthorUsername, SpecificWorkers, ForAllWorkers}) => (
+                            <tr>
+                                <td>{Title}</td>
+                                <td>{Message}</td>
+                                <td>{Date}</td>
+                                <td>{AuthorUsername}</td>
+                                <td>{(ForAllWorkers) ? "All" :
+                                    SpecificWorkers}</td>
+                                <td>
+                                    <Button onClick={() => deleteAlert(AlertId)} color="danger">Delete</Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+
+                <ReactPaginate previousLabel={'Previous'}
+                            nextLabel={'Next'}
+                            breakLabel={'...'}
+                            pageCount={pageCount}
+                            pageRangeDisplayed={5}
+                            marginPagesDisplayed={2}
+                            onPageChange={handlePageClick}
+                            forcePage={offset / alertsPerPage}
+                            containerClassName={'pagination'}
+                            subContainerClassName={'pages pagination'}
+                            activeClassName={'pagination_active'}/>
 
                 <Modal
                  isOpen={modalOpen}
