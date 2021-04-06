@@ -7,6 +7,7 @@ import NotFoundPage from '../404';
 import CookieChecker from '../../components/CookieChecker';
 import MapWithMarker from '../../components/MapWithMarker';
 import moment from 'moment';
+
 import { UserContext } from '../../components/UserContext';
 import DeleteWithWarning from '../../components/DeleteWithWarning';
 import BaselineSurvey from '../../components/BaselineSurvey';
@@ -83,7 +84,9 @@ function ClientInfo(props) {
                 <Collapse isOpen={toggle}>
                     <CardBody>
                         <DisplayStatus type={area}/>
-                        <BaselineSurvey clientId={clientId} surveyType={area}></BaselineSurvey>
+                        {(client.BaselineSurvey) ? (
+                            <BaselineSurvey clientId={clientId} surveyType={area}></BaselineSurvey>
+                        ) : ("")}
                     </CardBody>
                 </Collapse>
             </Card>
