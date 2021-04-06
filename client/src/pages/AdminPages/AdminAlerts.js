@@ -164,7 +164,7 @@ function AdminAlerts() {
     function sendAlert(data) {
         const sendData = formatData(data);
 
-        axios.put('/alerts/add', sendData)
+        axios.post('/alerts/add', sendData)
         .then(response => {
             closeModal();
             alert("alert sent");
