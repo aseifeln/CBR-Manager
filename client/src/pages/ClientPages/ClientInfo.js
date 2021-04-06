@@ -20,10 +20,8 @@ function ClientInfo(props) {
     const [ baselineSurvey, setBaselineSurvey ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
     const context = useContext(UserContext);
-    const [ clientId, setClientId ] = useState(props.match.params.id);
     
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
-    const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
     const areaColor2={backgroundColor:"#22a9ba"};
 
@@ -75,7 +73,7 @@ function ClientInfo(props) {
 
     function ClientAreaAccordion(props) {
 
-        const { area, status, goal, desc, defaultState } = props;
+        const { area, defaultState } = props;
         const [ toggle, setToggle ] = useState(defaultState);
 
         return (

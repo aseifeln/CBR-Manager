@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'reactstrap';
-import {Table} from 'reactstrap';
+import { Table } from 'reactstrap';
 
 function BaselineSurvey(props){
 
