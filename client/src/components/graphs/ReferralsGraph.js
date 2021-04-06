@@ -2,12 +2,13 @@ import React from 'react';
 import { ResponsiveBar } from '@nivo/bar'
 
 // Reference: https://nivo.rocks/bar/
-const ReferralBarChart = ({ data, keys }) => {
+const ReferralBarChart = ({ data, keys, maxValue }) => {
+
     return (
         <ResponsiveBar
             data={data}
             keys={keys}
-            indexBy="location"
+            indexBy="Location"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
             padding={0.3}
             groupMode="grouped"
@@ -26,6 +27,7 @@ const ReferralBarChart = ({ data, keys }) => {
                 legendOffset: 32
             }}
             axisLeft={{
+                tickValues: maxValue,
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
