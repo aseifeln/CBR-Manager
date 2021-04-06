@@ -12,6 +12,22 @@ const { sequelize } = require('../models/BaselineSurveys/baselineSurvey');
 const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
 const uuid = require('uuid');
 
+
+// @route   GET /baselineSurveys/count?Location=["", ""]&Date=["", ""]&ClientId=1&WorkerId
+// @desc    GET Retrieve the total number of baselineSurveys per provided parameters
+// @params  Optional: Date, ClientId, WorkerId
+router.get('/count', (req, res) => {
+    let filters = { Date: [null], ClientId: null, WorkerId: null }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+    console.log(filters)
+    BaselineSurvey.count({
+        where: filters
+    })
+        .then(baselineSurveyCount => res.status(200).json(baselineSurveyCount))
+        .catch(err => res.status(400).json(err));
+});
+
 // @route   /baselineSurveys/:id
 // @desc    GET retrieve a survey by SurveyId
 router.get('/:id', (req,res) => {
