@@ -16,7 +16,7 @@ function AdminSideBar() {
         { label: 'Insights', to: '/admin/insights', icon: FaRegChartBar },
         { label: 'Workers', to: '/admin/worker-list', icon: FaBriefcase },
         { label: 'Clients', to: '/client-list', icon: FaUser },
-        { label: 'Messaging', to: '/admin/messaging', icon: FaComment },
+        { label: 'Alerts', to: '/admin/alerts', icon: FaComment },
 
     ]
 

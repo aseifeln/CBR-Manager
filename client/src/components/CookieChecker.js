@@ -35,6 +35,7 @@ function CookieChecker(props) {
     }
 
     function setContext() {
+        context.Username = getCookie("Username");
         context.Role = getCookie("Role");
         context.WorkerId = getCookie("WorkerId");
     }
