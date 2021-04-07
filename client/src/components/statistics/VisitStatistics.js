@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Table, Label, Input } from 'reactstrap'
+import { Container, Table, Label, Input } from 'reactstrap';
+import BarChart from '../graphs/BarGraph';
 import axios from 'axios';
 
 function VisitStatistics() {
@@ -9,13 +10,12 @@ function VisitStatistics() {
     useEffect(() => {
         axios.get('/visits')
         .then((response) => {
-            console.log(response.data)
             generateStats(response.data);
         })
         .catch((error) => {
             console.log(error);
         })
-    })
+    }, [])
 
     function generateStats(visits) {
         let data = {};
@@ -36,8 +36,17 @@ function VisitStatistics() {
         setStats(dataArr);
     }
 
+    if (stats === []) {
+        return (
+            <div>No stats found</div>
+        )
+    }
+
     return (
         <Container>
+            <div style={{height: '400px'}}>
+                <BarChart data={stats} keys={['Count']} keyAttr="Count" groupBy="Location" xAxis="Location" yAxis="Count"/>
+            </div>
             <Table>
                 <thead>
                     <tr>

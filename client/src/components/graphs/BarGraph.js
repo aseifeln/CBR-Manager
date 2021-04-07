@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 
 // Reference: https://nivo.rocks/bar/
-function BarChart(data, keys, maxValue) {
+function BarChart(props) {
+
+    const { data, keys, keyAttr, groupBy } = props;
+
+    const [ maxValue, setMaxValue ] = useState(0);
+    
+    useEffect(() => {
+        let count = 0;
+
+        data.forEach((entry) => {
+            if (entry[keyAttr] > count)
+                count = entry[keyAttr];
+        })
+
+        setMaxValue(count);
+    }, [])
 
     return (
         <ResponsiveBar
             data={data}
             keys={keys}
-            indexBy="Location"
+            indexBy={groupBy}
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
             padding={0.3}
             groupMode="grouped"
@@ -22,7 +37,7 @@ function BarChart(data, keys, maxValue) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'Location',
+                legend: "Location",
                 legendPosition: 'middle',
                 legendOffset: 32
             }}
@@ -31,7 +46,7 @@ function BarChart(data, keys, maxValue) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'Count',
+                legend: "Count",
                 legendPosition: 'middle',
                 legendOffset: -40
             }}

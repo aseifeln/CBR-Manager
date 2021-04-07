@@ -2,6 +2,7 @@ import React from 'react';
 import {Container} from 'reactstrap';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
+import VisitStatistics from '../../components/statistics/VisitStatistics';
 
 function AdminInsights() {
 
@@ -13,6 +14,7 @@ function AdminInsights() {
 
                 <div className='admin-container'>
                     <h1>Insights</h1>
+                    <VisitStatistics/>
                 </div>
             </div>
         </>
