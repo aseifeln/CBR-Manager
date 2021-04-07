@@ -65,7 +65,6 @@ function AdminAlerts() {
 
         axios.delete('/alerts/' + AlertId + '/delete')
             .then((response) => {
-                alert("Alert deleted");
                 window.location.reload();
             })
             .catch((error) => {
@@ -104,7 +103,7 @@ function AdminAlerts() {
     }
 
     function cancelAlert() {
-        var confirmCancel = window.confirm("Would you like to abort message?");
+        var confirmCancel = window.confirm("Are you sure you would like to abort message?");
         if (confirmCancel) {
             closeModal();
         }
@@ -114,10 +113,10 @@ function AdminAlerts() {
         const sendData = formatData(data);
 
         axios.post('/alerts/add', sendData)
-        .then(response => {
+        .then(() => {
             closeModal();
-            alert("alert sent");
-            window.location.reload()
+            alert("Alert sent");
+            window.location.reload();
         })
         .catch(err => {
             console.log(err);
