@@ -36,12 +36,6 @@ function VisitStatistics() {
         setStats(dataArr);
     }
 
-    if (stats === []) {
-        return (
-            <div>No stats found</div>
-        )
-    }
-
     return (
         <Container>
             <div style={{height: '400px'}}>

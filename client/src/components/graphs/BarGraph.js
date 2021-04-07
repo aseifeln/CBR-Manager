@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 
-// Reference: https://nivo.rocks/bar/
 function BarChart(props) {
 
     const { data, keys, keyAttr, groupBy } = props;
@@ -20,6 +19,7 @@ function BarChart(props) {
     }, [])
 
     return (
+        // Reference: https://nivo.rocks/bar/
         <ResponsiveBar
             data={data}
             keys={keys}
