@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Media, Button } from 'reactstrap';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import CookieChecker from '../../components/CookieChecker';
 import Modal from 'react-modal';
 import { FieldInput } from "../../components/MultiStepForm";
@@ -9,14 +9,17 @@ import { Formiz, useForm } from '@formiz/core';
 import { UserContext } from '../../components/UserContext';
 import moment from 'moment';
 import DeleteWithWarning from '../../components/DeleteWithWarning';
+import AdminSideBar from '../../components/AdminSideBar';
 
 function ReferralInfo(props){
 
     let formState = useForm();
 
     const [referral, setReferral]= useState({});
-    const [ resolveModalOpen, setResolveModalOpen ] = useState(false);
+    const [resolveModalOpen, setResolveModalOpen] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const context = useContext(UserContext);
+    const history = useHistory();
     const formContainerSize={
         margin: 'auto',
         maxWidth: 800
@@ -35,6 +38,12 @@ function ReferralInfo(props){
     };
 
     useEffect(() => {
+        if(context.Role === 'Admin'){
+            setIsAdmin(true)
+        }
+    })
+
+    useEffect(() => {
         document.title='Referral Info' 
         axios.get('/referrals/' + props.match.params.id)
         .then(response => {
@@ -45,6 +54,11 @@ function ReferralInfo(props){
             document.title = "Referral not found";
         })
       }, [])
+    
+    function previousPage(event) {
+        event.preventDefault();
+        history.goBack();
+    }
     
     function openModal() {
         setResolveModalOpen(true);
@@ -193,81 +207,88 @@ function ReferralInfo(props){
     }
 
     return(
-        <Container>
-            <div style={formContainerSize}>
-                <CookieChecker></CookieChecker>
-                <Row>
-                    <Col>
-                        <Button tag={Link} to={'/client/'+ referral.Client?.ClientId}>Back to Client</Button>
-                    </Col>
-                    <Col style={{display: 'inline'}}>
-                    {(context.Role === 'Admin') ? (
-                            <div>
-                                <DeleteWithWarning referralId={props.match.params.id} clientId={referral.Client?.ClientId}/>
-                            </div>
-                        ) : ""}
-                        
-                        <Button onClick={openModal} style={{float: 'right',  marginRight: '5px'}}>Resolve</Button>
-                        <Modal
-                         isOpen={resolveModalOpen}
-                         onRequestClose={closeModal}
-                         style={customStyles}>
-                            <Container>
-                                <Formiz connect={formState} onValidSubmit={resolveReferral}>
-                                    <form onSubmit={formState.submit}>
-                                        <h4>Resolve Referral</h4>
-                                        <FieldInput label="Status" type="select" name="Status" required="A selection is required" defaultValue={"Resolved"} disabled>
-                                            <option hidden selected>Choose a status</option>
-                                            <option>Made</option>
-                                            <option>Resolved</option>
-                                        </FieldInput>
-                                        <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required" 
-                                         defaultValue={referral.Outcome || ""}/>
-                                        <Button type="submit">Submit</Button>
-                                        <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
-                                    </form>
-                                </Formiz>
-                            </Container>
-                        </Modal>
-                    </Col>
-                </Row>
-                <br/>
-                <Row>
-                    <Col><h1>Referral</h1></Col>
-                </Row>
-                <Row>
-                    <Col><h5><b>Client Name: </b>{referral.Client?.FirstName + ' ' + referral.Client?.LastName}</h5></Col>
-                </Row>
-                <Row>
-                    <Col><h5><b>Date: </b>{moment(referral.Date).format('DD-MM-YYYY')}</h5></Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h5><b>Status: </b>
-                        <div style={{display: 'inline', color: (referral.Status === 'Made') ? ('red') : ('green')}}>{referral.Status}</div>
-                        </h5>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h5><b>Services: </b>{referral.ServiceRequired && referral.ServiceRequired.join(', ')}</h5>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h5><b>Service Center: </b>{referral.ReferTo}</h5>
-                    </Col>
-                </Row>
-                <br/>
-                <Row>
-                    <Col><h1>Details</h1></Col>
-                </Row>
-                {referral.ServiceRequired && (referral.ServiceRequired.map((service)=>{
-                    return(
-                        <ServiceHandler service={service}/>
-                )}))}
-            </div>
-        </Container>
+        <div className={`${isAdmin ? "main-content" : ""}`}>
+            {isAdmin ? 
+                <AdminSideBar/> 
+                : ''}
+            <Container>
+                <div className={`${isAdmin ? "admin-container" : ""}`} style={formContainerSize}>
+                    <CookieChecker></CookieChecker>
+                    <Row>
+                        <Col>
+                            <Button onClick={(e) => previousPage(e)}>Back</Button>
+                        </Col>
+                        <Col style={{display: 'inline'}}>
+                        {(isAdmin) ? (
+                                <div>
+                                    <DeleteWithWarning referralId={props.match.params.id} clientId={referral.Client?.ClientId}/>
+                                </div>
+                            ) : ""}
+                            
+                            {!isAdmin ?
+                            <Button onClick={openModal} style={{float: 'right',  marginRight: '5px'}}>Resolve</Button>
+                            : ''}
+                            <Modal
+                            isOpen={resolveModalOpen}
+                            onRequestClose={closeModal}
+                            style={customStyles}>
+                                <Container>
+                                    <Formiz connect={formState} onValidSubmit={resolveReferral}>
+                                        <form onSubmit={formState.submit}>
+                                            <h4>Resolve Referral</h4>
+                                            <FieldInput label="Status" type="select" name="Status" required="A selection is required" defaultValue={"Resolved"} disabled>
+                                                <option hidden selected>Choose a status</option>
+                                                <option>Made</option>
+                                                <option>Resolved</option>
+                                            </FieldInput>
+                                            <FieldInput label="Outcome" type="textarea" name="Outcome" placeholder="What was the outcome?" required="Outcome is required" 
+                                            defaultValue={referral.Outcome || ""}/>
+                                            <Button type="submit">Submit</Button>
+                                            <Button onClick={closeModal} style={{float: 'right'}}>Close</Button>
+                                        </form>
+                                    </Formiz>
+                                </Container>
+                            </Modal>
+                        </Col>
+                    </Row>
+                    <br/>
+                    <Row>
+                        <Col><h1>Referral</h1></Col>
+                    </Row>
+                    <Row>
+                        <Col><h5><b>Client Name: </b>{referral.Client?.FirstName + ' ' + referral.Client?.LastName}</h5></Col>
+                    </Row>
+                    <Row>
+                        <Col><h5><b>Date: </b>{moment(referral.Date).format('DD-MM-YYYY')}</h5></Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h5><b>Status: </b>
+                            <div style={{display: 'inline', color: (referral.Status === 'Made') ? ('red') : ('green')}}>{referral.Status}</div>
+                            </h5>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h5><b>Services: </b>{referral.ServiceRequired && referral.ServiceRequired.join(', ')}</h5>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <h5><b>Service Center: </b>{referral.ReferTo}</h5>
+                        </Col>
+                    </Row>
+                    <br/>
+                    <Row>
+                        <Col><h1>Details</h1></Col>
+                    </Row>
+                    {referral.ServiceRequired && (referral.ServiceRequired.map((service)=>{
+                        return(
+                            <ServiceHandler service={service}/>
+                    )}))}
+                </div>
+            </Container>
+        </div>
     );
 }
 
