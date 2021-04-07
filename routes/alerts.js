@@ -44,7 +44,11 @@ router.get('/', async (req, res) => {
     try {
         transaction = await sequelize.transaction()
 
-        let result = await alert.findAll({ transaction })
+        let result = await alert.findAll({
+            order: [
+                ['Date', 'DESC'],
+                ['AlertId', 'DESC']
+            ]}, { transaction })
 
         if(result === null) {
             throw new Error("No Alerts found")
