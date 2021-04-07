@@ -35,6 +35,39 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+// @route   GET /alerts
+// @desc    GET Retrieve all alerts
+router.get('/', async (req, res) => {
+
+    let transaction
+
+    try {
+        transaction = await sequelize.transaction()
+
+        let result = await alert.findAll({
+            order: [
+                ['Date', 'DESC'],
+                ['AlertId', 'DESC']
+            ]}, { transaction })
+
+        if(result === null) {
+            throw new Error("No Alerts found")
+        }
+
+        await transaction.commit()
+        res.status(200).json(result)
+
+    } catch (error) {
+        await transaction.rollback();
+        if(error.message === "No Alerts found") {
+            res.status(404).json(error.message)
+        }
+        else {
+            res.status(400).json(error.message)
+        }
+    }
+})
+
 // @route   GET /alerts/worker/id
 // @desc    GET Retrieve all alerts for a specific cbr worker
 router.get('/worker/:id', async (req, res) => {
