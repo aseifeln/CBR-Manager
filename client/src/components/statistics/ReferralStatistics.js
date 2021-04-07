@@ -19,6 +19,22 @@ function ReferralStatistics() {
         })
     }, [])
 
+    // Also counts max value
+    function convertToArray(data) {
+        let count = 0;
+        let dataArr = [];
+        for (var i in data) {
+            data[i]['Location'] = i;
+            dataArr.push(data[i]);
+
+            if (data[i]['Total'] > count)
+                count = data[i]['Total'];
+        }
+
+        setStats(dataArr);
+        setMaxCount(count);
+    }
+
     function generateStats(referralData) {
         const data = {};
         referralData.forEach((ref) => {
@@ -34,17 +50,8 @@ function ReferralStatistics() {
                 data[ref.Client?.Location].Resolved += 1;
         })
 
-        // For the table / chart
-        let count = 0;
-        let dataArr = [];
-        for (var i in data)
-        {
-            data[i]['Location'] = i;
-            dataArr.push(data[i]);
-
-            if (data[i]['Total'] > count)
-                count = data[i]['Total'];
-        }
+        // Need to convert to array to be used by the table / graph
+        convertToArray(data);
 
         setStats(dataArr);
         setMaxCount(count);
