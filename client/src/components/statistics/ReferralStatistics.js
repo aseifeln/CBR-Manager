@@ -52,9 +52,6 @@ function ReferralStatistics() {
 
         // Need to convert to array to be used by the table / graph
         convertToArray(data);
-
-        setStats(dataArr);
-        setMaxCount(count);
     }
 
     // Reference: https://stackoverflow.com/a/46848788
