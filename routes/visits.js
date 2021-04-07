@@ -191,5 +191,26 @@ router.delete('/delete/:id', async(req, res) => {
             res.status(400).json(err.name + ": " + err.message)
     }
 })
+
+router.get('/', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const visits = await visit.findAll({
+            attributes: ['Location']
+        }, { transaction })
+
+        await transaction.commit();
+        res.json(visits);
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+        
+        res.status(500).json(error);
+    }
+})
  
 module.exports = router
