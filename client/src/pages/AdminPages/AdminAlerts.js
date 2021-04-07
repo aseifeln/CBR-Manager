@@ -53,68 +53,16 @@ function AdminAlerts() {
             })
             .catch((error) => {
                 console.log(error);
-                setAlerts(makeFakeAlerts());
-                setCurrentPageAlerts(makeFakeAlerts());
             })
     }, []);
 
-    function makeFakeAlerts() {
-        return (
-            [{
-               "AlertId": 1,
-               "Title":"Title of alert",
-               "Message":"Message body",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 2,
-               "Title":"Title of alert",
-               "Message":"Message body",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 3,
-               "Title":"Title of alert",
-               "Message":"Message body",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[1, 2, 3, 4, 5],
-               "ForAllWorkers": false
-               },{
-               "AlertId": 4,
-               "Title":"Title of alert",
-               "Message":"Message body",
-               "Date":"01-01-2021",
-               "AuthorUsername":"admin",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 5,
-               "Title":"NOT BY THIS ADMIN",
-               "Message":"Message body",
-               "Date":"01-01-2021",
-               "AuthorUsername":"greg",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },{
-               "AlertId": 6,
-               "Title":"Also not by this admin",
-               "Message":"Message body",
-               "Date":"01-01-2021",
-               "AuthorUsername":"steve",
-               "SpecificWorkers":[],
-               "ForAllWorkers": true
-               },
-            ]
-        );
-
-    }
-
     function deleteAlert(AlertId) {
+
+        var confirmDelete = window.confirm("Are you sure you would like to delete this message?");
+        if (!confirmDelete) {
+            return;
+        }
+
         axios.delete('/alerts/' + AlertId + '/delete')
             .then((response) => {
                 alert("Alert deleted");
@@ -211,6 +159,18 @@ function AdminAlerts() {
         filterList();
       }
 
+    function PrintSpecificWorkerNames(props) {
+        if (!props.specificWorkerIdsArr || props.specificWorkerIdsArr.length <= 0) {
+            return (<td>All</td>);
+        }
+        const workerNamesArr = [];
+        workers.forEach((worker) => {
+             if (props.specificWorkerIdsArr.includes(worker.value))
+                 workerNamesArr.push(worker.label);
+             })
+        return (<td>{(workerNamesArr).join(', ')}</td>)
+    }
+
     return (
         <>
         <CookieChecker/>
@@ -242,14 +202,13 @@ function AdminAlerts() {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentPageAlerts.map(({AlertId, Title, Message, Date, AuthorUsername, SpecificWorkers, ForAllWorkers}) => (
+                        {currentPageAlerts.map(({AlertId, Title, Message, Date, AuthorUsername, SpecificWorkers}) => (
                             <tr>
                                 <td>{Title}</td>
                                 <td>{Message}</td>
                                 <td>{Date}</td>
                                 <td>{AuthorUsername}</td>
-                                <td>{(ForAllWorkers) ? "All" :
-                                    SpecificWorkers}</td>
+                                <PrintSpecificWorkerNames specificWorkerIdsArr={SpecificWorkers}/>
                                 <td>
                                     <Button onClick={() => deleteAlert(AlertId)} color="danger">Delete</Button>
                                 </td>
