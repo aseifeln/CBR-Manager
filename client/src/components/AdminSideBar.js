@@ -30,7 +30,7 @@ function AdminSideBar() {
                 {links.map((link) => (
                     <AdminSideBar.NavItem to={link.to} collapsed={isCollapsed}>
                         <link.icon size="25"/>
-                        <span>{!isCollapsed && link.label}</span>
+                        <span>{link.label}</span>
                     </AdminSideBar.NavItem>
                 ))}
             </Nav>
