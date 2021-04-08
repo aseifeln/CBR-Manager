@@ -10,10 +10,13 @@
 
 .alerts h4 {
     color:#9646b7;
+    margin: 0px;
 }
 
 .alerts button {
+    float: left;
     background-color: #46ad2f;
+    margin: 10px;
 }
 
 .listHeader {
