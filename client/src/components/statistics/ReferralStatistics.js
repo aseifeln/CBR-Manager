@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Table, Label, Input } from 'reactstrap'
-import { ReferralBarChart } from '../graphs/ReferralsGraph';
+import BarChart from '../graphs/BarGraph';
 import axios from 'axios';
 
 function ReferralStatistics() {
 
     const [ stats, setStats ] = useState([]);
-    const [ maxCount, setMaxCount ] = useState(0);
     const [ sortBy, setSortBy ] = useState('Total'); // Need this state for sorting statistics even though it isn't used
 
     useEffect(() => {
@@ -70,7 +69,7 @@ function ReferralStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <ReferralBarChart data={stats} keys={['Total', 'Made', 'Resolved']} maxValue={maxCount}/>
+                <BarChart data={stats} keys={['Total', 'Made', 'Resolved']} keyAttr="Total" groupBy="Location" xAxis="Location" yAxis="Count"/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
