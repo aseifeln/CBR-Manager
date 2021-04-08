@@ -192,18 +192,20 @@ router.delete('/delete/:id', async(req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/stats/location', async (req, res) => {
     let transaction;
 
     try {
         transaction = await sequelize.transaction();
 
-        const visits = await visit.findAll({
-            attributes: ['Location']
+        const stats = await visit.findAll({
+            attributes: ['Location', [sequelize.fn('count', sequelize.col('Location')), 'count']],
+            group: ['Location'],
+            order: [[sequelize.literal('count'), 'DESC']]
         }, { transaction })
 
         await transaction.commit();
-        res.json(visits);
+        res.json(stats);
     }
     catch (error) {
         if (transaction)
