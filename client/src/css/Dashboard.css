@@ -11,12 +11,11 @@ h1 {
 
 
 .outRefs{
-    margin: 3em;
-    height: 40em;
+    min-width: 300px;
 }
 
 .priorityClient{
-    margin: 3em;
+    min-width: 300px;
 }
 
 .container{
