@@ -20,18 +20,13 @@ function ReferralStatistics() {
 
     // Also counts max value
     function convertToArray(data) {
-        let count = 0;
         let dataArr = [];
         for (var i in data) {
             data[i]['Location'] = i;
             dataArr.push(data[i]);
-
-            if (data[i]['Total'] > count)
-                count = data[i]['Total'];
         }
 
         setStats(dataArr);
-        setMaxCount(count);
     }
 
     function generateStats(referralData) {
@@ -69,7 +64,7 @@ function ReferralStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <BarChart data={stats} keys={['Total', 'Made', 'Resolved']} keyAttr="Total" groupBy="Location" xAxis="Location" yAxis="Count"/>
+                <BarChart data={stats} keys={['Total', 'Made', 'Resolved']} keyAttr="Total" groupBy="Location" xAxis="Location" yAxis="Count" legendOn/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
