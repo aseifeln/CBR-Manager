@@ -90,7 +90,8 @@ router.get('/worker/:id', async (req, res) => {
                     'Title',
                     'Message',
                     'Date',
-                    'AuthorUsername'
+                    'AuthorUsername',
+                    'ForAllWorkers'
                 ],
                 where: {
                     [Op.or]: [
