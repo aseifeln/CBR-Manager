@@ -20,7 +20,7 @@ function VisitStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <BarChart data={stats} keys={['count']} keyAttr="count" groupBy="Location" xAxis="Location" yAxis="Count"/>
+                <BarChart data={stats} keys={['count']} keyAttr="count" groupBy="Location" xAxisLabel="Location" yAxisLabel="Count"/>
             </div>
             <Table>
                 <thead>

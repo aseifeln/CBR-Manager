@@ -34,7 +34,7 @@ function ReferralStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <BarChart data={stats} keys={['Total', 'Made', 'Resolved']} keyAttr="Total" groupBy="Location" xAxis="Location" yAxis="Count" legendOn/>
+                <BarChart data={stats} keys={['Total', 'Made', 'Resolved']} keyAttr="Total" groupBy="Location" xAxisLabel="Location" yAxisLabel="Count" legendOn/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"

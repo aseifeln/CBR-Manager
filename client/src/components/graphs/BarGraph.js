@@ -3,7 +3,7 @@ import { ResponsiveBar } from '@nivo/bar';
 
 function BarChart(props) {
 
-    const { data, keys, keyAttr, groupBy, legendOn } = props;
+    const { data, keys, keyAttr, groupBy, legendOn, xAxisLabel, yAxisLabel } = props;
 
     const [ maxValue, setMaxValue ] = useState(0);
     
@@ -37,7 +37,7 @@ function BarChart(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "Location",
+                legend: xAxisLabel || groupBy,
                 legendPosition: 'middle',
                 legendOffset: 32
             }}
@@ -46,7 +46,7 @@ function BarChart(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "Count",
+                legend: yAxisLabel || keyAttr,
                 legendPosition: 'middle',
                 legendOffset: -40
             }}
