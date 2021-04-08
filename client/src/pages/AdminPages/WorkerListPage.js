@@ -7,7 +7,7 @@ import CookieChecker from '../../components/CookieChecker';
 import '../../css/WorkerList.css';
 import axios from 'axios';
 
-function WorkerListPage() {
+function WorkerListPage(props) {
     const [offset, setOffset] = useState(0);
     const [pageCount, setPageCount] = useState(0);
     const [currentPageWorkers, setCurrentPageWorkers] = useState([]);
@@ -25,9 +25,8 @@ function WorkerListPage() {
                 setCurrentPageWorkers(res.data);
             })
             .catch(err => console.log(err))
-
         document.title = 'Workers List'
-    },[])
+    }, [])
 
     function handlePageClick(event) {
         setOffset(event.selected * workersPerPage);
@@ -39,7 +38,7 @@ function WorkerListPage() {
         setCurrentPageWorkers(currentPage);
     }
 
-    function filterList(event){
+    function filterList(event) {
         event.preventDefault();
         let relevantWorkers = [];
 
@@ -58,7 +57,19 @@ function WorkerListPage() {
         setCurrentPageWorkers(workers);
     }
 
-    return(
+    async function deleteAccount(WorkerId) {
+        axios.delete('/users/delete', { data: { WorkerId: WorkerId } })
+        .then(() => {
+            alert('Worker is deleted');
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err)
+            alert('An error occurred, the worker is not able to be deleted');
+        })
+    }
+
+    return (
         <>
             <CookieChecker/>
             <div className='main-content'>
@@ -106,7 +117,7 @@ function WorkerListPage() {
                                 </FormGroup>
                             </Col>
                         </Row>
-                        
+
                         <FormGroup>
                             <Row>
                                 <Col xs="auto">
@@ -126,6 +137,7 @@ function WorkerListPage() {
                                 <th>Last Name</th>
                                 <th>Location</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,26 +147,27 @@ function WorkerListPage() {
                                     <td>{LastName}</td>
                                     <td>{Location}</td>
                                     <td>
-                                        <Link to={`/admin/worker/${WorkerId}`}>
-                                            <Button color="success">View</Button>
+                                        <Link to={"/admin/worker/" + WorkerId}>
+                                            <Button color="success"> View </Button>
                                         </Link>
                                     </td>
+                                    <td><Button onClick={() => deleteAccount(WorkerId)} color="danger">Delete</Button></td>
                                 </tr>
-                            ))} 
+                            ))}
                         </tbody>
                     </Table>
-                    
+
                     <ReactPaginate previousLabel={'Previous'}
-                                nextLabel={'Next'}
-                                breakLabel={'...'}
-                                pageCount={pageCount}
-                                pageRangeDisplayed={5}
-                                marginPagesDisplayed={2}
-                                onPageChange={handlePageClick}
-                                forcePage={offset / workersPerPage}
-                                containerClassName={'pagination'}
-                                subContainerClassName={'pages pagination'}
-                                activeClassName={'pagination_active'}/>
+                        nextLabel={'Next'}
+                        breakLabel={'...'}
+                        pageCount={pageCount}
+                        pageRangeDisplayed={5}
+                        marginPagesDisplayed={2}
+                        onPageChange={handlePageClick}
+                        forcePage={offset / workersPerPage}
+                        containerClassName={'pagination'}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'pagination_active'} />
                 </div>
             </div>
         </>
