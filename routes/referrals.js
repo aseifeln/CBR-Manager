@@ -167,8 +167,6 @@ router.get('/client/:id', (req, res) => {
 
 })
 
-
-
 // @route   POST /referrals/add
 // @desc    POST Add a new referral to the database
 router.post('/add', upload.fields([{name: 'wheelchairPhoto', maxCount: 1}, 
@@ -358,6 +356,8 @@ router.put('/:id/edit', async (req,res) => {
     }
 })
 
+// @route   DELETE /referrals/delete/id
+// @desc    DELETE existing referral in the database with matching id
 router.delete('/delete/:id', async(req, res) => {
     let transaction;
     const referralId = req.params.id;
@@ -384,6 +384,8 @@ router.delete('/delete/:id', async(req, res) => {
     }
 })
 
+// @route   GET /referrals/stats/location
+// @desc    GET number of referrals for each location (determined by client)
 router.get('/stats/location', async (req, res) => {
     let transaction;
 
