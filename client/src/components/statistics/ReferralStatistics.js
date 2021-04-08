@@ -9,44 +9,14 @@ function ReferralStatistics() {
     const [ sortBy, setSortBy ] = useState('Total'); // Need this state for sorting statistics even though it isn't used
 
     useEffect(() => {
-        axios.get('/referrals')
+        axios.get('/referrals/stats/location')
         .then((response) => {
-            generateStats(response.data);
+            setStats(response.data);
         })
         .catch((error) => {
             console.log(error);
         })
     }, [])
-
-    // Also counts max value
-    function convertToArray(data) {
-        let dataArr = [];
-        for (var i in data) {
-            data[i]['Location'] = i;
-            dataArr.push(data[i]);
-        }
-
-        setStats(dataArr);
-    }
-
-    function generateStats(referralData) {
-        const data = {};
-        referralData.forEach((ref) => {
-            if (!(ref.Client?.Location in data)) {
-                data[ref.Client?.Location] = {Total: 0, Made: 0, Resolved: 0};
-            }
-
-            data[ref.Client?.Location].Total += 1;    
-
-            if (ref.Status === 'Made')
-                data[ref.Client?.Location].Made += 1;
-            else
-                data[ref.Client?.Location].Resolved += 1;
-        })
-
-        // Need to convert to array to be used by the table / graph
-        convertToArray(data);
-    }
 
     // Reference: https://stackoverflow.com/a/46848788
     function sortByStats(sortBy) {

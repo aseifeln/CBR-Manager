@@ -22,6 +22,18 @@ function ConvertImage(referral){
     referral['Photo'] = targetImage
 }
 
+// Used for statistics purposes of converting to json objects to array
+// Note: The first attribute in the objects are the indices
+function convertToArray(data, index) {
+    let dataArr = [];
+    for (var i in data) {
+        data[i][index] = i;
+        dataArr.push(data[i]);
+    }
+
+    return dataArr;
+}
+
 // @route   GET /referrals/outstanding
 // @desc    GET all outstanding referrals (status === "Made") ordered by date
 router.get('/outstanding', async (req, res) => {
@@ -372,7 +384,7 @@ router.delete('/delete/:id', async(req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/stats/location', async (req, res) => {
     let transaction;
 
     try {
@@ -387,8 +399,26 @@ router.get('/', async (req, res) => {
             }]
         }, { transaction });
 
+        // Generating statistics
+        const data = {};
+        refs.forEach((ref) => {
+            if (!(ref.Client.Location in data)) {
+                data[ref.Client.Location] = {Total: 0, Made: 0, Resolved: 0};
+            }
+
+            data[ref.Client.Location].Total += 1;    
+
+            if (ref.Status === 'Made')
+                data[ref.Client.Location].Made += 1;
+            else
+                data[ref.Client.Location].Resolved += 1;
+        })
+
+        // Need to convert to array to be used by the table / graph
+        const stats = convertToArray(data, 'Location');
+
         await transaction.commit();
-        res.json(refs)
+        res.json(stats);
     }
     catch (error) {
         if (transaction)
