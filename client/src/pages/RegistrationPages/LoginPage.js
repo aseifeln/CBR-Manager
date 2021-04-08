@@ -40,6 +40,7 @@ function Login() {
         document.cookie = "cookiename=cookievalue;max-age=" + (maxAge);
         axios.get('users/session', { params: { username: user['Username'] } })
             .then(res => {
+                document.cookie = `Username=${username};max-age=` + (maxAge);
                 document.cookie = `Role=${res.data[0].Role};max-age=` + (maxAge);
                 document.cookie = `WorkerId=${res.data[0].WorkerId};max-age=` + (maxAge);
                 if (res.data[0].Role === 'Worker') {

@@ -3,10 +3,12 @@ import { Button, Card, CardHeader, CardBody, Collapse, Row, Col } from 'reactstr
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import VisitStatistics from '../../components/statistics/VisitStatistics';
+import ReferralStatistics from '../../components/statistics/ReferralStatistics';
 
 function AdminInsights() {
 
     const statFontSize = {fontSize: "20px", fontWeight: "bold"};
+    const [ showRefStats, setShowRefStats ] = useState(false);
 
     function StatisticsAccordion({ children, header, defaultState }) {
 
@@ -35,8 +37,8 @@ function AdminInsights() {
 
     return(
         <>
-        <CookieChecker></CookieChecker>
-        <div className='main-content'>
+            <CookieChecker/>
+            <div className='main-content'>
                 <AdminSideBar/>
 
                 <div className='admin-container'>
@@ -44,7 +46,25 @@ function AdminInsights() {
                     <StatisticsAccordion header="Visit Statistics" defaultState={true}>
                         <VisitStatistics/>
                     </StatisticsAccordion>
+                    <Card>
+                        <CardHeader>
+                            <Row>
+                                <Col><h2 style={{statFontSize}}>Referral Stats</h2></Col>
+                                <Col>
+                                    <Button variant="primary" size="md" className="float-right" onClick={() => setShowRefStats(!showRefStats)}>
+                                        {(showRefStats) ? "Hide" : "Expand"}
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </CardHeader>
+                        <Collapse isOpen={showRefStats}>
+                            <CardBody>
+                                <ReferralStatistics/>
+                            </CardBody>
+                        </Collapse>
+                    </Card>
                 </div>
+
             </div>
         </>
     )
