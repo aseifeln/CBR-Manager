@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'reactstrap';
-import { Table } from 'reactstrap';
+import { Row, Col, Table } from 'reactstrap';
 
 function BaselineSurvey(props){
 
@@ -13,7 +12,7 @@ function BaselineSurvey(props){
       }
       if (props.bool) {
           //image: https://www.flaticon.com/free-icon/check-mark_1722017
-          return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>)
+          return (<td> <img src="/checkmark.png" style={{width:22}}/> </td>);
       }
       return (<td> <img src="/redX.png" style={{width:22}}/> </td>);
   }
