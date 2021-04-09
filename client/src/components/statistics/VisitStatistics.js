@@ -12,7 +12,6 @@ function VisitStatistics() {
     useEffect(() => {
         axios.get('/visits')
         .then((response) => {
-            console.log('here')
             generateStats(response.data);
         })
         .catch((error) => {
@@ -37,8 +36,6 @@ function VisitStatistics() {
     }
 
     function generateStats(visitData) {
-        console.log("HDASJHDNOAIWDHAWQOIDHWA")
-        console.log(visitData)
         const data = {};
         visitData.forEach((visit) => {
             if (!(visit.Client?.Location in data)) {
