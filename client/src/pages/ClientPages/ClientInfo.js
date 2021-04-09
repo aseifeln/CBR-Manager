@@ -222,79 +222,6 @@ as right now will still render this component briefly even for existing clients*
                                 {/* Reference: https://stackoverflow.com/questions/42395034/how-to-display-binary-data-as-image-in-react */}
                                 <Media src={`data:image/jpeg;base64,${client.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                             </div>
-<<<<<<< HEAD
-                        ) : ""}
-                        <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right', marginRight: '5px'}}>Edit Client</Button>
-                    </Col>
-                </Row>
-            </Container>
-            <Container>
-            <Row>
-                <Col>
-                    <div className="text-center">
-                        {/* Reference: https://stackoverflow.com/questions/42395034/how-to-display-binary-data-as-image-in-react */}
-                        <Media src={`data:image/jpeg;base64,${client.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
-                    </div>
-                </Col>
-                <Col>
-                    <h3 className="font-weight-bold" style={{fontSize: "18px"}}>Personal Info:</h3>
-                    <ul class="list-unstyled">
-                        <li>- Location: {client.Location}</li>
-                        <li>- Age: {client.Age}</li>
-                        <li>- Gender: {client.Gender}</li>
-                        <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
-                    </ul>
-                </Col>
-                {(client.GPSLocation) ? (
-                    <Col>
-                        <Label className="font-weight-bold">GPS Location</Label>
-                        <MapWithMarker
-                            loadingElement={<div style={{ height: '75%' }} />}
-                            containerElement={<div style={{ height: '250px', width: '300px' }} />}
-                            mapElement={<div style={{ height: '90%' }} />}
-                            location={JSON.parse(client.GPSLocation)}
-                        />
-                    </Col>
-                ) : ""}
-            </Row>
-            <Row>
-                <Col align="center">
-                    <Link to={"/visit/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'right'}}>
-                            New Visit
-                        </Button>
-                    </Link>
-                </Col>
-                <Col align="center" xs={2}>
-                    <Link to={"/referral/new/" + props.match.params.id}>
-                        <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
-                            New Referral
-                        </Button>
-                    </Link>
-                </Col>
-                <Col align="center">
-                    {(client.BaselineSurvey && context.Role === "Admin") ? (
-                        <DeleteWithWarning toDeleteSurvey={true} clientId={props.match.params.id}/>
-                    ) : (
-                        <Link>
-                            <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>
-                                New Survey
-                            </Button>
-                        </Link>
-                    )}
-                </Col>
-            </Row>
-            </Container>
-            <br/>
-            <Container>
-                <ClientAreaAccordion area="Health" defaultState={true}/>
-                <ClientAreaAccordion area="Social" defaultState={false}/>
-                <ClientAreaAccordion area="Education" defaultState={false}/>
-                <ClientAreaAccordion area="Livelihood" defaultState={false}/>
-                <ClientAreaAccordion area="Food/Nutrition" defaultState={false}/>
-                <ClientAreaAccordion area="Empowerment" defaultState={false}/>
-                <ClientAreaAccordion area="Shelter/Care" defaultState={false}/>
-=======
                         </Col>
                         <Col>
                             <h3 className="font-weight-bold" style={{fontSize: "18px"}}>Personal Info:</h3>
@@ -360,7 +287,6 @@ as right now will still render this component briefly even for existing clients*
                         <ClientAreaAccordion area="Food/Nutrition" defaultState={false}/>
                         <ClientAreaAccordion area="Empowerment" defaultState={false}/>
                         <ClientAreaAccordion area="Shelter/Care" defaultState={false}/>
->>>>>>> master
 
                         <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
                         <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>
