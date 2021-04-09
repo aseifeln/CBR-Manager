@@ -3,6 +3,7 @@ import React,{useEffect} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import OutRefs from '../../components/OutRef';
 import PriorityClients from '../../components/PriorityClients';
+import ListWorkerAlerts from '../../components/ListWorkerAlerts';
 import CookieChecker from '../../components/CookieChecker';
 import '../../css/Dashboard.css';
 
@@ -30,6 +31,11 @@ function Dashboard() {
             <Col>
               <div className="outRefs">
                 <OutRefs></OutRefs>
+              </div>
+            </Col>
+            <Col>
+              <div className="alerts">
+                <ListWorkerAlerts/>
               </div>
             </Col>
         </Row>

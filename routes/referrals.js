@@ -22,6 +22,18 @@ function ConvertImage(referral){
     referral['Photo'] = targetImage
 }
 
+// Used for statistics purposes of converting to json objects to array
+// Note: The first attribute in the objects are the indices
+function convertToArray(data, index) {
+    let dataArr = [];
+    for (var i in data) {
+        data[i][index] = i;
+        dataArr.push(data[i]);
+    }
+
+    return dataArr;
+}
+
 // @route   GET /referrals/outstanding
 // @desc    GET all outstanding referrals (status === "Made") ordered by date
 router.get('/outstanding', async (req, res) => {
@@ -154,8 +166,6 @@ router.get('/client/:id', (req, res) => {
     })
 
 })
-
-
 
 // @route   POST /referrals/add
 // @desc    POST Add a new referral to the database
@@ -346,6 +356,8 @@ router.put('/:id/edit', async (req,res) => {
     }
 })
 
+// @route   DELETE /referrals/delete/id
+// @desc    DELETE existing referral in the database with matching id
 router.delete('/delete/:id', async(req, res) => {
     let transaction;
     const referralId = req.params.id;
@@ -369,6 +381,52 @@ router.delete('/delete/:id', async(req, res) => {
             res.status(404).json(err.message)
         else
             res.status(400).json(err.name + ": " + err.message)
+    }
+})
+
+// @route   GET /referrals/stats/location
+// @desc    GET number of referrals for each location (determined by client)
+router.get('/stats/location', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const refs = await referral.findAll({
+            attributes: ['Status'],
+            include: [{
+                model: client,
+                required: true,
+                attributes: ['Location']
+            }]
+        }, { transaction });
+
+        // Generating statistics
+        const data = {};
+        refs.forEach((ref) => {
+            if (!(ref.Client.Location in data)) {
+                data[ref.Client.Location] = {Total: 0, Made: 0, Resolved: 0};
+            }
+
+            data[ref.Client.Location].Total += 1;    
+
+            if (ref.Status === 'Made')
+                data[ref.Client.Location].Made += 1;
+            else
+                data[ref.Client.Location].Resolved += 1;
+        })
+
+        // Need to convert to array to be used by the table / graph
+        const stats = convertToArray(data, 'Location');
+
+        await transaction.commit();
+        res.json(stats);
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+        
+        res.status(500).json(error);
     }
 })
 

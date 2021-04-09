@@ -84,8 +84,6 @@ router.get('/client/:id', (req, res) => {
     .catch(err => res.status(404).json(err))
 })
 
-
-
 // @route   POST /visit/add
 // @desc    POST Add a new visit to the database
 router.post('/add', async (req,res) => {
@@ -166,6 +164,8 @@ router.post('/add', async (req,res) => {
 
 })
 
+// @route   DELETE /visits/delete/id
+// @desc    DELETE an existing visit in the database with matching id
 router.delete('/delete/:id', async(req, res) => {
     let transaction;
     const visitId = req.params.id;
@@ -189,6 +189,31 @@ router.delete('/delete/:id', async(req, res) => {
             res.status(404).json(err.message)
         else
             res.status(400).json(err.name + ": " + err.message)
+    }
+})
+
+// @route   GET /visits/stats/location
+// @desc    GET number of visits per location
+router.get('/stats/location', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const stats = await visit.findAll({
+            attributes: ['Location', [sequelize.fn('count', sequelize.col('Location')), 'count']],
+            group: ['Location'],
+            order: [[sequelize.literal('count'), 'DESC']]
+        }, { transaction })
+
+        await transaction.commit();
+        res.json(stats);
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+        
+        res.status(500).json(error);
     }
 })
  
