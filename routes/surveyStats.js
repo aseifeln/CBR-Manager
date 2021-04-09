@@ -47,8 +47,11 @@ async function getSpecificSurveyStats(allSurveys, surveyNameWithId, specificSurv
 
 async function getAllStats(allSurveys) {
 
-    if (!allSurveys) {
-        return null;
+    const allStatsObj = {};
+    allStatsObj.Total = allSurveys.count;
+
+    if (allSurveys.count == 0) {
+        return allStatsObj;
     }
 
     const healthColumns = ['RehabilitationAccess', 'RehabilitationAccessNeeded',
@@ -62,8 +65,6 @@ async function getAllStats(allSurveys) {
     const empowermentColumns = ['DisabilityOrganizationMember', 'AwareDisabilityRights','Influential'];
     const shelterColumns = ['ShelterAccess', 'EssentialsAccess'];
 
-    const allStatsObj = {};
-    allStatsObj.Total = allSurveys.count;
     allStatsObj.HealthStats = await getSpecificSurveyStats(allSurveys.rows, 'HealthSurveyId', HealthSurvey, healthColumns);
     allStatsObj.SocialStats = await getSpecificSurveyStats(allSurveys.rows, 'SocialSurveyId', SocialSurvey, socialColumns);
     allStatsObj.EducationStats = await getSpecificSurveyStats(allSurveys.rows, 'EducationSurveyId', EducationSurvey, educationColumns);
@@ -89,6 +90,8 @@ router.get('/', async (req,res) => {
                 'LivelihoodSurveyId', 'NutritionSurveyId', 'EmpowermentSurveyId', 'ShelterSurveyId'
             ],
         }, {transaction});
+
+        await transaction.commit();
 
         allStatsObj = await getAllStats(allSurveys);
         res.status(200).json(allStatsObj);
@@ -127,6 +130,8 @@ router.get('/location/:loc', async (req,res) => {
             }],
         }, {transaction});
 
+        await transaction.commit();
+
         allStatsObj = await getAllStats(allSurveys);
         res.status(200).json(allStatsObj);
 
@@ -163,6 +168,8 @@ router.get('/disability/:disability', async (req,res) => {
                 ]
             }],
         }, {transaction});
+
+        await transaction.commit();
 
         allStatsObj = await getAllStats(allSurveys);
         res.status(200).json(allStatsObj);
@@ -206,6 +213,8 @@ router.get('/:loc/:disability', async (req,res) => {
                 ]
             }],
         }, {transaction});
+
+        await transaction.commit();
 
         allStatsObj = await getAllStats(allSurveys);
         res.status(200).json(allStatsObj);

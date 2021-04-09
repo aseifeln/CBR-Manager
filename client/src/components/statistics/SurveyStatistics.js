@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Table, Label, Input, TabContent, TabPane, Nav, NavItem, NavLink, Button,
-         Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col, Form, FormGroup } from 'reactstrap'
+         Row, FormGroup } from 'reactstrap'
 import classnames from 'classnames';
 import axios from 'axios';
 import '../../css/SurveyStatistics.css';
@@ -8,100 +8,100 @@ import '../../css/SurveyStatistics.css';
 function ReferralStatistics() {
 
     const [activeTab, setActiveTab] = useState('1');
-    const [activeSubTab, setActiveSubTab] = useState('1');
     const toggle = (tab) => { if (activeTab !== tab) setActiveTab(tab); }
 
-    const [locDropdownOpen, setLocDropdownOpen] = useState(false);
-    const toggleLoc = () => setLocDropdownOpen(prevState => !prevState);
-    const [disabilityDropdownOpen, setDisabilityDropdownOpen] = useState(false);
-    const toggleDisability = () => setDisabilityDropdownOpen(prevState => !prevState);
-
-    const [ stats, setStats ] = useState([]);
+    const [ filteredStats, setFilteredStats ] = useState([]);
+    const [ allStats, setAllStats ] = useState([]);
     const [ searchLocation, setSearchLocation ] = useState('');
     const [ searchDisability, setSearchDisability ] = useState('');
 
-    const [ disabilitySelected, setDisabilitySelected ] = useState(false);
-    const [ locationSelected, setLocationSelected ] = useState(false);
-    const [ disableSelect, setDisableSelect ] = useState(false);
+    const [ isSelectionAllowed, setIsSelectionAllowed ] = useState(true);
 
     const [ total, setTotal ] = useState(1);
-    const [ maxCount, setMaxCount ] = useState(0);
 
     useEffect(() => {
-        getStats();
-    }, [])
-
-    function getStats() {
         axios.get('/surveyStats/')
         .then((response) => {
-            setStats(response.data);
+            setFilteredStats(response.data);
             setTotal(response.data.Total);
-            setDisableSelect(false);
-            resetFilters();
+            setAllStats(response.data);
+            setIsSelectionAllowed(true);
         })
         .catch((error) => {
             console.log("api error",error);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
+    }, [])
+
+    function getAllSurveyStats() {
+        setFilteredStats(allStats);
+        setTotal(allStats.Total);
+        resetFilters();
     }
 
     function getStatsByDisability(inputDisability) {
-        if (locationSelected) {
-            getStatsByLocationAndDisability(searchLocation, inputDisability)
+        setSearchDisability(inputDisability);
+        if (searchLocation !== '') {
+            getStatsByLocationAndDisability(searchLocation, inputDisability);
+            return;
         }
         axios.get('/surveyStats/disability/'+inputDisability)
         .then((response) => {
-            setStats(response.data);
+            setFilteredStats(response.data);
             setTotal(response.data.Total);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
         .catch((error) => {
             console.log("api error",error);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
     }
 
     function getStatsByLocation(inputLocation) {
-        if (disabilitySelected) {
-            getStatsByLocationAndDisability(inputLocation, searchDisability)
+        setSearchLocation(inputLocation);
+        if (searchDisability !== '') {
+            getStatsByLocationAndDisability(inputLocation, searchDisability);
+            return;
         }
 
         axios.get('/surveyStats/location/'+inputLocation)
         .then((response) => {
-            setStats(response.data);
+            setFilteredStats(response.data);
             setTotal(response.data.Total);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
         .catch((error) => {
             console.log("api error",error);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
     }
 
-    function getStatsByLocationAndDisability(inputLocation) {
-        axios.get('/surveyStats/'+inputLocation+'/'+searchDisability)
+    function getStatsByLocationAndDisability(inputLocation, inputDisability) {
+        axios.get('/surveyStats/'+inputLocation+'/'+inputDisability)
         .then((response) => {
-            setStats(response.data);
+            setFilteredStats(response.data);
             setTotal(response.data.Total);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
         .catch((error) => {
             console.log("api error",error);
-            setDisableSelect(false);
+            setIsSelectionAllowed(true);
         })
     }
 
-    // Reference: https://stackoverflow.com/a/46848788
-    function sortByStats(sortBy) {
-        stats.sort((a, b) => {
-            if (a[sortBy] < b[sortBy])
-                return 1;
-            else if (a[sortBy] > b[sortBy])
-                return -1;
-            else
-                return 0;
-        })
-        setStats(stats);
+    function changeLocation(inputLocation) {
+        setIsSelectionAllowed(false);
+        getStatsByLocation(inputLocation);
+    }
+
+    function changeDisability(inputDisability) {
+        setIsSelectionAllowed(false);
+        getStatsByDisability(inputDisability);
+    }
+
+    function resetFilters() {
+        setSearchDisability('');
+        setSearchLocation('');
     }
 
     function getPercent(num, denom) {
@@ -109,7 +109,7 @@ function ReferralStatistics() {
     }
 
     function ShowHealthStats() {
-        const HealthStats = stats['HealthStats'];
+        const HealthStats = filteredStats['HealthStats'];
 
         return(
         <div>
@@ -148,7 +148,7 @@ function ReferralStatistics() {
     }
 
   function ShowSocialStats() {
-      const SocialStats = stats['SocialStats'];
+      const SocialStats = filteredStats['SocialStats'];
       return(
           <div>
               <Table size="sm">
@@ -186,7 +186,7 @@ function ReferralStatistics() {
   }
 
   function ShowEducationStats() {
-      const EducationStats = stats['EducationStats'];
+      const EducationStats = filteredStats['EducationStats'];
 
       return(
           <div>
@@ -217,7 +217,7 @@ function ReferralStatistics() {
   }
 
   function ShowLivelihoodStats() {
-      const LivelihoodStats = stats['LivelihoodStats'];
+      const LivelihoodStats = filteredStats['LivelihoodStats'];
 
       return(
           <div>
@@ -252,7 +252,7 @@ function ReferralStatistics() {
   }
 
   function ShowNutritionStats() {
-      const NutritionStats = stats['NutritionStats'];
+      const NutritionStats = filteredStats['NutritionStats'];
 
       return(
           <div>
@@ -275,7 +275,7 @@ function ReferralStatistics() {
   }
 
   function ShowEmpowermentStats() {
-      const EmpowermentStats = stats['EmpowermentStats'];
+      const EmpowermentStats = filteredStats['EmpowermentStats'];
 
       return(
           <div>
@@ -306,7 +306,7 @@ function ReferralStatistics() {
   }
 
   function ShowShelterStats() {
-      const ShelterStats = stats['ShelterStats'];
+      const ShelterStats = filteredStats['ShelterStats'];
 
       return(
           <div>
@@ -332,36 +332,12 @@ function ReferralStatistics() {
       );
   }
 
-  function changeLocation(inputLocation) {
-    console.log("change location: ", inputLocation)
-    setDisableSelect(true);
-    setSearchLocation(inputLocation);
-    setLocationSelected(true);
-    getStatsByLocation(inputLocation);
-  }
-
-  function changeDisability(inputDisability) {
-    console.log("change disability", inputDisability)
-    setDisableSelect(true);
-    setSearchDisability(inputDisability);
-    setDisabilitySelected(true);
-    getStatsByDisability(inputDisability);
-  }
-
-  function resetFilters() {
-    setDisableSelect(true);
-    setSearchDisability("");
-    setSearchLocation("");
-    setDisabilitySelected(false);
-    setLocationSelected(false);
-  }
-
     return (
         <Container>
         <Row>
           <FormGroup>
               <Label>Location</Label>
-              <Input type="select" value={searchLocation} disabled={!disableSelect}
+              <Input type="select" value={searchLocation} disabled={!isSelectionAllowed}
                   onChange={(event) => changeLocation(event.target.value)}>
                   <option value="" disabled>Select Location</option>
                   <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
@@ -378,7 +354,7 @@ function ReferralStatistics() {
             <FormGroup>
                 <Label>Disability Type</Label>
                 <Input type="select"
-                    value={searchDisability}
+                    value={searchDisability} disabled={!isSelectionAllowed}
                     onChange={(event) => changeDisability(event.target.value)}>
                   <option value="" disabled>Select Disability</option>
                     <option value="Amputee">Amputee</option>
@@ -393,9 +369,7 @@ function ReferralStatistics() {
                     <option value="Other">Other</option>
                 </Input>
             </FormGroup>
-            <FormGroup>
-                <Button onClick={resetFilters} className="button">Reset filters</Button>
-            </FormGroup>
+            <Button onClick={getAllSurveyStats} className="reset-button">Reset filters</Button>
           </Row>
           <Nav tabs>
             <NavItem>
@@ -443,22 +417,22 @@ function ReferralStatistics() {
           </Nav>
           <TabContent activeTab={activeTab}>
             <TabPane className="tab-content" tabId="1">
-                {(total == 0) ? <h4>No Stats</h4> : <ShowHealthStats/>}
+                {(total === 0) ? <h4>No Stats</h4> : <ShowHealthStats/>}
             </TabPane>
             <TabPane className="tab-content" tabId="2">
-                {(total == 0) ? <h4>No Stats</h4> : <ShowSocialStats/>}
+                {(total === 0) ? <h4>No Stats</h4> : <ShowSocialStats/>}
             </TabPane>
             <TabPane className="tab-content" tabId="3">
-                {(total == 0) ? <h4>No Stats</h4> : <ShowEducationStats/>}
+                {(total === 0) ? <h4>No Stats</h4> : <ShowEducationStats/>}
             </TabPane>
             <TabPane className="tab-content" tabId="4">
-                {(total == 0) ? <h4>No Stats</h4> : <ShowLivelihoodStats/>}
+                {(total === 0) ? <h4>No Stats</h4> : <ShowLivelihoodStats/>}
             </TabPane>
             <TabPane className="tab-content" tabId="5">
-                {(total == 0) ? <h4>No Stats</h4> : <ShowEmpowermentStats/>}
+                {(total === 0) ? <h4>No Stats</h4> : <ShowEmpowermentStats/>}
             </TabPane>
             <TabPane className="tab-content" tabId="6">
-                {(total == 0) ? <h4>No Stats</h4> :
+                {(total === 0) ? <h4>No Stats</h4> :
                     <div><h4>Nutrition Stats</h4>
                     <ShowNutritionStats/>
                     <h4>Shelter Stats</h4>
