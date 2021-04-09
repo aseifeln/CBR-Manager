@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Table, Label, Input, TabContent, TabPane, Nav, NavItem, NavLink, Button} from 'reactstrap'
+import { Container, Table, Label, Input, TabContent, TabPane, Nav, NavItem, NavLink, Button,
+         Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col, Form, FormGroup } from 'reactstrap'
 import classnames from 'classnames';
-import { ReferralBarChart } from '../graphs/ReferralsGraph';
 import axios from 'axios';
+import '../../css/SurveyStatistics.css';
 
 function ReferralStatistics() {
 
@@ -10,21 +11,85 @@ function ReferralStatistics() {
     const [activeSubTab, setActiveSubTab] = useState('1');
     const toggle = (tab) => { if (activeTab !== tab) setActiveTab(tab); }
 
+    const [locDropdownOpen, setLocDropdownOpen] = useState(false);
+    const toggleLoc = () => setLocDropdownOpen(prevState => !prevState);
+    const [disabilityDropdownOpen, setDisabilityDropdownOpen] = useState(false);
+    const toggleDisability = () => setDisabilityDropdownOpen(prevState => !prevState);
+
     const [ stats, setStats ] = useState([]);
+    const [ searchLocation, setSearchLocation ] = useState('');
+    const [ searchDisability, setSearchDisability ] = useState('');
+
+    const [ disabilitySelected, setDisabilitySelected ] = useState(false);
+    const [ locationSelected, setLocationSelected ] = useState(false);
+    const [ disableSelect, setDisableSelect ] = useState(false);
+
     const [ total, setTotal ] = useState(1);
     const [ maxCount, setMaxCount ] = useState(0);
 
     useEffect(() => {
-        console.log("response data")
-            axios.get('/surveyStats/')
-            .then((response) => {
-                setStats(response.data);
-                setTotal(response.data.Total);
-            })
-            .catch((error) => {
-                console.log("api error",error);
-            })
+        getStats();
     }, [])
+
+    function getStats() {
+        axios.get('/surveyStats/')
+        .then((response) => {
+            setStats(response.data);
+            setTotal(response.data.Total);
+            setDisableSelect(false);
+            resetFilters();
+        })
+        .catch((error) => {
+            console.log("api error",error);
+            setDisableSelect(false);
+        })
+    }
+
+    function getStatsByDisability(inputDisability) {
+        if (locationSelected) {
+            getStatsByLocationAndDisability(searchLocation, inputDisability)
+        }
+        axios.get('/surveyStats/disability/'+inputDisability)
+        .then((response) => {
+            setStats(response.data);
+            setTotal(response.data.Total);
+            setDisableSelect(false);
+        })
+        .catch((error) => {
+            console.log("api error",error);
+            setDisableSelect(false);
+        })
+    }
+
+    function getStatsByLocation(inputLocation) {
+        if (disabilitySelected) {
+            getStatsByLocationAndDisability(inputLocation, searchDisability)
+        }
+
+        axios.get('/surveyStats/location/'+inputLocation)
+        .then((response) => {
+            setStats(response.data);
+            setTotal(response.data.Total);
+            setDisableSelect(false);
+        })
+        .catch((error) => {
+            console.log("api error",error);
+            setDisableSelect(false);
+        })
+    }
+
+    function getStatsByLocationAndDisability(inputLocation) {
+        axios.get('/surveyStats/'+inputLocation+'/'+searchDisability)
+        .then((response) => {
+            setStats(response.data);
+            setTotal(response.data.Total);
+            setDisableSelect(false);
+        })
+        .catch((error) => {
+            console.log("api error",error);
+            setDisableSelect(false);
+        })
+    }
 
     // Reference: https://stackoverflow.com/a/46848788
     function sortByStats(sortBy) {
@@ -51,7 +116,7 @@ function ReferralStatistics() {
             <Table size="sm">
               <thead>
                 <tr>
-                  <th>Stat</th>
+                  <th>Stats</th>
                   <th>Description</th>
                 </tr>
               </thead>
@@ -89,7 +154,7 @@ function ReferralStatistics() {
               <Table size="sm">
                 <thead>
                   <tr>
-                      <th>Stat</th>
+                      <th>Stats</th>
                       <th>Description</th>
                   </tr>
                 </thead>
@@ -128,7 +193,7 @@ function ReferralStatistics() {
               <Table size="sm">
                 <thead>
                   <tr>
-                    <th>Stat</th>
+                    <th>Stats</th>
                     <th>Description</th>
                   </tr>
                 </thead>
@@ -159,7 +224,7 @@ function ReferralStatistics() {
               <Table size="sm">
                 <thead>
                   <tr>
-                    <th>Stat</th>
+                    <th>Stats</th>
                     <th>Description</th>
                   </tr>
                 </thead>
@@ -194,7 +259,7 @@ function ReferralStatistics() {
               <Table size="sm">
                 <thead>
                   <tr>
-                    <th>Stat</th>
+                    <th>Stats</th>
                     <th>Description</th>
                   </tr>
                 </thead>
@@ -208,7 +273,6 @@ function ReferralStatistics() {
           </div>
       );
   }
-      //const ShelterStats = stats['ShelterStats'];
 
   function ShowEmpowermentStats() {
       const EmpowermentStats = stats['EmpowermentStats'];
@@ -249,7 +313,7 @@ function ReferralStatistics() {
               <Table size="sm">
                 <thead>
                   <tr>
-                    <th>Stat</th>
+                    <th>Stats</th>
                     <th>Description</th>
                   </tr>
                 </thead>
@@ -268,8 +332,71 @@ function ReferralStatistics() {
       );
   }
 
+  function changeLocation(inputLocation) {
+    console.log("change location: ", inputLocation)
+    setDisableSelect(true);
+    setSearchLocation(inputLocation);
+    setLocationSelected(true);
+    getStatsByLocation(inputLocation);
+  }
+
+  function changeDisability(inputDisability) {
+    console.log("change disability", inputDisability)
+    setDisableSelect(true);
+    setSearchDisability(inputDisability);
+    setDisabilitySelected(true);
+    getStatsByDisability(inputDisability);
+  }
+
+  function resetFilters() {
+    setDisableSelect(true);
+    setSearchDisability("");
+    setSearchLocation("");
+    setDisabilitySelected(false);
+    setLocationSelected(false);
+  }
+
     return (
         <Container>
+        <Row>
+          <FormGroup>
+              <Label>Location</Label>
+              <Input type="select" value={searchLocation} disabled={!disableSelect}
+                  onChange={(event) => changeLocation(event.target.value)}>
+                  <option value="" disabled>Select Location</option>
+                  <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
+                  <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
+                  <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
+                  <option value="BidiBidi Zone 4">BidiBidi Zone 4</option>
+                  <option value="BidiBidi Zone 5">BidiBidi Zone 5</option>
+                  <option value="Palorinya Basecamp">Palorinya Basecamp</option>
+                  <option value="Palorinya Zone 1">Palorinya Zone 1</option>
+                  <option value="Palorinya Zone 2">Palorinya Zone 2</option>
+                  <option value="Palorinya Zone 3">Palorinya Zone 3</option>
+              </Input>
+          </FormGroup>
+            <FormGroup>
+                <Label>Disability Type</Label>
+                <Input type="select"
+                    value={searchDisability}
+                    onChange={(event) => changeDisability(event.target.value)}>
+                  <option value="" disabled>Select Disability</option>
+                    <option value="Amputee">Amputee</option>
+                    <option value="Polio">Polio</option>
+                    <option value="Spinal Cord Injury">Spinal Cord Injury</option>
+                    <option value="Cerebral Palsy">Cerebral Palsy</option>
+                    <option value="Spina Bifida">Spina Bifida</option>
+                    <option value="Hydrocephalus">Hydrocephalus</option>
+                    <option value="Visual Impairment">Visual Impairment</option>
+                    <option value="Hearing Impairment">Hearing Impairment</option>
+                    <option value="Don\'t Know">Don\'t Know</option>
+                    <option value="Other">Other</option>
+                </Input>
+            </FormGroup>
+            <FormGroup>
+                <Button onClick={resetFilters} className="button">Reset filters</Button>
+            </FormGroup>
+          </Row>
           <Nav tabs>
             <NavItem>
               <NavLink
@@ -303,32 +430,42 @@ function ReferralStatistics() {
               <NavLink
                 className={classnames({ active: activeTab === '5' })}
                 onClick={() => { toggle('5'); }}>
+                Empowerment
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: activeTab === '6' })}
+                onClick={() => { toggle('6'); }}>
                 Other Stats
               </NavLink>
             </NavItem>
           </Nav>
           <TabContent activeTab={activeTab}>
-            <TabPane tabId="1">
-                <ShowHealthStats/>
+            <TabPane className="tab-content" tabId="1">
+                {(total == 0) ? <h4>No Stats</h4> : <ShowHealthStats/>}
             </TabPane>
-            <TabPane tabId="2">
-                <ShowSocialStats/>
+            <TabPane className="tab-content" tabId="2">
+                {(total == 0) ? <h4>No Stats</h4> : <ShowSocialStats/>}
             </TabPane>
-            <TabPane tabId="3">
-                <ShowEducationStats/>
+            <TabPane className="tab-content" tabId="3">
+                {(total == 0) ? <h4>No Stats</h4> : <ShowEducationStats/>}
             </TabPane>
-            <TabPane tabId="4">
-                <ShowLivelihoodStats/>
+            <TabPane className="tab-content" tabId="4">
+                {(total == 0) ? <h4>No Stats</h4> : <ShowLivelihoodStats/>}
             </TabPane>
-            <TabPane tabId="5">
-                <h4>Nutrition Stats</h4>
-                <ShowNutritionStats/>
-                <h4>Empowerment Stats</h4>
-                <ShowEmpowermentStats/>
-                <h4>Shelter Stats</h4>
-                <ShowShelterStats/>
+            <TabPane className="tab-content" tabId="5">
+                {(total == 0) ? <h4>No Stats</h4> : <ShowEmpowermentStats/>}
+            </TabPane>
+            <TabPane className="tab-content" tabId="6">
+                {(total == 0) ? <h4>No Stats</h4> :
+                    <div><h4>Nutrition Stats</h4>
+                    <ShowNutritionStats/>
+                    <h4>Shelter Stats</h4>
+                    <ShowShelterStats/></div>}
             </TabPane>
           </TabContent>
+          <h5 className="total">Total Records: {total}</h5>
         </Container>
     )
 

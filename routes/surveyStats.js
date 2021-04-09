@@ -33,6 +33,10 @@ async function getSpecificSurveyStats(allSurveys, surveyNameWithId, specificSurv
         ids.push(allSurveys[key][surveyNameWithId])
     })
 
+    if (ids.length == 0) {
+        return null;
+    }
+
     let obj = {};
     await Promise.all(columnNameArr.map(async (colName) => {
         obj[colName + "Count"] = await countColumn(specificSurveyTable, colName, surveyNameWithId, ids);
@@ -42,6 +46,10 @@ async function getSpecificSurveyStats(allSurveys, surveyNameWithId, specificSurv
 }
 
 async function getAllStats(allSurveys) {
+
+    if (!allSurveys) {
+        return null;
+    }
 
     const healthColumns = ['RehabilitationAccess', 'RehabilitationAccessNeeded',
     'AssistiveDevice','AssistiveDeviceWorking', 'AssistiveDeviceNeeded'];
