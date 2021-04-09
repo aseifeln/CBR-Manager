@@ -10,8 +10,9 @@ function VisitStatistics() {
     const [ sortBy, setSortBy ] = useState('Total'); // Need this state for sorting statistics even though it isn't used
 
     useEffect(() => {
-        axios.get('/referrals')
+        axios.get('/visits')
         .then((response) => {
+            console.log('here')
             generateStats(response.data);
         })
         .catch((error) => {
@@ -35,19 +36,23 @@ function VisitStatistics() {
         setMaxCount(count);
     }
 
-    function generateStats(referralData) {
+    function generateStats(visitData) {
+        console.log("HDASJHDNOAIWDHAWQOIDHWA")
+        console.log(visitData)
         const data = {};
-        referralData.forEach((ref) => {
-            if (!(ref.Client?.Location in data)) {
-                data[ref.Client?.Location] = {Total: 0, Made: 0, Resolved: 0};
+        visitData.forEach((visit) => {
+            if (!(visit.Client?.Location in data)) {
+                data[visit.Client?.Location] = {Total: 0, HealthFormId: 0, EducationFormId: 0, SocialFormId: 0};
             }
 
-            data[ref.Client?.Location].Total += 1;    
+            data[visit.Client?.Location].Total += 1;    
 
-            if (ref.Status === 'Made')
-                data[ref.Client?.Location].Made += 1;
-            else
-                data[ref.Client?.Location].Resolved += 1;
+            if (visit.HealthFormId !== null)
+                data[visit.Client?.Location].HealthFormId += 1;
+            if (visit.EducationFormId !== null)
+                data[visit.Client?.Location].EducationFormId += 1;
+            if (visit.SocialFormId !== null)
+                data[visit.Client?.Location].SocialFormId += 1;
         })
 
         // Need to convert to array to be used by the table / graph
@@ -70,7 +75,7 @@ function VisitStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <VisitBarChart data={stats} keys={['Total', 'Made', 'Resolved']} maxValue={maxCount}/>
+                <VisitBarChart data={stats} keys={['Total', 'HealthFormId', 'EducationFormId', 'SocialFormId']} maxValue={maxCount}/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
@@ -79,25 +84,28 @@ function VisitStatistics() {
                 sortByStats(e.target.value);
              }}>
                 <option value="Total">Total</option>
-                <option value="Made">Made</option>
-                <option value="Resolved">Resolved</option>
+                <option value="HealthFormId">HealthFormId</option>
+                <option value="EducationFormId">EducationFormId</option>
+                <option value="SocialFormId">SocialFormId</option>
             </Input>
             <Table>
                 <thead>
                     <tr>
                         <th>Location</th>
                         <th>Total</th>
-                        <th>Made</th>
-                        <th>Resolved</th>
+                        <th>HealthFormId</th>
+                        <th>EducationFormId</th>
+                        <th>SocialFormId</th>
                     </tr>
                 </thead>
                 <tbody>
-                {stats.map(({Location, Total, Made, Resolved}) => (
+                {stats.map(({Location, Total, HealthFormId, EducationFormId, SocialFormId}) => (
                     <tr>
                         <td>{Location}</td>
                         <td>{Total}</td>
-                        <td>{Made}</td>
-                        <td>{Resolved}</td>
+                        <td>{HealthFormId}</td>
+                        <td>{EducationFormId}</td>
+                        <td>{SocialFormId}</td>
                     </tr>
                 ))}
                 </tbody>
