@@ -81,18 +81,18 @@ function VisitStatistics() {
                 sortByStats(e.target.value);
              }}>
                 <option value="Total">Total</option>
-                <option value="HealthFormId">HealthFormId</option>
-                <option value="EducationFormId">EducationFormId</option>
-                <option value="SocialFormId">SocialFormId</option>
+                <option value="HealthFormId">Health Visits</option>
+                <option value="EducationFormId">Education Visits</option>
+                <option value="SocialFormId">Social Visits</option>
             </Input>
             <Table>
                 <thead>
                     <tr>
                         <th>Location</th>
                         <th>Total</th>
-                        <th>HealthFormId</th>
-                        <th>EducationFormId</th>
-                        <th>SocialFormId</th>
+                        <th>Health Visits</th>
+                        <th>Education Visits</th>
+                        <th>Social Visits</th>
                     </tr>
                 </thead>
                 <tbody>
