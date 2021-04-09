@@ -7,6 +7,7 @@ import { WorkerStatsGraph } from '../../components/graphs/WorkerGraphs';
 import { Link } from 'react-router-dom';
 import '../../css/WorkerInfo.css';
 import axios from 'axios';
+import moment from 'moment';
 import ChangePassword from '../../components/ChangePassword';
 import NotFoundPage from '../404';
 
@@ -547,8 +548,8 @@ function WorkerInfo(props) {
                             <tr>
                                 <td>{Title}</td>
                                 <td>{Message}</td>
-                                <td>{Date}</td>
-                                <td>{ForAllWorkers ? "All" : "No"}</td>
+                                <td>{moment(Date).format('DD-MM-YYYY')}</td>
+                                <td>{ForAllWorkers ? "Yes" : "No"}</td>
                             </tr>
                         ))}
                         </tbody>
