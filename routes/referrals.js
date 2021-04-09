@@ -372,4 +372,30 @@ router.delete('/delete/:id', async(req, res) => {
     }
 })
 
+router.get('/', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const refs = await referral.findAll({
+            attributes: ['Status'],
+            include: [{
+                model: client,
+                required: true,
+                attributes: ['Location']
+            }]
+        }, { transaction });
+
+        await transaction.commit();
+        res.json(refs)
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+        
+        res.status(500).json(error);
+    }
+})
+
 module.exports = router

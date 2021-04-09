@@ -11,20 +11,28 @@ import moment from 'moment';
 import { UserContext } from '../../components/UserContext';
 import DeleteWithWarning from '../../components/DeleteWithWarning';
 import BaselineSurvey from '../../components/BaselineSurvey';
+import AdminSideBar from '../../components/AdminSideBar';
+
 
 function ClientInfo(props) {
 
     const [ client, setClient ] = useState({});
     const [ visits, setVisits ] = useState([]);
     const [ referrals,setReferrals] = useState([]);
+    const [ baselineSurvey, setBaselineSurvey ] = useState({});
     const [ clientFound, setClientFound ] = useState(false);
     const context = useContext(UserContext);
-    const [ clientId, setClientId ] = useState(props.match.params.id);
+    const [ isAdmin, setIsAdmin ] = useState(false);
     
     const areaFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
-    const areaInfo = {fontSize: "18px", display: "inline", fontWeight: "bold"};
     const areaColor={backgroundColor:"#9646b7"};
     const areaColor2={backgroundColor:"#22a9ba"};
+
+    useEffect(() => {
+        if(context.Role === 'Admin') {
+            setIsAdmin(true)
+        }
+    }, [])
 
     useEffect(() => {
         const formatDate = (arr) => {
@@ -62,11 +70,19 @@ function ClientInfo(props) {
             .catch(error => {
                 console.log(error);
             })
+
+        axios.get('/baselineSurveys/client/' + props.match.params.id)
+            .then(response => {
+                setBaselineSurvey(response.data[0]);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }, [])
 
     function ClientAreaAccordion(props) {
 
-        const { area, status, goal, desc, defaultState } = props;
+        const { area, defaultState } = props;
         const [ toggle, setToggle ] = useState(defaultState);
 
         return (
@@ -84,8 +100,8 @@ function ClientInfo(props) {
                 <Collapse isOpen={toggle}>
                     <CardBody>
                         <DisplayStatus type={area}/>
-                        {(client.BaselineSurvey) ? (
-                            <BaselineSurvey clientId={clientId} surveyType={area}></BaselineSurvey>
+                        {(baselineSurvey) ? (
+                            <BaselineSurvey baselineSurvey={baselineSurvey} surveyType={area}></BaselineSurvey>
                         ) : ("")}
                     </CardBody>
                 </Collapse>
@@ -179,16 +195,34 @@ as right now will still render this component briefly even for existing clients*
     return(
         <div>
             <CookieChecker></CookieChecker>
-            <Container>
-                <Row>
-                    <Col>
-                        <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
-                    </Col>
-                    <Col style={{display: 'inline'}}>
-                        {(context.Role === 'Admin') ? (
-                            <div>
-                                <DeleteWithWarning clientId={props.match.params.id}/>
+            <div className={`${isAdmin ? "main-content" : ""}`}>
+                {isAdmin ? 
+                <AdminSideBar/> 
+                : ''}
+                <div className={`${isAdmin ? "admin-container" : ""}`}>
+                    <Container>
+                        <Row>
+                            <Col>
+                                <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
+                            </Col>
+                            <Col style={{display: 'inline'}}>
+                                {(isAdmin) ? (
+                                    <div>
+                                        <DeleteWithWarning clientId={props.match.params.id}/>
+                                    </div>
+                                ) : ""}
+                                <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right', marginRight: '5px'}}>Edit Client</Button>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <Container>
+                    <Row>
+                        <Col>
+                            <div className="text-center">
+                                {/* Reference: https://stackoverflow.com/questions/42395034/how-to-display-binary-data-as-image-in-react */}
+                                <Media src={`data:image/jpeg;base64,${client.Photo}`} object alt="Profile Image" className="rounded-circle rounded" style={{height: "200px", width: "200px"}}/>
                             </div>
+<<<<<<< HEAD
                         ) : ""}
                         <Button tag={Link} to={"/client/" + props.match.params.id + "/edit/"} style={{float: 'right', marginRight: '5px'}}>Edit Client</Button>
                     </Col>
@@ -260,10 +294,79 @@ as right now will still render this component briefly even for existing clients*
                 <ClientAreaAccordion area="Food/Nutrition" defaultState={false}/>
                 <ClientAreaAccordion area="Empowerment" defaultState={false}/>
                 <ClientAreaAccordion area="Shelter/Care" defaultState={false}/>
+=======
+                        </Col>
+                        <Col>
+                            <h3 className="font-weight-bold" style={{fontSize: "18px"}}>Personal Info:</h3>
+                            <ul class="list-unstyled">
+                                <li>- Location: {client.Location}</li>
+                                <li>- Age: {client.Age}</li>
+                                <li>- Gender: {client.Gender}</li>
+                                <li>- Disability: {(client.DisabilityType || []).join(', ')}</li>
+                            </ul>
+                        </Col>
+                        {(client.GPSLocation) ? (
+                            <Col>
+                                <Label className="font-weight-bold">GPS Location</Label>
+                                <MapWithMarker
+                                    loadingElement={<div style={{ height: '75%' }} />}
+                                    containerElement={<div style={{ height: '250px', width: '300px' }} />}
+                                    mapElement={<div style={{ height: '90%' }} />}
+                                    location={JSON.parse(client.GPSLocation)}
+                                />
+                            </Col>
+                        ) : ("")}
+                    </Row>
+                    <Row>
+                        {!isAdmin ?
+                        <Col align="center">
+                            <Link to={"/visit/new/" + props.match.params.id}>
+                                <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'right'}}>
+                                    New Visit
+                                </Button>
+                            </Link>
+                        </Col>
+                        : '' }
+                        {!isAdmin ? 
+                        <Col align="center" xs={2}>
+                            <Link to={"/referral/new/" + props.match.params.id}>
+                                <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f"}}>
+                                    New Referral
+                                </Button>
+                            </Link>
+                        </Col>
+                        : '' }
+                        <Col align="center">
+                            {(client.BaselineSurvey && isAdmin) ? (
+                                <DeleteWithWarning toDeleteSurvey={true} clientId={props.match.params.id}/>
+                            ) : (
+                                !isAdmin ?
+                                <Link>
+                                    <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>
+                                        New Survey
+                                    </Button>
+                                </Link>
+                                : ''
+                            )}
+                        </Col>
+                    </Row>
+                    </Container>
+                    <br/>
+                    <Container>
+                        <ClientAreaAccordion area="Health" defaultState={true}/>
+                        <ClientAreaAccordion area="Social" defaultState={false}/>
+                        <ClientAreaAccordion area="Education" defaultState={false}/>
+                        <ClientAreaAccordion area="Livelihood" defaultState={false}/>
+                        <ClientAreaAccordion area="Food/Nutrition" defaultState={false}/>
+                        <ClientAreaAccordion area="Empowerment" defaultState={false}/>
+                        <ClientAreaAccordion area="Shelter/Care" defaultState={false}/>
+>>>>>>> master
 
-                <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
-                <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>
-            </Container>
+                        <ClientLinks title="All Visits" mappings={visits} type="Visits"/>
+                        <ClientLinks title="All Referrals" mappings={referrals} type="Referrals"/>
+                    </Container>
+                </div>
+            </div>
         </div>
     )
 }
