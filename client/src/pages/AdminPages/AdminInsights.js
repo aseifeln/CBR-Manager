@@ -4,6 +4,7 @@ import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import VisitStatistics from '../../components/statistics/VisitStatistics';
 import ReferralStatistics from '../../components/statistics/ReferralStatistics';
+import SurveyStatistics from '../../components/statistics/SurveyStatistics';
 
 function AdminInsights() {
 
@@ -47,6 +48,9 @@ function AdminInsights() {
                     </StatisticsAccordion>
                     <StatisticsAccordion header="Referral Statistics" defaultState={false}>
                         <ReferralStatistics/>
+                    </StatisticsAccordion>
+                    <StatisticsAccordion header="Baseline Survey Statistics" defaultState={false}>
+                        <SurveyStatistics/>
                     </StatisticsAccordion>
                 </div>
 
