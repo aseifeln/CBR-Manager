@@ -1,14 +1,7 @@
-h1 {
-    text-align: center;
-    text-justify: center;
-    color:#9646b7;
-}
-
 .main{
     display: flex;
     justify-content:flex-start;
 }
-
 
 .outRefs{
     min-width: 300px;

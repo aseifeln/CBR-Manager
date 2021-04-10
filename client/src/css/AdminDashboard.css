@@ -42,3 +42,10 @@
 	gap: 1rem;
 	padding: 1rem;
 }
+
+.admin-grid {
+	margin-top: 2rem;
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	grid-gap: 1.4rem;
+}
