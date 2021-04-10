@@ -1,4 +1,6 @@
 # Issues #
+This document is to provide an explanation regarding how we've decided to utilize the GitLab issues board for this group project.
+
 ## User Story Issues ##
 User Story issues are located in the Backlog list on the issue board.
 - The title is the user story.
@@ -52,12 +54,15 @@ Anything other than minor spelling changes or 1 line fixes require an issue to b
 Each merge request requires:
 - A description that at the top that includes "Closes #<number of issue>" and a short description of the changes or any initial setup that is required to make the changes such as database commands.
 - The Assignee is the current Repo Manager.
+  - Note: For iteration 3, we've decided to change the Assignee to also be the reviewer to avoid spamming the Repo Manager's email.
 - The Reviewer is the maintainer who will test the branch and perform a code review. Reviewers are chosen from the top of the "Code Review" List on the issue board. Once assigned move the reviewer to the bottom of the list.
 - The Milestone should be set to the relevant sprint and iteration.
 - Labels should match the issue that is being resolved. This can be done automatically by creating the merge request from the issue.
+- Once a merge request has been created, they are to also notified the assigned reviewer via our Discord channel dedicated to merge requests.
 
 In order to be merged:
 - The merge request must have at least 1 Approval. This approval is ideally from the reviewer that was assigned.
+  - Once a merge request has been approved, the reviewer is to send a message in a dedicated Discord channel for Merge requests to indicate they've approved it.
 - All merge conflicts must be resolved.
 
 # Code Style #
