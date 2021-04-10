@@ -65,8 +65,8 @@ function ValidateFilters(filters) {
                 let from = date[0].split('-').reverse().map(Number);
                 let to = date[1].split('-').reverse().map(Number);
 
-                let fromDate = new Date(from[0], from[1], from[2]);
-                let toDate = new Date(to[0], to[1], to[2]);
+                let fromDate = new Date(from[0], from[1] - 1, from[2]);
+                let toDate = new Date(to[0], to[1] - 1, to[2]);
 
                 validatedFilters.Date = {
                     [Op.between]: [fromDate, toDate]
