@@ -15,8 +15,6 @@ function AdminDashboard() {
     const [ dateStart, setDateStart ] = useState('');
     const [ dateEnd, setDateEnd ] = useState('');
 
-    const reader = new FileReader();
-
     const toggle = () => setDropDown(prevState => !prevState);
 
     useEffect(() => {
@@ -82,7 +80,7 @@ function AdminDashboard() {
                     <h3>Filter and Export Data</h3>
                     <div>Current Location: {location}</div>
                     <Dropdown isOpen={dropDown} toggle={toggle}>
-                        <DropdownToggle caret style={{backgroundColor:"#46ad2f",margin:"10px"}}>Location</DropdownToggle>
+                        <DropdownToggle caret>Location</DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem onClick={()=>setLocation("")}> All Locations</DropdownItem>
                             <DropdownItem onClick={()=>setLocation("BidiBidi Zone 1")}>BidiBidi Zone 1</DropdownItem>

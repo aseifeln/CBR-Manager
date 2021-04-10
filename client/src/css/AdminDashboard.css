@@ -15,6 +15,9 @@
 	margin: 1rem auto;
 	padding: 2rem;
 }
+.admin-container Button {
+	margin: 3px;
+}
 
 .admin-card {
 	border: 1px solid gainsboro;
