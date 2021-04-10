@@ -3,14 +3,14 @@ import { Container, Table, Label, Input } from 'reactstrap'
 import { VisitBarChart } from '../graphs/VisitsGraph';
 import axios from 'axios';
 
-function VisitStatistics() {
+function VisitServicesStatistics() {
 
     const [ stats, setStats ] = useState([]);
     const [ maxCount, setMaxCount ] = useState(0);
     const [ sortBy, setSortBy ] = useState('Total'); // Need this state for sorting statistics even though it isn't used
 
     useEffect(() => {
-        axios.get('/visits')
+        axios.get('/visits/stats/services')
         .then((response) => {
             generateStats(response.data);
         })
@@ -80,7 +80,7 @@ function VisitStatistics() {
                 setSortBy(e.target.value);
                 sortByStats(e.target.value);
              }}>
-                <option value="Total">Total</option>
+                <option value="Total">Total Visits</option>
                 <option value="HealthFormId">Health Visits</option>
                 <option value="EducationFormId">Education Visits</option>
                 <option value="SocialFormId">Social Visits</option>
@@ -88,8 +88,8 @@ function VisitStatistics() {
             <Table>
                 <thead>
                     <tr>
-                        <th>Location</th>
-                        <th>Total</th>
+                        <th>Client Location</th>
+                        <th>Total Visits</th>
                         <th>Health Visits</th>
                         <th>Education Visits</th>
                         <th>Social Visits</th>
@@ -111,4 +111,4 @@ function VisitStatistics() {
     )
 }
 
-export default VisitStatistics;
+export default VisitServicesStatistics;

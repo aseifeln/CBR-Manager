@@ -12,7 +12,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // @route   GET /visits/id
 // @desc    GET Retrieve a visit with a certain id from the database
-router.get('/:id', (req,res) => {
+router.get('/:id', (req, res) => {
     const visitId = req.params.id
     visit.findAll({
         where: {
@@ -26,7 +26,7 @@ router.get('/:id', (req,res) => {
             model: client,
             required: true,
             attributes: [
-              'ClientId', 'FirstName', 'LastName'
+                'ClientId', 'FirstName', 'LastName'
             ]
         },
         {
@@ -50,10 +50,10 @@ router.get('/:id', (req,res) => {
             required: false
         }]
     })
-    .then(visits => {
-        res.json(visits);
-    })
-    .catch(err => res.status(404).json(err))
+        .then(visits => {
+            res.json(visits);
+        })
+        .catch(err => res.status(404).json(err))
 
 })
 
@@ -80,18 +80,16 @@ router.get('/client/:id', (req, res) => {
             ]
         }]
     })
-    .then(visits => res.json(visits))
-    .catch(err => res.status(404).json(err))
+        .then(visits => res.json(visits))
+        .catch(err => res.status(404).json(err))
 })
-
-
 
 // @route   POST /visit/add
 // @desc    POST Add a new visit to the database
-router.post('/add', async (req,res) => {
-    let {VisitPurpose, GPSLocation, Date,
+router.post('/add', async (req, res) => {
+    let { VisitPurpose, GPSLocation, Date,
         Location, VillageNumber, WorkerId, ClientId,
-        HealthForm, EducationForm, SocialForm} = req.body;
+        HealthForm, EducationForm, SocialForm } = req.body;
 
     let transaction;
 
@@ -166,7 +164,9 @@ router.post('/add', async (req,res) => {
 
 })
 
-router.delete('/delete/:id', async(req, res) => {
+// @route   DELETE /visits/delete/id
+// @desc    DELETE an existing visit in the database with matching id
+router.delete('/delete/:id', async (req, res) => {
     let transaction;
     const visitId = req.params.id;
 
@@ -192,7 +192,32 @@ router.delete('/delete/:id', async(req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+// @route   GET /visits/stats/location
+// @desc    GET number of visits per location
+router.get('/stats/location', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const stats = await visit.findAll({
+            attributes: ['Location', [sequelize.fn('count', sequelize.col('Location')), 'count']],
+            group: ['Location'],
+            order: [[sequelize.literal('count'), 'DESC']]
+        }, { transaction })
+
+        await transaction.commit();
+        res.json(stats);
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+
+        res.status(500).json(error);
+    }
+})
+
+router.get('/stats/services', async (req, res) => {
     let transaction;
 
     try {
@@ -211,10 +236,9 @@ router.get('/', async (req, res) => {
     catch (error) {
         if (transaction)
             await transaction.rollback();
-        
+
         res.status(500).json(error);
     }
 })
 
- 
 module.exports = router
