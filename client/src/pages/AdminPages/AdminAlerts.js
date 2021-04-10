@@ -4,6 +4,7 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import ReactPaginate from 'react-paginate';
 import { Formiz, useForm } from '@formiz/core';
+import moment from 'moment';
 
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
@@ -205,7 +206,7 @@ function AdminAlerts() {
                             <tr>
                                 <td>{Title}</td>
                                 <td>{Message}</td>
-                                <td>{Date}</td>
+                                <td>{moment(Date).format('DD-MM-YYYY HH:mm')}</td>
                                 <td>{AuthorUsername}</td>
                                 <PrintSpecificWorkerNames specificWorkerIdsArr={SpecificWorkers}/>
                                 <td>
