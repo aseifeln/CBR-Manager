@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const referral = require('../models/ReferralForms/referral')
 const { sequelize } = require('../models/ReferralForms/referral')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing');
 const multer = require('multer');
 const upload = multer({});
 
@@ -20,6 +21,18 @@ const { v4: uuidv4 } = require('uuid');
 function ConvertImage(referral){
     const targetImage = referral.Photo.toString('base64')
     referral['Photo'] = targetImage
+}
+
+// Used for statistics purposes of converting to json objects to array
+// Note: The first attribute in the objects are the indices
+function convertToArray(data, index) {
+    let dataArr = [];
+    for (var i in data) {
+        data[i][index] = i;
+        dataArr.push(data[i]);
+    }
+
+    return dataArr;
 }
 
 // @route   GET /referrals/outstanding
@@ -57,6 +70,21 @@ router.get('/outstanding', async (req, res) => {
         res.status(500).json(error);
     }
 })
+
+// @route   GET /referrals/count?Location=["", ""]&Date=["", ""]&ClientId=1&ServiceRequired=["Physiotherapy"]
+// @desc    GET Retrieve the total number of referrals per provided parameters
+// @params  Optional: Date, ClientId, WorkerId, Status, ServiceRequired
+router.get('/count', (req, res) => {
+    let filters = { Date: [null], ClientId: null, WorkerId: null, Status: null, ServiceRequired: [null] }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+
+    referral.count({
+        where: filters
+    })
+    .then(referralCount => res.status(200).json(referralCount))
+    .catch(err => res.status(400).json(err));
+});
 
 // @route   GET /referrals/id
 // @desc    GET Retrieve a referral with a certain id from the database
@@ -154,8 +182,6 @@ router.get('/client/:id', (req, res) => {
     })
 
 })
-
-
 
 // @route   POST /referrals/add
 // @desc    POST Add a new referral to the database
@@ -346,6 +372,8 @@ router.put('/:id/edit', async (req,res) => {
     }
 })
 
+// @route   DELETE /referrals/delete/id
+// @desc    DELETE existing referral in the database with matching id
 router.delete('/delete/:id', async(req, res) => {
     let transaction;
     const referralId = req.params.id;
@@ -372,7 +400,9 @@ router.delete('/delete/:id', async(req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+// @route   GET /referrals/stats/location
+// @desc    GET number of referrals for each location (determined by client)
+router.get('/stats/location', async (req, res) => {
     let transaction;
 
     try {
@@ -387,8 +417,26 @@ router.get('/', async (req, res) => {
             }]
         }, { transaction });
 
+        // Generating statistics
+        const data = {};
+        refs.forEach((ref) => {
+            if (!(ref.Client.Location in data)) {
+                data[ref.Client.Location] = {Total: 0, Made: 0, Resolved: 0};
+            }
+
+            data[ref.Client.Location].Total += 1;    
+
+            if (ref.Status === 'Made')
+                data[ref.Client.Location].Made += 1;
+            else
+                data[ref.Client.Location].Resolved += 1;
+        })
+
+        // Need to convert to array to be used by the table / graph
+        const stats = convertToArray(data, 'Location');
+
         await transaction.commit();
-        res.json(refs)
+        res.json(stats);
     }
     catch (error) {
         if (transaction)

@@ -6,9 +6,25 @@ const client = require('../models/client')
 const healthForm = require('../models/VisitForms/healthForm')
 const educationForm = require('../models/VisitForms/educationForm')
 const socialForm = require('../models/VisitForms/socialForm')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
 
 const { sequelize } = require('../models/VisitForms/visit')
 const { v4: uuidv4 } = require('uuid');
+
+// @route   GET /visits/count?Location=["", ""]&Date=["", ""]&ClientId=1
+// @desc    GET Retrieve the total number of visits per provided parameters
+// @params  Optional: Location(s), Date, ClientId, WorkerId
+router.get('/count', (req, res) => {
+    let filters = { Location: [null], Date: [null], ClientId: null, WorkerId: null }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+
+    visit.count({
+        where: filters
+    })
+        .then(visitCount => res.status(200).json(visitCount))
+        .catch(err => res.status(400).json(err));
+});
 
 // @route   GET /visits/id
 // @desc    GET Retrieve a visit with a certain id from the database
@@ -83,8 +99,6 @@ router.get('/client/:id', (req, res) => {
     .then(visits => res.json(visits))
     .catch(err => res.status(404).json(err))
 })
-
-
 
 // @route   POST /visit/add
 // @desc    POST Add a new visit to the database
@@ -166,6 +180,8 @@ router.post('/add', async (req,res) => {
 
 })
 
+// @route   DELETE /visits/delete/id
+// @desc    DELETE an existing visit in the database with matching id
 router.delete('/delete/:id', async(req, res) => {
     let transaction;
     const visitId = req.params.id;
@@ -203,6 +219,31 @@ router.get('/count/zone', (_, res) => {
     })
     .then((count) => res.json(count))
     .catch((err) => res.status(404).json(err))
+})
+
+// @route   GET /visits/stats/location
+// @desc    GET number of visits per location
+router.get('/stats/location', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+
+        const stats = await visit.findAll({
+            attributes: ['Location', [sequelize.fn('count', sequelize.col('Location')), 'count']],
+            group: ['Location'],
+            order: [[sequelize.literal('count'), 'DESC']]
+        }, { transaction })
+
+        await transaction.commit();
+        res.json(stats);
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+        
+        res.status(500).json(error);
+    }
 })
  
 module.exports = router

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Collapse, Row, Col } from 'reactstrap';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
+import VisitStatistics from '../../components/statistics/VisitStatistics';
 import ReferralStatistics from '../../components/statistics/ReferralStatistics';
+import SurveyStatistics from '../../components/statistics/SurveyStatistics';
 import { WorkerTotalVisitsGraph } from '../../components/graphs/WorkerGraphs';
 import { WeeklyNewClientsCountGraph } from '../../components/graphs/ClientGraphs'; 
 
 function AdminInsights() {
-    return (
+    return(
         <>
             <CookieChecker/>
 
@@ -32,6 +34,14 @@ function AdminInsights() {
 
                         <div class='admin-card' data-title='Referral Statistics' style={{gridColumn: '1 / -1'}}>
                             <ReferralStatistics/>
+                        </div>
+
+                        <div class='admin-card' data-title='Visit Statistics' style={{gridColumn: '1 / -1'}}>
+                            <VisitStatistics/>
+                        </div>
+
+                        <div class='admin-card' data-title='Survey Statistics' style={{gridColumn: '1 / -1'}}>
+                            <SurveyStatistics/>
                         </div>
                     </div>
                 </div>

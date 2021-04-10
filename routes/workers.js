@@ -6,6 +6,7 @@ const referral = require('../models/ReferralForms/referral')
 const Client = require('../models/client')
 const { Op } = require('sequelize')
 const Sequelize = require('sequelize')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
 
 function TotalCount(model, workerId) {
     return model.count({
@@ -221,6 +222,22 @@ router.get('/:id/referrals/resolved/weeklyCount', (req, res) => {
     .then(count => res.json(count))
     .catch(err => res.status(400).json(err))
 })
+
+// @route   GET /workers/count?Location=["", ""]
+// @desc    GET Retrieve the total number of workers per provided parameters
+// @params  Location(s) // if multiple locations format ?location=["location 1", "location 2"]
+router.get('/count', (req, res) => {
+    let filters = { Location: [null] }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters)
+
+    worker.count({
+        where: filters
+    })
+    .then(workerCount => res.status(200).json(workerCount))
+    .catch(err => res.status(400).json(err));
+})
+
 
 
 module.exports = router
