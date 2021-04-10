@@ -76,6 +76,7 @@ function NewSurvey(props){
     }, [])
 
     function prepareData(data) {
+      console.log(data);
       let newData = {};
 
       if (clientProvided) {
@@ -86,14 +87,59 @@ function NewSurvey(props){
       }
       newData['WorkerId'] = context.WorkerId;
 
-      let socialSurvey = {};
+      let healthSurvey = {};
+      healthSurvey['HealthStatus'] = data['general-health'].substring(2);
+      healthSurvey['RehabilitationAccess'] = (data['access-to-rehab'] === 'Yes') ? true : false;
+      healthSurvey['RehabilitationAccessNeeded'] = (data['need-access-to-rehab'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDevice'] = (data['access-to-assistive-device'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDeviceWorking'] = (data['is-your-assistive-device-working'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDeviceNeeded'] = (data['need-access-to-assistive-device'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDeviceRequired'] = [data['choose-device']];
+      healthSurvey['HealthServiceStatus'] = data['health-service-rating'].substring(2);
+      newData['healthSurvey'] = healthSurvey;
 
+      let educationSurvey = {};
+      educationSurvey['SchoolState'] = (data['goes-to-school'] === 'Yes') ? true : false;
+      educationSurvey['CurrentGrade'] = data['grade'];
+      educationSurvey['NoSchoolReason'] = data['why-not-go-to-school'];
+      educationSurvey['SchoolBefore'] = (data['has-gone-to-school'] === 'Yes') ? true : false;
+      educationSurvey['WantSchool'] = (data['wants-to-go-to-school'] === 'Yes') ? true : false;
+      newData['educationSurvey'] = educationSurvey;
+
+      let socialSurvey = {};
       socialSurvey['ValuedCommunityMember'] = (data['feels-valued'] === 'Yes') ? true : false;
       socialSurvey['Independence'] = (data['feels-independent'] === 'Yes') ? true : false;
       socialSurvey['CommunityParticipation'] = (data['participates-in-events'] === 'Yes') ? true : false;
       socialSurvey['DisabilityImpact'] = (data['affects-social-interation'] === 'Yes') ? true : false;
       socialSurvey['Discrimination'] = (data['experienced-discrimination'] === 'Yes') ? true : false;
       newData['socialSurvey'] = socialSurvey;
+
+      let livelihoodSurvey = {};
+      livelihoodSurvey['WorkStatus'] = (data['working'] === 'Yes') ? true : false;
+      livelihoodSurvey['WorkDescription'] = data['job-title']
+      livelihoodSurvey['EmploymentType'] = data['employed']
+      livelihoodSurvey['FinancialNeedsMet'] = (data['meet-financial-needs'] === 'Yes') ? true : false;
+      livelihoodSurvey['DisabilityImpact'] = (data['affects-work'] === 'Yes') ? true : false;
+      livelihoodSurvey['WorkWanted'] = (data['want-to-work'] === 'Yes') ? true : false;
+      newData['livelihoodSurvey'] = livelihoodSurvey;
+
+      let nutritionSurvey = {};
+      nutritionSurvey['FoodStatus'] = data['food-security'].substring(2);
+      nutritionSurvey['MonthlyFoodAccess'] = (data['enough-food'] === 'Yes') ? true : false;
+      nutritionSurvey['ChildNutritionStatus'] = "Malnourished"
+      newData['nutritionSurvey'] = nutritionSurvey;
+
+      let empowermentSurvey = {};
+      empowermentSurvey['DisabilityOrganizationMember'] = (data['part-of-organizations'] === 'Yes') ? true : false;
+      empowermentSurvey['DisabilityOrganizations'] = [data['which-organizations']];
+      empowermentSurvey['AwareDisabilityRights'] = (data['aware-of-rights'] === 'Yes') ? true : false;
+      empowermentSurvey['Influential'] = (data['have-influence'] === 'Yes') ? true : false;
+      newData['empowermentSurvey'] = empowermentSurvey;
+
+      let shelterSurvey = {};
+      shelterSurvey['ShelterAccess'] = (data['adequate-shelter'] === 'Yes') ? true : false;
+      shelterSurvey['EssentialsAccess'] = (data['essential-items'] === 'Yes') ? true : false;
+      newData['shelterSurvey'] = shelterSurvey;
 
       return newData;
     }
@@ -104,7 +150,7 @@ function NewSurvey(props){
       axios.post('/baselineSurveys/add', data)
       .then(() => {
           alert("Survey added successfully.");
-          history.push("/client/" + props.match.params.id);
+          //history.push("/client/" + props.match.params.id);
       })
       .catch((error) => {
           alert("Something went wrong when trying to add survey.");
