@@ -4,9 +4,8 @@ import { MultiStepForm, Step, FieldInput, FieldTypeahead,FieldCheck } from "../c
 import { useHistory } from "react-router-dom";
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
-import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
-
+import NotFoundPage from './404';
 
 function NewSurvey(props){
     const history = useHistory();
@@ -14,7 +13,6 @@ function NewSurvey(props){
     const [ clients, setClients ] = useState([]);
     const [ clientProvided, setClientProvided ] = useState(true);
     const [ clientFound, setClientFound ] = useState(false);
-    const [ GPSLocation, setGPSLocation ] = useState('');
     const [ worker, setWorker ] = useState({});
     const context = useContext(UserContext);
   
@@ -25,19 +23,11 @@ function NewSurvey(props){
     const [ needAccessToAssistiveDevice, setNeedAccessToAssistiveDevice] = useState(true);
 
     const [ goesToSchool, setGoesToSchool] = useState(true);
-
     const [ working, setWorking] = useState(true);
 
     const [ hasReferral, setHasReferral] = useState(true);
     const [ isMalnourished, setIsMalnourished] = useState(true);
     const [ partOfOrganizations, setPartOfOrganizations] = useState(true);
-
-  
-    useEffect(() => {
-  
-      //Get the current GPS Location
-      getGPSLocation(setGPSLocation);
-    },[])
   
     useEffect(() => {
   
@@ -84,6 +74,14 @@ function NewSurvey(props){
   
       document.title="New Visit";
     }, [])
+
+    if (!clientFound && clientProvided) {
+      return (
+          <div>
+              <NotFoundPage/>
+          </div>
+      )
+  } 
 
     return(
         <>

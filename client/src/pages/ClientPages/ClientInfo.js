@@ -268,7 +268,7 @@ as right now will still render this component briefly even for existing clients*
                                 <DeleteWithWarning toDeleteSurvey={true} clientId={props.match.params.id}/>
                             ) : (
                                 !isAdmin ?
-                                <Link>
+                                <Link to={"/survey/new/" + props.match.params.id}>
                                     <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>
                                         New Survey
                                     </Button>
