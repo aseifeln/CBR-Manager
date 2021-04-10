@@ -5,12 +5,10 @@ import CookieChecker from '../../components/CookieChecker';
 import VisitLocationStatistics from '../../components/statistics/VisitLocationStatistics';
 import ReferralStatistics from '../../components/statistics/ReferralStatistics';
 import VisitServicesStatistics from '../../components/statistics/VisitServicesStatistics';
+import SurveyStatistics from '../../components/statistics/SurveyStatistics';
 
 function AdminInsights() {
 
-    const [ showRefStats, setShowRefStats ] = useState(false);
-    const [ showVisitStats, setShowVisitStats ] = useState(false);
-    //const statFontSize = {color:"white",fontSize: "20px", fontWeight: "bold"};
     const statFontSize = {fontSize: "20px", fontWeight: "bold"};
 
     function StatisticsAccordion({ children, header, defaultState }) {
@@ -52,6 +50,9 @@ function AdminInsights() {
                     </StatisticsAccordion>
                     <StatisticsAccordion header="Referral Statistics" defaultState={false}>
                         <ReferralStatistics/>
+                    </StatisticsAccordion>
+                    <StatisticsAccordion header="Baseline Survey Statistics" defaultState={false}>
+                        <SurveyStatistics/>
                     </StatisticsAccordion>
                 </div>
 

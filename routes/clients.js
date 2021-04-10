@@ -4,6 +4,7 @@ const client = require('../models/client')
 const multer = require('multer');
 const { sequelize } = require('../models/client');
 const BaselineSurvey = require('../models/BaselineSurveys/baselineSurvey');
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing');
 const upload = multer({});
 
 //Function that converts an image byte array into a base64 string
@@ -50,6 +51,21 @@ router.get('/priority/:loc&:num', async (req, res) => {
     } catch(error) {
         res.status(500).json(error);
     }
+})
+
+// @route   GET /clients/count?Location=["", ""]&Date=["", ""]
+// @desc    GET Retrieve the total number of clients per provided parameters
+// @params  Optional: Location(s), Date, Disabilities
+router.get('/count', (req, res) => {
+    let filters = { Location: [null], Date: [null], DisabilityType: [null] }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters)
+
+    client.count({
+        where: filters
+    })
+        .then(clientCount => res.status(200).json(clientCount))
+        .catch(err => res.status(400).json(err));
 })
 
 // @route   GET /clients/id
@@ -254,5 +270,6 @@ router.delete('/delete/:id', async(req, res) => {
             res.status(400).json(err.name + ": " + err.message)
     }
 })
+
 
 module.exports = router
