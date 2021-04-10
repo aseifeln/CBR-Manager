@@ -44,11 +44,11 @@ function VisitServicesStatistics() {
 
             data[visit.Client?.Location].Total += 1;    
 
-            if (visit.HealthService !== null)
+            if (visit.HealthFormId !== null)
                 data[visit.Client?.Location].HealthService += 1;
-            if (visit.EducationService !== null)
+            if (visit.EducationFormId !== null)
                 data[visit.Client?.Location].EducationService += 1;
-            if (visit.SocialService !== null)
+            if (visit.SocialFormId !== null)
                 data[visit.Client?.Location].SocialService += 1;
         })
 
@@ -72,7 +72,7 @@ function VisitServicesStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <BarChart data={stats} keys={['Total', 'HealthService', 'EducationService', 'SocialService']} maxValue={maxCount} groupBy="Location" xAxisLabel="Location" yAxisLabel="Count" keyAttr="count"/>
+                <BarChart data={stats} keys={['Total', 'HealthService', 'EducationService', 'SocialService']} maxValue={maxCount} groupBy="Location" xAxisLabel="Client Location" yAxisLabel="Count" keyAttr="count"/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
