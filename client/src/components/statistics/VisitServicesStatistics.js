@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Table, Label, Input } from 'reactstrap'
-import { VisitBarChart } from '../graphs/VisitsGraph';
+import BarChart from '../graphs/BarGraph';
 import axios from 'axios';
 
 function VisitServicesStatistics() {
@@ -72,7 +72,7 @@ function VisitServicesStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <VisitBarChart data={stats} keys={['Total', 'HealthFormId', 'EducationFormId', 'SocialFormId']} maxValue={maxCount}/>
+                <BarChart data={stats} keys={['Total', 'HealthFormId', 'EducationFormId', 'SocialFormId']} maxValue={maxCount} groupBy="Location" xAxisLabel="Location" yAxisLabel="Count" keyAttr="count"/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
