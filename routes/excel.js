@@ -111,7 +111,7 @@ router.get('/baselineSurveys', async (req, res) => {
     let filters = { Date: [null], ClientId: null, WorkerId: null, Location: [null] }
     MatchFilters(filters, req.query);
     filters = ValidateFilters(filters);
-    console.log(filters)
+
     // Separate locations from other filters
     let locations = { Location: filters.Location };
     delete filters.Location;
@@ -184,7 +184,7 @@ router.get('/visits', async (req, res) => {
     let filters = { Date: [null], ClientId: null, WorkerId: null, Location: [null] }
     MatchFilters(filters, req.query);
     filters = ValidateFilters(filters);
-    console.log(filters)
+
     let visits = await visit.findAll({
         where: filters,
         include:[
