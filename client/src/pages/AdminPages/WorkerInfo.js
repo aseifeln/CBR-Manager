@@ -7,6 +7,7 @@ import { WorkerStatsGraph } from '../../components/graphs/WorkerGraphs';
 import { Link } from 'react-router-dom';
 import '../../css/WorkerInfo.css';
 import axios from 'axios';
+import moment from 'moment';
 import ChangePassword from '../../components/ChangePassword';
 import NotFoundPage from '../404';
 
@@ -235,6 +236,7 @@ function WorkerInfo(props) {
     const [worker, setWorker] = useState({});
     const [visits, setVisits] = useState([]);
     const [referrals, setReferrals] = useState([]);
+    const [alerts, setAlerts] = useState([]);
     const [workerFound, setWorkerFound] = useState(false);
     const [username, setUsername] = useState("");
     const [totalVisits, setTotalVisits] = useState('')
@@ -330,6 +332,14 @@ function WorkerInfo(props) {
            .catch((error) => {
              console.log(error)
            })
+
+       axios.get('/alerts/worker/' + props.match.params.id)
+           .then((response) => {
+               setAlerts(response.data);
+           })
+           .catch((error) => {
+               console.log(error);
+           })
     }, [])
 
     
@@ -400,6 +410,11 @@ function WorkerInfo(props) {
                   </NavLink>
                   </NavItem>
                   <NavItem>
+                  <NavLink
+                      className={classnames({ active: activeTab === '3' }, 'tab-link')}
+                      onClick={() => { toggle('3'); }} >
+                      Alerts
+                  </NavLink>
                   </NavItem>
               </Nav>
               <TabContent activeTab={activeTab}>
@@ -517,6 +532,29 @@ function WorkerInfo(props) {
                           </TabPane>
                       </TabContent>
                   </TabPane>
+                  <TabPane className="tab-content" tabId="3">
+                      <Table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Sent to all</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {alerts.map(({AlertId, Title, Message, Date, ForAllWorkers}) => (
+                            <tr>
+                                <td>{Title}</td>
+                                <td>{Message}</td>
+                                <td>{moment(Date).format('DD-MM-YYYY')}</td>
+                                <td>{ForAllWorkers ? "Yes" : "No"}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                      </Table>
+                    </TabPane>
                 </TabContent>
             </div>                
         </div>

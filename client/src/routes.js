@@ -23,6 +23,7 @@ import AdminDashboard from './pages/AdminPages/AdminDashboard';
 import AdminInsights from './pages/AdminPages/AdminInsights';
 import WorkerListPage from './pages/AdminPages/WorkerListPage';
 import WorkerInfo from './pages/AdminPages/WorkerInfo';
+import AdminAlerts from './pages/AdminPages/AdminAlerts';
 
 import NotFoundPage from './pages/404';
 
@@ -101,6 +102,12 @@ const ROUTES = [
         key: 'ADMIN_INSIGHTS',
         exact: true,
         component: AdminInsights
+      },
+      {
+        path: '/admin/alerts',
+        key: 'ADMIN_ALERTS',
+        exact: true,
+        component: AdminAlerts
       },
       {
         path: '/admin/worker-list',
