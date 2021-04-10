@@ -1,5 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResponsiveLine } from '@nivo/line'
+import { ResponsivePie } from '@nivo/pie'
+import axios from 'axios';
+
+const WorkerTotalVisitsGraph = () => {
+	const [data, setData] = useState([])
+
+	async function getTotalWorkerVisitsData() {
+		try {
+			const totalWorkerZoneVists = (await axios.get('/visits/count/zone')).data
+
+			const data = totalWorkerZoneVists.map((obj) => {
+				return ({
+					id: obj.Location,
+					label: obj.Location,
+					value: obj.count
+				})
+			})
+
+			setData(data)
+		} catch(err) {
+			setData([])
+		}
+	}
+
+	useEffect(getTotalWorkerVisitsData, [])
+
+	return (
+		<ResponsivePie
+			data={data}
+			margin={{ top: 20, right: 40, bottom: 40, left: 40 }}
+			innerRadius={0.5}
+			padAngle={0.7}
+			cornerRadius={3}
+			colors={{ scheme: 'nivo' }}
+			borderWidth={1}
+			borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
+			radialLabelsSkipAngle={10}
+			radialLabelsTextColor="#333333"
+			radialLabelsLinkColor={{ from: 'color' }}
+			sliceLabelsSkipAngle={10}
+			sliceLabelsTextColor="#333333"
+			defs={[
+					{
+							id: 'dots',
+							type: 'patternDots',
+							background: 'inherit',
+							color: 'rgba(255, 255, 255, 0.3)',
+							size: 4,
+							padding: 1,
+							stagger: true
+					},
+					{
+							id: 'lines',
+							type: 'patternLines',
+							background: 'inherit',
+							color: 'rgba(255, 255, 255, 0.3)',
+							rotation: -45,
+							lineWidth: 6,
+							spacing: 10
+					}
+			]}
+    />
+	)
+}
 
 const WorkerStatsGraph = ({ data }) => {
     return (
@@ -66,4 +130,4 @@ const WorkerStatsGraph = ({ data }) => {
     )
 }
 
-export { WorkerStatsGraph }
+export { WorkerStatsGraph, WorkerTotalVisitsGraph }

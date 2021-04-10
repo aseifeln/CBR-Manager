@@ -191,5 +191,18 @@ router.delete('/delete/:id', async(req, res) => {
             res.status(400).json(err.name + ": " + err.message)
     }
 })
+
+// @route   GET /visits/count/zone
+// @desc    GET Retrieve total CBR visits counts grouped by zone
+router.get('/count/zone', (_, res) => {
+    const aggCount = sequelize.fn('count', sequelize.col('Location'))
+
+    visit.findAll({
+        attributes: ['Location', [aggCount, 'count']],
+        group: ['Location']
+    })
+    .then((count) => res.json(count))
+    .catch((err) => res.status(404).json(err))
+})
  
 module.exports = router

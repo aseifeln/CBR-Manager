@@ -57,12 +57,9 @@ function ReferralStatistics() {
     // Reference: https://stackoverflow.com/a/46848788
     function sortByStats(sortBy) {
         stats.sort((a, b) => {
-            if (a[sortBy] < b[sortBy])
-                return 1;
-            else if (a[sortBy] > b[sortBy])
-                return -1;
-            else
-                return 0;
+            if (a[sortBy] < b[sortBy]) return 1;
+            if (a[sortBy] > b[sortBy]) return -1;
+            else return 0;
         })
         setStats(stats);
     }
