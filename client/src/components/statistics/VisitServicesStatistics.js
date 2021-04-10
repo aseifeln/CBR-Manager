@@ -39,17 +39,17 @@ function VisitServicesStatistics() {
         const data = {};
         visitData.forEach((visit) => {
             if (!(visit.Client?.Location in data)) {
-                data[visit.Client?.Location] = {Total: 0, HealthFormId: 0, EducationFormId: 0, SocialFormId: 0};
+                data[visit.Client?.Location] = {Total: 0, HealthService: 0, EducationService: 0, SocialService: 0};
             }
 
             data[visit.Client?.Location].Total += 1;    
 
-            if (visit.HealthFormId !== null)
-                data[visit.Client?.Location].HealthFormId += 1;
-            if (visit.EducationFormId !== null)
-                data[visit.Client?.Location].EducationFormId += 1;
-            if (visit.SocialFormId !== null)
-                data[visit.Client?.Location].SocialFormId += 1;
+            if (visit.HealthService !== null)
+                data[visit.Client?.Location].HealthService += 1;
+            if (visit.EducationService !== null)
+                data[visit.Client?.Location].EducationService += 1;
+            if (visit.SocialService !== null)
+                data[visit.Client?.Location].SocialService += 1;
         })
 
         // Need to convert to array to be used by the table / graph
@@ -72,7 +72,7 @@ function VisitServicesStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <BarChart data={stats} keys={['Total', 'HealthFormId', 'EducationFormId', 'SocialFormId']} maxValue={maxCount} groupBy="Location" xAxisLabel="Location" yAxisLabel="Count" keyAttr="count"/>
+                <BarChart data={stats} keys={['Total', 'HealthService', 'EducationService', 'SocialService']} maxValue={maxCount} groupBy="Location" xAxisLabel="Location" yAxisLabel="Count" keyAttr="count"/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
@@ -81,9 +81,9 @@ function VisitServicesStatistics() {
                 sortByStats(e.target.value);
              }}>
                 <option value="Total">Total Visits</option>
-                <option value="HealthFormId">Health Visits</option>
-                <option value="EducationFormId">Education Visits</option>
-                <option value="SocialFormId">Social Visits</option>
+                <option value="HealthService">Health Visits</option>
+                <option value="EducationService">Education Visits</option>
+                <option value="SocialService">Social Visits</option>
             </Input>
             <Table>
                 <thead>
@@ -96,13 +96,13 @@ function VisitServicesStatistics() {
                     </tr>
                 </thead>
                 <tbody>
-                {stats.map(({Location, Total, HealthFormId, EducationFormId, SocialFormId}) => (
+                {stats.map(({Location, Total, HealthService, EducationService, SocialService}) => (
                     <tr>
                         <td>{Location}</td>
                         <td>{Total}</td>
-                        <td>{HealthFormId}</td>
-                        <td>{EducationFormId}</td>
-                        <td>{SocialFormId}</td>
+                        <td>{HealthService}</td>
+                        <td>{EducationService}</td>
+                        <td>{SocialService}</td>
                     </tr>
                 ))}
                 </tbody>
