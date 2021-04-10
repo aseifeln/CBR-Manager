@@ -6,7 +6,6 @@ import axios from 'axios';
 function VisitServicesStatistics() {
 
     const [ stats, setStats ] = useState([]);
-    const [ maxCount, setMaxCount ] = useState(0);
     const [ sortBy, setSortBy ] = useState('Total'); // Need this state for sorting statistics even though it isn't used
 
     useEffect(() => {
@@ -21,18 +20,13 @@ function VisitServicesStatistics() {
 
     // Also counts max value
     function convertToArray(data) {
-        let count = 0;
         let dataArr = [];
         for (var i in data) {
             data[i]['Location'] = i;
             dataArr.push(data[i]);
-
-            if (data[i]['Total'] > count)
-                count = data[i]['Total'];
         }
 
         setStats(dataArr);
-        setMaxCount(count);
     }
 
     function generateStats(visitData) {
@@ -72,7 +66,7 @@ function VisitServicesStatistics() {
     return (
         <Container>
             <div style={{height: '400px'}}>
-                <BarChart data={stats} keys={['Total', 'HealthService', 'EducationService', 'SocialService']} maxValue={maxCount} groupBy="Location" xAxisLabel="Client Location" yAxisLabel="Count" keyAttr="count"/>
+                <BarChart data={stats} keys={['Total', 'HealthService', 'EducationService', 'SocialService']} groupBy="Location" xAxisLabel="Client Location" yAxisLabel="Count" keyAttr="Location" legendOn/>
             </div>
             <Label>Sort by</Label>
             <Input type="select"
