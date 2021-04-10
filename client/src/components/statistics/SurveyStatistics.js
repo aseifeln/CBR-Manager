@@ -105,7 +105,7 @@ function ReferralStatistics() {
   }
 
   function getPercent(num, denom) {
-    return (num/denom) * 100;
+    return Math.round((num/denom) * 100);
   }
 
   function ShowHealthStats() {
@@ -339,7 +339,7 @@ function ReferralStatistics() {
           <Label>Location</Label>
           <Input type="select" value={searchLocation} disabled={!isSelectionAllowed}
             onChange={(event) => changeLocation(event.target.value)}>
-            <option value="" disabled>Select Location</option>
+            <option value="" disabled>Any Location</option>
             <option value="BidiBidi Zone 1">BidiBidi Zone 1</option>
             <option value="BidiBidi Zone 2">BidiBidi Zone 2</option>
             <option value="BidiBidi Zone 3">BidiBidi Zone 3</option>
@@ -356,7 +356,7 @@ function ReferralStatistics() {
             <Input type="select"
               value={searchDisability} disabled={!isSelectionAllowed}
               onChange={(event) => changeDisability(event.target.value)}>
-              <option value="" disabled>Select Disability</option>
+              <option value="" disabled>Any Disability</option>
                 <option value="Amputee">Amputee</option>
                 <option value="Polio">Polio</option>
                 <option value="Spinal Cord Injury">Spinal Cord Injury</option>
@@ -365,11 +365,11 @@ function ReferralStatistics() {
                 <option value="Hydrocephalus">Hydrocephalus</option>
                 <option value="Visual Impairment">Visual Impairment</option>
                 <option value="Hearing Impairment">Hearing Impairment</option>
-                <option value="Don\'t Know">Don\'t Know</option>
+                <option value="Don't Know">Don't Know</option>
                 <option value="Other">Other</option>
             </Input>
           </FormGroup>
-          <Button onClick={getAllSurveyStats} className="reset-button">Reset filters</Button>
+          <Button onClick={getAllSurveyStats} className="reset-button">Remove filters</Button>
         </Row>
         <Nav tabs>
           <NavItem>
