@@ -6,9 +6,25 @@ const client = require('../models/client')
 const healthForm = require('../models/VisitForms/healthForm')
 const educationForm = require('../models/VisitForms/educationForm')
 const socialForm = require('../models/VisitForms/socialForm')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
 
 const { sequelize } = require('../models/VisitForms/visit')
 const { v4: uuidv4 } = require('uuid');
+
+// @route   GET /visits/count?Location=["", ""]&Date=["", ""]&ClientId=1
+// @desc    GET Retrieve the total number of visits per provided parameters
+// @params  Optional: Location(s), Date, ClientId, WorkerId
+router.get('/count', (req, res) => {
+    let filters = { Location: [null], Date: [null], ClientId: null, WorkerId: null }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+
+    visit.count({
+        where: filters
+    })
+        .then(visitCount => res.status(200).json(visitCount))
+        .catch(err => res.status(400).json(err));
+});
 
 // @route   GET /visits/id
 // @desc    GET Retrieve a visit with a certain id from the database

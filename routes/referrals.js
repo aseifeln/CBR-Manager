@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const referral = require('../models/ReferralForms/referral')
 const { sequelize } = require('../models/ReferralForms/referral')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing');
 const multer = require('multer');
 const upload = multer({});
 
@@ -69,6 +70,21 @@ router.get('/outstanding', async (req, res) => {
         res.status(500).json(error);
     }
 })
+
+// @route   GET /referrals/count?Location=["", ""]&Date=["", ""]&ClientId=1&ServiceRequired=["Physiotherapy"]
+// @desc    GET Retrieve the total number of referrals per provided parameters
+// @params  Optional: Date, ClientId, WorkerId, Status, ServiceRequired
+router.get('/count', (req, res) => {
+    let filters = { Date: [null], ClientId: null, WorkerId: null, Status: null, ServiceRequired: [null] }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+
+    referral.count({
+        where: filters
+    })
+    .then(referralCount => res.status(200).json(referralCount))
+    .catch(err => res.status(400).json(err));
+});
 
 // @route   GET /referrals/id
 // @desc    GET Retrieve a referral with a certain id from the database
