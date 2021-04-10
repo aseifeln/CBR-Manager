@@ -76,7 +76,6 @@ function NewSurvey(props){
     }, [])
 
     function prepareData(data) {
-      console.log(data);
       let newData = {};
 
       if (clientProvided) {
@@ -116,8 +115,8 @@ function NewSurvey(props){
 
       let livelihoodSurvey = {};
       livelihoodSurvey['WorkStatus'] = (data['working'] === 'Yes') ? true : false;
-      livelihoodSurvey['WorkDescription'] = data['job-title']
-      livelihoodSurvey['EmploymentType'] = data['employed']
+      livelihoodSurvey['WorkDescription'] = data['job-title'];
+      livelihoodSurvey['EmploymentType'] = data['employed'];
       livelihoodSurvey['FinancialNeedsMet'] = (data['meet-financial-needs'] === 'Yes') ? true : false;
       livelihoodSurvey['DisabilityImpact'] = (data['affects-work'] === 'Yes') ? true : false;
       livelihoodSurvey['WorkWanted'] = (data['want-to-work'] === 'Yes') ? true : false;
@@ -126,7 +125,7 @@ function NewSurvey(props){
       let nutritionSurvey = {};
       nutritionSurvey['FoodStatus'] = data['food-security'].substring(2);
       nutritionSurvey['MonthlyFoodAccess'] = (data['enough-food'] === 'Yes') ? true : false;
-      nutritionSurvey['ChildNutritionStatus'] = "Malnourished"
+      nutritionSurvey['ChildNutritionStatus'] = data['nutrition-status'];
       newData['nutritionSurvey'] = nutritionSurvey;
 
       let empowermentSurvey = {};
@@ -150,7 +149,7 @@ function NewSurvey(props){
       axios.post('/baselineSurveys/add', data)
       .then(() => {
           alert("Survey added successfully.");
-          //history.push("/client/" + props.match.params.id);
+          history.push("/client/" + props.match.params.id);
       })
       .catch((error) => {
           alert("Something went wrong when trying to add survey.");
@@ -495,14 +494,16 @@ function NewSurvey(props){
                           {client.Age<13?
                           <>
                           <Row form>
-                            <Label>Is this child malnurished?</Label>
+                            <Label>What is the status of the child's nutrition?</Label>
                             <Col>
-                                <FormGroup>
-                                    <FieldCheck name="malnourished" type="radio" label="Yes" value="Yes" defaultChecked
-                                    onChange={()=>{setIsMalnourished(true)}}/>
-                                    <FieldCheck name="malnourished" type="radio" label="No" value="No" className='ml-4 pl-2'
-                                    onChange={()=>{setIsMalnourished(false)}}/>
-                                </FormGroup>
+                              <FormGroup>
+                                <FieldInput type="select" name="nutrition-status" label="Child's nutritional status" required="Rate 1-4 your food security">
+                                  <option selected hidden>Make a selection</option>
+                                  <option>Malnourished</option>
+                                  <option>Undernourished</option>
+                                  <option>Well Nourished</option>
+                                </FieldInput>
+                              </FormGroup>
                             </Col>
                           </Row>
                           {isMalnourished&&!hasReferral?
