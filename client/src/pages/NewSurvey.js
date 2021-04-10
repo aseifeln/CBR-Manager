@@ -72,8 +72,45 @@ function NewSurvey(props){
         })
       }
   
-      document.title="New Visit";
+      document.title="New Survey";
     }, [])
+
+    function prepareData(data) {
+      let newData = {};
+
+      if (clientProvided) {
+          newData['ClientId'] = props.match.params.id;
+      }
+      else {
+          newData['ClientId'] = data.client[0].value;
+      }
+      newData['WorkerId'] = context.WorkerId;
+
+      let socialSurvey = {};
+
+      socialSurvey['ValuedCommunityMember'] = (data['feels-valued'] === 'Yes') ? true : false;
+      socialSurvey['Independence'] = (data['feels-independent'] === 'Yes') ? true : false;
+      socialSurvey['CommunityParticipation'] = (data['participates-in-events'] === 'Yes') ? true : false;
+      socialSurvey['DisabilityImpact'] = (data['affects-social-interation'] === 'Yes') ? true : false;
+      socialSurvey['Discrimination'] = (data['experienced-discrimination'] === 'Yes') ? true : false;
+      newData['socialSurvey'] = socialSurvey;
+
+      return newData;
+    }
+
+    function onValidSubmit(data) {
+      data = prepareData(data);
+
+      axios.post('/baselineSurveys/add', data)
+      .then(() => {
+          alert("Survey added successfully.");
+          history.push("/client/" + props.match.params.id);
+      })
+      .catch((error) => {
+          alert("Something went wrong when trying to add survey.");
+          console.log(error);
+      })
+    }
 
     if (!clientFound && clientProvided) {
       return (
@@ -81,15 +118,14 @@ function NewSurvey(props){
               <NotFoundPage/>
           </div>
       )
-  } 
+    }
 
     return(
         <>
             <CookieChecker></CookieChecker>
                 <Container>
-                    <MultiStepForm name="New Baseline Survey">
-
-                        <Step name="Livelihood">
+                    <MultiStepForm name="New Baseline Survey" onValidSubmit={onValidSubmit}>
+                        <Step name="General">
                             <Row form>
                                 <Col>
                                     <FormGroup>
