@@ -51,11 +51,6 @@ function AdminDashboard() {
             responseType: 'blob',
         })
             .then(function (res) {
-                console.log(res.status)
-                if (res.status === 204) {
-                    console.log(res.data.text)
-                    alert(res.data);
-                }
                 const url = window.URL.createObjectURL(new Blob([res.data]));
                 const link = document.createElement('a');
                 link.href = url;
@@ -110,6 +105,7 @@ function AdminDashboard() {
                            value={dateEnd}
                            onChange={(event) => {setDateEnd(event.target.value)}} />
                     <Button name="baselineSurveys" onClick={downloadExcelWorkbook}>Export Baseline Surveys</Button>
+                    <Button name="visits" onClick={downloadExcelWorkbook}>Export Visits</Button>
                 </div>
             </div>
         </>
