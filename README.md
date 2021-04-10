@@ -63,6 +63,11 @@ Some pages will display a Google Maps with a marker, which requires a Google Map
 
 **Note**: The above steps are optional for running on localhost, but will display "Map cannot load properly" error along with the "For developer purposes only" watermark. However, the map will still display the correct location with the marker in the right place.
 
+### Additional Environmental Settings ###
+
+For the web application to run on localhost, you'll need to add the following additional environmental variables to the root directory .env file:
+- ACCESS_TOKEN_SECRET=474e765be37690bee00c75c3a3e5c8e6a2c8608f0798b1b6364e4d04d13edc324f4b5c94529e4841bd59cfd67160b1479a8acc1d9183bc2a05ff5041b1363e72
+
 ### Run Instructions ###
 
 After all the set up is done, use the command "npm run start" in the project root directory and the client and server will start simultaneously.
@@ -77,3 +82,11 @@ This is to be done in production mode and there are a few options (more will be 
 2. Follow the provided instructions for deployment on the page after creating the application (i.e. git init -> heroku git:remote -a <app_name>)
 3. After pushing the application to Heroku, run "heroku addons:create heroku-postgresql:hobby-dev".
 4. After the application has been successfully built by Heroku, run "heroku run npx sequelize-cli db:migrate" to create the necessary tables.
+
+## Testing ##
+
+For this project, we've only got backend testing set up and working. To run the backend tests, you'll first need to set up some additional enviromment variables within the .env file in the root directory:
+- DB_DATABASE_TEST=cbr_manager_database_test
+- DB_URL_TEST=postgres:password@localhost:5432/cbr_manager_database_test
+
+Next, you'll need to set up the testing enviromment by running the command "npm run pretest". Then you can run the tests using the command "npm run test:server".
