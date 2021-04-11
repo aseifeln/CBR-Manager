@@ -53,7 +53,7 @@ function CBRPerformance() {
     }
 
     return (
-        <Container>
+        <div>
             <div class="admin-card" data-title="Top 5 CBR Workers Carrying The Most Visits" style={{marginTop: '50px'}}>
                 <div style={{height: '400px'}}>
                     <BarChart data={mostVisits} keys={['Count']} keyAttr="Count" groupBy="Worker" xAxisLabel="Worker" yAxisLabel="Count"/>
@@ -74,7 +74,7 @@ function CBRPerformance() {
                     <BarChart data={leastReferrals} keys={['Count']} keyAttr="Count" groupBy="Worker" xAxisLabel="Worker" yAxisLabel="Count"/>
                 </div>
             </div>
-        </Container>
+        </div>
     )
 }
 

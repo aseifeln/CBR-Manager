@@ -78,7 +78,6 @@ function AdminDashboard() {
                 <div className='admin-container'>
                     <h1>Dashboard</h1>
                     <Button onClick={() => setToggleCreateAdmin(true)}>Create New Admin</Button>
-                    <CBRPerformance/>
                     <h3>Filter and Export Data</h3>
                     <div>Current Location: {location}</div>
                     <Dropdown isOpen={dropDown} toggle={toggle}>
@@ -106,6 +105,7 @@ function AdminDashboard() {
                            onChange={(event) => {setDateEnd(event.target.value)}} />
                     <Button name="baselineSurveys" onClick={downloadExcelWorkbook}>Export Baseline Surveys</Button>
                     <Button name="visits" onClick={downloadExcelWorkbook}>Export Visits</Button>
+                    <CBRPerformance/>
                 </div>
             </div>
         </>
