@@ -330,10 +330,7 @@ function ClientListPage() {
     return (
         <div className="container-size">
         <CookieChecker></CookieChecker>
-        <div className={`${isAdmin ? "main-content" : ""}`}>
-            {isAdmin ?
-            <AdminSideBar/>
-            : ''}
+        <div>
             <Container className={`ClientList ${isAdmin ? "admin-container" : ""}`}>
                 <Container className='Title'>
                     <h1 style={{color:"#9646b7f"}}>Client List</h1>
