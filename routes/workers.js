@@ -35,6 +35,41 @@ function WeeklyCount(model, workerId) {
     })
 }
 
+function visitsAndReferralsPerformance(model, modelId, groupedCol, order) {
+    return model.findAll({
+        attributes: [
+            'WorkerId',
+            [Sequelize.fn('COUNT', Sequelize.col(modelId)), 'count']
+        ],
+        group: [groupedCol, 'Worker.WorkerId'],
+        order: [
+            ['count', order]
+        ],
+        include: [{
+            model: worker,
+            required: true,
+            attributes: [
+                "FirstName", 
+                "LastName"
+            ],
+        }],
+        limit: 5 
+    })
+}
+
+function extractStats(workers) {
+    let stats = []
+    workers.forEach(worker => {
+        let stat = {}
+        stat['Worker'] = worker.Worker.FirstName + ' ' + worker.Worker.LastName
+        stat['Count'] = worker.count
+        stats.push(stat)
+    })
+
+    console.log(stats)
+    return stats
+}
+
 // @route   GET /workers
 // @desc    GET Retrieve all workers from the database
 router.get('/', (req,res) => {
@@ -238,6 +273,43 @@ router.get('/count', (req, res) => {
     .catch(err => res.status(400).json(err));
 })
 
+// @route   GET /workers/mostVisits
+// @desc    GET Retrieve the top 5 CBR workers performing the most number of visits
+router.get('/mostVisits', (req, res) => {
+    
+    visitsAndReferralsPerformance(visit, 'VisitId', 'Visit.WorkerId', 'DESC')
+    .then(workers => {
+        const stats = extractStats(workers)
+        res.json(stats)
+    })
+    .catch(err => res.status(400).json(err))
+})
 
+// @route   GET /workers/leastVisits
+// @desc    GET Retrieve the top 5 CBR workers performing the least number of visits
+router.get('/leastVisits', (req, res) => {
+
+    visitsAndReferralsPerformance(visit, 'VisitId', 'Visit.WorkerId', 'ASC')
+    .then(workers => res.json(workers))
+    .catch(err => res.status(400).json(err))
+})
+
+// @route   GET /workers/mostReferrals
+// @desc    GET Retrieve the top 5 CBR workers performing the most numbers of referrals
+router.get('/mostReferrals', (req, res) => {
+    
+    visitsAndReferralsPerformance(referral, 'ReferralId', 'Referral.WorkerId', 'DESC')
+    .then(workers => res.json(workers))
+    .catch(err => res.status(400).json(err))
+})
+
+// @route   GET /workers/leastReferrals
+// @desc    GET Retrieve the top 5 CBR workers performing the least number of referrals
+router.get('/leastReferrals', (req, res) => {
+    
+    visitsAndReferralsPerformance(referral, 'ReferralId', 'Referral.WorkerId', 'ASC')
+    .then(workers => res.json(workers))
+    .catch(err => res.status(400).json(err))
+})
 
 module.exports = router
