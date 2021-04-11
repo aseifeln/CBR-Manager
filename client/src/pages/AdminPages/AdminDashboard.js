@@ -3,6 +3,7 @@ import {Container, Button, DropdownMenu, DropdownItem, Dropdown, DropdownToggle,
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import CreateAdminAccount from '../../components/CreateAdminAccount';
+import CBRPerformance from '../../components/statistics/CBRPerformance';
 
 import '../../css/AdminDashboard.css';
 import axios from 'axios';
@@ -104,6 +105,7 @@ function AdminDashboard() {
                            onChange={(event) => {setDateEnd(event.target.value)}} />
                     <Button name="baselineSurveys" onClick={downloadExcelWorkbook}>Export Baseline Surveys</Button>
                     <Button name="visits" onClick={downloadExcelWorkbook}>Export Visits</Button>
+                    <CBRPerformance/>
                 </div>
             </div>
         </>
