@@ -22,7 +22,7 @@ function ConvertImage(referral){
     referral['Photo'] = targetImage
 }
 
-// Used for statistics purposes of converting to json objects to array
+// Used for statistics purposes of converting json object to array
 // Note: The first attribute in the objects are the indices
 function convertToArray(data, index) {
     let dataArr = [];
