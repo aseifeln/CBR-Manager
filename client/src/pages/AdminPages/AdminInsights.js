@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Button, Card, CardHeader, CardBody, Collapse, Row, Col } from 'reactstrap';
+import React from 'react';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
-import VisitStatistics from '../../components/statistics/VisitStatistics';
+import VisitLocationStatistics from '../../components/statistics/VisitLocationStatistics';
 import ReferralStatistics from '../../components/statistics/ReferralStatistics';
+import VisitServicesStatistics from '../../components/statistics/VisitServicesStatistics';
 import SurveyStatistics from '../../components/statistics/SurveyStatistics';
 import { WorkerTotalVisitsGraph } from '../../components/graphs/WorkerGraphs';
 import { WeeklyNewClientsCountGraph } from '../../components/graphs/ClientGraphs'; 
@@ -37,7 +37,8 @@ function AdminInsights() {
                         </div>
 
                         <div class='admin-card' data-title='Visit Statistics' style={{gridColumn: '1 / -1'}}>
-                            <VisitStatistics/>
+                            <VisitLocationStatistics/>
+                            <VisitServicesStatistics/>
                         </div>
 
                         <div class='admin-card' data-title='Survey Statistics' style={{gridColumn: '1 / -1'}}>
