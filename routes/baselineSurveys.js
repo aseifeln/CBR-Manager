@@ -9,7 +9,7 @@ const ShelterSurvey = require('../models/BaselineSurveys/shelterSurvey');
 const EmpowermentSurvey = require('../models/BaselineSurveys/empowermentSurvey');
 const LivelihoodSurvey = require('../models/BaselineSurveys/livelihoodSurvey');
 const { sequelize } = require('../models/BaselineSurveys/baselineSurvey');
-const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing');
 const uuid = require('uuid');
 
 
@@ -20,7 +20,7 @@ router.get('/count', (req, res) => {
     let filters = { Date: [null], ClientId: null, WorkerId: null }
     MatchFilters(filters, req.query);
     filters = ValidateFilters(filters);
-    console.log(filters)
+
     BaselineSurvey.count({
         where: filters
     })
