@@ -10,16 +10,20 @@ const validDisabilities = [
 const validServices = [ 'Physiotherapy', 'Prosthetic', 'Orthotic', 'Wheelchair', 'Other' ];
 
 function ValidateFilters(filters) {
-    // Removes all nulls from the object
-    let validatedFilters = Object.fromEntries(Object.entries(filters).filter(filter => {
-        const [key, val] = filter;
-        if (key === 'Location' || key === 'DisabilityType' || key === 'Date' || key === 'ServiceRequired') {
-            return (filters[key][0] !== null);
-        }
-        return (filters[key] !== null);
-    }));
+    function removeNulls(filters) {
+        let validatedFilters = Object.fromEntries(Object.entries(filters).filter(filter => {
+            const [key, val] = filter;
+            if (key === 'Location' || key === 'DisabilityType' || key === 'Date' || key === 'ServiceRequired') {
+                return (filters[key][0] !== null);
+            }
+            return (filters[key] !== null);
+        }));
+        return validatedFilters;
+    }
 
-    // Checks all types are correct (eg. Dateformat, location enum, disability enum, date range)
+    // Removes all nulls from the object
+    let validatedFilters = removeNulls(filters);
+
     for (let [key, val] of Object.entries(validatedFilters)) {
         if (key === 'Location') {
             val = JSON.parse(val);
