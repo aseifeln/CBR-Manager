@@ -12,6 +12,10 @@ const NutritionSurvey = require('../models/BaselineSurveys/nutritionSurvey');
 const ShelterSurvey = require('../models/BaselineSurveys/shelterSurvey');
 const EmpowermentSurvey = require('../models/BaselineSurveys/empowermentSurvey');
 const LivelihoodSurvey = require('../models/BaselineSurveys/livelihoodSurvey');
+const visit = require('../models/VisitForms/visit')
+const healthForm = require('../models/VisitForms/healthForm');
+const educationForm = require('../models/VisitForms/educationForm');
+const socialForm = require('../models/VisitForms/socialForm');
 const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing');
 
 
@@ -164,13 +168,60 @@ router.get('/baselineSurveys', async (req, res) => {
         ],
 
     })
-   // res.status(200).json(surveys);
-   //  console.log(surveys[0])
+
     // Create Excel Workbook
     const wb = new excel.Workbook();
     let surveySheet = wb.addWorksheet('Baseline Surveys');
     try {
         generateGenericWorkSheet(wb, surveySheet, surveys);
+        wb.write('excel.xlsx', res);
+    } catch (error) {
+        res.status(400).json(error);
+    }
+});
+
+router.get('/visits', async (req, res) => {
+    let filters = { Date: [null], ClientId: null, WorkerId: null, Location: [null] }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+
+    let visits = await visit.findAll({
+        where: filters,
+        include:[
+            {
+                model: client,
+                required: true,
+                attributes: [
+                    'ClientId', 'FirstName', 'LastName', 'Location'
+                ]
+            },
+            {
+                model: worker,
+                required: false,
+                attributes: [
+                    'WorkerId', 'FirstName', 'LastName'
+                ]
+            },
+            {
+                model: healthForm,
+                required: false
+            },
+            {
+                model: educationForm,
+                required: false
+            },
+            {
+                model: socialForm,
+                required: false
+            }
+        ],
+    });
+
+    // Create Excel Workbook
+    const wb = new excel.Workbook();
+    let surveySheet = wb.addWorksheet('Baseline Surveys');
+    try {
+        generateGenericWorkSheet(wb, surveySheet, visits);
         wb.write('excel.xlsx', res);
     } catch (error) {
         res.status(400).json(error);
@@ -311,7 +362,6 @@ function generateGenericWorkSheet(workBook, workSheet, data) {
         } catch (error) {
             console.log("Data does not have secondary forms");
         }
-
     }
 }
 

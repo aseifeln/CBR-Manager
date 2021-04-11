@@ -20,7 +20,7 @@ router.get('/count', (req, res) => {
     let filters = { Date: [null], ClientId: null, WorkerId: null }
     MatchFilters(filters, req.query);
     filters = ValidateFilters(filters);
-    console.log(filters)
+
     BaselineSurvey.count({
         where: filters
     })
