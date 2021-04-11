@@ -536,7 +536,7 @@ let seedClients = [
       LastName:  'Afolayan',
       DateCreated: faker.date.recent(),
       Gender: 'Male',
-      Location: locations[0],
+      Location: locations[6],
       ContactNo: faker.phone.phoneNumberFormat(),
       VillageNumber: randomInt(1, num_villages),
       Age: 17,
@@ -580,7 +580,7 @@ let seedClients = [
         VisitPurpose: 'CBR',
         GPSLocation: 0,
         Date: faker.date.recent(),
-        Location: locations[0],         // Are visits Limited to the same location as the client?
+        Location: locations[6],         // Are visits Limited to the same location as the client?
         VillageNumber: randomInt(1, num_villages),
       },
       {
@@ -607,7 +607,7 @@ let seedClients = [
         VisitPurpose: 'Disability center referral follow up',
         GPSLocation: 0,
         Date: faker.date.recent(),
-        Location: locations[0],         // Are visits Limited to the same location as the client?
+        Location: locations[6],         // Are visits Limited to the same location as the client?
         VillageNumber: randomInt(1, num_villages),
       },
     ],

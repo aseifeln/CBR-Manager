@@ -48,7 +48,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: uuid.v4(),
@@ -72,7 +72,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: uuid.v4(),
@@ -95,7 +95,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: uuid.v4(),
@@ -118,7 +118,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: null,
@@ -140,7 +140,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: uuid.v4(),
@@ -164,7 +164,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: null
@@ -187,7 +187,7 @@ let seedVisits = [
     VisitPurpose: 'CBR',
     GPSLocation: 0,
     Date: faker.date.recent(),
-    Location: locations[randomInt(0, locations.length)],
+    Location: locations[randomInt(1, locations.length)],
     VillageNumber: randomInt(1, num_villages),
     HealthForm: {
       HealthFormId: null
