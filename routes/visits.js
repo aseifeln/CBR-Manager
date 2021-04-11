@@ -6,13 +6,29 @@ const client = require('../models/client')
 const healthForm = require('../models/VisitForms/healthForm')
 const educationForm = require('../models/VisitForms/educationForm')
 const socialForm = require('../models/VisitForms/socialForm')
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
 
 const { sequelize } = require('../models/VisitForms/visit')
 const { v4: uuidv4 } = require('uuid');
 
+// @route   GET /visits/count?Location=["", ""]&Date=["", ""]&ClientId=1
+// @desc    GET Retrieve the total number of visits per provided parameters
+// @params  Optional: Location(s), Date, ClientId, WorkerId
+router.get('/count', (req, res) => {
+    let filters = { Location: [null], Date: [null], ClientId: null, WorkerId: null }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+
+    visit.count({
+        where: filters
+    })
+        .then(visitCount => res.status(200).json(visitCount))
+        .catch(err => res.status(400).json(err));
+});
+
 // @route   GET /visits/id
 // @desc    GET Retrieve a visit with a certain id from the database
-router.get('/:id', (req,res) => {
+router.get('/:id', (req, res) => {
     const visitId = req.params.id
     visit.findAll({
         where: {
@@ -26,7 +42,7 @@ router.get('/:id', (req,res) => {
             model: client,
             required: true,
             attributes: [
-              'ClientId', 'FirstName', 'LastName'
+                'ClientId', 'FirstName', 'LastName'
             ]
         },
         {
@@ -50,10 +66,10 @@ router.get('/:id', (req,res) => {
             required: false
         }]
     })
-    .then(visits => {
-        res.json(visits);
-    })
-    .catch(err => res.status(404).json(err))
+        .then(visits => {
+            res.json(visits);
+        })
+        .catch(err => res.status(404).json(err))
 
 })
 
@@ -80,16 +96,16 @@ router.get('/client/:id', (req, res) => {
             ]
         }]
     })
-    .then(visits => res.json(visits))
-    .catch(err => res.status(404).json(err))
+        .then(visits => res.json(visits))
+        .catch(err => res.status(404).json(err))
 })
 
 // @route   POST /visit/add
 // @desc    POST Add a new visit to the database
-router.post('/add', async (req,res) => {
-    let {VisitPurpose, GPSLocation, Date,
+router.post('/add', async (req, res) => {
+    let { VisitPurpose, GPSLocation, Date,
         Location, VillageNumber, WorkerId, ClientId,
-        HealthForm, EducationForm, SocialForm} = req.body;
+        HealthForm, EducationForm, SocialForm } = req.body;
 
     let transaction;
 
@@ -166,7 +182,7 @@ router.post('/add', async (req,res) => {
 
 // @route   DELETE /visits/delete/id
 // @desc    DELETE an existing visit in the database with matching id
-router.delete('/delete/:id', async(req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     let transaction;
     const visitId = req.params.id;
 
@@ -212,9 +228,33 @@ router.get('/stats/location', async (req, res) => {
     catch (error) {
         if (transaction)
             await transaction.rollback();
-        
+
         res.status(500).json(error);
     }
 })
- 
+
+router.get('/stats/services', async (req, res) => {
+    let transaction;
+
+    try {
+        transaction = await sequelize.transaction();
+        const visits = await visit.findAll({
+            attributes: ['HealthFormId', 'EducationFormId', 'SocialFormId'],
+            include: [{
+                model: client,
+                required: true,
+                attributes: ['Location']
+            }]
+        }, { transaction });
+        await transaction.commit();
+        res.json(visits)
+    }
+    catch (error) {
+        if (transaction)
+            await transaction.rollback();
+
+        res.status(500).json(error);
+    }
+})
+
 module.exports = router

@@ -9,7 +9,24 @@ const ShelterSurvey = require('../models/BaselineSurveys/shelterSurvey');
 const EmpowermentSurvey = require('../models/BaselineSurveys/empowermentSurvey');
 const LivelihoodSurvey = require('../models/BaselineSurveys/livelihoodSurvey');
 const { sequelize } = require('../models/BaselineSurveys/baselineSurvey');
+const { MatchFilters, ValidateFilters } = require('./utils/FilterParsing')
 const uuid = require('uuid');
+
+
+// @route   GET /baselineSurveys/count?Location=["", ""]&Date=["", ""]&ClientId=1&WorkerId
+// @desc    GET Retrieve the total number of baselineSurveys per provided parameters
+// @params  Optional: Date, ClientId, WorkerId
+router.get('/count', (req, res) => {
+    let filters = { Date: [null], ClientId: null, WorkerId: null }
+    MatchFilters(filters, req.query);
+    filters = ValidateFilters(filters);
+    console.log(filters)
+    BaselineSurvey.count({
+        where: filters
+    })
+        .then(baselineSurveyCount => res.status(200).json(baselineSurveyCount))
+        .catch(err => res.status(400).json(err));
+});
 
 // @route   /baselineSurveys/:id
 // @desc    GET retrieve a survey by SurveyId
@@ -219,7 +236,7 @@ router.post('/add', async (req, res) => {
     } catch(error) {
         res.status(400).json(error);
     }
-})
+});
 
 // @route /baselineSurveys/<clientId>/delete
 // @desc DELETE an existing baseline survey
@@ -238,7 +255,7 @@ router.delete('/:id/delete', async (req, res) => {
 
         if (surveyToDelete === null)
             throw new Error("Client has no survey");
-        
+
         await surveyToDelete.destroy({ transaction });
         await transaction.commit();
         res.json("Survey successfully deleted");
@@ -249,9 +266,23 @@ router.delete('/:id/delete', async (req, res) => {
 
         if (error.message === "Client has no survey")
             res.status(404).json(error.message);
-        else 
+        else
             res.status(400).json(error);
     }
-})
+});
 
-module.exports = router
+// @route   /baselineSurveys/
+// @desc    GET all baselineSurveys
+router.get('/', async (req, res) => {
+    try {
+        await sequelize.transaction(async (transaction) => {
+            const allBaselineSurveys = await BaselineSurvey.findAll({ transaction });
+            res.status(200).json(allBaselineSurveys);
+        });
+    }
+    catch(error) {
+        res.status(400).json(error);
+    }
+});
+
+module.exports = router;
