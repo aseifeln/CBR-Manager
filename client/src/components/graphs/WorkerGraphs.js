@@ -29,7 +29,7 @@ const WorkerTotalVisitsGraph = () => {
     return (
         <ResponsivePie
             data={data}
-            margin={{ top: 20, right: 40, bottom: 40, left: 40 }}
+            margin={{ top: 20, right: 60, bottom: 40, left: 60 }}
             innerRadius={0.5}
             padAngle={0.7}
             cornerRadius={3}
