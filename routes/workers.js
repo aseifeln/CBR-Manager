@@ -39,11 +39,11 @@ function visitsAndReferralsPerformance(model, modelId, groupedCol, order) {
     return model.findAll({
         attributes: [
             'WorkerId',
-            [Sequelize.fn('COUNT', Sequelize.col(modelId)), 'count']
+            [Sequelize.fn('COUNT', Sequelize.col(modelId)), 'statcount']
         ],
         group: [groupedCol, 'Worker.WorkerId'],
         order: [
-            ['count', order]
+            [Sequelize.literal('statcount'), order]
         ],
         include: [{
             model: worker,
@@ -53,21 +53,8 @@ function visitsAndReferralsPerformance(model, modelId, groupedCol, order) {
                 "LastName"
             ],
         }],
-        limit: 5 
+        limit: 5
     })
-}
-
-function extractStats(workers) {
-    let stats = []
-    workers.forEach(worker => {
-        let stat = {}
-        stat['Worker'] = worker.Worker.FirstName + ' ' + worker.Worker.LastName
-        stat['Count'] = worker.count
-        stats.push(stat)
-    })
-
-    console.log(stats)
-    return stats
 }
 
 // @route   GET /workers
@@ -278,10 +265,7 @@ router.get('/count', (req, res) => {
 router.get('/mostVisits', (req, res) => {
     
     visitsAndReferralsPerformance(visit, 'VisitId', 'Visit.WorkerId', 'DESC')
-    .then(workers => {
-        const stats = extractStats(workers)
-        res.json(stats)
-    })
+    .then(workers => res.json(workers))
     .catch(err => res.status(400).json(err))
 })
 

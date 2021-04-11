@@ -3,6 +3,7 @@ import { Container, Button } from 'reactstrap';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
 import CreateAdminAccount from '../../components/CreateAdminAccount';
+import CBRPerformance from '../../components/statistics/CBRPerformance';
 
 import '../../css/AdminDashboard.css';
 
@@ -25,6 +26,7 @@ function AdminDashboard() {
                 <div className='admin-container'>
                     <h1>Dashboard</h1>
                     <Button onClick={() => setToggleCreateAdmin(true)}>Create New Admin</Button>
+                    <CBRPerformance/>
                 </div>
             </div>
         </>
