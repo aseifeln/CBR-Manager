@@ -3,7 +3,7 @@ import { Container, Table } from 'reactstrap';
 import BarChart from '../graphs/BarGraph';
 import axios from 'axios';
 
-function VisitStatistics() {
+function VisitLocationStatistics() {
 
     const [ stats, setStats ] = useState([]);
 
@@ -25,8 +25,8 @@ function VisitStatistics() {
             <Table>
                 <thead>
                     <tr>
-                        <th>Location</th>
-                        <th>Count</th>
+                        <th>Visit Location</th>
+                        <th>Total Visits</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,4 +42,4 @@ function VisitStatistics() {
     )
 }
 
-export default VisitStatistics;
+export default VisitLocationStatistics;
