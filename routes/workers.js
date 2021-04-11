@@ -266,7 +266,7 @@ router.get('/mostVisits', (req, res) => {
     
     visitsAndReferralsPerformance(visit, 'VisitId', 'Visit.WorkerId', 'DESC')
     .then(workers => res.json(workers))
-    .catch(err => res.status(400).json(err))
+    .catch(err => res.status(500).json(err))
 })
 
 // @route   GET /workers/leastVisits
@@ -275,7 +275,7 @@ router.get('/leastVisits', (req, res) => {
 
     visitsAndReferralsPerformance(visit, 'VisitId', 'Visit.WorkerId', 'ASC')
     .then(workers => res.json(workers))
-    .catch(err => res.status(400).json(err))
+    .catch(err => res.status(500).json(err))
 })
 
 // @route   GET /workers/mostReferrals
@@ -284,7 +284,7 @@ router.get('/mostReferrals', (req, res) => {
     
     visitsAndReferralsPerformance(referral, 'ReferralId', 'Referral.WorkerId', 'DESC')
     .then(workers => res.json(workers))
-    .catch(err => res.status(400).json(err))
+    .catch(err => res.status(500).json(err))
 })
 
 // @route   GET /workers/leastReferrals
@@ -293,7 +293,7 @@ router.get('/leastReferrals', (req, res) => {
     
     visitsAndReferralsPerformance(referral, 'ReferralId', 'Referral.WorkerId', 'ASC')
     .then(workers => res.json(workers))
-    .catch(err => res.status(400).json(err))
+    .catch(err => res.status(500).json(err))
 })
 
 module.exports = router
