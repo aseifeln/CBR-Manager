@@ -3,6 +3,7 @@ const { Op } = require('sequelize');
 const router = express.Router();
 const excel = require('excel4node');
 const client = require('../models/client');
+const worker = require('../models/worker');
 const BaselineSurvey = require('../models/BaselineSurveys/baselineSurvey');
 const HealthSurvey = require('../models/BaselineSurveys/healthSurvey');
 const EducationSurvey = require('../models/BaselineSurveys/educationSurvey');
