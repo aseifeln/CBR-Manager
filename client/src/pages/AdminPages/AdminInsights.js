@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardBody, Collapse, Row, Col } from 'reactstrap';
 import AdminSideBar from '../../components/AdminSideBar';
 import CookieChecker from '../../components/CookieChecker';
-import VisitStatistics from '../../components/statistics/VisitStatistics';
+import VisitLocationStatistics from '../../components/statistics/VisitLocationStatistics';
 import ReferralStatistics from '../../components/statistics/ReferralStatistics';
+import VisitServicesStatistics from '../../components/statistics/VisitServicesStatistics';
 import SurveyStatistics from '../../components/statistics/SurveyStatistics';
 
 function AdminInsights() {
@@ -44,7 +45,8 @@ function AdminInsights() {
                 <div className='admin-container'>
                     <h1>Insights</h1>
                     <StatisticsAccordion header="Visit Statistics" defaultState={true}>
-                        <VisitStatistics/>
+                        <VisitLocationStatistics/>
+                        <VisitServicesStatistics/>
                     </StatisticsAccordion>
                     <StatisticsAccordion header="Referral Statistics" defaultState={false}>
                         <ReferralStatistics/>
