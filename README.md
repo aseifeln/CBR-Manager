@@ -57,7 +57,7 @@ Some pages will display a Google Maps with a marker, which requires a Google Map
 
 1) Follow this [guide](https://developers.google.com/maps/documentation/embed/get-api-key) to obtain a Google Maps API key.
 
-2) Create a .env file within the /client folder with the following ""REACT_APP_GOOGLE_MAPS_API_KEY='api key'"".
+2) Create a .env file within the /client folder with the following "REACT_APP_GOOGLE_MAPS_API_KEY='api key'".
 
 3) Enable the JavaScript Google Maps API in the Google Cloud Platform console.
 
