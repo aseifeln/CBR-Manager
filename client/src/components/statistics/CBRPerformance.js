@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'reactstrap';
 import BarChart from '../graphs/BarGraph';
 import axios from 'axios';
 
