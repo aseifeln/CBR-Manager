@@ -22,7 +22,7 @@ function NewSurvey(props){
     const [ hasAccessToAssistiveDevice, setHasAccessToAssistiveDevice] = useState(true);
     const [ needAccessToAssistiveDevice, setNeedAccessToAssistiveDevice] = useState(true);
 
-    const [ goesToSchool, setGoesToSchool] = useState(true);
+    const [ goesToSchool, setGoesToSchool] = useState(false);
     const [ working, setWorking] = useState(true);
 
     const [ hasReferral, setHasReferral] = useState(true);
@@ -98,7 +98,7 @@ function NewSurvey(props){
       newData['healthSurvey'] = healthSurvey;
 
       let educationSurvey = {};
-      educationSurvey['SchoolState'] = (data['goes-to-school'] === 'Yes') ? true : false;
+      educationSurvey['SchoolState'] = goesToSchool;
       educationSurvey['CurrentGrade'] = data['grade'];
       educationSurvey['NoSchoolReason'] = data['why-not-go-to-school'];
       educationSurvey['SchoolBefore'] = (data['has-gone-to-school'] === 'Yes') ? true : false;
@@ -107,9 +107,9 @@ function NewSurvey(props){
 
       let socialSurvey = {};
       socialSurvey['ValuedCommunityMember'] = (data['feels-valued'] === 'Yes') ? true : false;
-      socialSurvey['Independence'] = (data['feels-independent'] === 'Yes') ? true : false;
+      socialSurvey['Independence'] = (data['feels-independant'] === 'Yes') ? true : false;
       socialSurvey['CommunityParticipation'] = (data['participates-in-events'] === 'Yes') ? true : false;
-      socialSurvey['DisabilityImpact'] = (data['affects-social-interation'] === 'Yes') ? true : false;
+      socialSurvey['DisabilityImpact'] = (data['affects-social-interaction'] === 'Yes') ? true : false;
       socialSurvey['Discrimination'] = (data['experienced-discrimination'] === 'Yes') ? true : false;
       newData['socialSurvey'] = socialSurvey;
 
@@ -430,7 +430,7 @@ function NewSurvey(props){
                               <FieldInput type="select" name="employed" label="Are you employed or self-employed?">
                                 <option selected hidden>Select an option</option>
                                 <option>Employed</option>
-                                <option>Self-Employed</option>
+                                <option>Self-employed</option>
                               </FieldInput>
                               </Col>
                             </Row>
