@@ -1,4 +1,4 @@
-module.exports = function SeedInterface(seedWorkers, seedClients) {
+module.exports = function SeedInterface(seedWorkers, seedClients, seedAlerts) {
     return {
         up: async (queryInterface, Sequelize) => {
 
@@ -101,6 +101,58 @@ module.exports = function SeedInterface(seedWorkers, seedClients) {
                     ]);
 
                 }
+
+                // Add baseline surveys and sub tables
+                await queryInterface.bulkInsert('SocialSurvey', [
+                    seedClients[i].BaselineSurvey.SocialSurvey,
+                ]);
+                await queryInterface.bulkInsert('ShelterSurvey', [
+                    seedClients[i].BaselineSurvey.ShelterSurvey,
+                ]);
+                await queryInterface.bulkInsert('NutritionSurvey', [
+                    seedClients[i].BaselineSurvey.NutritionSurvey,
+                ]);
+                if (seedClients[i].BaselineSurvey.LivelihoodSurvey.LivelihoodSurveyId != null) {
+                    await queryInterface.bulkInsert('LivelihoodSurvey', [
+                        seedClients[i].BaselineSurvey.LivelihoodSurvey,
+                    ]);
+                }
+                await queryInterface.bulkInsert('EmpowermentSurvey', [
+                    seedClients[i].BaselineSurvey.EmpowermentSurvey,
+                ]);
+
+                if (seedClients[i].BaselineSurvey.EducationSurvey.EducationSurveyId != null) {
+                    await queryInterface.bulkInsert('EducationSurvey', [
+                        seedClients[i].BaselineSurvey.EducationSurvey,
+                    ]);
+                }
+                await queryInterface.bulkInsert('HealthSurvey', [
+                    seedClients[i].BaselineSurvey.HealthSurvey,
+                ]);
+
+                await queryInterface.bulkInsert('BaselineSurvey', [
+                    {
+                        BaselineSurveyId: seedClients[i].BaselineSurvey.BaselineSurveyId,
+                        Date: seedClients[i].BaselineSurvey.Date,
+                        WorkerId: seedClients[i].Client.WorkerId,
+                        ClientId: seedClients[i].Client.ClientId,
+                        SocialSurveyId: seedClients[i].BaselineSurvey.SocialSurvey.SocialSurveyId,
+                        ShelterSurveyId: seedClients[i].BaselineSurvey.ShelterSurvey.ShelterSurveyId,
+                        NutritionSurveyId: seedClients[i].BaselineSurvey.NutritionSurvey.NutritionSurveyId,
+                        LivelihoodSurveyId: seedClients[i].BaselineSurvey.LivelihoodSurvey.LivelihoodSurveyId,
+                        EmpowermentSurveyId: seedClients[i].BaselineSurvey.EmpowermentSurvey.EmpowermentSurveyId,
+                        EducationSurveyId: seedClients[i].BaselineSurvey.EducationSurvey.EducationSurveyId,
+                        HealthSurveyId: seedClients[i].BaselineSurvey.HealthSurvey.HealthSurveyId,
+                    }
+                ]);
+
+            }
+
+            // Outside of all clients, add alerts
+            for (let i = 0; i < seedAlerts.length; i++) {
+                await queryInterface.bulkInsert('Alert', [
+                    seedAlerts[i],
+                ]);
             }
         },
 
