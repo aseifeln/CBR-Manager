@@ -153,7 +153,7 @@ function BaselineSurvey(props){
                     <td>{EducationSurvey?.NoSchoolReason ? EducationSurvey.NoSchoolReason : "--"}</td>
                   </tr>
                   <tr>
-                    <td>Has every attended school</td>
+                    <td>Has ever attended school</td>
                     <InsertYesOrNoImg bool={EducationSurvey?.SchoolBefore}/>
                   </tr>
                   <tr>

@@ -4,9 +4,8 @@ import { MultiStepForm, Step, FieldInput, FieldTypeahead,FieldCheck } from "../c
 import { useHistory } from "react-router-dom";
 import CookieChecker from '../components/CookieChecker';
 import axios from 'axios';
-import {getGPSLocation} from './Helpers';
 import { UserContext } from '../components/UserContext';
-
+import NotFoundPage from './404';
 
 function NewSurvey(props){
     const history = useHistory();
@@ -14,7 +13,6 @@ function NewSurvey(props){
     const [ clients, setClients ] = useState([]);
     const [ clientProvided, setClientProvided ] = useState(true);
     const [ clientFound, setClientFound ] = useState(false);
-    const [ GPSLocation, setGPSLocation ] = useState('');
     const [ worker, setWorker ] = useState({});
     const context = useContext(UserContext);
   
@@ -24,20 +22,10 @@ function NewSurvey(props){
     const [ hasAccessToAssistiveDevice, setHasAccessToAssistiveDevice] = useState(true);
     const [ needAccessToAssistiveDevice, setNeedAccessToAssistiveDevice] = useState(true);
 
-    const [ goesToSchool, setGoesToSchool] = useState(true);
-
+    const [ goesToSchool, setGoesToSchool] = useState(false);
     const [ working, setWorking] = useState(true);
 
-    const [ hasReferral, setHasReferral] = useState(true);
-    const [ isMalnourished, setIsMalnourished] = useState(true);
     const [ partOfOrganizations, setPartOfOrganizations] = useState(true);
-
-  
-    useEffect(() => {
-  
-      //Get the current GPS Location
-      getGPSLocation(setGPSLocation);
-    },[])
   
     useEffect(() => {
   
@@ -82,16 +70,105 @@ function NewSurvey(props){
         })
       }
   
-      document.title="New Visit";
+      document.title="New Survey";
     }, [])
+
+    function prepareData(data) {
+      let newData = {};
+
+      if (clientProvided) {
+          newData['ClientId'] = props.match.params.id;
+      }
+      else {
+          newData['ClientId'] = data.client[0].value;
+      }
+      newData['WorkerId'] = context.WorkerId;
+
+      let healthSurvey = {};
+      healthSurvey['HealthStatus'] = data['general-health'].substring(2);
+      healthSurvey['RehabilitationAccess'] = (data['access-to-rehab'] === 'Yes') ? true : false;
+      healthSurvey['RehabilitationAccessNeeded'] = (data['need-access-to-rehab'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDevice'] = (data['access-to-assistive-device'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDeviceWorking'] = (data['is-your-assistive-device-working'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDeviceNeeded'] = (data['need-access-to-assistive-device'] === 'Yes') ? true : false;
+      healthSurvey['AssistiveDeviceRequired'] = [data['choose-device']];
+      healthSurvey['HealthServiceStatus'] = data['health-service-rating'].substring(2);
+      newData['healthSurvey'] = healthSurvey;
+
+      let educationSurvey = {};
+      educationSurvey['SchoolState'] = goesToSchool;
+      educationSurvey['CurrentGrade'] = data['grade'];
+      educationSurvey['NoSchoolReason'] = data['why-not-go-to-school'];
+      educationSurvey['SchoolBefore'] = (data['has-gone-to-school'] === 'Yes') ? true : false;
+      educationSurvey['WantSchool'] = (data['wants-to-go-to-school'] === 'Yes') ? true : false;
+      newData['educationSurvey'] = educationSurvey;
+
+      let socialSurvey = {};
+      socialSurvey['ValuedCommunityMember'] = (data['feels-valued'] === 'Yes') ? true : false;
+      socialSurvey['Independence'] = (data['feels-independant'] === 'Yes') ? true : false;
+      socialSurvey['CommunityParticipation'] = (data['participates-in-events'] === 'Yes') ? true : false;
+      socialSurvey['DisabilityImpact'] = (data['affects-social-interaction'] === 'Yes') ? true : false;
+      socialSurvey['Discrimination'] = (data['experienced-discrimination'] === 'Yes') ? true : false;
+      newData['socialSurvey'] = socialSurvey;
+
+      let livelihoodSurvey = {};
+      livelihoodSurvey['WorkStatus'] = (data['working'] === 'Yes') ? true : false;
+      livelihoodSurvey['WorkDescription'] = data['job-title'];
+      livelihoodSurvey['EmploymentType'] = data['employed'];
+      livelihoodSurvey['FinancialNeedsMet'] = (data['meet-financial-needs'] === 'Yes') ? true : false;
+      livelihoodSurvey['DisabilityImpact'] = (data['affects-work'] === 'Yes') ? true : false;
+      livelihoodSurvey['WorkWanted'] = (data['want-to-work'] === 'Yes') ? true : false;
+      newData['livelihoodSurvey'] = livelihoodSurvey;
+
+      let nutritionSurvey = {};
+      nutritionSurvey['FoodStatus'] = data['food-security'].substring(2);
+      nutritionSurvey['MonthlyFoodAccess'] = (data['enough-food'] === 'Yes') ? true : false;
+      nutritionSurvey['ChildNutritionStatus'] = data['nutrition-status'];
+      newData['nutritionSurvey'] = nutritionSurvey;
+
+      let empowermentSurvey = {};
+      empowermentSurvey['DisabilityOrganizationMember'] = (data['part-of-organizations'] === 'Yes') ? true : false;
+      empowermentSurvey['DisabilityOrganizations'] = [data['which-organizations']];
+      empowermentSurvey['AwareDisabilityRights'] = (data['aware-of-rights'] === 'Yes') ? true : false;
+      empowermentSurvey['Influential'] = (data['have-influence'] === 'Yes') ? true : false;
+      newData['empowermentSurvey'] = empowermentSurvey;
+
+      let shelterSurvey = {};
+      shelterSurvey['ShelterAccess'] = (data['adequate-shelter'] === 'Yes') ? true : false;
+      shelterSurvey['EssentialsAccess'] = (data['essential-items'] === 'Yes') ? true : false;
+      newData['shelterSurvey'] = shelterSurvey;
+
+      return newData;
+    }
+
+    function onValidSubmit(data) {
+      data = prepareData(data);
+
+      axios.post('/baselineSurveys/add', data)
+      .then(() => {
+          alert("Survey added successfully.");
+          history.push("/client/" + props.match.params.id);
+      })
+      .catch((error) => {
+          alert("Something went wrong when trying to add survey.");
+          console.log(error);
+      })
+    }
+
+    if (!clientFound && clientProvided) {
+      return (
+          <div>
+              <NotFoundPage/>
+          </div>
+      )
+    }
 
     return(
         <>
             <CookieChecker></CookieChecker>
                 <Container>
-                    <MultiStepForm name="New Baseline Survey">
-
-                        <Step name="Livelihood">
+                    <MultiStepForm name="New Baseline Survey" onValidSubmit={onValidSubmit}>
+                        <Step name="General">
                             <Row form>
                                 <Col>
                                     <FormGroup>
@@ -160,7 +237,7 @@ function NewSurvey(props){
                                 </FormGroup>
                             </Col>
                           </Row>
-                          {!hasAccessToAssistiveDevice?
+                          {hasAccessToAssistiveDevice?
                           <Row form>
                             <Label style={{marginLeft:"40px"}}>Is your assistive device working well?</Label>
                             <Col>
@@ -351,7 +428,7 @@ function NewSurvey(props){
                               <FieldInput type="select" name="employed" label="Are you employed or self-employed?">
                                 <option selected hidden>Select an option</option>
                                 <option>Employed</option>
-                                <option>Self-Employed</option>
+                                <option>Self-employed</option>
                               </FieldInput>
                               </Col>
                             </Row>
@@ -415,21 +492,17 @@ function NewSurvey(props){
                           {client.Age<13?
                           <>
                           <Row form>
-                            <Label>Is this child malnurished?</Label>
                             <Col>
-                                <FormGroup>
-                                    <FieldCheck name="malnourished" type="radio" label="Yes" value="Yes" defaultChecked
-                                    onChange={()=>{setIsMalnourished(true)}}/>
-                                    <FieldCheck name="malnourished" type="radio" label="No" value="No" className='ml-4 pl-2'
-                                    onChange={()=>{setIsMalnourished(false)}}/>
-                                </FormGroup>
+                              <FormGroup>
+                                <FieldInput type="select" name="nutrition-status" label="Child's nutritional status" required="Rate 1-4 your food security">
+                                  <option selected hidden>Make a selection</option>
+                                  <option>Malnourished</option>
+                                  <option>Undernourished</option>
+                                  <option>Well Nourished</option>
+                                </FieldInput>
+                              </FormGroup>
                             </Col>
                           </Row>
-                          {isMalnourished&&!hasReferral?
-                          <Row form>
-                            <Label>Referral is required</Label>
-                          </Row>
-                          :""}
                           </>
                         :""}
                       </Step>
