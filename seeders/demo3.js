@@ -150,12 +150,66 @@ let seedClients = [
         },
         ReferralId: uuid.v4(),
         Date: faker.date.recent(),
-        ServiceRequired: `{${['Wheelchair']}}`,
+        ServiceRequired: `{${['Wheelchair', 'Prosthetic']}}`,
         ReferTo: 'Disability Center',
         Status: 'Made',
         Outcome: 'Still waiting for the wheelchair',
       },
     ],
+    BaselineSurvey: {
+      BaselineSurveyId: uuid.v4(),
+      Date: faker.date.recent(),
+      SocialSurvey: {
+        SocialSurveyId: uuid.v4(),
+        ValuedCommunityMember: true,
+        Independence: true,
+        CommunityParticipation: true,
+        DisabilityImpact: true,
+        Discrimination: true
+      },
+      ShelterSurvey: {
+        ShelterSurveyId: uuid.v4(),
+        ShelterAccess: true,
+        EssentialsAccess: true
+      },
+      NutritionSurvey: {
+        NutritionSurveyId: uuid.v4(),
+        FoodStatus: "Fine",
+        MonthlyFoodAccess: true,
+        ChildNutritionStatus: null
+      },
+      LivelihoodSurvey: {
+        LivelihoodSurveyId: uuid.v4(),
+        WorkStatus: true,
+        WorkDescription: "Office work",
+        EmploymentType: "Employed",
+        FinancialNeedsMet: true,
+        DisabilityImpact: true,
+        WorkWanted: false
+      },
+      EmpowermentSurvey: {
+        EmpowermentSurveyId: uuid.v4(),
+        DisabilityOrganizationMember: true,
+        DisabilityOrganizations: ["Disability Empowerment, WAH"],
+        AwareDisabilityRights: true,
+        Influential: true
+      },
+      // No education because over 18
+      EducationSurvey: {
+        EducationSurveyId: null,
+      },
+      HealthSurvey: {
+        HealthSurveyId: uuid.v4(),
+        HealthStatus: "Very Poor",
+        RehabilitationAccess: true,
+        RehabilitationAccessNeeded: false,
+        AssistiveDevice: false,
+        AssistiveDeviceWorking: false,
+        AssistiveDeviceNeeded: true,
+        AssistiveDeviceRequired: `{${['Wheelchair', 'Prosthetic']}}`,
+        HealthServiceStatus: "Fine"
+      }
+    }
   },
 
   {
@@ -273,6 +327,59 @@ let seedClients = [
         Outcome: 'They got the glasses.',
       },
     ],
+    BaselineSurvey: {
+      BaselineSurveyId: uuid.v4(),
+      Date: faker.date.recent(),
+      SocialSurvey: {
+        SocialSurveyId: uuid.v4(),
+        ValuedCommunityMember: true,
+        Independence: false,
+        CommunityParticipation: true,
+        DisabilityImpact: true,
+        Discrimination: false
+      },
+      ShelterSurvey: {
+        ShelterSurveyId: uuid.v4(),
+        ShelterAccess: true,
+        EssentialsAccess: true
+      },
+      NutritionSurvey: {
+        NutritionSurveyId: uuid.v4(),
+        FoodStatus: "Good",
+        MonthlyFoodAccess: true,
+        ChildNutritionStatus: "Well Nourished"
+      },
+      //No livelihood because under 16
+      LivelihoodSurvey: {
+        LivelihoodSurveyId: null,
+      },
+      EmpowermentSurvey: {
+        EmpowermentSurveyId: uuid.v4(),
+        DisabilityOrganizationMember: false,
+        DisabilityOrganizations: ["N/A"],
+        AwareDisabilityRights: false,
+        Influential: false
+      },
+      EducationSurvey: {
+        EducationSurveyId: uuid.v4(),
+         SchoolState: true,
+         CurrentGrade: "8",
+         NoSchoolReason: null,
+         SchoolBefore: true,
+         WantSchool: true
+      },
+      HealthSurvey: {
+        HealthSurveyId: uuid.v4(),
+        HealthStatus: "Good",
+        RehabilitationAccess: false,
+        RehabilitationAccessNeeded: false,
+        AssistiveDevice: false,
+        AssistiveDeviceWorking: false,
+        AssistiveDeviceNeeded: true,
+        AssistiveDeviceRequired: `{${['Glasses']}}`,
+        HealthServiceStatus: "Fine"
+      }
+    }
   },
 
   {
@@ -365,6 +472,60 @@ let seedClients = [
         Outcome: 'He has left with the wheelchair.',
       },
     ],
+    BaselineSurvey: {
+      BaselineSurveyId: uuid.v4(),
+      Date: faker.date.recent(),
+      SocialSurvey: {
+        SocialSurveyId: uuid.v4(),
+        ValuedCommunityMember: false,
+        Independence: false,
+        CommunityParticipation: true,
+        DisabilityImpact: true,
+        Discrimination: false
+      },
+      ShelterSurvey: {
+        ShelterSurveyId: uuid.v4(),
+        ShelterAccess: false,
+        EssentialsAccess: false
+      },
+      NutritionSurvey: {
+        NutritionSurveyId: uuid.v4(),
+        FoodStatus: "Poor",
+        MonthlyFoodAccess: false,
+        ChildNutritionStatus: null
+      },
+      LivelihoodSurvey: {
+        LivelihoodSurveyId: uuid.v4(),
+        WorkStatus: false,
+        WorkDescription: "N/A",
+        EmploymentType: null,
+        FinancialNeedsMet: false,
+        DisabilityImpact: true,
+        WorkWanted: true
+      },
+      EmpowermentSurvey: {
+        EmpowermentSurveyId: uuid.v4(),
+        DisabilityOrganizationMember: false,
+        DisabilityOrganizations: ["N/A"],
+        AwareDisabilityRights: false,
+        Influential: false
+      },
+      // No education because older than 18
+      EducationSurvey: {
+        EducationSurveyId: null,
+      },
+      HealthSurvey: {
+        HealthSurveyId: uuid.v4(),
+        HealthStatus: "Very Poor",
+        RehabilitationAccess: false,
+        RehabilitationAccessNeeded: true,
+        AssistiveDevice: false,
+        AssistiveDeviceWorking: false,
+        AssistiveDeviceNeeded: true,
+        AssistiveDeviceRequired: `{${['Wheelchair']}}`,
+        HealthServiceStatus: "Poor"
+      }
+    }
   },
 
   {
@@ -375,7 +536,7 @@ let seedClients = [
       LastName:  'Afolayan',
       DateCreated: faker.date.recent(),
       Gender: 'Male',
-      Location: locations[0],
+      Location: locations[6],
       ContactNo: faker.phone.phoneNumberFormat(),
       VillageNumber: randomInt(1, num_villages),
       Age: 17,
@@ -419,7 +580,7 @@ let seedClients = [
         VisitPurpose: 'CBR',
         GPSLocation: 0,
         Date: faker.date.recent(),
-        Location: locations[0],         // Are visits Limited to the same location as the client?
+        Location: locations[6],         // Are visits Limited to the same location as the client?
         VillageNumber: randomInt(1, num_villages),
       },
       {
@@ -446,7 +607,7 @@ let seedClients = [
         VisitPurpose: 'Disability center referral follow up',
         GPSLocation: 0,
         Date: faker.date.recent(),
-        Location: locations[0],         // Are visits Limited to the same location as the client?
+        Location: locations[6],         // Are visits Limited to the same location as the client?
         VillageNumber: randomInt(1, num_villages),
       },
     ],
@@ -510,16 +671,113 @@ let seedClients = [
         },
         ReferralId: uuid.v4(),
         Date: faker.date.recent(),
-        ServiceRequired: `{${['Other']}}`,
+        ServiceRequired: `{${['Other', 'Physiotherapy']}}`,
         OtherServices: 'Get some new crutches.',
         ReferTo: 'Mobile Clinic',
         Status: 'Made',
       },
     ],
+    BaselineSurvey: {
+      BaselineSurveyId: uuid.v4(),
+      Date: faker.date.recent(),
+      SocialSurvey: {
+        SocialSurveyId: uuid.v4(),
+        ValuedCommunityMember: true,
+        Independence: false,
+        CommunityParticipation: true,
+        DisabilityImpact: true,
+        Discrimination: false
+      },
+      ShelterSurvey: {
+        ShelterSurveyId: uuid.v4(),
+        ShelterAccess: true,
+        EssentialsAccess: true
+      },
+      NutritionSurvey: {
+        NutritionSurveyId: uuid.v4(),
+        FoodStatus: "Fine",
+        MonthlyFoodAccess: true,
+        ChildNutritionStatus: null
+      },
+      LivelihoodSurvey: {
+        LivelihoodSurveyId: uuid.v4(),
+        WorkStatus: false,
+        WorkDescription: "N/A",
+        EmploymentType: null,
+        FinancialNeedsMet: false,
+        DisabilityImpact: true,
+        WorkWanted: false
+      },
+      EmpowermentSurvey: {
+        EmpowermentSurveyId: uuid.v4(),
+        DisabilityOrganizationMember: true,
+        DisabilityOrganizations: ["BMS"],
+        AwareDisabilityRights: true,
+        Influential: true
+      },
+      EducationSurvey: {
+        EducationSurveyId: uuid.v4(),
+         SchoolState: true,
+         CurrentGrade: "12",
+         NoSchoolReason: "My Disability Stops me",
+         SchoolBefore: true,
+         WantSchool: true
+      },
+      HealthSurvey: {
+        HealthSurveyId: uuid.v4(),
+        HealthStatus: "Fine",
+        RehabilitationAccess: false,
+        RehabilitationAccessNeeded: true,
+        AssistiveDevice: true,
+        AssistiveDeviceWorking: false,
+        AssistiveDeviceNeeded: true,
+        AssistiveDeviceRequired: `{${['Crutch']}}`,
+        HealthServiceStatus: "Fine"
+      }
+    }
   },
 
   // Add new Clients Here
 ];
 
-const results = SeedInterface(seedWorkers, seedClients);
+let seedAlerts = [
+    {
+      AlertId: 1,
+      Date: faker.date.recent(),
+      Title: 'Monthly check-in',
+      Message: 'Please come to the main office tomorrow at 6pm for our monthly check-in meetings',
+      SpecificWorkers: null,
+      ForAllWorkers: true,
+      AuthorUsername: 'admin'
+    },
+    {
+      AlertId: 2,
+      Date: faker.date.recent(),
+      Title: 'One on one meeting',
+      Message: 'Reminder tomorrow at 2pm is our regular one on one meeting',
+      SpecificWorkers: `{${[worker1_uuidv4]}}`,
+      ForAllWorkers: false,
+      AuthorUsername: 'admin'
+    },
+    {
+      AlertId: 3,
+      Date: faker.date.recent(),
+      Title: 'General meeting Reminder',
+      Message: 'Reminder today at 12pm is our general meeting in the main office!',
+      SpecificWorkers: null,
+      ForAllWorkers: true,
+      AuthorUsername: 'admin'
+    },
+    {
+      AlertId: 4,
+      Date: faker.date.recent(),
+      Title: 'Meeting postponed',
+      Message: 'Meeting for workers in Palorinya Zone 1 has been moved to next Thursday',
+      SpecificWorkers: `{${[worker2_uuidv4]}}`,
+      ForAllWorkers: false,
+      AuthorUsername: 'admin'
+    },
+];
+
+const results = SeedInterface(seedWorkers, seedClients, seedAlerts);
 module.exports = results;
