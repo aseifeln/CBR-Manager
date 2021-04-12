@@ -2,8 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.changeColumn(
-      'Referral', 'ReferTo', {
+    await queryInterface.changeColumn('Referral', 'ReferTo', {
         type: Sequelize.ENUM,
         values: ['Disability Center', 'Mobile Clinic'],
         allowNull: false
@@ -12,8 +11,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.changeColumn(
-      'Referral', 'ReferTo', {
+    await queryInterface.changeColumn('Referral', 'ReferTo', {
         type: Sequelize.STRING,
         allowNull: false
       }
