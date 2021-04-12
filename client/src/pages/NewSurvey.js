@@ -25,8 +25,6 @@ function NewSurvey(props){
     const [ goesToSchool, setGoesToSchool] = useState(false);
     const [ working, setWorking] = useState(true);
 
-    const [ hasReferral, setHasReferral] = useState(true);
-    const [ isMalnourished, setIsMalnourished] = useState(true);
     const [ partOfOrganizations, setPartOfOrganizations] = useState(true);
   
     useEffect(() => {
@@ -494,7 +492,6 @@ function NewSurvey(props){
                           {client.Age<13?
                           <>
                           <Row form>
-                            <Label>What is the status of the child's nutrition?</Label>
                             <Col>
                               <FormGroup>
                                 <FieldInput type="select" name="nutrition-status" label="Child's nutritional status" required="Rate 1-4 your food security">
@@ -506,11 +503,6 @@ function NewSurvey(props){
                               </FormGroup>
                             </Col>
                           </Row>
-                          {isMalnourished&&!hasReferral?
-                          <Row form>
-                            <Label>Referral is required</Label>
-                          </Row>
-                          :""}
                           </>
                         :""}
                       </Step>
