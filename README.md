@@ -49,7 +49,7 @@ Run in project root directory:
 
 5) Run "npx sequelize-cli db:migrate" to let Sequelize create the database tables for you.
 
-6) (Optional) Run "npx sequelize-cli db:seed:all" to load the tables with the provided stock data.
+6) (Optional) Run "npx sequelize-cli db:seed --seed /seeders/demo3" to load the tables with the provided stock data.
 
 ### Enabling Google Maps Feature ### 
 
@@ -82,6 +82,7 @@ To deploy to Heroku, you'll need to do the following steps (create an Heroku acc
 4. Push your code to the master branch of Heroku, which should trigger a build.
 5. After the application has been successfully built by Heroku, run "heroku run npx sequelize-cli db:migrate" to create the necessary tables.
 6. Before the application is fully functional, you'll need to add the environment variables ACCESS_TOKEN_SECRET (.env) and REACT_APP_GOOGLE_MAPS_API_KEY (client/.env). Follow this [guide](https://devcenter.heroku.com/articles/config-vars) for this process.
+7. (Optional) Run "heroku run npx sequelize-cli db:seed --seed /seeders/demo3" to load web application with provided stock data.
 
 ## Testing ##
 
