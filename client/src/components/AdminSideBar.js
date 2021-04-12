@@ -15,7 +15,7 @@ function AdminSideBar() {
         { label: 'Dashboard', to: '/admin/dashboard', icon: FaTachometerAlt },
         { label: 'Insights', to: '/admin/insights', icon: FaRegChartBar },
         { label: 'Workers', to: '/admin/worker-list', icon: FaBriefcase },
-        { label: 'Clients', to: '/client-list', icon: FaUser },
+        { label: 'Clients', to: '/admin/client-list', icon: FaUser },
         { label: 'Alerts', to: '/admin/alerts', icon: FaComment },
 
     ]

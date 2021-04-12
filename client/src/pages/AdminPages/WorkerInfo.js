@@ -358,7 +358,11 @@ function WorkerInfo(props) {
 
           <div className='admin-container'>
               <div class='avatar-desc'>
+                {worker.Photo ? 
                 <Media src={`data:image/jpeg;base64,${worker.Photo}`} alt="Profile photo" height="80px" width="80px" style={{borderRadius: "50%"}}/>
+                :
+                <img src="/default-profile.jpg" alt="Profile photo" height="80px" width="80px" style={{borderRadius: "50%"}}/>
+                }
                 <div>
                   <ChangePassword username={username}/>
                   <Badge pill>Worker</Badge>
