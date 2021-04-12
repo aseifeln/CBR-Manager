@@ -23,6 +23,7 @@ import AdminDashboard from './pages/AdminPages/AdminDashboard';
 import AdminInsights from './pages/AdminPages/AdminInsights';
 import WorkerListPage from './pages/AdminPages/WorkerListPage';
 import WorkerInfo from './pages/AdminPages/WorkerInfo';
+import AdminClientListPage from './pages/AdminPages/AdminClientListPage';
 import AdminAlerts from './pages/AdminPages/AdminAlerts';
 
 import NewSurvey from './pages/NewSurvey'
@@ -116,6 +117,12 @@ const ROUTES = [
         key: 'WORKER_LIST',
         exact: true,
         component: WorkerListPage
+      },
+      {
+        path: '/admin/client-list',
+        key: 'CLIENT_LIST',
+        exact: true,
+        component: AdminClientListPage
       },
       {
         path: '/admin/worker/:id',
