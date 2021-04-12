@@ -177,6 +177,7 @@ module.exports = function SeedInterface(seedWorkers, seedClients, seedAlerts) {
             await queryInterface.bulkDelete('Client', null, {});
             await queryInterface.bulkDelete('User', null, {});
             await queryInterface.bulkDelete('Worker', null, {});
+            await queryInterface.bulkDelete('Alert', null, {});
         }
     }
 }
