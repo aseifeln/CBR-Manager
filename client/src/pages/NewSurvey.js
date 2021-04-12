@@ -239,7 +239,7 @@ function NewSurvey(props){
                                 </FormGroup>
                             </Col>
                           </Row>
-                          {!hasAccessToAssistiveDevice?
+                          {hasAccessToAssistiveDevice?
                           <Row form>
                             <Label style={{marginLeft:"40px"}}>Is your assistive device working well?</Label>
                             <Col>
