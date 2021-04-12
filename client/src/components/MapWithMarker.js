@@ -12,12 +12,12 @@ function MapWithMarker(props) {
         let { location } = props;
     
         return (
-        <GoogleMap
-            defaultZoom={11}
-            defaultCenter={ location }
-        >
-            <Marker position={ location } />
-        </GoogleMap>
+            <GoogleMap
+                defaultZoom={11}
+                defaultCenter={location}
+            >
+                <Marker position={location}/>
+            </GoogleMap>
         )
     }))
 
