@@ -158,7 +158,7 @@ function NewClientSignup() {
                 <Label>GPS Location</Label>
                 <MapWithMarker
                   loadingElement={<div style={{ height: '75%' }} />}
-                  containerElement={<div style={{ height: '400px', width: '500px' }} />}
+                  containerElement={<div style={{ height: '400px', width: '380px' }} />}
                   mapElement={<div style={{ height: '95%' }} />}
                   location={GPSLocation}
                 />

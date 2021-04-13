@@ -10,7 +10,9 @@ const WeeklyNewClientsCountGraph = () => {
 		try {
 			const allClients = (await axios.get('/clients')).data
 			const startOfWeek = moment().day(0).format()
-			const endOfWeek = moment().day(6).format()
+			const endOfWeek = moment().subtract(6, 'days').days(0).format()
+            console.log(startOfWeek)
+            console.log(endOfWeek)
 			const weeklyCounts = [0, 0, 0, 0, 0, 0, 0]
 			
 			allClients.forEach((client) => {
@@ -24,7 +26,7 @@ const WeeklyNewClientsCountGraph = () => {
 
 			const data = weeklyCounts.map((count, i) => {
 				return ({
-					'date': moment().day(i).format('DD-MM-YYYY'),
+					'date': moment().subtract(i, 'days').day(i).format('DD-MM-YYYY'),
 					'count': count	
 				})
 			})

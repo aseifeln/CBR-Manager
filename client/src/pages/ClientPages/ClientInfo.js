@@ -203,7 +203,7 @@ as right now will still render this component briefly even for existing clients*
                     <Container>
                         <Row>
                             <Col>
-                                <h1>Name: {client.FirstName + ' ' + client.LastName}</h1>
+                                <h1>Name: <h2>{client.FirstName + ' ' + client.LastName}</h2></h1>
                             </Col>
                             <Col style={{display: 'inline'}}>
                                 {(isAdmin) ? (
@@ -269,7 +269,7 @@ as right now will still render this component briefly even for existing clients*
                             ) : (
                                 !isAdmin ?
                                 <Link to={"/survey/new/" + props.match.params.id}>
-                                    <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left'}} disabled={client.BaselineSurvey}>
+                                    <Button variant="primary" size="md" style={{backgroundColor:"#46ad2f", float: 'left', marginLeft: '25px'}} disabled={client.BaselineSurvey}>
                                         New Survey
                                     </Button>
                                 </Link>
